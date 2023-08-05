@@ -23,6 +23,6 @@ const companySchema = new Schema({
 // create collection
 const UserModel = mongoose.model("User", UserSchema);
 const RoleModel = mongoose.model("Role", roleSchema);
-const CompanyModel = mongoose.model("User", companySchema);
+const CompanyModel = mongoose.model("Company", companySchema);
 
 export default UserModel;
