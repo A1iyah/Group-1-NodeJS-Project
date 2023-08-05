@@ -3,6 +3,12 @@ import mongoose, { Schema } from "mongoose";
 //Schema
 const roleSchema = new Schema({ name: String, salaryPerHour: Number });
 
+const daySchema = new Schema({
+  date: new Date().getDate,
+  entry: new Date().getTime,
+  exit: new Date().getTime,
+});
+
 const UserSchema = new Schema({
   id: Number,
   name: String,
@@ -14,6 +20,12 @@ const UserSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Role",
   },
+  dates: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Day",
+    },
+  ],
 });
 
 const companySchema = new Schema({
@@ -24,5 +36,6 @@ const companySchema = new Schema({
 const UserModel = mongoose.model("User", UserSchema);
 const RoleModel = mongoose.model("Role", roleSchema);
 const CompanyModel = mongoose.model("Company", companySchema);
+const DayModel = mongoose.model("Day", daySchema);
 
 export default UserModel;
