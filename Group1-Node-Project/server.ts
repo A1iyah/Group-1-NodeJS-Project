@@ -104,7 +104,7 @@ const AdminModel = mongoose.model("Admin", adminSchema);
 const CompanyModel = mongoose.model("Company", companySchema);
 const AttendanceModel = mongoose.model("Attendance", attendanceSchema);
 
-async function createAdmin(
+async function createManager(
   idNumber: number,
   name: string,
   birthday: Date,
@@ -113,7 +113,7 @@ async function createAdmin(
   phone: number,
   salaryPerHour: number
 ) {
-  const admin = new AdminModel({
+  const manager = new ManagerModel({
     idNumber,
     name,
     birthday,
@@ -122,19 +122,19 @@ async function createAdmin(
     phone,
     salaryPerHour,
   });
-  const result = await admin.save();
+  const result = await manager.save();
   console.log(result);
 }
 
-createAdmin(
-  123456789,
-  "admin",
-  new Date("1985-02-10"),
-  "123",
-  "admin@gmail.com",
-  972506254875,
-  50
-);
+// createManager(
+//   444444444,
+//   "manager3",
+//   new Date("1985-12-01"),
+//   "666",
+//   "manager3@gmail.com",
+//   97254143562,
+//   40
+// );
 
 app.listen(3000, () => {
   console.log("server listen on port 3000");

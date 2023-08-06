@@ -128,13 +128,13 @@ var ManagerModel = mongoose_1["default"].model("Manager", managerSchema);
 var AdminModel = mongoose_1["default"].model("Admin", adminSchema);
 var CompanyModel = mongoose_1["default"].model("Company", companySchema);
 var AttendanceModel = mongoose_1["default"].model("Attendance", attendanceSchema);
-function createAdmin(idNumber, name, birthday, password, email, phone, salaryPerHour) {
+function createManager(idNumber, name, birthday, password, email, phone, salaryPerHour) {
     return __awaiter(this, void 0, void 0, function () {
-        var admin, result;
+        var manager, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    admin = new AdminModel({
+                    manager = new ManagerModel({
                         idNumber: idNumber,
                         name: name,
                         birthday: birthday,
@@ -143,7 +143,7 @@ function createAdmin(idNumber, name, birthday, password, email, phone, salaryPer
                         phone: phone,
                         salaryPerHour: salaryPerHour
                     });
-                    return [4 /*yield*/, admin.save()];
+                    return [4 /*yield*/, manager.save()];
                 case 1:
                     result = _a.sent();
                     console.log(result);
@@ -152,7 +152,15 @@ function createAdmin(idNumber, name, birthday, password, email, phone, salaryPer
         });
     });
 }
-createAdmin(123456789, "admin", new Date("1985-02-10"), "123", "admin@gmail.com", 972506254875, 50);
+// createManager(
+//   444444444,
+//   "manager3",
+//   new Date("1985-12-01"),
+//   "666",
+//   "manager3@gmail.com",
+//   97254143562,
+//   40
+// );
 app.listen(3000, function () {
     console.log("server listen on port 3000");
 });
