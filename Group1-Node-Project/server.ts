@@ -1,7 +1,12 @@
 import express from "express";
 import mongoose, { Schema } from "mongoose";
 import * as dotenv from "dotenv";
-import companyRoute from "./API/companyRoute";
+import adminRoute from "./API/admin/adminRoute";
+import attendanceRoute from "./API/attendance/attendanceRoute";
+import companyRoute from "./API/company/companyRoute";
+import employeeRoute from "./API/employee/employeeRoute";
+import managerRoute from "./API/manager/managerRoute";
+import roleRoute from "./API/role/roleRoute";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -24,7 +29,12 @@ app.use(cookieParser());
 // static file
 app.use(express.static("./client"));
 
-app.use("/api/", companyRoute);
+app.use("/api/admin/", adminRoute);
+app.use("/api/attendance/", attendanceRoute);
+app.use("/api/company/", companyRoute);
+app.use("/api/employee/", employeeRoute);
+app.use("/api/manager/", managerRoute);
+app.use("/api/role/", roleRoute);
 
 const roleSchema = new Schema({ name: String });
 
@@ -104,27 +114,27 @@ const AdminModel = mongoose.model("Admin", adminSchema);
 const CompanyModel = mongoose.model("Company", companySchema);
 const AttendanceModel = mongoose.model("Attendance", attendanceSchema);
 
-async function createManager(
-  idNumber: number,
-  name: string,
-  birthday: Date,
-  password: string,
-  email: string,
-  phone: number,
-  salaryPerHour: number
-) {
-  const manager = new ManagerModel({
-    idNumber,
-    name,
-    birthday,
-    password,
-    email,
-    phone,
-    salaryPerHour,
-  });
-  const result = await manager.save();
-  console.log(result);
-}
+// async function createManager(
+//   idNumber: number,
+//   name: string,
+//   birthday: Date,
+//   password: string,
+//   email: string,
+//   phone: number,
+//   salaryPerHour: number
+// ) {
+//   const manager = new ManagerModel({
+//     idNumber,
+//     name,
+//     birthday,
+//     password,
+//     email,
+//     phone,
+//     salaryPerHour,
+//   });
+//   const result = await manager.save();
+//   console.log(result);
+// }
 
 // createManager(
 //   444444444,

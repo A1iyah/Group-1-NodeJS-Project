@@ -1,75 +1,73 @@
 "use strict";
 exports.__esModule = true;
-exports.AttendanceModel = exports.CompanyModel = exports.AdminModel = exports.ManagerModel = exports.EmployeeModel = exports.RoleModel = void 0;
-var mongoose_1 = require("mongoose");
 //Schema
-var roleSchema = new mongoose_1.Schema({ name: String });
-var attendanceSchema = new mongoose_1.Schema({
-    date: new Date().getDate,
-    entry: new Date().getTime,
-    exit: new Date().getTime
-});
-var employeeSchema = new mongoose_1.Schema({
-    idNumber: Number,
-    name: String,
-    birthday: Date,
-    password: String,
-    email: String,
-    phone: Number,
-    salaryPerHour: Number,
-    role: {
-        type: mongoose_1["default"].Schema.Types.ObjectId,
-        ref: "Role"
-    },
-    attendance: [
-        {
-            type: mongoose_1["default"].Schema.Types.ObjectId,
-            ref: "Attendance"
-        },
-    ]
-});
-var managerSchema = new mongoose_1.Schema({
-    idNumber: Number,
-    name: String,
-    birthday: Date,
-    password: String,
-    email: String,
-    phone: Number,
-    salaryPerHour: Number,
-    attendance: [
-        {
-            type: mongoose_1["default"].Schema.Types.ObjectId,
-            ref: "Attendance"
-        },
-    ],
-    employees: [
-        {
-            type: mongoose_1["default"].Schema.Types.ObjectId,
-            ref: "Employee"
-        },
-    ]
-});
-var adminSchema = new mongoose_1.Schema({
-    idNumber: Number,
-    name: String,
-    password: String,
-    email: String,
-    phone: Number,
-    employees: [
-        {
-            type: mongoose_1["default"].Schema.Types.ObjectId,
-            ref: "Employee"
-        },
-    ]
-});
-var companySchema = new mongoose_1.Schema({
-    name: String
-});
+// const roleSchema = new Schema({ name: String });
+// const attendanceSchema = new Schema({
+//   date: new Date().getDate,
+//   entry: new Date().getTime,
+//   exit: new Date().getTime,
+// });
+// const employeeSchema = new Schema({
+//   idNumber: Number,
+//   name: String,
+//   birthday: Date,
+//   password: String,
+//   email: String,
+//   phone: Number,
+//   salaryPerHour: Number,
+//   role: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: "Role",
+//   },
+//   attendance: [
+//     {
+//       type: mongoose.Schema.Types.ObjectId,
+//       ref: "Attendance",
+//     },
+//   ],
+// });
+// const managerSchema = new Schema({
+//   idNumber: Number,
+//   name: String,
+//   birthday: Date,
+//   password: String,
+//   email: String,
+//   phone: Number,
+//   salaryPerHour: Number,
+//   attendance: [
+//     {
+//       type: mongoose.Schema.Types.ObjectId,
+//       ref: "Attendance",
+//     },
+//   ],
+//   employees: [
+//     {
+//       type: mongoose.Schema.Types.ObjectId,
+//       ref: "Employee",
+//     },
+//   ],
+// });
+// const adminSchema = new Schema({
+//   idNumber: Number,
+//   name: String,
+//   password: String,
+//   email: String,
+//   phone: Number,
+//   employees: [
+//     {
+//       type: mongoose.Schema.Types.ObjectId,
+//       ref: "Employee",
+//     },
+//   ],
+// });
+// const companySchema = new Schema({
+//   name: String,
+// });
 // create collection
-exports.RoleModel = mongoose_1["default"].model("Role", roleSchema);
-exports.EmployeeModel = mongoose_1["default"].model("Employee", employeeSchema);
-exports.ManagerModel = mongoose_1["default"].model("Manager", managerSchema);
-exports.AdminModel = mongoose_1["default"].model("Admin", adminSchema);
-exports.CompanyModel = mongoose_1["default"].model("Company", companySchema);
-exports.AttendanceModel = mongoose_1["default"].model("Attendance", attendanceSchema);
-exports["default"] = exports.EmployeeModel;
+// export const RoleModel = mongoose.model("Role", roleSchema);
+// export const EmployeeModel = mongoose.model("Employee", employeeSchema);
+// export const ManagerModel = mongoose.model("Manager", managerSchema);
+// export const AdminModel = mongoose.model("Admin", adminSchema);
+// export const CompanyModel = mongoose.model("Company", companySchema);
+// export const AttendanceModel = mongoose.model("Attendance", attendanceSchema);
+// export default EmployeeModel;
