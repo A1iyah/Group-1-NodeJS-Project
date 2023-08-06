@@ -1,1 +1,0 @@
-import companyModel from "./companyModel";

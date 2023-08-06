@@ -1,29 +1,67 @@
+import { log } from "console";
 import mongoose, { Schema } from "mongoose";
 
 //Schema
-const roleSchema = new Schema({ name: String, salaryPerHour: Number });
+const roleSchema = new Schema({ name: String });
 
-const daySchema = new Schema({
+const attendanceSchema = new Schema({
   date: new Date().getDate,
   entry: new Date().getTime,
   exit: new Date().getTime,
 });
 
-const UserSchema = new Schema({
-  id: Number,
+const employeeSchema = new Schema({
+  idNumber: Number,
   name: String,
+  birthday: Date,
   password: String,
   email: String,
   phone: Number,
-  birthday: Date,
+  salaryPerHour: Number,
   role: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Role",
   },
-  dates: [
+  attendance: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Day",
+      ref: "Attendance",
+    },
+  ],
+});
+
+const managerSchema = new Schema({
+  idNumber: Number,
+  name: String,
+  birthday: Date,
+  password: String,
+  email: String,
+  phone: Number,
+  salaryPerHour: Number,
+  attendance: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Attendance",
+    },
+  ],
+  employees: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Employee",
+    },
+  ],
+});
+
+const adminSchema = new Schema({
+  idNumber: Number,
+  name: String,
+  password: String,
+  email: String,
+  phone: Number,
+  employees: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Employee",
     },
   ],
 });
@@ -33,9 +71,25 @@ const companySchema = new Schema({
 });
 
 // create collection
-const UserModel = mongoose.model("User", UserSchema);
 const RoleModel = mongoose.model("Role", roleSchema);
+const EmployeeModel = mongoose.model("Employee", employeeSchema);
+const ManagerModel = mongoose.model("Manager", managerSchema);
+const AdminModel = mongoose.model("Admin", adminSchema);
 const CompanyModel = mongoose.model("Company", companySchema);
-const DayModel = mongoose.model("Day", daySchema);
+const AttendanceModel = mongoose.model("Attendance", attendanceSchema);
 
-export default UserModel;
+async function createAdmin(
+  idNumber: number,
+  name: string,
+  password: string,
+  email: string,
+  phone: number
+) {
+  const admin = new EmployeeModel({ idNumber, name, password, email, phone });
+  const result = await admin.save();
+  console.log(result);
+}
+
+createAdmin(123456789, "admin", "123", "admin@gmail.com", 972506254875);
+
+export default EmployeeModel;
