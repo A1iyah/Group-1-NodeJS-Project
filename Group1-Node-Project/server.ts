@@ -126,15 +126,15 @@ async function createAdmin(
   console.log(result);
 }
 
-createAdmin(
-  123456789,
-  "admin",
-  new Date("1985-02-10"),
-  "123",
-  "admin@gmail.com",
-  972506254875,
-  50
-);
+// createAdmin(
+//   123456789,
+//   "admin",
+//   new Date("1985-02-10"),
+//   "123",
+//   "admin@gmail.com",
+//   972506254875,
+//   50
+// );
 
 app.listen(3000, () => {
   console.log("server listen on port 3000");
