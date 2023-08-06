@@ -1,4 +1,3 @@
-import { log } from "console";
 import mongoose, { Schema } from "mongoose";
 
 //Schema
@@ -71,25 +70,11 @@ const companySchema = new Schema({
 });
 
 // create collection
-const RoleModel = mongoose.model("Role", roleSchema);
-const EmployeeModel = mongoose.model("Employee", employeeSchema);
-const ManagerModel = mongoose.model("Manager", managerSchema);
-const AdminModel = mongoose.model("Admin", adminSchema);
-const CompanyModel = mongoose.model("Company", companySchema);
-const AttendanceModel = mongoose.model("Attendance", attendanceSchema);
-
-async function createAdmin(
-  idNumber: number,
-  name: string,
-  password: string,
-  email: string,
-  phone: number
-) {
-  const admin = new EmployeeModel({ idNumber, name, password, email, phone });
-  const result = await admin.save();
-  console.log(result);
-}
-
-createAdmin(123456789, "admin", "123", "admin@gmail.com", 972506254875);
+export const RoleModel = mongoose.model("Role", roleSchema);
+export const EmployeeModel = mongoose.model("Employee", employeeSchema);
+export const ManagerModel = mongoose.model("Manager", managerSchema);
+export const AdminModel = mongoose.model("Admin", adminSchema);
+export const CompanyModel = mongoose.model("Company", companySchema);
+export const AttendanceModel = mongoose.model("Attendance", attendanceSchema);
 
 export default EmployeeModel;

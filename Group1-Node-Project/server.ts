@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose, { Schema } from "mongoose";
 import * as dotenv from "dotenv";
-// import usersRoute from "./API/usersRoute";
+import companyRoute from "./API/companyRoute";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -24,7 +24,21 @@ app.use(cookieParser());
 // static file
 app.use(express.static("./client"));
 
-// app.use("/api/", usersRoute);
+app.use("/api/", companyRoute);
+
+// async function createAdmin(
+//   idNumber: number,
+//   name: string,
+//   password: string,
+//   email: string,
+//   phone: number
+// ) {
+//   const admin = new AdminModel({ idNumber, name, password, email, phone });
+//   const result = await admin.save();
+//   console.log(result);
+// }
+
+// createAdmin(123456789, "admin", "123", "admin@gmail.com", 972506254875);
 
 app.listen(3000, () => {
   console.log("server listen on port 3000");
