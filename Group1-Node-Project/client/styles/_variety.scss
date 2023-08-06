@@ -1,0 +1,39 @@
+@mixin centerDiv {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin flexibleCenter($position, $top, $left, $minusLeft, $minusTop) {
+  position: $position;
+  top: $top;
+  left: $left;
+  transform: translate($minusLeft, $minusTop);
+}
+
+@mixin boxShadow {
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+}
+
+@mixin inputShadow {
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+@mixin buttonDesign {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  box-shadow: rgba(64, 64, 64, 0.724) 0px 5px 15px;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+}
+
+@mixin buttonHover {
+  background-color: rgb(22, 231, 231);
+  color: black;
+}

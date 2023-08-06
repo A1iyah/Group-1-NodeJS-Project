@@ -1,0 +1,82 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+}
+
+.login {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+}
+.login__title {
+  text-align: center;
+  margin: 15px 0;
+  font-size: 40px;
+  cursor: default;
+}
+.login__inputs {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.login__email, .login__password {
+  text-align: center;
+  margin-bottom: 20px;
+  width: 250px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.login__submit {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translate(-50%);
+  padding: 5px 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  box-shadow: rgba(64, 64, 64, 0.724) 0px 5px 15px;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+}
+.login__submit:hover {
+  background-color: rgb(22, 231, 231);
+  color: black;
+}
+
+.shift {
+  border: 2px solid black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  text-align: center;
+}
+.shift__title {
+  font-size: 30px;
+}
+.shift__date {
+  border: 2px solid black;
+  width: 200px;
+  height: 100px;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+}
+.shift__form__start, .shift__form__end {
+  margin-top: 150px;
+}/*# sourceMappingURL=style.css.map */

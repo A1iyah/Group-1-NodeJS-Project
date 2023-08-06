@@ -3,32 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=>, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style.css" />
     <script src="./dist/employeeManager-HP.js" defer></script>
-    <title>Document</title>
+    <title>SHIFT</title>
   </head>
   <body onload="handleLoadUser(event)">
-    <h2 class="shift__title">hello <span id="userName"></span></h2>
-    <h4 class="shift__date"></h4>
-    <h4 class="shift__time"></h4>
+    <div class="shift">
+      <h2 class="shift__title">Welcome, <span id="userName"></span></h2>
+      <h4 class="shift__date"></h4>
+      <h4 class="shift__time"></h4>
 
-    <form class="shift__form" onsubmit="HandleShiftSum(event)">
-      <input
-        class="shift__form__start"
-        type="datetime"
-        name="startTime"
-        placeholder="Start Shift"
-        required
-      />
-      <input
-        class="shift__form__end"
-        type="datetime"
-        name="endTime"
-        placeholder="End Shift"
-        required
-      />
-      <button class="shift__form__submit" type="submit" value="ShiftSum">
-        Submit
-      </button>
-    </form>
+      <form class="shift__form" onsubmit="HandleShiftSum(event)">
+        <input
+          class="shift__form__start"
+          type="datetime"
+          name="startTime"
+          placeholder="Start Shift"
+          required
+        />
+        <input
+          class="shift__form__end"
+          type="datetime"
+          name="endTime"
+          placeholder="End Shift"
+          required
+        />
+        <br />
+        <button class="shift__form__submit" type="submit" value="ShiftSum">
+          Submit
+        </button>
+      </form>
+    </div>
   </body>
 </html>
