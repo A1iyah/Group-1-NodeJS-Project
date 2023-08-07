@@ -1,0 +1,1 @@
+renderNavBar(UserType.Manager);
