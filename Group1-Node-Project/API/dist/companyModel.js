@@ -1,5 +1,4 @@
-"use strict";
-exports.__esModule = true;
+// import mongoose, { Schema } from "mongoose";
 //Schema
 // const roleSchema = new Schema({ name: String });
 // const attendanceSchema = new Schema({

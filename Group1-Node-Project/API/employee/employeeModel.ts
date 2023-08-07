@@ -3,7 +3,7 @@ import mongoose, { Schema } from "mongoose";
 const employeeSchema = new Schema({
   idNumber: Number,
   name: String,
-  birthday: Date,
+  birthday: String,
   password: String,
   email: String,
   phone: Number,

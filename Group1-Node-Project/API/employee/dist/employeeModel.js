@@ -5,7 +5,7 @@ var mongoose_1 = require("mongoose");
 var employeeSchema = new mongoose_1.Schema({
     idNumber: Number,
     name: String,
-    birthday: Date,
+    birthday: String,
     password: String,
     email: String,
     phone: Number,

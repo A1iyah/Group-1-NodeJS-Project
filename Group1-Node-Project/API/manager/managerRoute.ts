@@ -1,9 +1,10 @@
 import express from "express";
 const router = express.Router();
-import {} from "./managerControl";
+import { login, getManager, addAttendance } from "./managerControl";
 
-// router.post("/add-user", addUsers);
-// router.post("/login", login);
-// router.get("/get-user", getUser);
+router
+  .get("/get-manager", getManager)
+  .post("/login", login)
+  .post("/add-attendance", addAttendance);
 
 export default router;

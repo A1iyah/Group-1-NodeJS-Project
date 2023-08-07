@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+// import mongoose, { Schema } from "mongoose";
 
 //Schema
 // const roleSchema = new Schema({ name: String });

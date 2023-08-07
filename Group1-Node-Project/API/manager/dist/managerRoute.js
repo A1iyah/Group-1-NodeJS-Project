@@ -2,7 +2,9 @@
 exports.__esModule = true;
 var express_1 = require("express");
 var router = express_1["default"].Router();
-// router.post("/add-user", addUsers);
-// router.post("/login", login);
-// router.get("/get-user", getUser);
+var managerControl_1 = require("./managerControl");
+router
+    .get("/get-manager", managerControl_1.getManager)
+    .post("/login", managerControl_1.login)
+    .post("/add-attendance", managerControl_1.addAttendance);
 exports["default"] = router;
