@@ -82,6 +82,7 @@ var formattedTime = null;
 startEndButtonS.addEventListener("click", function (e) {
     clearInterval(intervalId);
     startEndClock.innerHTML = "00:00:00";
+    startTime = Date.now();
     currentTime = null;
     console.log(formattedTime);
     intervalId = null;
@@ -110,6 +111,9 @@ startEndButtonE.addEventListener("click", function (e) {
 function stopClock() {
     if (intervalId) {
         console.log(totalTimeShift);
+        clearInterval(intervalId);
+        intervalId = null;
+        startTime = Date.now();
         fetch("/api/manager/add-attendance", {
             method: "POST",
             headers: {
@@ -118,8 +122,5 @@ function stopClock() {
             },
             body: JSON.stringify({ userDB: userDB, totalTimeShift: totalTimeShift })
         });
-        clearInterval(intervalId);
-        intervalId = null;
-        startTime = Date.now();
     }
 }
