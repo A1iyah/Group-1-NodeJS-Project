@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./dist/shiftsAllocation.css">
+    <script src="../dist/control.js" defer></script>
     <script src="./dist/shiftsAllocation.js" defer></script>
     <title>Document</title>
 </head>
@@ -11,7 +12,18 @@
     <div class="nav-bar"></div>
 
     <div class="main-sections-container">
-        <div class="employees-panel"></div>
+        <div class="employees-panel">
+            <div class="employees-panel__header"></div>
+            <div class="employees-panel__search-box">
+                <div class="employees-panel__search-box__image"></div>
+                <div class="employees-panel__search-box__search-box"></div>
+            </div>
+            <div class="employees-panel__employees-list-container">
+                <div class="employees-panel__employee-box">
+                    <p class="employees-panel__employee-name">John Wick</p>
+                </div>
+            </div>
+        </div>
         <div class="shifts-panel"></div>
     </div>
 </body>
