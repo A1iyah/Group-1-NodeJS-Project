@@ -1,1 +1,1 @@
-renderNavBar(UserType.Manager);
+renderNavBar(UserType.Manager, navBarElement);

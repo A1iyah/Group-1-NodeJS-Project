@@ -107,7 +107,14 @@ exports.addAttendance = function (req, res) { return __awaiter(void 0, void 0, v
                     throw new Error("no shift time");
                 if (!userDB)
                     throw new Error("no user");
-                return [4 /*yield*/, managerModel_1["default"].findByIdAndUpdate(userDB._id, { $push: { attendance: new Date().toLocaleString(), totalTimeShift: totalTimeShift } }, { "new": true })];
+                return [4 /*yield*/, managerModel_1["default"].findByIdAndUpdate(userDB._id, {
+                        $push: {
+                            attendance: {
+                                date: new Date().toLocaleString(),
+                                clock: totalTimeShift
+                            }
+                        }
+                    }, { "new": true })];
             case 1:
                 updateUser = _b.sent();
                 console.log(userDB);

@@ -57,7 +57,14 @@ export const addAttendance = async (req: any, res: any) => {
 
     const updateUser = await ManagerModel.findByIdAndUpdate(
       userDB._id,
-      { $push: { attendance: new Date().toLocaleString(), totalTimeShift } },
+      {
+        $push: {
+          attendance: {
+            date: new Date().toLocaleString(),
+            clock: totalTimeShift,
+          },
+        },
+      },
       { new: true }
     );
     console.log(userDB);
