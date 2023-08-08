@@ -35,6 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var userType;
+var user;
 var UserType;
 (function (UserType) {
     UserType[UserType["Admin"] = 0] = "Admin";
@@ -43,11 +44,11 @@ var UserType;
 })(UserType || (UserType = {}));
 function getActiveUser() {
     return __awaiter(this, void 0, void 0, function () {
-        var responseManager, dataManager, manager, responseAdmin, dataAdmin, adminDB, error_1;
+        var responseManager, dataManager, manager, error_1, responseAdmin, dataAdmin, admin, error_2, responseEmployee, dataEmployee, employee, error_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 5, , 6]);
+                    _a.trys.push([0, 3, , 4]);
                     return [4 /*yield*/, fetch("/api/manager/get-manager")];
                 case 1:
                     responseManager = _a.sent();
@@ -59,42 +60,68 @@ function getActiveUser() {
                     console.log("user: ", manager);
                     if (dataManager.ok === true && manager._id !== null) {
                         userType = UserType.Manager;
+                        user = manager;
                         console.log("userType: ", userType);
                         return [2 /*return*/];
                     }
-                    return [4 /*yield*/, fetch("/api/admin/get-admin")];
+                    return [3 /*break*/, 4];
                 case 3:
-                    responseAdmin = _a.sent();
-                    return [4 /*yield*/, responseAdmin.json()];
-                case 4:
-                    dataAdmin = _a.sent();
-                    adminDB = dataAdmin.adminDB;
-                    console.log("user: ", adminDB);
-                    if (dataAdmin.ok === true && adminDB._id !== null) {
-                        userType = UserType.Admin;
-                        console.log("userType: ", userType);
-                        return [2 /*return*/];
-                    }
-                    return [3 /*break*/, 6];
-                case 5:
                     error_1 = _a.sent();
                     console.error(error_1);
-                    return [3 /*break*/, 6];
-                case 6: return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 4:
+                    _a.trys.push([4, 7, , 8]);
+                    return [4 /*yield*/, fetch("/api/admin/get-admin")];
+                case 5:
+                    responseAdmin = _a.sent();
+                    return [4 /*yield*/, responseAdmin.json()];
+                case 6:
+                    dataAdmin = _a.sent();
+                    admin = dataAdmin.admin;
+                    console.log("user: ", admin);
+                    if (dataAdmin.ok === true && admin._id !== null) {
+                        userType = UserType.Admin;
+                        user = admin;
+                        console.log("userType: ", userType);
+                        return [2 /*return*/];
+                    }
+                    return [3 /*break*/, 8];
+                case 7:
+                    error_2 = _a.sent();
+                    console.error(error_2);
+                    return [3 /*break*/, 8];
+                case 8:
+                    _a.trys.push([8, 11, , 12]);
+                    return [4 /*yield*/, fetch("/api/employee/get-employee")];
+                case 9:
+                    responseEmployee = _a.sent();
+                    return [4 /*yield*/, responseEmployee.json()];
+                case 10:
+                    dataEmployee = _a.sent();
+                    employee = dataEmployee.employee;
+                    console.log("user: ", employee);
+                    if (dataEmployee.ok === true && employee._id !== null) {
+                        userType = UserType.Employee;
+                        user = employee;
+                        console.log("userType: ", userType);
+                        return [2 /*return*/];
+                    }
+                    return [3 /*break*/, 12];
+                case 11:
+                    error_3 = _a.sent();
+                    console.error(error_3);
+                    return [3 /*break*/, 12];
+                case 12: return [2 /*return*/];
             }
         });
     });
 }
 var renderNavBar = function (navBarElem) {
-    console.log(navBarElem);
-    console.log("i am: ", userType);
-    console.log("types: ", UserType.Employee);
     switch (userType) {
         case UserType.Admin:
             break;
         case UserType.Manager:
-            console.log("switch on manager");
-            var navBarHtml = "<div class=\"nav-bar__links-group\">\n            <p class=\"nav-bar__link\" onclick=\"gotoPage('../start-end-shift/employeeManager-HP.html')\">Start / End Shift</p>\n            <p class=\"nav-bar__link nav-bar__link--bold\">Shift Schedule</p>\n            <p class=\"nav-bar__link\">Availability</p>\n            <p class=\"nav-bar__link\">Employees</p>\n            <p class=\"nav-bar__link\">Reports</p>\n            </div>\n            <p class=\"nav-bar__user-name\">John Wick</p>";
+            var navBarHtml = "<div class=\"nav-bar__links-group\">\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../start-end-shift/employeeManager-HP.html')\">Start / End Shift</p>\n                <p class=\"nav-bar__link nav-bar__link--bold\">Shift Schedule</p>\n                <p class=\"nav-bar__link\">Availability</p>\n                <p class=\"nav-bar__link\">Employees</p>\n                <p class=\"nav-bar__link\">Reports</p>\n                </div>\n                <p class=\"nav-bar__user-name\">John Wick</p>";
             navBarElem.innerHTML = navBarHtml;
             break;
         case UserType.Employee:
