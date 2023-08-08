@@ -3,4 +3,5 @@ import ManagerModel from "../manager/managerModel";
 import EmployeeModel from "../employee/employeeModel";
 import CompanyModel from "../company/companyModel";
 import AdminModel from "../admin/adminModel";
-import AttendanceModel from "../attendance/attendanceModel";
+import availability from "../availability/availabilityModel";
+
