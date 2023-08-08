@@ -78,7 +78,6 @@ const renderNavBar = (navBarElem: HTMLDivElement) =>
     switch (userType) {
         case UserType.Admin:
             const navBarHtml: string = `<div class="nav-bar__links-group">
-                <p class="nav-bar__link nav-bar__link__employee-manager" onclick="gotoPage('../start-end-shift/employeeManager-HP.html')">Start / End Shift</p>
                 <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Shift Schedule</p>
                 <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
                 <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employees-page/employeesPage.html')">Employees</p>
@@ -102,7 +101,6 @@ const renderNavBar = (navBarElem: HTMLDivElement) =>
         case UserType.Employee:
             const navBarHtml: string = `<div class="nav-bar__links-group">
                 <p class="nav-bar__link nav-bar__link__employee-manager" onclick="gotoPage('../start-end-shift/employeeManager-HP.html')">Start / End Shift</p>
-                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Shift Schedule</p>
                 <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
                 <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employees-page/employeesPage.html')">Employees</p>
                 <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
