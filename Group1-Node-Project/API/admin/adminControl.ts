@@ -13,14 +13,14 @@ export const login = async (req: any, res: any) => {
     const { email, password } = req.body;
     console.log(email, password);
 
-    const userDB = await AdminModel.findOne({ email, password });
+    const adminDB = await AdminModel.findOne({ email, password });
 
-    if (!userDB) throw new Error("Username or password are incorrect");
+    if (!adminDB) throw new Error("Username or password are incorrect");
     if (!secret) throw new Error("no token");
-    const token = jwt.encode({ userId: userDB._id, role: "public" }, secret);
+    const token = jwt.encode({ adminId: adminDB._id, role: "public" }, secret);
     console.log(token);
 
-    res.cookie("user", token, { maxAge: 500000000, httpOnly: true });
+    res.cookie("admin", token, { maxAge: 500000000, httpOnly: true });
 
     res.status(201).send({ ok: true });
   } catch (error: any) {
@@ -31,15 +31,15 @@ export const login = async (req: any, res: any) => {
 
 export const getAdmin = async (req: any, res: any) => {
   try {
-    const { user } = req.cookies;
+    const { admin } = req.cookies;
     if (!secret) throw new Error("no token");
-    const decoded = jwt.decode(user, secret);
+    const decoded = jwt.decode(admin, secret);
     console.log(decoded);
-    const { userId, role } = decoded;
+    const { adminId, role } = decoded;
 
-    const userDB: any = await AdminModel.findById(userId);
+    const adminDB: any = await AdminModel.findById(adminId);
 
-    res.send({ ok: true, user: userDB });
+    res.send({ ok: true, admin: adminDB });
   } catch (error: any) {
     console.error(error);
     res.status(500).send({ error: error.message });
