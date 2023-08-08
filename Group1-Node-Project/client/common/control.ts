@@ -71,28 +71,29 @@ async function getActiveUser()
 
 const renderNavBar = (navBarElem: HTMLDivElement) =>
 {
+    let targetDivEle;
+
     if (!navBarElem) console.error("no nav bar HTMLDivElement received");
-    //let navBarHtml: string;
 
     switch (userType) {
         case UserType.Admin:
             const navBarHtml: string = `<div class="nav-bar__links-group">
-                <p class="nav-bar__link" onclick="gotoPage('../start-end-shift/employeeManager-HP.html')">Start / End Shift</p>
-                <p class="nav-bar__link nav-bar__link--bold" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Shift Schedule</p>
-                <p class="nav-bar__link" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
-                <p class="nav-bar__link" onclick="gotoPage('../employees-page/employeesPage.html')">Employees</p>
-                <p class="nav-bar__link" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
+                <p class="nav-bar__link nav-bar__link__employee-manager" onclick="gotoPage('../start-end-shift/employeeManager-HP.html')">Start / End Shift</p>
+                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Shift Schedule</p>
+                <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
+                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employees-page/employeesPage.html')">Employees</p>
+                <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
                 </div>
                 <p class="nav-bar__user-name">${user.name}</p>`;
                 navBarElem.innerHTML = navBarHtml;
             break;
         case UserType.Manager:
             const navBarHtml: string = `<div class="nav-bar__links-group">
-                <p class="nav-bar__link" onclick="gotoPage('../start-end-shift/employeeManager-HP.html')">Start / End Shift</p>
-                <p class="nav-bar__link nav-bar__link--bold" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Shift Schedule</p>
-                <p class="nav-bar__link" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
-                <p class="nav-bar__link" onclick="gotoPage('../employees-page/employeesPage.html')">Employees</p>
-                <p class="nav-bar__link" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
+                <p class="nav-bar__link nav-bar__link__employee-manager" onclick="gotoPage('../start-end-shift/employeeManager-HP.html')">Start / End Shift</p>
+                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Shift Schedule</p>
+                <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
+                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employees-page/employeesPage.html')">Employees</p>
+                <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
                 </div>
                 <p class="nav-bar__user-name">${user.name}</p>`;
                 navBarElem.innerHTML = navBarHtml;
@@ -100,15 +101,49 @@ const renderNavBar = (navBarElem: HTMLDivElement) =>
 
         case UserType.Employee:
             const navBarHtml: string = `<div class="nav-bar__links-group">
-                <p class="nav-bar__link" onclick="gotoPage('../start-end-shift/employeeManager-HP.html')">Start / End Shift</p>
-                <p class="nav-bar__link nav-bar__link--bold" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Shift Schedule</p>
-                <p class="nav-bar__link" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
-                <p class="nav-bar__link" onclick="gotoPage('../employees-page/employeesPage.html')">Employees</p>
-                <p class="nav-bar__link" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
+                <p class="nav-bar__link nav-bar__link__employee-manager" onclick="gotoPage('../start-end-shift/employeeManager-HP.html')">Start / End Shift</p>
+                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Shift Schedule</p>
+                <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
+                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employees-page/employeesPage.html')">Employees</p>
+                <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
                 </div>
                 <p class="nav-bar__user-name">${user.name}</p>`;
                 navBarElem.innerHTML = navBarHtml;
     }
+
+    
+    switch (window.location.pathname) {
+        case "/start-end-shift/employeeManager-HP.html":
+            targetDivEle = document.querySelector(".nav-bar__link__employee-manager");
+        break;
+
+        case "/shift-schedule-page/shiftSchedule.html":
+            targetDivEle = document.querySelector(".nav-bar__link__shift-schedule");
+        break;
+
+        case "/availability-page/availabilityPage.html":
+            targetDivEle = document.querySelector(".nav-bar__link__availability");
+        break;
+
+        case "/employees-page/employeesPage.html":
+            targetDivEle = document.querySelector(".nav-bar__link__employees");
+        break;
+
+        case "/reports-page/reportsPage.html":
+            targetDivEle = document.querySelector(".nav-bar__link__reports");
+        break;
+
+        default:
+            console.error("No location.pathname found.");
+            
+            break;
+    }
+
+    if (targetDivEle)
+    {
+        (targetDivEle as HTMLDivElement).classList.add("nav-bar__link--bold");
+    }
+    
 }
 
 const gotoPage = (targetPage: string) =>{
