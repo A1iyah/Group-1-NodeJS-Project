@@ -36,27 +36,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.login = void 0;
+exports.addAttendance = exports.getEmployee = exports.login = void 0;
 var employeeModel_1 = require("./employeeModel");
 var jwt_simple_1 = require("jwt-simple");
 // const secret = process.env.JWT_SECRET;
 var secret = "secret";
 exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, name, password, employeeDB, token, error_1;
+    var _a, email, password, employeeDB, token, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
-                _a = req.body, name = _a.name, password = _a.password;
-                console.log(name, password);
-                return [4 /*yield*/, employeeModel_1["default"].findOne({ name: name, password: password })];
+                _a = req.body, email = _a.email, password = _a.password;
+                console.log(email, password);
+                return [4 /*yield*/, employeeModel_1["default"].findOne({ email: email, password: password })];
             case 1:
                 employeeDB = _b.sent();
                 if (!employeeDB)
                     throw new Error("Username or password are incorrect");
                 if (!secret)
                     throw new Error("no token");
-                token = jwt_simple_1["default"].encode({ userId: employeeDB._id, role: "public" }, secret);
+                token = jwt_simple_1["default"].encode({ employeeId: employeeDB._id, role: "public" }, secret);
                 console.log(token);
                 res.cookie("employee", token, { maxAge: 500000000, httpOnly: true });
                 res.status(201).send({ ok: true });
@@ -65,6 +65,65 @@ exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 error_1 = _b.sent();
                 console.error(error_1);
                 res.status(500).send({ error: error_1.message });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getEmployee = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var employee, decoded, employeeId, role, employeeDB, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                employee = req.cookies.employee;
+                if (!secret)
+                    throw new Error("no token");
+                decoded = jwt_simple_1["default"].decode(employee, secret);
+                console.log(decoded);
+                employeeId = decoded.employeeId, role = decoded.role;
+                return [4 /*yield*/, employeeModel_1["default"].findById(employeeId)];
+            case 1:
+                employeeDB = _a.sent();
+                res.send({ ok: true, employee: employeeDB });
+                return [3 /*break*/, 3];
+            case 2:
+                error_2 = _a.sent();
+                console.error(error_2);
+                res.status(500).send({ error: error_2.message });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.addAttendance = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, userDB, totalTimeShift, updateUser, error_3;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                _a = req.body, userDB = _a.userDB, totalTimeShift = _a.totalTimeShift;
+                if (!totalTimeShift)
+                    throw new Error("no shift time");
+                if (!userDB)
+                    throw new Error("no user");
+                return [4 /*yield*/, employeeModel_1["default"].findByIdAndUpdate(userDB._id, {
+                        $push: {
+                            attendance: {
+                                date: new Date().toLocaleString(),
+                                clock: totalTimeShift
+                            }
+                        }
+                    }, { "new": true })];
+            case 1:
+                updateUser = _b.sent();
+                console.log(userDB);
+                res.send({ ok: true });
+                return [3 /*break*/, 3];
+            case 2:
+                error_3 = _b.sent();
+                console.error(error_3);
+                res.status(500).send({ error: error_3.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
