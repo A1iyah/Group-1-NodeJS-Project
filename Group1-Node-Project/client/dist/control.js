@@ -41,28 +41,45 @@ var UserType;
     UserType[UserType["Manager"] = 1] = "Manager";
     UserType[UserType["Employee"] = 2] = "Employee";
 })(UserType || (UserType = {}));
-function getUserType() {
+function getUser() {
     return __awaiter(this, void 0, void 0, function () {
-        var response, data, userDB, error_1;
+        var responseManager, dataManager, managerDB, responseAdmin, dataAdmin, adminDB, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, fetch("/api/admin/get-admin")];
+                    _a.trys.push([0, 5, , 6]);
+                    return [4 /*yield*/, fetch("/api/manager/get-manager")];
                 case 1:
-                    response = _a.sent();
-                    return [4 /*yield*/, response.json()];
+                    responseManager = _a.sent();
+                    return [4 /*yield*/, responseManager.json()];
                 case 2:
-                    data = _a.sent();
-                    console.log("data", data);
-                    userDB = data.userDB;
-                    console.log("user: ", userDB);
-                    return [3 /*break*/, 4];
+                    dataManager = _a.sent();
+                    managerDB = dataManager.managerDB;
+                    console.log("user: ", managerDB);
+                    if (dataManager.ok === true && managerDB._id !== null) {
+                        userType = UserType.Employee;
+                        console.log("userType: ", userType);
+                        return [2 /*return*/];
+                    }
+                    return [4 /*yield*/, fetch("/api/admin/get-admin")];
                 case 3:
+                    responseAdmin = _a.sent();
+                    return [4 /*yield*/, responseAdmin.json()];
+                case 4:
+                    dataAdmin = _a.sent();
+                    adminDB = dataAdmin.adminDB;
+                    console.log("user: ", adminDB);
+                    if (dataAdmin.ok === true && adminDB._id !== null) {
+                        userType = UserType.Admin;
+                        console.log("userType: ", userType);
+                        return [2 /*return*/];
+                    }
+                    return [3 /*break*/, 6];
+                case 5:
                     error_1 = _a.sent();
                     console.error(error_1);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    return [3 /*break*/, 6];
+                case 6: return [2 /*return*/];
             }
         });
     });

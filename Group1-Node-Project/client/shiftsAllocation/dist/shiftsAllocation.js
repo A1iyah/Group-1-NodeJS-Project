@@ -1,2 +1,2 @@
 renderNavBar(UserType.Manager, navBarElement);
-getUserType();
+getUser();

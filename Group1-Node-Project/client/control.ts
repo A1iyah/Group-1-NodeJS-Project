@@ -7,17 +7,35 @@ enum UserType
     Employee
 }
 
-async function getUserType() 
+async function getUser() 
 {
     try {
-        const response = await fetch("/api/admin/get-admin");
-        const data = await response.json();
-        console.log("data", data);
-        const {userDB } = data;
-        console.log("user: ", userDB);
+        const responseManager = await fetch("/api/manager/get-manager");
+        const dataManager = await responseManager.json();
+        const { managerDB } = dataManager;
+        console.log("user: ", managerDB);
+
+        if (dataManager.ok === true && managerDB._id !== null)
+        {
+            userType = UserType.Employee;
+            console.log("userType: ", userType);
+            return;
+        }
+
+        const responseAdmin = await fetch("/api/admin/get-admin");
+        const dataAdmin = await responseAdmin.json();
+        const { adminDB } = dataAdmin;
+        console.log("user: ", adminDB);
+
+        if (dataAdmin.ok === true && adminDB._id !== null)
+        {
+            userType = UserType.Admin;
+            console.log("userType: ", userType);
+            
+            return;
+        }
         
-        //if (response.ok === false) throw new Error("response from DB not ok");
-        
+               
         
         
 
