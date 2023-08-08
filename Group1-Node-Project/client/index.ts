@@ -57,7 +57,7 @@ function handleLogin(ev) {
         .then((data) => {
           console.log(data.ok);
           let check = data.ok;
-          openHP(check, "./adminHP/adminHP.html");
+          openHP(check, "./shift-schedule-page/shiftSchedule.html");
         });
     } else throw new Error("role not found");
   } catch (error) {
