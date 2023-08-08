@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
 const weekSchema = new Schema({
-  sunday: Boolean,
-  monday: Boolean,
+  sunday: Boolean
+  monday: Boolean
   tuesday: Boolean,
   wednesday: Boolean,
   thursday: Boolean,
