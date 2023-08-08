@@ -3,7 +3,107 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./dist/availabilityTS.js" defer></script>
     <title>Availability</title>
   </head>
-  <body></body>
+  <body>
+    <h1>Employee Availability</h1>
+    <form id="availabilityForm">
+      <table>
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Sunday</th>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Day Shift</td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="Sunday"
+                data-shift="morning"
+              >
+                ✅
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="Monday"
+                data-shift="morning"
+              >
+                ✅
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="Tuesday"
+                data-shift="morning"
+              >
+                ✅
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="Wednesday"
+                data-shift="morning"
+              >
+                ✅
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="Thursday"
+                data-shift="morning"
+              >
+                ✅
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="Friday"
+                data-shift="morning"
+              >
+                ✅
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="Saturday"
+                data-shift="morning"
+              >
+                ✅
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <label for="comment">Additional Comments:</label>
+      <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
+
+      <input type="hidden" id="userId" />
+
+      <button type="submit">Submit Availability</button>
+    </form>
+  </body>
 </html>

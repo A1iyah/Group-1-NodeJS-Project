@@ -5,6 +5,7 @@ var mongoose_1 = require("mongoose");
 var dotenv = require("dotenv");
 var adminRoute_1 = require("./API/admin/adminRoute");
 var attendanceRoute_1 = require("./API/attendance/attendanceRoute");
+var availabilityRoute_1 = require("./API/availability/availabilityRoute");
 var companyRoute_1 = require("./API/company/companyRoute");
 var employeeRoute_1 = require("./API/employee/employeeRoute");
 var managerRoute_1 = require("./API/manager/managerRoute");
@@ -31,6 +32,9 @@ app.use("/api/company/", companyRoute_1["default"]);
 app.use("/api/employee/", employeeRoute_1["default"]);
 app.use("/api/manager/", managerRoute_1["default"]);
 app.use("/api/role/", roleRoute_1["default"]);
+// Availability -
+app.use(availabilityRoute_1["default"]);
+//
 app.listen(3000, function () {
     console.log("server listen on port 3000");
 });

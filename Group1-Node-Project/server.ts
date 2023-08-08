@@ -3,6 +3,7 @@ import mongoose, { Schema } from "mongoose";
 import * as dotenv from "dotenv";
 import adminRoute from "./API/admin/adminRoute";
 import attendanceRoute from "./API/attendance/attendanceRoute";
+import availabilityRoute from "./API/availability/availabilityRoute";
 import companyRoute from "./API/company/companyRoute";
 import employeeRoute from "./API/employee/employeeRoute";
 import managerRoute from "./API/manager/managerRoute";
@@ -36,16 +37,13 @@ app.use("/api/employee/", employeeRoute);
 app.use("/api/manager/", managerRoute);
 app.use("/api/role/", roleRoute);
 
-
+// Availability -
+app.use(availabilityRoute);
+//
 
 app.listen(3000, () => {
   console.log("server listen on port 3000");
 });
-
-
-
-
-
 
 // const roleSchema = new Schema({ name: String });
 
@@ -156,4 +154,3 @@ app.listen(3000, () => {
 //   97250642851,
 //   35
 // );
-
