@@ -1,5 +1,4 @@
 let userType: UserType;
-
 enum UserType
 {
     Admin,
@@ -7,17 +6,19 @@ enum UserType
     Employee
 }
 
-async function getUser() 
+async function getActiveUser() 
 {
     try {
         const responseManager = await fetch("/api/manager/get-manager");
         const dataManager = await responseManager.json();
-        const { managerDB } = dataManager;
-        console.log("user: ", managerDB);
+        const { manager } = dataManager;
+        console.log("dataManager: ", dataManager);
+        
+        console.log("user: ", manager);
 
-        if (dataManager.ok === true && managerDB._id !== null)
+        if (dataManager.ok === true && manager._id !== null)
         {
-            userType = UserType.Employee;
+            userType = UserType.Manager;
             console.log("userType: ", userType);
             return;
         }
@@ -46,16 +47,23 @@ async function getUser()
 
 
 
-const renderNavBar = (userType: UserType, navBarElem: HTMLDivElement) =>
+const renderNavBar = (navBarElem: HTMLDivElement) =>
 {
-    console.log(userType, navBarElem);
+    console.log(navBarElem);
+    console.log("i am: ", userType);
+    console.log("types: ", UserType.Employee);
+    
+
+    
 
     switch (userType) {
         case UserType.Admin:
             
             break;
         case UserType.Manager:
-            const navBarHtml: string = `<div class="nav-bar__links-group">
+        console.log("switch on manager");
+            
+        const navBarHtml: string = `<div class="nav-bar__links-group">
             <p class="nav-bar__link" onclick="gotoPage('../start-end-shift/employeeManager-HP.html')">Start / End Shift</p>
             <p class="nav-bar__link nav-bar__link--bold">Shift Schedule</p>
             <p class="nav-bar__link">Availability</p>

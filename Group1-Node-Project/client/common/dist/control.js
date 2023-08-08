@@ -41,7 +41,7 @@ var UserType;
     UserType[UserType["Manager"] = 1] = "Manager";
     UserType[UserType["Employee"] = 2] = "Employee";
 })(UserType || (UserType = {}));
-function getUser() {
+function getActiveUser() {
     return __awaiter(this, void 0, void 0, function () {
         var responseManager, dataManager, manager, responseAdmin, dataAdmin, adminDB, error_1;
         return __generator(this, function (_a) {
@@ -58,7 +58,7 @@ function getUser() {
                     console.log("dataManager: ", dataManager);
                     console.log("user: ", manager);
                     if (dataManager.ok === true && manager._id !== null) {
-                        userType = UserType.Employee;
+                        userType = UserType.Manager;
                         console.log("userType: ", userType);
                         return [2 /*return*/];
                     }
@@ -85,12 +85,15 @@ function getUser() {
         });
     });
 }
-var renderNavBar = function (userType, navBarElem) {
-    console.log(userType, navBarElem);
+var renderNavBar = function (navBarElem) {
+    console.log(navBarElem);
+    console.log("i am: ", userType);
+    console.log("types: ", UserType.Employee);
     switch (userType) {
         case UserType.Admin:
             break;
         case UserType.Manager:
+            console.log("switch on manager");
             var navBarHtml = "<div class=\"nav-bar__links-group\">\n            <p class=\"nav-bar__link\" onclick=\"gotoPage('../start-end-shift/employeeManager-HP.html')\">Start / End Shift</p>\n            <p class=\"nav-bar__link nav-bar__link--bold\">Shift Schedule</p>\n            <p class=\"nav-bar__link\">Availability</p>\n            <p class=\"nav-bar__link\">Employees</p>\n            <p class=\"nav-bar__link\">Reports</p>\n            </div>\n            <p class=\"nav-bar__user-name\">John Wick</p>";
             navBarElem.innerHTML = navBarHtml;
             break;
