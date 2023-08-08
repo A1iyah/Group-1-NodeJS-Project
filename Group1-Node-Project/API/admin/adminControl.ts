@@ -3,7 +3,7 @@ import ManagerModel from "../manager/managerModel";
 import RoleModel from "../role/roleModel";
 import EmployeeModel from "../employee/employeeModel";
 import CompanyModel from "../company/companyModel";
-import AttendanceModel from "../attendance/attendanceModel";
+import availability from "../availability/availabilityModel";
 import jwt from "jwt-simple";
 // const secret: string | undefined = process.env.JWT_SECRET;
 const secret: string = "secret";

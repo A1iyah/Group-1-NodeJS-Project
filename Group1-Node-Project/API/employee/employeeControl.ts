@@ -3,7 +3,8 @@ import ManagerModel from "../manager/managerModel";
 import RoleModel from "../role/roleModel";
 import CompanyModel from "../company/companyModel";
 import AdminModel from "../admin/adminModel";
-import AttendanceModel from "../attendance/attendanceModel";
+import availability from "../availability/availabilityModel";
+
 import jwt from "jwt-simple";
 // const secret = process.env.JWT_SECRET;
 const secret: string = "secret";
