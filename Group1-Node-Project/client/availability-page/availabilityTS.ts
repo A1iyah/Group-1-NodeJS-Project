@@ -3,13 +3,18 @@ async function main() {
 
   renderNavBar(navBarElement);
 }
-
 main();
 
-document.addEventListener("DOMContentLoaded", () => {
-  const buttons = Array.from(document.querySelectorAll(".availability-button"));
-  const form = document.getElementById("availabilityForm") as HTMLFormElement;
+//
+const buttons: NodeListOf<HTMLDivElement> = document.querySelectorAll(
+  ".availability-button"
+);
+const comment = document.getElementById("comment") as HTMLTextAreaElement;
+const form = document.getElementById("availabilityForm") as HTMLFormElement;
+const submitBtn = document.querySelector(".submit-btn") as HTMLButtonElement;
 
+// Onclick for each check button -
+document.addEventListener("DOMContentLoaded", () => {
   buttons.forEach((button) => {
     button.addEventListener("click", toggleButton);
   });
@@ -17,36 +22,35 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", handleFormSubmit);
 });
 
-////////////////////////////////////////////////////////
+// Toggle function -
 function toggleButton(event: Event) {
   const clickedButton = event.target as HTMLButtonElement;
   const day = clickedButton.getAttribute("data-day");
 
-  if (clickedButton.textContent === "✅") {
-    clickedButton.textContent = "❌";
+  if (clickedButton.textContent === "can") {
+    clickedButton.textContent = "can't";
   } else {
-    clickedButton.textContent = "✅";
+    clickedButton.textContent = "can";
   }
 }
 
-////////////////////////////////////////////////////////
+// Handle form button -
 async function handleFormSubmit(event: Event) {
   event.preventDefault();
 
-  const buttons = Array.from(document.querySelectorAll(".availability-button"));
-  const availabilityData: Record<string, boolean> = {};
+  const availabilityData: String = {};
 
   buttons.forEach((button) => {
     const day = button.getAttribute("data-day");
-    const isAvailable = button.textContent === "✅";
+    const isAvailable = button.textContent === "can";
 
     if (day) {
       availabilityData[day] = isAvailable;
     }
   });
 
-  const comment = document.getElementById("comment") as HTMLTextAreaElement;
   const commentValue = comment.value;
+  const userId = user._id;
 
   try {
     const response = await fetch(`/api/availability/update`, {
@@ -54,7 +58,7 @@ async function handleFormSubmit(event: Event) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ availabilityData, commentValue }),
+      body: JSON.stringify({ availabilityData, commentValue, userId }),
     });
 
     if (response.ok) {
