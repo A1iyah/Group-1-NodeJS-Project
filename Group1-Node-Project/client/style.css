@@ -50,8 +50,16 @@
   transition: all 0.5s ease-in-out;
   cursor: pointer;
 }
+.login__submit a {
+  font-size: 20px;
+  text-decoration: none;
+  color: white;
+}
 .login__submit:hover {
   background-color: rgb(22, 231, 231);
+  color: black;
+}
+.login__submit:hover a {
   color: black;
 }
 
