@@ -80,6 +80,7 @@ function handleFormSubmit(event) {
                 case 0:
                     event.preventDefault();
                     availabilityData = {};
+                    // const availabilityData: Record<string, boolean> = {};
                     buttons.forEach(function (button) {
                         var day = button.getAttribute("data-day");
                         var isAvailable = button.textContent === "can";

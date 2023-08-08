@@ -39,6 +39,7 @@ async function handleFormSubmit(event: Event) {
   event.preventDefault();
 
   const availabilityData: String = {};
+  // const availabilityData: Record<string, boolean> = {};
 
   buttons.forEach((button) => {
     const day = button.getAttribute("data-day");
