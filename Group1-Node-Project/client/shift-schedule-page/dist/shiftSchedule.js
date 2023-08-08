@@ -34,37 +34,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-getActiveUser();
-renderNavBar(navBarElement);
-function handleLoadAdmin() {
+function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var response, data, admin, userName, error_1;
+        var userName;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, fetch("/api/admin/get-admin")];
+                    renderNavBar(navBarElement);
+                    return [4 /*yield*/, getActiveUser()];
                 case 1:
-                    response = _a.sent();
-                    return [4 /*yield*/, response.json()];
-                case 2:
-                    data = _a.sent();
-                    console.log("data", data);
-                    admin = data.admin;
+                    _a.sent();
                     userName = document.querySelector("#userName");
-                    if (!admin)
-                        throw new Error("didn't get admin from DB");
-                    userDB = admin;
                     if (!userName)
                         throw new Error("No user element on DOM");
-                    userName.innerText = admin.name;
-                    return [3 /*break*/, 4];
-                case 3:
-                    error_1 = _a.sent();
-                    console.error(error_1);
-                    return [3 /*break*/, 4];
-                case 4:
-                    dateToday.innerHTML = new Date().toLocaleString();
+                    userName.innerText = user.name;
+                    main();
                     return [2 /*return*/];
             }
         });

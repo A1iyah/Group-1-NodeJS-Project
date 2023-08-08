@@ -56,7 +56,7 @@ exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                     throw new Error("name or password are incorrect");
                 if (!secret)
                     throw new Error("no token");
-                token = jwt_simple_1["default"].encode({ managerId: managerDB._id, role: "public" }, secret);
+                token = jwt_simple_1["default"].encode({ managerId: managerDB._id, role: "manager" }, secret);
                 console.log(token);
                 res.cookie("manager", token, { maxAge: 500000000, httpOnly: true });
                 res.status(201).send({ ok: true });

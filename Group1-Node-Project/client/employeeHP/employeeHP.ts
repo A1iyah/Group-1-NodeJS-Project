@@ -1,3 +1,11 @@
+async function main() {
+  await getActiveUser();
+
+  renderNavBar(navBarElement);
+}
+
+main();
+
 const dateToday = document.querySelector(".shift__date") as HTMLElement;
 const startEndShift = document.querySelector(
   ".shift__startEndShift"

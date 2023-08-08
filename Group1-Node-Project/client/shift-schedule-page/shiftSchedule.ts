@@ -1,21 +1,11 @@
-getActiveUser();
-renderNavBar(navBarElement);
+async function main() {
+  renderNavBar(navBarElement);
+  await getActiveUser();
 
-async function handleLoadAdmin() {
-  try {
-    const response = await fetch("/api/admin/get-admin");
-    const data = await response.json();
-    console.log("data", data);
-    const { admin } = data;
-    const userName: HTMLDivElement | null = document.querySelector("#userName");
+  const userName: HTMLDivElement | null = document.querySelector("#userName");
 
-    if (!admin) throw new Error("didn't get admin from DB");
-    userDB = admin;
-    if (!userName) throw new Error("No user element on DOM");
-    userName.innerText = admin.name;
-  } catch (error) {
-    console.error(error);
-  }
+  if (!userName) throw new Error("No user element on DOM");
+  userName.innerText = user.name;
 
-  dateToday.innerHTML = new Date().toLocaleString();
+  main();
 }

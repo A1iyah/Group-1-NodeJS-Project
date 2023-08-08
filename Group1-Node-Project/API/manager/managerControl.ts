@@ -19,7 +19,7 @@ export const login = async (req: any, res: any) => {
     if (!managerDB) throw new Error("name or password are incorrect");
     if (!secret) throw new Error("no token");
     const token = jwt.encode(
-      { managerId: managerDB._id, role: "public" },
+      { managerId: managerDB._id, role: "manager" },
       secret
     );
     console.log(token);
