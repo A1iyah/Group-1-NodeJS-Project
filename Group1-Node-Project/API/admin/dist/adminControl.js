@@ -42,7 +42,7 @@ var jwt_simple_1 = require("jwt-simple");
 // const secret: string | undefined = process.env.JWT_SECRET;
 var secret = "secret";
 exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, password, userDB, token, error_1;
+    var _a, email, password, adminDB, token, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -51,14 +51,14 @@ exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 console.log(email, password);
                 return [4 /*yield*/, adminModel_1["default"].findOne({ email: email, password: password })];
             case 1:
-                userDB = _b.sent();
-                if (!userDB)
+                adminDB = _b.sent();
+                if (!adminDB)
                     throw new Error("Username or password are incorrect");
                 if (!secret)
                     throw new Error("no token");
-                token = jwt_simple_1["default"].encode({ userId: userDB._id, role: "public" }, secret);
+                token = jwt_simple_1["default"].encode({ adminId: adminDB._id, role: "public" }, secret);
                 console.log(token);
-                res.cookie("user", token, { maxAge: 500000000, httpOnly: true });
+                res.cookie("admin", token, { maxAge: 500000000, httpOnly: true });
                 res.status(201).send({ ok: true });
                 return [3 /*break*/, 3];
             case 2:
@@ -71,21 +71,21 @@ exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, f
     });
 }); };
 exports.getAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, decoded, userId, role, userDB, error_2;
+    var admin, decoded, adminId, role, adminDB, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                user = req.cookies.user;
+                admin = req.cookies.admin;
                 if (!secret)
                     throw new Error("no token");
-                decoded = jwt_simple_1["default"].decode(user, secret);
+                decoded = jwt_simple_1["default"].decode(admin, secret);
                 console.log(decoded);
-                userId = decoded.userId, role = decoded.role;
-                return [4 /*yield*/, adminModel_1["default"].findById(userId)];
+                adminId = decoded.adminId, role = decoded.role;
+                return [4 /*yield*/, adminModel_1["default"].findById(adminId)];
             case 1:
-                userDB = _a.sent();
-                res.send({ ok: true, user: userDB });
+                adminDB = _a.sent();
+                res.send({ ok: true, admin: adminDB });
                 return [3 /*break*/, 3];
             case 2:
                 error_2 = _a.sent();

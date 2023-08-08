@@ -1,3 +1,7 @@
+// const dateToday = document.querySelector(".shift__date") as HTMLElement;
+// const startEndShift = document.querySelector(
+//   ".shift__startEndShift"
+// ) as HTMLDivElement;
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,70 +38,47 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var userType;
-var UserType;
-(function (UserType) {
-    UserType[UserType["Admin"] = 0] = "Admin";
-    UserType[UserType["Manager"] = 1] = "Manager";
-    UserType[UserType["Employee"] = 2] = "Employee";
-})(UserType || (UserType = {}));
-function getUser() {
+// const startEndButtonS = document.querySelector(
+//   ".shift__startEndShift__start"
+// ) as HTMLButtonElement;
+// const startEndButtonE = document.querySelector(
+//   ".shift__startEndShift__end"
+// ) as HTMLButtonElement;
+// const startEndClock = document.querySelector(
+//   ".shift__startEndShift__clock"
+// ) as HTMLDivElement;
+// let userDB = null;
+function handleLoadAdmin() {
     return __awaiter(this, void 0, void 0, function () {
-        var responseManager, dataManager, manager, responseAdmin, dataAdmin, adminDB, error_1;
+        var response, data, admin, userName, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 5, , 6]);
-                    return [4 /*yield*/, fetch("/api/manager/get-manager")];
-                case 1:
-                    responseManager = _a.sent();
-                    return [4 /*yield*/, responseManager.json()];
-                case 2:
-                    dataManager = _a.sent();
-                    manager = dataManager.manager;
-                    console.log("dataManager: ", dataManager);
-                    console.log("user: ", manager);
-                    if (dataManager.ok === true && manager._id !== null) {
-                        userType = UserType.Employee;
-                        console.log("userType: ", userType);
-                        return [2 /*return*/];
-                    }
+                    _a.trys.push([0, 3, , 4]);
                     return [4 /*yield*/, fetch("/api/admin/get-admin")];
+                case 1:
+                    response = _a.sent();
+                    return [4 /*yield*/, response.json()];
+                case 2:
+                    data = _a.sent();
+                    console.log("data", data);
+                    admin = data.admin;
+                    userName = document.querySelector("#userName");
+                    if (!admin)
+                        throw new Error("didn't get admin from DB");
+                    userDB = admin;
+                    if (!userName)
+                        throw new Error("No user element on DOM");
+                    userName.innerText = admin.name;
+                    return [3 /*break*/, 4];
                 case 3:
-                    responseAdmin = _a.sent();
-                    return [4 /*yield*/, responseAdmin.json()];
-                case 4:
-                    dataAdmin = _a.sent();
-                    adminDB = dataAdmin.adminDB;
-                    console.log("user: ", adminDB);
-                    if (dataAdmin.ok === true && adminDB._id !== null) {
-                        userType = UserType.Admin;
-                        console.log("userType: ", userType);
-                        return [2 /*return*/];
-                    }
-                    return [3 /*break*/, 6];
-                case 5:
                     error_1 = _a.sent();
                     console.error(error_1);
-                    return [3 /*break*/, 6];
-                case 6: return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 4:
+                    dateToday.innerHTML = new Date().toLocaleString();
+                    return [2 /*return*/];
             }
         });
     });
 }
-var renderNavBar = function (userType, navBarElem) {
-    console.log(userType, navBarElem);
-    switch (userType) {
-        case UserType.Admin:
-            break;
-        case UserType.Manager:
-            var navBarHtml = "<div class=\"nav-bar__links-group\">\n            <p class=\"nav-bar__link\" onclick=\"gotoPage('../start-end-shift/employeeManager-HP.html')\">Start / End Shift</p>\n            <p class=\"nav-bar__link nav-bar__link--bold\">Shift Schedule</p>\n            <p class=\"nav-bar__link\">Availability</p>\n            <p class=\"nav-bar__link\">Employees</p>\n            <p class=\"nav-bar__link\">Reports</p>\n            </div>\n            <p class=\"nav-bar__user-name\">John Wick</p>";
-            navBarElem.innerHTML = navBarHtml;
-            break;
-        case UserType.Employee:
-            break;
-    }
-};
-var gotoPage = function (targetPage) {
-    window.location.href = targetPage;
-};
