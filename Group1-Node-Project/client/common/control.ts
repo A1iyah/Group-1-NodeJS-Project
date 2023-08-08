@@ -80,7 +80,7 @@ const renderNavBar = (navBarElem: HTMLDivElement) =>
             const navBarHtml: string = `<div class="nav-bar__links-group">
                 <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Shift Schedule</p>
                 <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
-                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employees-page/employeesPage.html')">Employees</p>
+                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employeeHP/employeeHP.html')">Employees</p>
                 <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
                 </div>
                 <p class="nav-bar__user-name">${user.name}</p>`;
@@ -91,7 +91,7 @@ const renderNavBar = (navBarElem: HTMLDivElement) =>
                 <p class="nav-bar__link nav-bar__link__employee-manager" onclick="gotoPage('../start-end-shift/employeeManager-HP.html')">Start / End Shift</p>
                 <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Shift Schedule</p>
                 <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
-                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employees-page/employeesPage.html')">Employees</p>
+                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employeeHP/employeeHP.html')">Employees</p>
                 <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
                 </div>
                 <p class="nav-bar__user-name">${user.name}</p>`;
@@ -102,7 +102,7 @@ const renderNavBar = (navBarElem: HTMLDivElement) =>
             const navBarHtml: string = `<div class="nav-bar__links-group">
                 <p class="nav-bar__link nav-bar__link__employee-manager" onclick="gotoPage('../start-end-shift/employeeManager-HP.html')">Start / End Shift</p>
                 <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
-                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employees-page/employeesPage.html')">Employees</p>
+                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employeeHP/employeeHP.html')">Employees</p>
                 <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
                 </div>
                 <p class="nav-bar__user-name">${user.name}</p>`;
