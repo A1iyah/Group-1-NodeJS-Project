@@ -60,7 +60,7 @@ function handleLogin(ev) {
                 .then(function (data) {
                 console.log(data.ok);
                 var check = data.ok;
-                openHP(check, "./adminHP/adminHP.html");
+                openHP(check, "./shift-schedule-page/shiftSchedule.html");
             });
         }
         else
