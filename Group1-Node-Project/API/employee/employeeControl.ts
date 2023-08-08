@@ -5,7 +5,8 @@ import CompanyModel from "../company/companyModel";
 import AdminModel from "../admin/adminModel";
 import AttendanceModel from "../attendance/attendanceModel";
 import jwt from "jwt-simple";
-const secret = process.env.JWT_SECRET;
+// const secret = process.env.JWT_SECRET;
+const secret: string = "secret";
 
 export const login = async (req: any, res: any) => {
   try {

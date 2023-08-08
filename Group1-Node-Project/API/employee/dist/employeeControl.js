@@ -39,7 +39,8 @@ exports.__esModule = true;
 exports.login = void 0;
 var employeeModel_1 = require("./employeeModel");
 var jwt_simple_1 = require("jwt-simple");
-var secret = process.env.JWT_SECRET;
+// const secret = process.env.JWT_SECRET;
+var secret = "secret";
 exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, name, password, employeeDB, token, error_1;
     return __generator(this, function (_b) {

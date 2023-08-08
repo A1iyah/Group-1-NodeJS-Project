@@ -12,12 +12,8 @@ const employeeSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Role",
   },
-  attendance: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Attendance",
-    },
-  ],
+  attendance: [],
+  shift: [],
 });
 
 export const EmployeeModel = mongoose.model("Employee", employeeSchema);
