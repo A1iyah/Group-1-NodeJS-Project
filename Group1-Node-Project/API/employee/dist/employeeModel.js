@@ -15,7 +15,11 @@ var employeeSchema = new mongoose_1.Schema({
         ref: "Role"
     },
     attendance: [],
-    shift: []
+    shift: [],
+    availability: {
+        type: mongoose_1["default"].Schema.Types.ObjectId,
+        ref: "Week"
+    }
 });
 exports.EmployeeModel = mongoose_1["default"].model("Employee", employeeSchema);
 exports["default"] = exports.EmployeeModel;

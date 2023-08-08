@@ -117,15 +117,21 @@ function getActiveUser() {
     });
 }
 var renderNavBar = function (navBarElem) {
+    if (!navBarElem)
+        console.error("no nav bar HTMLDivElement received");
+    //let navBarHtml: string;
     switch (userType) {
         case UserType.Admin:
+            var navBarHtml = "<div class=\"nav-bar__links-group\">\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../start-end-shift/employeeManager-HP.html')\">Start / End Shift</p>\n                <p class=\"nav-bar__link nav-bar__link--bold\" onclick=\"gotoPage('../shift-schedule-page/shiftSchedule.html')\">Shift Schedule</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../availability-page/availabilityPage.html')\">Availability</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../employees-page/employeesPage.html')\">Employees</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../reports-page/reportsPage.html')\">Reports</p>\n                </div>\n                <p class=\"nav-bar__user-name\">" + user.name + "</p>";
+            navBarElem.innerHTML = navBarHtml;
             break;
         case UserType.Manager:
-            var navBarHtml = "<div class=\"nav-bar__links-group\">\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../start-end-shift/employeeManager-HP.html')\">Start / End Shift</p>\n                <p class=\"nav-bar__link nav-bar__link--bold\">Shift Schedule</p>\n                <p class=\"nav-bar__link\">Availability</p>\n                <p class=\"nav-bar__link\">Employees</p>\n                <p class=\"nav-bar__link\">Reports</p>\n                </div>\n                <p class=\"nav-bar__user-name\">John Wick</p>";
+            var navBarHtml = "<div class=\"nav-bar__links-group\">\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../start-end-shift/employeeManager-HP.html')\">Start / End Shift</p>\n                <p class=\"nav-bar__link nav-bar__link--bold\" onclick=\"gotoPage('../shift-schedule-page/shiftSchedule.html')\">Shift Schedule</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../availability-page/availabilityPage.html')\">Availability</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../employees-page/employeesPage.html')\">Employees</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../reports-page/reportsPage.html')\">Reports</p>\n                </div>\n                <p class=\"nav-bar__user-name\">" + user.name + "</p>";
             navBarElem.innerHTML = navBarHtml;
             break;
         case UserType.Employee:
-            break;
+            var navBarHtml = "<div class=\"nav-bar__links-group\">\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../start-end-shift/employeeManager-HP.html')\">Start / End Shift</p>\n                <p class=\"nav-bar__link nav-bar__link--bold\" onclick=\"gotoPage('../shift-schedule-page/shiftSchedule.html')\">Shift Schedule</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../availability-page/availabilityPage.html')\">Availability</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../employees-page/employeesPage.html')\">Employees</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../reports-page/reportsPage.html')\">Reports</p>\n                </div>\n                <p class=\"nav-bar__user-name\">" + user.name + "</p>";
+            navBarElem.innerHTML = navBarHtml;
     }
 };
 var gotoPage = function (targetPage) {

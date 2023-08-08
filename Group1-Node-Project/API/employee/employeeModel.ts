@@ -14,6 +14,11 @@ const employeeSchema = new Schema({
   },
   attendance: [],
   shift: [],
+
+  availability: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Week",
+  },
 });
 
 export const EmployeeModel = mongoose.model("Employee", employeeSchema);
