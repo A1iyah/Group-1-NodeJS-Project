@@ -1,5 +1,10 @@
-getActiveUser();
-renderNavBar(navBarElement);
+async function main() {
+  await getActiveUser();
+
+  renderNavBar(navBarElement);
+}
+
+main();
 
 document.addEventListener("DOMContentLoaded", () => {
   const buttons = Array.from(document.querySelectorAll(".availability-button"));

@@ -34,8 +34,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-getActiveUser();
-renderNavBar(navBarElement);
+function main() {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, getActiveUser()];
+                case 1:
+                    _a.sent();
+                    renderNavBar(navBarElement);
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+main();
 document.addEventListener("DOMContentLoaded", function () {
     var buttons = Array.from(document.querySelectorAll(".availability-button"));
     var form = document.getElementById("availabilityForm");
