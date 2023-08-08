@@ -117,21 +117,44 @@ function getActiveUser() {
     });
 }
 var renderNavBar = function (navBarElem) {
+    var targetDivEle;
     if (!navBarElem)
         console.error("no nav bar HTMLDivElement received");
-    //let navBarHtml: string;
     switch (userType) {
         case UserType.Admin:
-            var navBarHtml = "<div class=\"nav-bar__links-group\">\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../start-end-shift/employeeManager-HP.html')\">Start / End Shift</p>\n                <p class=\"nav-bar__link nav-bar__link--bold\" onclick=\"gotoPage('../shift-schedule-page/shiftSchedule.html')\">Shift Schedule</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../availability-page/availabilityPage.html')\">Availability</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../employees-page/employeesPage.html')\">Employees</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../reports-page/reportsPage.html')\">Reports</p>\n                </div>\n                <p class=\"nav-bar__user-name\">" + user.name + "</p>";
+            var navBarHtml = "<div class=\"nav-bar__links-group\">\n                <p class=\"nav-bar__link nav-bar__link__employee-manager\" onclick=\"gotoPage('../start-end-shift/employeeManager-HP.html')\">Start / End Shift</p>\n                <p class=\"nav-bar__link nav-bar__link__shift-schedule\" onclick=\"gotoPage('../shift-schedule-page/shiftSchedule.html')\">Shift Schedule</p>\n                <p class=\"nav-bar__link nav-bar__link__availability\" onclick=\"gotoPage('../availability-page/availabilityPage.html')\">Availability</p>\n                <p class=\"nav-bar__link nav-bar__link__employees\" onclick=\"gotoPage('../employees-page/employeesPage.html')\">Employees</p>\n                <p class=\"nav-bar__link nav-bar__link__reports\" onclick=\"gotoPage('../reports-page/reportsPage.html')\">Reports</p>\n                </div>\n                <p class=\"nav-bar__user-name\">" + user.name + "</p>";
             navBarElem.innerHTML = navBarHtml;
             break;
         case UserType.Manager:
-            var navBarHtml = "<div class=\"nav-bar__links-group\">\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../start-end-shift/employeeManager-HP.html')\">Start / End Shift</p>\n                <p class=\"nav-bar__link nav-bar__link--bold\" onclick=\"gotoPage('../shift-schedule-page/shiftSchedule.html')\">Shift Schedule</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../availability-page/availabilityPage.html')\">Availability</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../employees-page/employeesPage.html')\">Employees</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../reports-page/reportsPage.html')\">Reports</p>\n                </div>\n                <p class=\"nav-bar__user-name\">" + user.name + "</p>";
+            var navBarHtml = "<div class=\"nav-bar__links-group\">\n                <p class=\"nav-bar__link nav-bar__link__employee-manager\" onclick=\"gotoPage('../start-end-shift/employeeManager-HP.html')\">Start / End Shift</p>\n                <p class=\"nav-bar__link nav-bar__link__shift-schedule\" onclick=\"gotoPage('../shift-schedule-page/shiftSchedule.html')\">Shift Schedule</p>\n                <p class=\"nav-bar__link nav-bar__link__availability\" onclick=\"gotoPage('../availability-page/availabilityPage.html')\">Availability</p>\n                <p class=\"nav-bar__link nav-bar__link__employees\" onclick=\"gotoPage('../employees-page/employeesPage.html')\">Employees</p>\n                <p class=\"nav-bar__link nav-bar__link__reports\" onclick=\"gotoPage('../reports-page/reportsPage.html')\">Reports</p>\n                </div>\n                <p class=\"nav-bar__user-name\">" + user.name + "</p>";
             navBarElem.innerHTML = navBarHtml;
             break;
         case UserType.Employee:
-            var navBarHtml = "<div class=\"nav-bar__links-group\">\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../start-end-shift/employeeManager-HP.html')\">Start / End Shift</p>\n                <p class=\"nav-bar__link nav-bar__link--bold\" onclick=\"gotoPage('../shift-schedule-page/shiftSchedule.html')\">Shift Schedule</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../availability-page/availabilityPage.html')\">Availability</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../employees-page/employeesPage.html')\">Employees</p>\n                <p class=\"nav-bar__link\" onclick=\"gotoPage('../reports-page/reportsPage.html')\">Reports</p>\n                </div>\n                <p class=\"nav-bar__user-name\">" + user.name + "</p>";
+            var navBarHtml = "<div class=\"nav-bar__links-group\">\n                <p class=\"nav-bar__link nav-bar__link__employee-manager\" onclick=\"gotoPage('../start-end-shift/employeeManager-HP.html')\">Start / End Shift</p>\n                <p class=\"nav-bar__link nav-bar__link__shift-schedule\" onclick=\"gotoPage('../shift-schedule-page/shiftSchedule.html')\">Shift Schedule</p>\n                <p class=\"nav-bar__link nav-bar__link__availability\" onclick=\"gotoPage('../availability-page/availabilityPage.html')\">Availability</p>\n                <p class=\"nav-bar__link nav-bar__link__employees\" onclick=\"gotoPage('../employees-page/employeesPage.html')\">Employees</p>\n                <p class=\"nav-bar__link nav-bar__link__reports\" onclick=\"gotoPage('../reports-page/reportsPage.html')\">Reports</p>\n                </div>\n                <p class=\"nav-bar__user-name\">" + user.name + "</p>";
             navBarElem.innerHTML = navBarHtml;
+    }
+    switch (window.location.pathname) {
+        case "/start-end-shift/employeeManager-HP.html":
+            targetDivEle = document.querySelector(".nav-bar__link__employee-manager");
+            break;
+        case "/shift-schedule-page/shiftSchedule.html":
+            targetDivEle = document.querySelector(".nav-bar__link__shift-schedule");
+            break;
+        case "/availability-page/availabilityPage.html":
+            targetDivEle = document.querySelector(".nav-bar__link__availability");
+            break;
+        case "/employees-page/employeesPage.html":
+            targetDivEle = document.querySelector(".nav-bar__link__employees");
+            break;
+        case "/reports-page/reportsPage.html":
+            targetDivEle = document.querySelector(".nav-bar__link__reports");
+            break;
+        default:
+            console.error("No location.pathname found.");
+            break;
+    }
+    if (targetDivEle) {
+        targetDivEle.classList.add("nav-bar__link--bold");
     }
 };
 var gotoPage = function (targetPage) {
