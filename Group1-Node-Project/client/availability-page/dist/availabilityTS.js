@@ -34,6 +34,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+getActiveUser();
+renderNavBar(navBarElement);
 document.addEventListener("DOMContentLoaded", function () {
     var buttons = Array.from(document.querySelectorAll(".availability-button"));
     var form = document.getElementById("availabilityForm");

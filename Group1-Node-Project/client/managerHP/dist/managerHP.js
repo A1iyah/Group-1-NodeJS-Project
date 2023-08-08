@@ -34,6 +34,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+getActiveUser();
+renderNavBar(navBarElement);
 var dateToday = document.querySelector(".shift__date");
 var startEndShift = document.querySelector(".shift__startEndShift");
 var startEndButtonS = document.querySelector(".shift__startEndShift__start");

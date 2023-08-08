@@ -1,3 +1,6 @@
+getActiveUser();
+renderNavBar(navBarElement);
+
 document.addEventListener("DOMContentLoaded", () => {
   const buttons = Array.from(document.querySelectorAll(".availability-button"));
   const form = document.getElementById("availabilityForm") as HTMLFormElement;
