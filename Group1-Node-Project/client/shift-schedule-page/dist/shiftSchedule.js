@@ -39,18 +39,17 @@ function main() {
         var userName;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    renderNavBar(navBarElement);
-                    return [4 /*yield*/, getActiveUser()];
+                case 0: return [4 /*yield*/, getActiveUser()];
                 case 1:
                     _a.sent();
+                    renderNavBar(navBarElement);
                     userName = document.querySelector("#userName");
                     if (!userName)
                         throw new Error("No user element on DOM");
                     userName.innerText = user.name;
-                    main();
                     return [2 /*return*/];
             }
         });
     });
 }
+main();

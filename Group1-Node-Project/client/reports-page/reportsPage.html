@@ -10,12 +10,91 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="./dist/reports.css" />
     <script src="../common/dist/control.js" defer></script>
-    <script src="./dist/reportsView.js" defer></script>
-    <script src="./dist/reports.js" defer></script>
+    <script src="./dist/reportsPage.js" defer></script>
     <title>Reports</title>
   </head>
   <body>
+    <div class="shift">
+      <h2 class="shift__title">Welcome <span id="userName"></span></h2>
+    </div>
     <div class="nav-bar"></div>
+
+    <div class="reportButtons">
+      <button class="reportButtons__salary">Report by salary</button>
+      <button class="reportButtons__manager">Reports by manager</button>
+      <button class="reportButtons__employee">Reports ny employee</button>
+    </div>
+
+    <div class="salaryReports" style="display: none">
+      <form class="salaryReports__salaryUp" onsubmit="HandleSalaryUp(event)">
+        <!-- <label for="salaryUp">Find salary More Than:</label> -->
+        <input
+          class="salaryReports__salaryUp__input"
+          type="number"
+          name="salaryUp"
+          placeholder="Find salary More Than"
+          required
+        />
+        <button
+          class="salaryReports__salaryUp__submit"
+          type="submit"
+          value="SalaryUp"
+        >
+          Enter
+        </button>
+      </form>
+
+      <form
+        class="salaryReports__salaryDown"
+        onsubmit="HandleSalaryDown(event)"
+      >
+        <!-- <label for="salaryDown">Find salary less Than:</label> -->
+        <input
+          class="salaryReports__salaryDown__input"
+          type="number"
+          name="salaryDown"
+          placeholder="Find salary less Than"
+          required
+        />
+        <button
+          class="salaryReports__salaryDown__submit"
+          type="submit"
+          value="salaryDown"
+        >
+          Enter
+        </button>
+      </form>
+
+      <form
+        class="salaryReports__between"
+        onsubmit="HandleSalaryBetween(event)"
+      >
+        <!-- <label for="minSalary">Find salary between (and equal): </label> -->
+        <input
+          class="salaryReports__between__input"
+          type="number"
+          name="minSalary"
+          placeholder="Find salary between (and equal):"
+          required
+        />
+        <!-- <label for="maxSalary">To:</label> -->
+        <input
+          class="salaryReports__between__input2"
+          type="number"
+          name="maxSalary"
+          placeholder="To"
+          required
+        />
+        <button
+          class="salaryReports__between__submit"
+          type="submit"
+          value="SalaryBetween"
+        >
+          Enter
+        </button>
+      </form>
+    </div>
   </body>
 </html>

@@ -34,17 +34,52 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var navBarElement = document.querySelector(".nav-bar");
+var userName = document.querySelector("#userName");
+var salaryButton = document.querySelector(".reportButtons__salary");
+var managerButton = document.querySelector(".reportButtons__manager");
+var employeeButton = document.querySelector(".reportButtons__employee");
+var reportsBySalary = document.querySelector(".salaryReports");
+// const reportsByManager = document.querySelector(
+//   ".salaryReports"
+// ) as HTMLDivElement;
+// const reportsByEmployee = document.querySelector(
+//   ".salaryReports"
+// ) as HTMLDivElement;
+var reportSalaryUp = document.querySelector(".salaryReports__salaryUp");
+var reportSalaryDown = document.querySelector(".salaryReports__salaryDown");
+var reportSalaryBetween = document.querySelector(".salaryReports__between");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
+        var userName;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, getActiveUser()];
                 case 1:
                     _a.sent();
                     renderNavBar(navBarElement);
+                    userName = document.querySelector("#userName");
+                    if (!userName)
+                        throw new Error("No user element on DOM");
+                    userName.innerText = user.name;
                     return [2 /*return*/];
             }
         });
     });
 }
 main();
+salaryButton.addEventListener("click", function (e) {
+    reportsBySalary.style.display = "flex";
+});
+function HandleSalaryUp(ev) {
+    try {
+        ev.preventDefault();
+        var salaryUp = ev.target.elements.salaryUp.value;
+        if (!salaryUp)
+            throw new Error("no salary entered");
+        console.log(salaryUp);
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
