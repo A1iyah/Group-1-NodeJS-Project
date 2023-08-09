@@ -39,20 +39,33 @@ exports.__esModule = true;
 exports.updateAvailability = void 0;
 var availabilityModel_1 = require("./availabilityModel");
 exports.updateAvailability = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, weekData, error_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _a, availabilityData, commentValue, userId, updateObject, day, error_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                _id = req.params._id;
-                weekData = req.body.weekData;
-                return [4 /*yield*/, availabilityModel_1.WeekModel.findOneAndUpdate({ _id: _id }, weekData, { upsert: true })];
+                _b.trys.push([0, 2, , 3]);
+                console.log(req.body);
+                _a = req.body, availabilityData = _a.availabilityData, commentValue = _a.commentValue, userId = _a.userId;
+                updateObject = {};
+                // Loop through each day in availabilityData
+                for (day in availabilityData) {
+                    if (availabilityData[day]) {
+                        updateObject[day] = [userId];
+                    }
+                    else {
+                        updateObject[day] = [];
+                    }
+                }
+                // Set the comment
+                updateObject.comment = commentValue;
+                return [4 /*yield*/, availabilityModel_1.WeekModel.findOneAndUpdate({}, updateObject)];
             case 1:
-                _a.sent();
+                _b.sent();
+                console.log(updateObject);
                 res.status(200).send("Availability updated successfully");
                 return [3 /*break*/, 3];
             case 2:
-                error_1 = _a.sent();
+                error_1 = _b.sent();
                 console.error(error_1);
                 res.status(500).send("Error updating availability");
                 return [3 /*break*/, 3];
@@ -60,3 +73,31 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
         }
     });
 }); };
+// export const updateAvailability = async (req: any, res: any) => {
+//   try {
+//     console.log(req.body);
+//     const { availabilityData, commentValue } = req.body;
+//     const weekData: any = {
+//       sunday: [],
+//       monday: [],
+//       tuesday: [],
+//       wednesday: [],
+//       thursday: [],
+//       friday: [],
+//       saturday: [],
+//     };
+//     // Loop through the days in availabilityData
+//     for (const day in availabilityData) {
+//       if (availabilityData[day]) {
+//         weekData[day].push(_id);
+//       }
+//     }
+//     // Add the comment
+//     weekData.comment = [commentValue];
+//     await WeekModel.findOneAndUpdate({ _id }, weekData, { upsert: true });
+//     res.status(200).send("Availability updated successfully");
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Error updating availability");
+//   }
+// };

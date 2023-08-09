@@ -3,14 +3,14 @@ exports.__esModule = true;
 exports.WeekModel = void 0;
 var mongoose_1 = require("mongoose");
 var weekSchema = new mongoose_1.Schema({
-    sunday: [String],
-    monday: [String],
-    tuesday: [String],
-    wednesday: [String],
-    thursday: [String],
-    friday: [String],
-    saturday: [String],
-    comment: [String]
+    sunday: [],
+    monday: [],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: [],
+    saturday: [],
+    comment: String
 });
 exports.WeekModel = mongoose_1["default"].model("Week", weekSchema);
 exports["default"] = exports.WeekModel;

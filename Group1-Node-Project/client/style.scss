@@ -9,6 +9,39 @@
   font-size: 18px;
 }
 
+.nav-bar {
+  width: 100vw;
+  height: 55px;
+  padding: 0 20px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: black;
+  color: white;
+
+  &__links-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__link {
+    margin-right: 35px;
+    cursor: pointer;
+
+    &--bold {
+      font-weight: 700;
+    }
+
+    &:hover {
+      color: $mainBlue;
+      cursor: pointer;
+    }
+  }
+}
+
 // Login page -
 .login {
   @include centerDiv;
@@ -43,11 +76,11 @@
     padding: 5px 20px;
     @include buttonDesign;
 
-    a {
-      font-size: 20px;
-      text-decoration: none;
-      color: white;
-    }
+    // a {
+    //   font-size: 20px;
+    //   text-decoration: none;
+    //   color: white;
+    // }
   }
 
   &__submit:hover {
@@ -56,6 +89,15 @@
     a {
       color: black;
     }
+  }
+
+  select {
+    @include inputShadow;
+    @include flexibleCenter(absolute, 100%, 50%, -50%, 0);
+    background: $mainBlue;
+    color: black;
+    cursor: pointer;
+    border-radius: 3px;
   }
 }
 //
