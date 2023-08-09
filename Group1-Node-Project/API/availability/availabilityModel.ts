@@ -1,15 +1,15 @@
 import mongoose, { Schema } from "mongoose";
 
 const weekSchema = new Schema({
-  sunday: [],
-  monday: [],
-  tuesday: [],
-  wednesday: [],
-  thursday: [],
-  friday: [],
-  saturday: [],
+  Sunday: [],
+  Monday: [],
+  Tuesday: [],
+  Wednesday: [],
+  Thursday: [],
+  Friday: [],
+  Saturday: [],
 
-  comment: String,
+  comment: [],
 });
 
 export const WeekModel = mongoose.model("Week", weekSchema);

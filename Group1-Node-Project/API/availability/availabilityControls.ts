@@ -6,23 +6,39 @@ export const updateAvailability = async (req: any, res: any) => {
     console.log(req.body);
     const { availabilityData, commentValue, userId } = req.body;
     // const userId = req.body;
+    console.log(userId);
 
     const updateObject: any = {};
 
     // Loop through each day in availabilityData
     for (const day in availabilityData) {
       if (availabilityData[day]) {
-        updateObject[day] = [userId];
-      } else {
-        updateObject[day] = [];
+        console.log(day);
+
+        const update = await WeekModel.findByIdAndUpdate(
+          "64d38a0680e3dcb7fbd1a67b",
+          { $push: { [day]: userId } },
+          { new: true }
+        );
       }
     }
 
-    // Set the comment
-    updateObject.comment = commentValue;
-
-    await WeekModel.findOneAndUpdate({}, updateObject);
-    console.log(updateObject);
+    if (commentValue) {
+      const update = await WeekModel.findByIdAndUpdate(
+        "64d38a0680e3dcb7fbd1a67b",
+        {
+          $push: {
+            comment: {
+              user: userId,
+              comment: commentValue,
+            },
+          },
+        },
+        { new: true }
+      );
+    }
+    const week = await WeekModel.findById("64d38a0680e3dcb7fbd1a67b");
+    console.log(week);
 
     res.status(200).send("Availability updated successfully");
   } catch (error) {
@@ -30,37 +46,3 @@ export const updateAvailability = async (req: any, res: any) => {
     res.status(500).send("Error updating availability");
   }
 };
-
-// export const updateAvailability = async (req: any, res: any) => {
-//   try {
-//     console.log(req.body);
-//     const { availabilityData, commentValue } = req.body;
-
-//     const weekData: any = {
-//       sunday: [],
-//       monday: [],
-//       tuesday: [],
-//       wednesday: [],
-//       thursday: [],
-//       friday: [],
-//       saturday: [],
-//     };
-
-//     // Loop through the days in availabilityData
-//     for (const day in availabilityData) {
-//       if (availabilityData[day]) {
-//         weekData[day].push(_id);
-//       }
-//     }
-
-//     // Add the comment
-//     weekData.comment = [commentValue];
-
-//     await WeekModel.findOneAndUpdate({ _id }, weekData, { upsert: true });
-
-//     res.status(200).send("Availability updated successfully");
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send("Error updating availability");
-//   }
-// };
