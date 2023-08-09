@@ -59,7 +59,7 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                 }
                 // Set the comment
                 updateObject.comment = commentValue;
-                return [4 /*yield*/, availabilityModel_1.WeekModel.findOneAndUpdate({}, updateObject)];
+                return [4 /*yield*/, availabilityModel_1.WeekModel.findOneAndUpdate(commentValue, userId)];
             case 1:
                 _b.sent();
                 console.log(updateObject);

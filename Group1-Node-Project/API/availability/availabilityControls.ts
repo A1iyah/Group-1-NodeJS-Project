@@ -21,7 +21,7 @@ export const updateAvailability = async (req: any, res: any) => {
     // Set the comment
     updateObject.comment = commentValue;
 
-    await WeekModel.findOneAndUpdate({}, updateObject);
+    await WeekModel.findOneAndUpdate(commentValue, userId);
     console.log(updateObject);
 
     res.status(200).send("Availability updated successfully");

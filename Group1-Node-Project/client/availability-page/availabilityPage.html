@@ -3,6 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../style.css" />
     <script src="../common/dist/control.js" defer></script>
     <script src="./dist/availabilityView.js" defer></script>
@@ -12,29 +18,29 @@
   <body>
     <div class="nav-bar"></div>
 
-    <h1>Employee Availability</h1>
     <form id="availabilityForm">
-      <table>
+      <h1>Availability</h1>
+
+      <table class="availabilityForm__table">
         <thead>
           <tr>
-            <th>Day</th>
-            <th>Sunday</th>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-            <th>Saturday</th>
+            <th class="availabilityForm__table__sunday">Sunday</th>
+            <th class="availabilityForm__table__monday">Monday</th>
+            <th class="availabilityForm__table__tuesday">Tuesday</th>
+            <th class="availabilityForm__table__wednesday">Wednesday</th>
+            <th class="availabilityForm__table__thursday">Thursday</th>
+            <th class="availabilityForm__table__friday">Friday</th>
+            <th class="availabilityForm__table__saturday">Saturday</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Day Shift</td>
+            <td class="availabilityForm__table__dayShift">Day Shift</td>
             <td>
               <button
                 type="button"
                 class="availability-button"
-                data-day="Sunday"
+                data-day="sunday"
                 data-shift="morning"
               >
                 can't
@@ -44,7 +50,7 @@
               <button
                 type="button"
                 class="availability-button"
-                data-day="Monday"
+                data-day="monday"
                 data-shift="morning"
               >
                 can't
@@ -54,7 +60,7 @@
               <button
                 type="button"
                 class="availability-button"
-                data-day="Tuesday"
+                data-day="tuesday"
                 data-shift="morning"
               >
                 can't
@@ -64,7 +70,7 @@
               <button
                 type="button"
                 class="availability-button"
-                data-day="Wednesday"
+                data-day="wednesday"
                 data-shift="morning"
               >
                 can't
@@ -74,7 +80,7 @@
               <button
                 type="button"
                 class="availability-button"
-                data-day="Thursday"
+                data-day="thursday"
                 data-shift="morning"
               >
                 can't
@@ -84,7 +90,7 @@
               <button
                 type="button"
                 class="availability-button"
-                data-day="Friday"
+                data-day="friday"
                 data-shift="morning"
               >
                 can't
@@ -94,7 +100,7 @@
               <button
                 type="button"
                 class="availability-button"
-                data-day="Saturday"
+                data-day="saturday"
                 data-shift="morning"
               >
                 can't
@@ -103,6 +109,7 @@
           </tr>
         </tbody>
       </table>
+
       <label for="comment">Additional Comments:</label>
       <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
 

@@ -9,6 +9,7 @@
   font-size: 18px;
 }
 
+// Navbar -
 .nav-bar {
   width: 100vw;
   height: 55px;
@@ -144,5 +145,50 @@
   &__startEndShift__start:hover,
   &__startEndShift__end:hover {
     @include buttonHover;
+  }
+}
+
+// Availability page -
+.availabilityForm__table {
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+
+  thead {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    th {
+      flex: 1;
+    }
+  }
+
+  tbody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    tr {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+
+      td {
+        flex: 1;
+        padding: 10px;
+
+        &.availabilityForm__table__dayShift {
+          text-align: left;
+          flex: 0.5;
+        }
+
+        button {
+          width: 100%;
+          box-sizing: border-box;
+        }
+      }
+    }
   }
 }

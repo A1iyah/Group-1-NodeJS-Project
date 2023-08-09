@@ -157,4 +157,41 @@
 .shift__startEndShift__start:hover, .shift__startEndShift__end:hover {
   background-color: rgb(22, 231, 231);
   color: black;
+}
+
+.availabilityForm__table {
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+}
+.availabilityForm__table thead {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.availabilityForm__table thead th {
+  flex: 1;
+}
+.availabilityForm__table tbody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.availabilityForm__table tbody tr {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+.availabilityForm__table tbody tr td {
+  flex: 1;
+  padding: 10px;
+}
+.availabilityForm__table tbody tr td.availabilityForm__table__dayShift {
+  text-align: left;
+  flex: 0.5;
+}
+.availabilityForm__table tbody tr td button {
+  width: 100%;
+  box-sizing: border-box;
 }/*# sourceMappingURL=style.css.map */
