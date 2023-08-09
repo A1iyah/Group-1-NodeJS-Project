@@ -8,3 +8,18 @@
     font-size: 18px;
   }
 
+.main-sections-container{
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-template-rows: auto;
+}
+
+.employees-panel{
+  background-color: rebeccapurple;
+  
+}
+
+.shifts-panel{
+  background-color: skyblue;
+}
+
