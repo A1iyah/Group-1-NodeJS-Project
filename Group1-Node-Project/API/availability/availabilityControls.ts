@@ -4,14 +4,15 @@ import { WeekModel } from "./availabilityModel";
 export const updateAvailability = async (req: any, res: any) => {
   try {
     console.log(req.body);
-    const { availabilityData, commentValue, _id } = req.body;
+    const { availabilityData, commentValue } = req.body;
+    const userId = req.body;
 
     const updateObject: any = {};
 
     // Loop through each day in availabilityData
     for (const day in availabilityData) {
       if (availabilityData[day]) {
-        updateObject[day] = [_id];
+        updateObject[day] = [userId];
       } else {
         updateObject[day] = [];
       }

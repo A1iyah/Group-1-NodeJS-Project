@@ -39,18 +39,19 @@ exports.__esModule = true;
 exports.updateAvailability = void 0;
 var availabilityModel_1 = require("./availabilityModel");
 exports.updateAvailability = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, availabilityData, commentValue, _id, updateObject, day, error_1;
+    var _a, availabilityData, commentValue, userId, updateObject, day, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
                 console.log(req.body);
-                _a = req.body, availabilityData = _a.availabilityData, commentValue = _a.commentValue, _id = _a._id;
+                _a = req.body, availabilityData = _a.availabilityData, commentValue = _a.commentValue;
+                userId = req.body;
                 updateObject = {};
                 // Loop through each day in availabilityData
                 for (day in availabilityData) {
                     if (availabilityData[day]) {
-                        updateObject[day] = [_id];
+                        updateObject[day] = [userId];
                     }
                     else {
                         updateObject[day] = [];

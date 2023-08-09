@@ -38,8 +38,11 @@ function toggleButton(event: Event) {
 async function handleFormSubmit(event: Event) {
   event.preventDefault();
 
-  const availabilityData: String = {};
-  // const availabilityData: Record<string, boolean> = {};
+  const commentValue = comment.value;
+  const userId = user._id;
+
+  // const availabilityData: String = {};
+  const availabilityData: Record<string, boolean> = {};
 
   buttons.forEach((button) => {
     const day = button.getAttribute("data-day");
@@ -49,9 +52,6 @@ async function handleFormSubmit(event: Event) {
       availabilityData[day] = isAvailable;
     }
   });
-
-  const commentValue = comment.value;
-  const userId = user._id;
 
   try {
     const response = await fetch(`/api/availability/update`, {

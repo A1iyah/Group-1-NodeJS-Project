@@ -74,13 +74,14 @@ function toggleButton(event) {
 // Handle form button -
 function handleFormSubmit(event) {
     return __awaiter(this, void 0, void 0, function () {
-        var availabilityData, commentValue, userId, response, error_1;
+        var commentValue, userId, availabilityData, response, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     event.preventDefault();
+                    commentValue = comment.value;
+                    userId = user._id;
                     availabilityData = {};
-                    // const availabilityData: Record<string, boolean> = {};
                     buttons.forEach(function (button) {
                         var day = button.getAttribute("data-day");
                         var isAvailable = button.textContent === "can";
@@ -88,8 +89,6 @@ function handleFormSubmit(event) {
                             availabilityData[day] = isAvailable;
                         }
                     });
-                    commentValue = comment.value;
-                    userId = user._id;
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
