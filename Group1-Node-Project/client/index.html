@@ -9,7 +9,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./style.css" />
     <script src="./dist/index.js" defer></script>
     <title>LOGIN</title>
   </head>
@@ -26,6 +26,7 @@
           required
         />
         <br />
+
         <input
           class="login__password"
           type="string"
@@ -33,12 +34,15 @@
           placeholder="Password"
           required
         />
-        <select name="role">
+        <br />
+
+        <select name="role" class="login__select-dropdown">
           <option value="employee">Employee</option>
           <option value="manager">Manager</option>
           <option value="admin">Admin</option>
         </select>
       </div>
+
       <br />
       <button class="login__submit" type="submit" value="Login">Login</button>
     </form>

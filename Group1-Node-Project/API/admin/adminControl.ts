@@ -17,7 +17,7 @@ export const login = async (req: any, res: any) => {
 
     if (!adminDB) throw new Error("Username or password are incorrect");
     if (!secret) throw new Error("no token");
-    const token = jwt.encode({ adminId: adminDB._id, role: "public" }, secret);
+    const token = jwt.encode({ adminId: adminDB._id, role: "admin" }, secret);
     console.log(token);
 
     res.cookie("admin", token, { maxAge: 500000000, httpOnly: true });

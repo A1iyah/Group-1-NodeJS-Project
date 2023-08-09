@@ -48,44 +48,47 @@ function main() {
     });
 }
 main();
+//
+var buttons = document.querySelectorAll(".availability-button");
+var comment = document.getElementById("comment");
+var form = document.getElementById("availabilityForm");
+var submitBtn = document.querySelector(".submit-btn");
+// Onclick for each check button -
 document.addEventListener("DOMContentLoaded", function () {
-    var buttons = Array.from(document.querySelectorAll(".availability-button"));
-    var form = document.getElementById("availabilityForm");
     buttons.forEach(function (button) {
         button.addEventListener("click", toggleButton);
     });
     form.addEventListener("submit", handleFormSubmit);
 });
-////////////////////////////////////////////////////////
+// Toggle function -
 function toggleButton(event) {
     var clickedButton = event.target;
     var day = clickedButton.getAttribute("data-day");
-    if (clickedButton.textContent === "✅") {
-        clickedButton.textContent = "❌";
+    if (clickedButton.textContent === "can") {
+        clickedButton.textContent = "can't";
     }
     else {
-        clickedButton.textContent = "✅";
+        clickedButton.textContent = "can";
     }
 }
-////////////////////////////////////////////////////////
+// Handle form button -
 function handleFormSubmit(event) {
     return __awaiter(this, void 0, void 0, function () {
-        var buttons, availabilityData, comment, commentValue, response, error_1;
+        var commentValue, userId, availabilityData, response, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     event.preventDefault();
-                    buttons = Array.from(document.querySelectorAll(".availability-button"));
+                    commentValue = comment.value;
+                    userId = user._id;
                     availabilityData = {};
                     buttons.forEach(function (button) {
                         var day = button.getAttribute("data-day");
-                        var isAvailable = button.textContent === "✅";
+                        var isAvailable = button.textContent === "can";
                         if (day) {
                             availabilityData[day] = isAvailable;
                         }
                     });
-                    comment = document.getElementById("comment");
-                    commentValue = comment.value;
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
@@ -94,7 +97,7 @@ function handleFormSubmit(event) {
                             headers: {
                                 "Content-Type": "application/json"
                             },
-                            body: JSON.stringify({ availabilityData: availabilityData, commentValue: commentValue })
+                            body: JSON.stringify({ availabilityData: availabilityData, commentValue: commentValue, userId: userId })
                         })];
                 case 2:
                     response = _a.sent();

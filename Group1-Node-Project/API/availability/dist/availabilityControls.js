@@ -39,24 +39,56 @@ exports.__esModule = true;
 exports.updateAvailability = void 0;
 var availabilityModel_1 = require("./availabilityModel");
 exports.updateAvailability = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, weekData, error_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _a, availabilityData, commentValue, userId, updateObject, _b, _c, _i, day, update, update, week, error_1;
+    var _d;
+    return __generator(this, function (_e) {
+        switch (_e.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                _id = req.params._id;
-                weekData = req.body.weekData;
-                return [4 /*yield*/, availabilityModel_1.WeekModel.findOneAndUpdate({ _id: _id }, weekData, { upsert: true })];
+                _e.trys.push([0, 8, , 9]);
+                console.log(req.body);
+                _a = req.body, availabilityData = _a.availabilityData, commentValue = _a.commentValue, userId = _a.userId;
+                updateObject = {};
+                _b = [];
+                for (_c in availabilityData)
+                    _b.push(_c);
+                _i = 0;
+                _e.label = 1;
             case 1:
-                _a.sent();
-                res.status(200).send("Availability updated successfully");
-                return [3 /*break*/, 3];
+                if (!(_i < _b.length)) return [3 /*break*/, 4];
+                day = _b[_i];
+                if (!availabilityData[day]) return [3 /*break*/, 3];
+                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d38a0680e3dcb7fbd1a67b", { $push: (_d = {}, _d[day] = userId, _d) }, { "new": true })];
             case 2:
-                error_1 = _a.sent();
+                update = _e.sent();
+                _e.label = 3;
+            case 3:
+                _i++;
+                return [3 /*break*/, 1];
+            case 4:
+                if (!commentValue) return [3 /*break*/, 6];
+                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d38a0680e3dcb7fbd1a67b", {
+                        $push: {
+                            comment: {
+                                user: userId,
+                                comment: commentValue
+                            }
+                        }
+                    }, { "new": true })];
+            case 5:
+                update = _e.sent();
+                _e.label = 6;
+            case 6: return [4 /*yield*/, availabilityModel_1.WeekModel.findById("64d38a0680e3dcb7fbd1a67b")];
+            case 7:
+                week = _e.sent();
+                console.log(week);
+                res.status(200).send("Availability updated successfully");
+                return [3 /*break*/, 9];
+            case 8:
+                error_1 = _e.sent();
                 console.error(error_1);
                 res.status(500).send("Error updating availability");
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 9];
+            case 9: return [2 /*return*/];
         }
     });
 }); };

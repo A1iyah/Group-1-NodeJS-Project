@@ -53,6 +53,7 @@ var startEndShift = document.querySelector(".shift__startEndShift");
 var startEndButtonS = document.querySelector(".shift__startEndShift__start");
 var startEndButtonE = document.querySelector(".shift__startEndShift__end");
 var startEndClock = document.querySelector(".shift__startEndShift__clock");
+var moveToShiftSchedule = document.querySelector(".moveToShiftSchedule");
 var userDB = null;
 function handleLoadEmployee() {
     return __awaiter(this, void 0, void 0, function () {
@@ -138,3 +139,8 @@ function stopClock() {
         });
     }
 }
+moveToShiftSchedule.addEventListener("click", function (e) {
+    var url = new URL("../shift-schedule-page/shiftSchedule.html", window.location.href);
+    console.log("new URL:", url.href);
+    window.location.href = url.href;
+});

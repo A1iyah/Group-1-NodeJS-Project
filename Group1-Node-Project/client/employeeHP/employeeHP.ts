@@ -23,6 +23,10 @@ const startEndClock = document.querySelector(
   ".shift__startEndShift__clock"
 ) as HTMLDivElement;
 
+const moveToShiftSchedule = document.querySelector(
+  ".moveToShiftSchedule"
+) as HTMLButtonElement;
+
 let userDB = null;
 
 async function handleLoadEmployee() {
@@ -104,3 +108,12 @@ function stopClock() {
     });
   }
 }
+
+moveToShiftSchedule.addEventListener("click", (e) => {
+  const url = new URL(
+    "../shift-schedule-page/shiftSchedule.html",
+    window.location.href
+  );
+  console.log("new URL:", url.href);
+  window.location.href = url.href;
+});

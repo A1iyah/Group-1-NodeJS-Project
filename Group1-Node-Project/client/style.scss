@@ -1,5 +1,4 @@
 @import "./styles/variety";
-@import "./common/_nav-bar";
 
 * {
   margin: 0;
@@ -9,10 +8,43 @@
   font-size: 18px;
 }
 
+// Navbar -
+.nav-bar {
+  width: 100vw;
+  height: 55px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: black;
+  color: white;
+
+  &__links-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__link {
+    margin-right: 35px;
+    cursor: pointer;
+
+    &--bold {
+      font-weight: 700;
+    }
+
+    &:hover {
+      color: $mainBlue;
+      cursor: pointer;
+    }
+  }
+}
+
 // Login page -
 .login {
   @include centerDiv;
-  width: 400px;
+  width: 350px;
   height: 400px;
   @include boxShadow;
 
@@ -40,14 +72,13 @@
     bottom: 30px;
     left: 50%;
     transform: translate(-50%);
-    padding: 5px 20px;
     @include buttonDesign;
 
-    a {
-      font-size: 20px;
-      text-decoration: none;
-      color: white;
-    }
+    // a {
+    //   font-size: 20px;
+    //   text-decoration: none;
+    //   color: white;
+    // }
   }
 
   &__submit:hover {
@@ -57,31 +88,133 @@
       color: black;
     }
   }
+
+  select {
+    @include inputShadow;
+    @include flexibleCenter(absolute, 100%, 50%, -50%, 0);
+    background: $mainBlue;
+    color: black;
+    cursor: pointer;
+    border-radius: 3px;
+  }
 }
-//
 
 // Start / end shift page -
 .shift {
-  border: 2px solid black;
-
+  @include boxShadow;
   @include centerDiv;
   width: 70%;
   height: 70%;
   text-align: center;
+  letter-spacing: 1px;
+  cursor: default;
 
   &__title {
-    font-size: 30px;
+    @include headerCenter;
+
+    span {
+      font-size: 40px;
+      color: $mainBlue;
+      text-shadow: 2px 2px 15px white;
+    }
   }
 
   &__date {
-    border: 2px solid black;
+    font-size: 30px;
     width: 200px;
-    height: 100px;
-    @include flexibleCenter(absolute, 20%, 50%, -50%, -20%);
+    @include flexibleCenter(absolute, 38%, 50%, -50%, -38%);
+    @include inputShadow;
   }
 
-  &__form__start,
-  &__form__end {
-    margin-top: 150px;
+  &__startEndShift__clock {
+    @include flexibleCenter(absolute, 65%, 50%, -50%, -65%);
+    font-size: 30px;
+  }
+
+  &__startEndShift__start,
+  &__startEndShift__end {
+    @include flexibleCenter(absolute, 85%, 50%, -50%, -85%);
+    @include buttonDesign;
+    font-size: 25px;
+  }
+
+  &__startEndShift__start:hover,
+  &__startEndShift__end:hover {
+    @include buttonHover;
   }
 }
+
+// Availability page -
+#availabilityForm {
+  h1 {
+    @include headerCenter;
+  }
+
+  #comment {
+    @include flexibleCenter(absolute, 62%, 20%, -20%, -62%);
+    @include boxShadow;
+    padding: 10px;
+  }
+
+  .submit-btn {
+    @include buttonDesign;
+    @include flexibleCenter(absolute, 60%, 80%, -80%, -60%);
+    display: flex;
+
+    .save {
+      padding-left: 5px;
+    }
+  }
+
+  .submit-btn:hover {
+    @include buttonHover;
+  }
+}
+
+.availabilityForm__table {
+  width: 70%;
+  @include flexibleCenter(absolute, 40%, 50%, -50%, -40%);
+  @include boxShadow;
+
+  thead {
+    display: flex;
+    justify-content: end;
+    @include chartShadow;
+
+    th {
+      width: 148px;
+      font-size: 30px;
+      padding: 10px;
+    }
+  }
+
+  tbody {
+    display: flex;
+    justify-content: end;
+    @include chartShadow;
+
+    td {
+      width: 150px;
+      font-size: 25px;
+      padding: 10px;
+      text-align: center;
+
+      button {
+        font-size: 25px;
+        padding: 10px;
+        border-radius: 50%;
+        border: none;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+          rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+          rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+        transition: all 0.5s ease-in-out;
+        cursor: pointer;
+      }
+
+      button:hover {
+        @include buttonHover;
+      }
+    }
+  }
+}
+//
