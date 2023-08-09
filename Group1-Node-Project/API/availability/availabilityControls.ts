@@ -4,8 +4,8 @@ import { WeekModel } from "./availabilityModel";
 export const updateAvailability = async (req: any, res: any) => {
   try {
     console.log(req.body);
-    const { availabilityData, commentValue } = req.body;
-    const userId = req.body;
+    const { availabilityData, commentValue, userId } = req.body;
+    // const userId = req.body;
 
     const updateObject: any = {};
 

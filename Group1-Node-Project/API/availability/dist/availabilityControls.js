@@ -45,8 +45,7 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
             case 0:
                 _b.trys.push([0, 2, , 3]);
                 console.log(req.body);
-                _a = req.body, availabilityData = _a.availabilityData, commentValue = _a.commentValue;
-                userId = req.body;
+                _a = req.body, availabilityData = _a.availabilityData, commentValue = _a.commentValue, userId = _a.userId;
                 updateObject = {};
                 // Loop through each day in availabilityData
                 for (day in availabilityData) {
