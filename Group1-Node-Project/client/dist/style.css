@@ -189,6 +189,10 @@
   top: 60%;
   left: 80%;
   transform: translate(-80%, -60%);
+  display: flex;
+}
+#availabilityForm .submit-btn .save {
+  padding-left: 5px;
 }
 #availabilityForm .submit-btn:hover {
   background-color: #16e7e7;

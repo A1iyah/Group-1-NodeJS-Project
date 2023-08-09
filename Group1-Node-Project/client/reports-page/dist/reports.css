@@ -1,8 +1,0 @@
-.salaryReports {
-  display: flex;
-  justify-content: space-between;
-  width: 80%;
-}
-.salaryReports__between__input {
-  width: 350px;
-}

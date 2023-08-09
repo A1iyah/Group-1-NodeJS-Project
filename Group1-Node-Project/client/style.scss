@@ -1,5 +1,4 @@
 @import "./styles/variety";
-@import "./common/_nav-bar";
 
 * {
   margin: 0;
@@ -14,7 +13,6 @@
   width: 100vw;
   height: 55px;
   padding: 0 20px;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -74,7 +72,6 @@
     bottom: 30px;
     left: 50%;
     transform: translate(-50%);
-    // padding: 5px 20px;
     @include buttonDesign;
 
     // a {
@@ -101,7 +98,6 @@
     border-radius: 3px;
   }
 }
-//
 
 // Start / end shift page -
 .shift {
@@ -163,6 +159,11 @@
   .submit-btn {
     @include buttonDesign;
     @include flexibleCenter(absolute, 60%, 80%, -80%, -60%);
+    display: flex;
+
+    .save {
+      padding-left: 5px;
+    }
   }
 
   .submit-btn:hover {
@@ -171,8 +172,6 @@
 }
 
 .availabilityForm__table {
-  // border: 2px solid red;
-
   width: 70%;
   @include flexibleCenter(absolute, 40%, 50%, -50%, -40%);
   @include boxShadow;
@@ -183,8 +182,6 @@
     @include chartShadow;
 
     th {
-      // border: 2px solid red;
-
       width: 148px;
       font-size: 30px;
       padding: 10px;
@@ -197,8 +194,6 @@
     @include chartShadow;
 
     td {
-      // border: 2px solid red;
-
       width: 150px;
       font-size: 25px;
       padding: 10px;
@@ -222,3 +217,4 @@
     }
   }
 }
+//
