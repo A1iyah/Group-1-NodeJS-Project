@@ -72,7 +72,8 @@ const renderNavBar = (navBarElem: HTMLDivElement) => {
                 <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
                 <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employee-list-page/employeePage.html')">Employees</p>
                 <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
-                </div>`;
+                </div>
+                <p class="nav-bar__user-name">${user.name}</p>`;
       navBarElem.innerHTML = navBarHtml;
       break;
     case UserType.Manager:
@@ -82,7 +83,8 @@ const renderNavBar = (navBarElem: HTMLDivElement) => {
                 <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
                 <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employee-list-page/employeePage.html')">Employees</p>
                 <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
-                </div>`;
+                </div>
+                <p class="nav-bar__user-name">${user.name}</p>`;
       navBarElem.innerHTML = navBarHtml;
       break;
 
@@ -93,7 +95,8 @@ const renderNavBar = (navBarElem: HTMLDivElement) => {
                 <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
                 <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employee-list-page/employeePage.html')">Employees</p>
                 <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
-                </div>`;
+                </div>
+                <p class="nav-bar__user-name">${user.name}</p>`;
       navBarElem.innerHTML = navBarHtml;
   }
 
