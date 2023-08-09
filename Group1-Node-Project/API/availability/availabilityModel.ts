@@ -9,7 +9,7 @@ const weekSchema = new Schema({
   friday: [],
   saturday: [],
 
-  comment: String,
+  comment: [],
 });
 
 export const WeekModel = mongoose.model("Week", weekSchema);

@@ -10,7 +10,7 @@ var weekSchema = new mongoose_1.Schema({
     thursday: [],
     friday: [],
     saturday: [],
-    comment: String
+    comment: []
 });
 exports.WeekModel = mongoose_1["default"].model("Week", weekSchema);
 exports["default"] = exports.WeekModel;
