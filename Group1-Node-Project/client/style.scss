@@ -45,7 +45,7 @@
 // Login page -
 .login {
   @include centerDiv;
-  width: 400px;
+  width: 350px;
   height: 400px;
   @include boxShadow;
 
@@ -73,7 +73,7 @@
     bottom: 30px;
     left: 50%;
     transform: translate(-50%);
-    padding: 5px 20px;
+    // padding: 5px 20px;
     @include buttonDesign;
 
     // a {
@@ -104,26 +104,45 @@
 
 // Start / end shift page -
 .shift {
-  border: 2px solid black;
-
+  @include boxShadow;
   @include centerDiv;
   width: 70%;
   height: 70%;
   text-align: center;
+  letter-spacing: 1px;
+  cursor: default;
 
   &__title {
     font-size: 30px;
+    margin: 40px 0;
+
+    span {
+      font-size: 30px;
+      color: $mainBlue;
+      text-shadow: 2px 2px 15px white;
+    }
   }
 
   &__date {
-    border: 2px solid black;
+    font-size: 28px;
     width: 200px;
-    height: 100px;
-    @include flexibleCenter(absolute, 20%, 50%, -50%, -20%);
+    @include flexibleCenter(absolute, 38%, 50%, -50%, -38%);
+    @include inputShadow;
   }
 
-  &__form__start,
-  &__form__end {
-    margin-top: 150px;
+  &__startEndShift__clock {
+    @include flexibleCenter(absolute, 65%, 50%, -50%, -65%);
+    font-size: 22px;
+  }
+
+  &__startEndShift__start,
+  &__startEndShift__end {
+    @include flexibleCenter(absolute, 85%, 50%, -50%, -85%);
+    @include buttonDesign;
+  }
+
+  &__startEndShift__start:hover,
+  &__startEndShift__end:hover {
+    @include buttonHover;
   }
 }

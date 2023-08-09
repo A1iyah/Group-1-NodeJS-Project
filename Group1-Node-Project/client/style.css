@@ -38,7 +38,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
+  width: 350px;
   height: 400px;
   border: none;
   border-radius: 10px;
@@ -61,16 +61,17 @@
   margin-bottom: 20px;
   width: 250px;
   border: none;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 .login__submit {
   position: absolute;
   bottom: 30px;
   left: 50%;
   transform: translate(-50%);
-  padding: 5px 20px;
   background-color: black;
   color: white;
+  padding: 5px 20px;
   border: none;
   border-radius: 5px;
   box-shadow: rgba(64, 64, 64, 0.724) 0px 5px 15px;
@@ -86,7 +87,8 @@
 }
 .login select {
   border: none;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   position: absolute;
   top: 100%;
   left: 50%;
@@ -98,7 +100,9 @@
 }
 
 .shift {
-  border: 2px solid black;
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -106,19 +110,51 @@
   width: 70%;
   height: 70%;
   text-align: center;
+  letter-spacing: 1px;
+  cursor: default;
 }
 .shift__title {
   font-size: 30px;
+  margin: 40px 0;
+}
+.shift__title span {
+  font-size: 30px;
+  color: rgb(22, 231, 231);
+  text-shadow: 2px 2px 15px white;
 }
 .shift__date {
-  border: 2px solid black;
+  font-size: 28px;
   width: 200px;
-  height: 100px;
   position: absolute;
-  top: 20%;
+  top: 38%;
   left: 50%;
-  transform: translate(-50%, -20%);
+  transform: translate(-50%, -38%);
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
-.shift__form__start, .shift__form__end {
-  margin-top: 150px;
+.shift__startEndShift__clock {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -65%);
+  font-size: 22px;
+}
+.shift__startEndShift__start, .shift__startEndShift__end {
+  position: absolute;
+  top: 85%;
+  left: 50%;
+  transform: translate(-50%, -85%);
+  background-color: black;
+  color: white;
+  padding: 5px 20px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: rgba(64, 64, 64, 0.724) 0px 5px 15px;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+}
+.shift__startEndShift__start:hover, .shift__startEndShift__end:hover {
+  background-color: rgb(22, 231, 231);
+  color: black;
 }/*# sourceMappingURL=style.css.map */

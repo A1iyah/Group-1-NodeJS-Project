@@ -22,12 +22,15 @@
 
 @mixin inputShadow {
   border: none;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
 @mixin buttonDesign {
   background-color: black;
   color: white;
+  padding: 5px 20px;
   border: none;
   border-radius: 5px;
   box-shadow: rgba(64, 64, 64, 0.724) 0px 5px 15px;

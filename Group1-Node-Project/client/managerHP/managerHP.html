@@ -19,15 +19,18 @@
     <div class="nav-bar"></div>
 
     <div class="shift">
-      <h2 class="shift__title">Welcome <span id="userName"></span></h2>
+      <h2 class="shift__title">Welcome, <span id="userName"></span></h2>
+
       <h4 class="shift__date"></h4>
 
       <div class="shift__startEndShift">
+        <div class="shift__startEndShift__clock">00:00:00</div>
+
         <button class="shift__startEndShift__start">Start Shift</button>
+
         <button class="shift__startEndShift__end" style="display: none">
           End Shift
         </button>
-        <div class="shift__startEndShift__clock">00:00:00</div>
       </div>
       <!-- <form class="shift__form" onsubmit="HandleShiftSum(event)">
         <input
