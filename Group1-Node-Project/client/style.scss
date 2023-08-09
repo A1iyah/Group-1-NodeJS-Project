@@ -114,18 +114,17 @@
   cursor: default;
 
   &__title {
-    font-size: 30px;
-    margin: 40px 0;
+    @include headerCenter;
 
     span {
-      font-size: 30px;
+      font-size: 40px;
       color: $mainBlue;
       text-shadow: 2px 2px 15px white;
     }
   }
 
   &__date {
-    font-size: 28px;
+    font-size: 30px;
     width: 200px;
     @include flexibleCenter(absolute, 38%, 50%, -50%, -38%);
     @include inputShadow;
@@ -133,13 +132,14 @@
 
   &__startEndShift__clock {
     @include flexibleCenter(absolute, 65%, 50%, -50%, -65%);
-    font-size: 22px;
+    font-size: 30px;
   }
 
   &__startEndShift__start,
   &__startEndShift__end {
     @include flexibleCenter(absolute, 85%, 50%, -50%, -85%);
     @include buttonDesign;
+    font-size: 25px;
   }
 
   &__startEndShift__start:hover,
@@ -149,45 +149,75 @@
 }
 
 // Availability page -
+#availabilityForm {
+  h1 {
+    @include headerCenter;
+  }
+
+  #comment {
+    @include flexibleCenter(absolute, 62%, 20%, -20%, -62%);
+    @include boxShadow;
+    padding: 10px;
+  }
+
+  .submit-btn {
+    @include buttonDesign;
+    @include flexibleCenter(absolute, 60%, 80%, -80%, -60%);
+  }
+
+  .submit-btn:hover {
+    @include buttonHover;
+  }
+}
+
 .availabilityForm__table {
-  margin: 0 auto;
-  text-align: center;
-  width: 100%;
+  // border: 2px solid red;
+
+  width: 70%;
+  @include flexibleCenter(absolute, 40%, 50%, -50%, -40%);
+  @include boxShadow;
 
   thead {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: end;
+    @include chartShadow;
 
     th {
-      flex: 1;
+      // border: 2px solid red;
+
+      width: 148px;
+      font-size: 30px;
+      padding: 10px;
     }
   }
 
   tbody {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: end;
+    @include chartShadow;
 
-    tr {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      width: 100%;
+    td {
+      // border: 2px solid red;
 
-      td {
-        flex: 1;
+      width: 150px;
+      font-size: 25px;
+      padding: 10px;
+      text-align: center;
+
+      button {
+        font-size: 25px;
         padding: 10px;
+        border-radius: 50%;
+        border: none;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+          rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+          rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+        transition: all 0.5s ease-in-out;
+        cursor: pointer;
+      }
 
-        &.availabilityForm__table__dayShift {
-          text-align: left;
-          flex: 0.5;
-        }
-
-        button {
-          width: 100%;
-          box-sizing: border-box;
-        }
+      button:hover {
+        @include buttonHover;
       }
     }
   }
