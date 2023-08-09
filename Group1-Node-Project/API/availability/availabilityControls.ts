@@ -5,15 +5,14 @@ export const updateAvailability = async (req: any, res: any) => {
   try {
     console.log(req.body);
     const { availabilityData, commentValue, userId } = req.body;
-    // const userId = req.body;
-    console.log(userId);
+    // console.log(userId);
 
     const updateObject: any = {};
 
     // Loop through each day in availabilityData
     for (const day in availabilityData) {
       if (availabilityData[day]) {
-        console.log(day);
+        // console.log(day);
 
         const update = await WeekModel.findByIdAndUpdate(
           "64d38a0680e3dcb7fbd1a67b",

@@ -47,8 +47,6 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                 _e.trys.push([0, 8, , 9]);
                 console.log(req.body);
                 _a = req.body, availabilityData = _a.availabilityData, commentValue = _a.commentValue, userId = _a.userId;
-                // const userId = req.body;
-                console.log(userId);
                 updateObject = {};
                 _b = [];
                 for (_c in availabilityData)
@@ -59,7 +57,6 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                 if (!(_i < _b.length)) return [3 /*break*/, 4];
                 day = _b[_i];
                 if (!availabilityData[day]) return [3 /*break*/, 3];
-                console.log(day);
                 return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d38a0680e3dcb7fbd1a67b", { $push: (_d = {}, _d[day] = userId, _d) }, { "new": true })];
             case 2:
                 update = _e.sent();

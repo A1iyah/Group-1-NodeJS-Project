@@ -12,6 +12,12 @@
   transform: translate($minusLeft, $minusTop);
 }
 
+@mixin headerCenter {
+  font-size: 50px;
+  text-align: center;
+  margin-top: 40px;
+}
+
 @mixin boxShadow {
   border: none;
   border-radius: 10px;
@@ -27,6 +33,12 @@
     rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
+@mixin chartShadow {
+  border: none;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
 @mixin buttonDesign {
   background-color: black;
   color: white;
@@ -39,7 +51,7 @@
 }
 
 @mixin buttonHover {
-  background-color: rgb(22, 231, 231);
+  background-color: $mainBlue;
   color: black;
 }
 

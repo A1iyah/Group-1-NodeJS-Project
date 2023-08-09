@@ -114,16 +114,17 @@
   cursor: default;
 }
 .shift__title {
-  font-size: 30px;
-  margin: 40px 0;
+  font-size: 50px;
+  text-align: center;
+  margin-top: 40px;
 }
 .shift__title span {
-  font-size: 30px;
+  font-size: 40px;
   color: rgb(22, 231, 231);
   text-shadow: 2px 2px 15px white;
 }
 .shift__date {
-  font-size: 28px;
+  font-size: 30px;
   width: 200px;
   position: absolute;
   top: 38%;
@@ -138,7 +139,7 @@
   top: 65%;
   left: 50%;
   transform: translate(-50%, -65%);
-  font-size: 22px;
+  font-size: 30px;
 }
 .shift__startEndShift__start, .shift__startEndShift__end {
   position: absolute;
@@ -153,45 +154,90 @@
   box-shadow: rgba(64, 64, 64, 0.724) 0px 5px 15px;
   transition: all 0.5s ease-in-out;
   cursor: pointer;
+  font-size: 25px;
 }
 .shift__startEndShift__start:hover, .shift__startEndShift__end:hover {
   background-color: rgb(22, 231, 231);
   color: black;
 }
 
-.availabilityForm__table {
-  margin: 0 auto;
+#availabilityForm h1 {
+  font-size: 50px;
   text-align: center;
-  width: 100%;
+  margin-top: 40px;
+}
+#availabilityForm #comment {
+  position: absolute;
+  top: 62%;
+  left: 20%;
+  transform: translate(-20%, -62%);
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  padding: 10px;
+}
+#availabilityForm .submit-btn {
+  background-color: black;
+  color: white;
+  padding: 5px 20px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: rgba(64, 64, 64, 0.724) 0px 5px 15px;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+  position: absolute;
+  top: 60%;
+  left: 80%;
+  transform: translate(-80%, -60%);
+}
+#availabilityForm .submit-btn:hover {
+  background-color: rgb(22, 231, 231);
+  color: black;
+}
+
+.availabilityForm__table {
+  width: 70%;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 .availabilityForm__table thead {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: end;
+  border: none;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 .availabilityForm__table thead th {
-  flex: 1;
+  width: 148px;
+  font-size: 30px;
+  padding: 10px;
 }
 .availabilityForm__table tbody {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: end;
+  border: none;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
-.availabilityForm__table tbody tr {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-}
-.availabilityForm__table tbody tr td {
-  flex: 1;
+.availabilityForm__table tbody td {
+  width: 150px;
+  font-size: 25px;
   padding: 10px;
+  text-align: center;
 }
-.availabilityForm__table tbody tr td.availabilityForm__table__dayShift {
-  text-align: left;
-  flex: 0.5;
+.availabilityForm__table tbody td button {
+  font-size: 25px;
+  padding: 10px;
+  border-radius: 50%;
+  border: none;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
 }
-.availabilityForm__table tbody tr td button {
-  width: 100%;
-  box-sizing: border-box;
+.availabilityForm__table tbody td button:hover {
+  background-color: rgb(22, 231, 231);
+  color: black;
 }/*# sourceMappingURL=style.css.map */
