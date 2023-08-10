@@ -145,9 +145,21 @@
 }
 
 // Availability page -
-#availabilityForm {
+.availabilityForm {
   h1 {
     @include headerCenter;
+  }
+
+  &__date {
+    @include flexibleCenter(absolute, 20%, 50%, -50%, -20%);
+    font-size: 25px;
+    border-bottom: 2px solid $mainBlue;
+  }
+
+  &__chartDate {
+    width: 150px;
+    text-align: center;
+    border: 1px solid green;
   }
 
   #comment {
@@ -169,52 +181,53 @@
   .submit-btn:hover {
     @include buttonHover;
   }
-}
 
-.availabilityForm__table {
-  width: 70%;
-  @include flexibleCenter(absolute, 40%, 50%, -50%, -40%);
-  @include boxShadow;
+  &__table {
+    width: 70%;
+    @include flexibleCenter(absolute, 40%, 50%, -50%, -40%);
+    @include boxShadow;
 
-  thead {
-    display: flex;
-    justify-content: end;
-    @include chartShadow;
+    thead {
+      display: flex;
+      justify-content: end;
+      @include chartShadow;
 
-    th {
-      width: 148px;
-      font-size: 30px;
-      padding: 10px;
+      th {
+        width: 148px;
+        font-size: 30px;
+        padding: 10px;
+      }
     }
-  }
 
-  tbody {
-    display: flex;
-    justify-content: end;
-    @include chartShadow;
+    tbody {
+      display: flex;
+      justify-content: end;
+      @include chartShadow;
 
-    td {
-      width: 150px;
-      font-size: 25px;
-      padding: 10px;
-      text-align: center;
-
-      button {
+      td {
+        width: 150px;
         font-size: 25px;
         padding: 10px;
-        border-radius: 50%;
-        border: none;
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-          rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
-          rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-        transition: all 0.5s ease-in-out;
-        cursor: pointer;
-      }
+        text-align: center;
 
-      button:hover {
-        @include buttonHover;
+        button {
+          font-size: 25px;
+          padding: 10px;
+          border-radius: 50%;
+          border: none;
+          box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+            rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+            rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+          transition: all 0.5s ease-in-out;
+          cursor: pointer;
+        }
+
+        button:hover {
+          @include buttonHover;
+        }
       }
     }
   }
 }
+
 //

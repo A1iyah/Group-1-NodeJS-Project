@@ -51,15 +51,49 @@ main();
 //
 var buttons = document.querySelectorAll(".availability-button");
 var comment = document.getElementById("comment");
-var form = document.getElementById("availabilityForm");
+var form = document.querySelector(".availabilityForm");
 var submitBtn = document.querySelector(".submit-btn");
-// Onclick for each check button -
-document.addEventListener("DOMContentLoaded", function () {
-    buttons.forEach(function (button) {
-        button.addEventListener("click", toggleButton);
+var availabilityDate = document.querySelector(".availabilityForm__date");
+var chartDates = document.querySelector(".availabilityForm__chartDates");
+// Set up week dates -
+function setupWeekDates() {
+    var weekDatesDiv = document.getElementById("weekDates");
+    var _a = getCurrentWeekDates(), sunday = _a.sunday, saturday = _a.saturday;
+    weekDatesDiv.textContent = "<" + formatDate(sunday) + " - " + formatDate(saturday) + ">";
+}
+// Get current Sunday and Saturday dates -
+function getCurrentWeekDates() {
+    var today = new Date();
+    var dayOfWeek = today.getDay();
+    var sunday = new Date(today);
+    sunday.setDate(today.getDate() - dayOfWeek);
+    var saturday = new Date(today);
+    saturday.setDate(today.getDate() + (6 - dayOfWeek));
+    return { sunday: sunday, saturday: saturday };
+}
+// Format the date -
+function formatDate(date) {
+    var options = { month: "short", day: "numeric" };
+    return date.toLocaleDateString(undefined, options);
+}
+// Chart dates -
+function updateChartDates() {
+    var dayElements = document.querySelectorAll(".availabilityForm__table th:not(:first-child)");
+    var sunday = getCurrentWeekDates().sunday;
+    dayElements.forEach(function (dayElement, index) {
+        var _a;
+        var currentDate = new Date(sunday);
+        currentDate.setDate(sunday.getDate() + index);
+        var month = currentDate.getMonth() + 1;
+        var dayOfMonth = currentDate.getDate();
+        var dateClassName = "availabilityForm__chartDate";
+        var dateElement = document.createElement("div");
+        dateElement.classList.add(dateClassName);
+        dateElement.textContent = dayOfMonth + "." + month;
+        (_a = dayElement.parentElement) === null || _a === void 0 ? void 0 : _a.appendChild(dateElement);
     });
-    form.addEventListener("submit", handleFormSubmit);
-});
+}
+updateChartDates();
 // Toggle function -
 function toggleButton(event) {
     var clickedButton = event.target;
@@ -71,7 +105,7 @@ function toggleButton(event) {
         clickedButton.textContent = "can";
     }
 }
-// Handle form button -
+// Handle form submit -
 function handleFormSubmit(event) {
     return __awaiter(this, void 0, void 0, function () {
         var commentValue, userId, availabilityData, response, error_1;
@@ -117,3 +151,21 @@ function handleFormSubmit(event) {
         });
     });
 }
+document.addEventListener("DOMContentLoaded", function () {
+    buttons.forEach(function (button) {
+        button.addEventListener("click", toggleButton);
+    });
+    setupWeekDates();
+    form.addEventListener("submit", handleFormSubmit);
+});
+// Chart dates -
+// function days() {
+//   const today = new Date();
+//   let week = Array.from(Array(7).keys()).map((idx) => {
+//     const d = new Date();
+//     d.setDate(d.getDate() - d.getDay() + idx);
+//     return d;
+//   });
+//   chartDates.innerHTML = week;
+// }
+// days();
