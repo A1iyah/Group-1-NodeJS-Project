@@ -43,9 +43,28 @@ function main() {
                 case 1:
                     _a.sent();
                     renderNavBar(navBarElement);
+                    renderWeekDisplayer();
+                    renderAllEmployeesPanel();
                     return [2 /*return*/];
             }
         });
     });
 }
 main();
+function testt(eve) {
+    eve.preventDefault();
+    console.log(eve.target.elements.name.value);
+    console.log("works");
+}
+/// calc. start and the end of dates of next week and renders them
+var renderWeekDisplayer = function () {
+    var weekStartElem = document.querySelector(".employees-panel__week-displayer__week-start");
+    var weekEndElem = document.querySelector(".employees-panel__week-displayer__week-end");
+    var todayDate = new Date();
+    var nextSunday = new Date(todayDate.getFullYear(), todayDate.getMonth(), (todayDate.getDate() - todayDate.getDay()) + 7).toDateString();
+    var nextSaturday = new Date(todayDate.getFullYear(), todayDate.getMonth(), (todayDate.getDate() + (6 - todayDate.getDay())) + 7).toDateString();
+    weekStartElem.innerHTML = nextSunday;
+    weekEndElem.innerHTML = nextSaturday;
+};
+var renderAllEmployeesPanel = function () {
+};

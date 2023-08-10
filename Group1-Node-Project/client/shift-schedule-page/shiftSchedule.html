@@ -9,16 +9,14 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../dist/style.css" />
     <script src="../common/dist/control.js" defer></script>
     <script src="./dist/shiftScheduleView.js" defer></script>
     <script src="./dist/shiftSchedule.js" defer></script>
     <title>Shift Schedule</title>
   </head>
-  <body onload="handleLoadAdmin(event)">
-    <div class="shift">
-      <h2 class="shift__title">Welcome <span id="userName"></span></h2>
-    </div>
+  <!-- <body onload="handleLoadAdmin(event)"> -->
+      <!-- <h2 class="shift__title">Welcome <span id="userName"></span></h2> -->
     
     <!-- Nav bar -->
     <div class="nav-bar"></div>
@@ -30,20 +28,30 @@
       <div class="employees-panel">
 
         <!-- Week dates -->
-        <div class="employees-panel__header">
-          <p>Sunday, August 8th - Saturday, August 12th</p>
+        <div class="employees-panel__week-displayer">
+          <p class="employees-panel__week-displayer__text"><span class="employees-panel__week-displayer__week-start">Sunday, August 8th</span> - <br><span class="employees-panel__week-displayer__week-end">Saturday, August 12th</span></p>
         </div>
 
         <!-- Employee search box -->
         <div class="employees-panel__search-box">
-          <div class="employees-panel__search-box__image"></div>
-          <div class="employees-panel__search-box__search-box"></div>
+          
+          <!-- <div class="employees-panel__search-box__search-box"> -->
+            <form onsubmit="testt(event)">
+              <input type="image" src="./images/magnifying-glass.png" alt="magnifying-glass" class="employees-panel__search-box__image">
+              <label for="name"></label>
+              <input type="text" name="name" class="employees-panel__search-box__text" value="Search employee">
+            </form>
+          <!-- </div> -->
         </div>
 
         <!-- Employees names and availability indication -->
         <div class="employees-panel__employees-list-container">
           <div class="employees-panel__employee-box">
-            <p class="employees-panel__employee-name">John Wick</p>
+            <p class="employees-panel__employee-name">Neo Meo</p>
+            <div class="employees-panel__employee-box__markings-container">
+              <p class="employees-panel__employee-box__allocations-count">2</p>
+              <img src="./images/green-v.png" alt="green-v" class="employees-panel__employee-box__availability-img">
+            </div>
           </div>
         </div>
 

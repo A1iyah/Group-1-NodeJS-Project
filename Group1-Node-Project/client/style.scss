@@ -217,4 +217,78 @@
     }
   }
 }
-//
+
+// Shifts scheduling page
+.main-sections-container{
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-template-rows: auto;
+  padding: 0 10px;
+  margin-top: 15px;
+}
+
+.employees-panel{
+  background-color: lightgray;
+  margin-right: 10px;
+
+  &__week-displayer{
+    background-color: rgb(185, 170, 170);
+  }
+
+  &__search-box{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    &__image{
+      margin-top: 5px;
+      width: 28px;
+      padding: 2px;
+    }
+  }
+
+  &__employees-list-container{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    
+  }
+
+  &__employee-box{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+
+    &__markings-container{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__allocations-count{
+      padding-right: 15px;
+    }
+    
+    &__availability-img{
+      width: 20px;
+    }
+
+    &:hover{
+      //border: 1px solid rgb(72, 72, 72);
+      
+      box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    }
+  }
+
+  
+}
+
+.shifts-panel{
+  background-color: lightgray;
+}
+
+
+
