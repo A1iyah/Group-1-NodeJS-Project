@@ -37,14 +37,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.updateAvailability = void 0;
+var moment_1 = require("moment");
 var availabilityModel_1 = require("./availabilityModel");
 exports.updateAvailability = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, availabilityData, commentValue, userId, updateObject, _b, _c, _i, day, update, update, week, error_1;
-    var _d;
-    return __generator(this, function (_e) {
-        switch (_e.label) {
+    var _a, availabilityData, commentValue, userId, updateObject, _b, _c, _i, day, update, update, week, _d, sunday, saturday, error_1;
+    var _e;
+    return __generator(this, function (_f) {
+        switch (_f.label) {
             case 0:
-                _e.trys.push([0, 8, , 9]);
+                _f.trys.push([0, 8, , 9]);
                 console.log(req.body);
                 _a = req.body, availabilityData = _a.availabilityData, commentValue = _a.commentValue, userId = _a.userId;
                 updateObject = {};
@@ -52,15 +53,15 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                 for (_c in availabilityData)
                     _b.push(_c);
                 _i = 0;
-                _e.label = 1;
+                _f.label = 1;
             case 1:
                 if (!(_i < _b.length)) return [3 /*break*/, 4];
                 day = _b[_i];
                 if (!availabilityData[day]) return [3 /*break*/, 3];
-                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d38a0680e3dcb7fbd1a67b", { $push: (_d = {}, _d[day] = userId, _d) }, { "new": true })];
+                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d38a0680e3dcb7fbd1a67b", { $push: (_e = {}, _e[day] = userId, _e) }, { "new": true })];
             case 2:
-                update = _e.sent();
-                _e.label = 3;
+                update = _f.sent();
+                _f.label = 3;
             case 3:
                 _i++;
                 return [3 /*break*/, 1];
@@ -75,16 +76,23 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                         }
                     }, { "new": true })];
             case 5:
-                update = _e.sent();
-                _e.label = 6;
+                update = _f.sent();
+                _f.label = 6;
             case 6: return [4 /*yield*/, availabilityModel_1.WeekModel.findById("64d38a0680e3dcb7fbd1a67b")];
             case 7:
-                week = _e.sent();
+                week = _f.sent();
                 console.log(week);
-                res.status(200).send("Availability updated successfully");
+                _d = getCurrentWeekDates(), sunday = _d.sunday, saturday = _d.saturday;
+                res.status(200).json({
+                    message: "Availability updated successfully",
+                    weekDates: {
+                        sunday: sunday.format("D.M"),
+                        saturday: saturday.format("D.M")
+                    }
+                });
                 return [3 /*break*/, 9];
             case 8:
-                error_1 = _e.sent();
+                error_1 = _f.sent();
                 console.error(error_1);
                 res.status(500).send("Error updating availability");
                 return [3 /*break*/, 9];
@@ -92,3 +100,10 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
         }
     });
 }); };
+// Get date -
+function getCurrentWeekDates() {
+    var today = moment_1["default"]();
+    var sunday = today.clone().startOf("week").add(0, "days");
+    var saturday = today.clone().startOf("week").add(6, "days");
+    return { sunday: sunday, saturday: saturday };
+}

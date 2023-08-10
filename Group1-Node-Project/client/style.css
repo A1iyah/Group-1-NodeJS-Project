@@ -81,6 +81,7 @@
 .login__submit:hover {
   background-color: rgb(22, 231, 231);
   color: black;
+  cursor: pointer;
 }
 .login__submit:hover a {
   color: black;
@@ -93,6 +94,7 @@
   top: 100%;
   left: 50%;
   transform: translate(-50%, 0);
+  cursor: default;
   background: rgb(22, 231, 231);
   color: black;
   cursor: pointer;
@@ -117,6 +119,7 @@
   font-size: 50px;
   text-align: center;
   margin-top: 40px;
+  cursor: default;
 }
 .shift__title span {
   font-size: 40px;
@@ -130,6 +133,7 @@
   top: 38%;
   left: 50%;
   transform: translate(-50%, -38%);
+  cursor: default;
   border: none;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
@@ -139,6 +143,7 @@
   top: 65%;
   left: 50%;
   transform: translate(-50%, -65%);
+  cursor: default;
   font-size: 30px;
 }
 .shift__startEndShift__start, .shift__startEndShift__end {
@@ -146,6 +151,7 @@
   top: 85%;
   left: 50%;
   transform: translate(-50%, -85%);
+  cursor: default;
   background-color: black;
   color: white;
   padding: 5px 20px;
@@ -159,24 +165,41 @@
 .shift__startEndShift__start:hover, .shift__startEndShift__end:hover {
   background-color: rgb(22, 231, 231);
   color: black;
+  cursor: pointer;
 }
 
-#availabilityForm h1 {
+.availabilityForm h1 {
   font-size: 50px;
   text-align: center;
   margin-top: 40px;
+  cursor: default;
 }
-#availabilityForm #comment {
+.availabilityForm__date {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  cursor: default;
+  font-size: 25px;
+  border-bottom: 2px solid rgb(22, 231, 231);
+}
+.availabilityForm__chartDate {
+  width: 150px;
+  text-align: center;
+  border: 1px solid green;
+}
+.availabilityForm #comment {
   position: absolute;
   top: 62%;
   left: 20%;
   transform: translate(-20%, -62%);
+  cursor: default;
   border: none;
   border-radius: 10px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   padding: 10px;
 }
-#availabilityForm .submit-btn {
+.availabilityForm .submit-btn {
   background-color: black;
   color: white;
   padding: 5px 20px;
@@ -189,22 +212,24 @@
   top: 60%;
   left: 80%;
   transform: translate(-80%, -60%);
+  cursor: default;
   display: flex;
 }
-#availabilityForm .submit-btn .save {
+.availabilityForm .submit-btn .save {
   padding-left: 5px;
 }
-#availabilityForm .submit-btn:hover {
+.availabilityForm .submit-btn:hover {
   background-color: rgb(22, 231, 231);
   color: black;
+  cursor: pointer;
 }
-
 .availabilityForm__table {
   width: 70%;
   position: absolute;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -40%);
+  cursor: default;
   border: none;
   border-radius: 10px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
@@ -244,6 +269,7 @@
 .availabilityForm__table tbody td button:hover {
   background-color: rgb(22, 231, 231);
   color: black;
+  cursor: pointer;
 }
 
 .main-sections-container {
