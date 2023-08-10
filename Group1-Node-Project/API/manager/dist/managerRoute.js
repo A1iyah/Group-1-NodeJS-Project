@@ -6,5 +6,6 @@ var managerControl_1 = require("./managerControl");
 router
     .get("/get-manager", managerControl_1.getManager)
     .post("/login", managerControl_1.login)
-    .post("/add-attendance", managerControl_1.addAttendance);
+    .post("/add-attendance", managerControl_1.addAttendance)
+    .post("/add-manager", managerControl_1.addManager);
 exports["default"] = router;
