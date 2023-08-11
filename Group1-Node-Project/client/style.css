@@ -272,4 +272,61 @@
   background-color: rgb(22, 231, 231);
   color: black;
   cursor: pointer;
+}
+
+.main-sections-container {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-template-rows: auto;
+  padding: 0 10px;
+  margin-top: 15px;
+}
+
+.employees-panel {
+  background-color: lightgray;
+  margin-right: 10px;
+}
+.employees-panel__week-displayer {
+  background-color: rgb(185, 170, 170);
+}
+.employees-panel__search-box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.employees-panel__search-box__image {
+  margin-top: 5px;
+  width: 28px;
+  padding: 2px;
+}
+.employees-panel__employees-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+.employees-panel__employee-box {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+.employees-panel__employee-box__markings-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.employees-panel__employee-box__allocations-count {
+  padding-right: 15px;
+}
+.employees-panel__employee-box__availability-img {
+  width: 20px;
+}
+.employees-panel__employee-box:hover {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.shifts-panel {
+  background-color: lightgray;
 }/*# sourceMappingURL=style.css.map */
