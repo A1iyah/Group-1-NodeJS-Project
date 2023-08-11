@@ -146,25 +146,31 @@
 
 // Availability page -
 .availabilityForm {
+  position: relative;
+  height: 800px;
+
   h1 {
     @include headerCenter;
   }
 
   &__date {
-    @include flexibleCenter(absolute, 20%, 50%, -50%, -20%);
+    @include flexibleCenter(absolute, 10%, 50%, -50%, -10%);
     font-size: 25px;
     border-bottom: 2px solid $mainBlue;
   }
 
   #comment {
-    @include flexibleCenter(absolute, 62%, 20%, -20%, -62%);
+    @include flexibleCenter(absolute, 70%, 50%, -50%, -70%);
     @include boxShadow;
     padding: 10px;
+    cursor: text;
   }
 
   .submit-btn {
     @include buttonDesign;
-    @include flexibleCenter(absolute, 60%, 80%, -80%, -60%);
+    @include flexibleCenter(absolute, 80%, 50%, -50%, -80%);
+    position: absolute;
+
     display: flex;
 
     .save {
@@ -176,44 +182,47 @@
     @include buttonHover;
   }
 
-  &__chartDate {
-    text-align: center;
-    float: right;
-    width: 112px;
-    margin: 0 auto;
-  }
-
   &__table {
-    position: relative;
     width: 905px;
-    @include flexibleCenter(absolute, 40%, 50%, -50%, -40%);
+    @include flexibleCenter(absolute, 35%, 50%, -50%, -35%);
     @include boxShadow;
 
     thead {
       display: flex;
-      float: right;
-      @include chartShadow;
 
       th {
         width: 110px;
-        font-size: 30px;
-        padding-top: 10px;
+        font-size: 25px;
+        padding-top: 5px;
+        letter-spacing: 2px;
       }
     }
 
     tbody {
       display: flex;
-      float: right;
       @include chartShadow;
+
+      td.availabilityForm__table__chartDatesContainer {
+        display: flex;
+        width: 900px;
+
+        .availabilityForm__chartDate {
+          width: 110px;
+          margin: -10px 1px;
+
+          &:first-child {
+            margin-left: 115px;
+          }
+        }
+      }
 
       td {
         width: 110px;
-        font-size: 25px;
         padding: 10px 0;
         text-align: center;
 
         button {
-          font-size: 25px;
+          font-size: 15px;
           padding: 10px;
           border-radius: 50%;
           border: none;

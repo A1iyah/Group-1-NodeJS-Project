@@ -135,3 +135,21 @@ app.listen(3000, function () {
 //   97250642851,
 //   35
 // );
+// const weekSchema = new Schema({
+//   sundayMorning: [],
+//   mondayMorning: [],
+//   tuesdayMorning: [],
+//   wednesdayMorning: [],
+//   thursdayMorning: [],
+//   fridayMorning: [],
+//   saturdayMorning: [],
+//   sundayEvening: [],
+//   mondayEvening: [],
+//   tuesdayEvening: [],
+//   wednesdayEvening: [],
+//   thursdayEvening: [],
+//   fridayEvening: [],
+//   saturdayEvening: [],
+//   comment: [],
+// });
+// export const WeekModel = mongoose.model("Week", weekSchema);

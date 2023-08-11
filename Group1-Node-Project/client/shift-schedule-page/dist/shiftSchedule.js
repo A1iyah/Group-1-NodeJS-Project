@@ -61,10 +61,9 @@ var renderWeekDisplayer = function () {
     var weekStartElem = document.querySelector(".employees-panel__week-displayer__week-start");
     var weekEndElem = document.querySelector(".employees-panel__week-displayer__week-end");
     var todayDate = new Date();
-    var nextSunday = new Date(todayDate.getFullYear(), todayDate.getMonth(), (todayDate.getDate() - todayDate.getDay()) + 7).toDateString();
-    var nextSaturday = new Date(todayDate.getFullYear(), todayDate.getMonth(), (todayDate.getDate() + (6 - todayDate.getDay())) + 7).toDateString();
+    var nextSunday = new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() - todayDate.getDay() + 7).toDateString();
+    var nextSaturday = new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() + (6 - todayDate.getDay()) + 7).toDateString();
     weekStartElem.innerHTML = nextSunday;
     weekEndElem.innerHTML = nextSaturday;
 };
-var renderAllEmployeesPanel = function () {
-};
+var renderAllEmployeesPanel = function () { };

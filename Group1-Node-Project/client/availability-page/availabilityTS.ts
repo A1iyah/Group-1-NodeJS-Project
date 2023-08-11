@@ -19,40 +19,43 @@ const chartDates: any = document.querySelector(
   ".availabilityForm__chartDates"
 ) as HTMLDivElement;
 
+// DATES -
 // Set up week dates -
-function setupWeekDates() {
+function updateWeekDates() {
   const weekDatesDiv = document.getElementById("weekDates") as HTMLDivElement;
-  const { sunday, saturday } = getCurrentWeekDates();
-  weekDatesDiv.textContent = `<${formatDate(sunday)} - ${formatDate(
-    saturday
-  )}>`;
-}
 
-// Get current Sunday and Saturday dates -
-function getCurrentWeekDates() {
   const today = new Date();
   const dayOfWeek = today.getDay();
+
   const sunday = new Date(today);
   sunday.setDate(today.getDate() - dayOfWeek);
+
   const saturday = new Date(today);
   saturday.setDate(today.getDate() + (6 - dayOfWeek));
+
+  const options: Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "numeric",
+  };
+
+  weekDatesDiv.textContent = `<${sunday.toLocaleDateString(
+    undefined,
+    options
+  )} - ${saturday.toLocaleDateString(undefined, options)}>`;
 
   return { sunday, saturday };
 }
 
-// Format the date -
-function formatDate(date) {
-  const options = { month: "short", day: "numeric" };
-  return date.toLocaleDateString(undefined, options);
-}
-
 // Chart dates -
 function updateChartDates() {
+  const chartDatesContainer = document.querySelector(
+    ".availabilityForm__table__chartDatesContainer"
+  );
   const dayElements = document.querySelectorAll(
     ".availabilityForm__table th:not(:first-child)"
   );
 
-  const { sunday } = getCurrentWeekDates();
+  const { sunday } = updateWeekDates();
 
   dayElements.forEach((dayElement, index) => {
     const currentDate = new Date(sunday);
@@ -61,16 +64,15 @@ function updateChartDates() {
     const month = currentDate.getMonth() + 1;
     const dayOfMonth = currentDate.getDate();
 
-    const dateClassName = "availabilityForm__chartDate";
-
     const dateElement = document.createElement("div");
-    dateElement.classList.add(dateClassName);
+    dateElement.classList.add("availabilityForm__chartDate");
     dateElement.textContent = `${dayOfMonth}.${month}`;
 
-    dayElement.parentElement?.appendChild(dateElement);
+    chartDatesContainer!.appendChild(dateElement);
   });
 }
 updateChartDates();
+// End of dates functions //
 
 // Toggle function -
 function toggleButton(event: Event) {
@@ -81,6 +83,7 @@ function toggleButton(event: Event) {
     clickedButton.textContent = "can't";
   } else {
     clickedButton.textContent = "can";
+    clickedButton.style.backgroundColor = "rgb(21, 246, 92)";
   }
 }
 
@@ -126,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
     button.addEventListener("click", toggleButton);
   });
 
-  setupWeekDates();
+  updateWeekDates();
 
   form.addEventListener("submit", handleFormSubmit);
 });
