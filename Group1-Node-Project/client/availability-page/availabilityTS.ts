@@ -130,16 +130,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener("submit", handleFormSubmit);
 });
-// Chart dates -
-// function days() {
-//   const today = new Date();
-
-//   let week = Array.from(Array(7).keys()).map((idx) => {
-//     const d = new Date();
-//     d.setDate(d.getDate() - d.getDay() + idx);
-//     return d;
-//   });
-
-//   chartDates.innerHTML = week;
-// }
-// days();

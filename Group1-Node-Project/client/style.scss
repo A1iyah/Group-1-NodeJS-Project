@@ -156,12 +156,6 @@
     border-bottom: 2px solid $mainBlue;
   }
 
-  &__chartDate {
-    width: 150px;
-    text-align: center;
-    border: 1px solid green;
-  }
-
   #comment {
     @include flexibleCenter(absolute, 62%, 20%, -20%, -62%);
     @include boxShadow;
@@ -182,32 +176,40 @@
     @include buttonHover;
   }
 
+  &__chartDate {
+    text-align: center;
+    float: right;
+    width: 112px;
+    margin: 0 auto;
+  }
+
   &__table {
-    width: 70%;
+    position: relative;
+    width: 905px;
     @include flexibleCenter(absolute, 40%, 50%, -50%, -40%);
     @include boxShadow;
 
     thead {
       display: flex;
-      justify-content: end;
+      float: right;
       @include chartShadow;
 
       th {
-        width: 148px;
+        width: 110px;
         font-size: 30px;
-        padding: 10px;
+        padding-top: 10px;
       }
     }
 
     tbody {
       display: flex;
-      justify-content: end;
+      float: right;
       @include chartShadow;
 
       td {
-        width: 150px;
+        width: 110px;
         font-size: 25px;
-        padding: 10px;
+        padding: 10px 0;
         text-align: center;
 
         button {
@@ -229,5 +231,3 @@
     }
   }
 }
-
-//
