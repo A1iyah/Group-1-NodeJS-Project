@@ -58,7 +58,7 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                 if (!(_i < _b.length)) return [3 /*break*/, 4];
                 day = _b[_i];
                 if (!availabilityData[day]) return [3 /*break*/, 3];
-                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d60d29de7623321f11abd3", { $push: (_e = {}, _e[day] = userId, _e) }, { "new": true })];
+                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d634c69e27e8dd496a1930", { $push: (_e = {}, _e[day] = userId, _e) }, { "new": true })];
             case 2:
                 update = _f.sent();
                 _f.label = 3;
@@ -67,7 +67,7 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                 return [3 /*break*/, 1];
             case 4:
                 if (!commentValue) return [3 /*break*/, 6];
-                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d60d29de7623321f11abd3", {
+                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d634c69e27e8dd496a1930", {
                         $push: {
                             comment: {
                                 user: userId,
@@ -78,7 +78,7 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
             case 5:
                 update = _f.sent();
                 _f.label = 6;
-            case 6: return [4 /*yield*/, availabilityModel_1.WeekModel.findById("64d60d29de7623321f11abd3")];
+            case 6: return [4 /*yield*/, availabilityModel_1.WeekModel.findById("64d634c69e27e8dd496a1930")];
             case 7:
                 week = _f.sent();
                 console.log(week);
