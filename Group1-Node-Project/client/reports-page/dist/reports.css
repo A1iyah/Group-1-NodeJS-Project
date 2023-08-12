@@ -1,14 +1,10 @@
-// @import "../common/_nav-bar.scss";
-
 .salaryReports {
-  $self: &;
   display: flex;
   justify-content: space-between;
   width: 80%;
-
-  &__between__input {
-    width: 350px;
-  }
+}
+.salaryReports__between__input {
+  width: 350px;
 }
 
 .salaryReportTable {
@@ -21,6 +17,5 @@
 
 .attendanceReport {
   margin-top: 100px;
-
   width: 50%;
 }

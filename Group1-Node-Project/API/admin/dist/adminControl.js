@@ -114,7 +114,7 @@ exports.getSelectedSalaryUp = function (req, res) { return __awaiter(void 0, voi
                         }
                     })
                         .populate({
-                        path: "employee",
+                        path: "employees",
                         match: {
                             salaryPerHour: { $gt: salaryUp }
                         }
@@ -152,10 +152,6 @@ exports.getSelectedSalaryDown = function (req, res) { return __awaiter(void 0, v
                         path: "employees",
                         match: {
                             salaryPerHour: { $lt: salaryDown }
-                        },
-                        populate: {
-                            path: "roles",
-                            select: "name"
                         }
                     })
                         .exec()];

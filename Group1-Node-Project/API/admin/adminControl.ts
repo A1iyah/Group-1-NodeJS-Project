@@ -63,7 +63,7 @@ export const getSelectedSalaryUp = async (req: any, res: any) => {
       })
 
       .populate({
-        path: "employee",
+        path: "employees",
         match: {
           salaryPerHour: { $gt: salaryUp },
         },
@@ -100,10 +100,10 @@ export const getSelectedSalaryDown = async (req: any, res: any) => {
         match: {
           salaryPerHour: { $lt: salaryDown },
         },
-        populate: {
-          path: "roles",
-          select: "name",
-        },
+        // populate: {
+        //   path: "roles",
+        //   select: "name",
+        // },
       })
       .exec();
 
