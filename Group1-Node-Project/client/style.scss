@@ -27,7 +27,7 @@
   }
 
   &__link {
-    margin-right: 35px;
+    margin-right: 40px;
     cursor: pointer;
 
     &--bold {
@@ -40,6 +40,72 @@
     }
   }
 }
+
+@media screen and (max-width: 750px) {
+  .nav-bar {
+    width: 100%;
+    height: 100px;
+    padding: 5px;
+    font-size: 17px;
+    letter-spacing: 0.5px;
+
+    &__links-group {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 50px);
+      text-align: center;
+    }
+
+    &__link {
+      margin-right: 15px;
+      font-size: 12px;
+    }
+
+    &__link__employee-manager {
+      grid-column-start: 1;
+      grid-column-end: 2;
+    }
+
+    &__link__shift-schedule {
+      grid-column-start: 1;
+      grid-column-end: 2;
+
+      grid-row-start: 2;
+      grid-row-end: 3;
+    }
+
+    &__link__availability {
+      grid-column-start: 2;
+      grid-column-end: 3;
+
+      grid-row-start: 2;
+      grid-row-end: 3;
+    }
+
+    &__link__employees {
+      grid-column-start: 3;
+      grid-column-end: 4;
+
+      grid-row-start: 2;
+      grid-row-end: 3;
+    }
+
+    &__link__reports {
+      grid-column-start: 4;
+      grid-column-end: 5;
+
+      grid-row-start: 2;
+      grid-row-end: 3;
+    }
+
+    &__user-name {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+  }
+}
+//
 
 // Login page -
 .login {
@@ -62,7 +128,7 @@
   &__email,
   &__password {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     width: 250px;
     @include inputShadow;
   }
@@ -73,12 +139,6 @@
     left: 50%;
     transform: translate(-50%);
     @include buttonDesign;
-
-    // a {
-    //   font-size: 20px;
-    //   text-decoration: none;
-    //   color: white;
-    // }
   }
 
   &__submit:hover {
@@ -98,6 +158,19 @@
     border-radius: 3px;
   }
 }
+
+@media screen and (max-width: 750px) {
+  .login {
+    width: 90%;
+    height: 400px;
+
+    &__email,
+    &__password {
+      width: 230px;
+    }
+  }
+}
+//
 
 // Start / end shift page -
 .shift {
@@ -144,102 +217,37 @@
   }
 }
 
-// Availability page -
-.availabilityForm {
-  position: relative;
-  height: 800px;
-
-  h1 {
-    @include headerCenter;
-  }
-
-  &__date {
-    @include flexibleCenter(absolute, 10%, 50%, -50%, -10%);
-    font-size: 25px;
-    border-bottom: 2px solid $mainBlue;
-  }
-
-  #comment {
+@media screen and (max-width: 768px) {
+  .shift {
     @include flexibleCenter(absolute, 70%, 50%, -50%, -70%);
-    @include boxShadow;
-    padding: 10px;
-    cursor: text;
-  }
 
-  .submit-btn {
-    @include buttonDesign;
-    @include flexibleCenter(absolute, 80%, 50%, -50%, -80%);
-    position: absolute;
-
-    display: flex;
-
-    .save {
-      padding-left: 5px;
-    }
-  }
-
-  .submit-btn:hover {
-    @include buttonHover;
-  }
-
-  &__table {
-    width: 905px;
-    @include flexibleCenter(absolute, 35%, 50%, -50%, -35%);
-    @include boxShadow;
-
-    thead {
+    h2 {
       display: flex;
+      flex-direction: column;
+    }
 
-      th {
-        width: 110px;
+    &__title {
+      font-size: 25px;
+      margin-top: 30px;
+
+      span {
         font-size: 25px;
-        padding-top: 5px;
-        letter-spacing: 2px;
       }
     }
 
-    tbody {
-      display: flex;
-      @include chartShadow;
+    &__date {
+      @include flexibleCenter(absolute, 40%, 50%, -50%, -40%);
+      font-size: 25px;
+    }
 
-      td.availabilityForm__table__chartDatesContainer {
-        display: flex;
-        width: 900px;
-
-        .availabilityForm__chartDate {
-          width: 110px;
-          margin: -10px 1px;
-
-          &:first-child {
-            margin-left: 115px;
-          }
-        }
-      }
-
-      td {
-        width: 110px;
-        padding: 10px 0;
-        text-align: center;
-
-        button {
-          font-size: 15px;
-          padding: 10px;
-          border-radius: 50%;
-          border: none;
-          box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-            rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
-            rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-          transition: all 0.5s ease-in-out;
-          cursor: pointer;
-        }
-
-        button:hover {
-          @include buttonHover;
-        }
-      }
+    &__startEndShift__start,
+    &__startEndShift__end {
+      font-size: 20px;
+      padding: 5px;
     }
   }
 }
+//
 
 // Shifts scheduling page
 .main-sections-container {

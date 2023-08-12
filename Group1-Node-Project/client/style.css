@@ -22,7 +22,7 @@
   align-items: center;
 }
 .nav-bar__link {
-  margin-right: 35px;
+  margin-right: 40px;
   cursor: pointer;
 }
 .nav-bar__link--bold {
@@ -33,6 +33,58 @@
   cursor: pointer;
 }
 
+@media screen and (max-width: 750px) {
+  .nav-bar {
+    width: 100%;
+    height: 100px;
+    padding: 5px;
+    font-size: 17px;
+    letter-spacing: 0.5px;
+  }
+  .nav-bar__links-group {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 50px);
+    text-align: center;
+  }
+  .nav-bar__link {
+    margin-right: 15px;
+    font-size: 12px;
+  }
+  .nav-bar__link__employee-manager {
+    grid-column-start: 1;
+    grid-column-end: 2;
+  }
+  .nav-bar__link__shift-schedule {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+  .nav-bar__link__availability {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+  .nav-bar__link__employees {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+  .nav-bar__link__reports {
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+  .nav-bar__user-name {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+}
 .login {
   position: absolute;
   top: 50%;
@@ -58,7 +110,7 @@
 }
 .login__email, .login__password {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   width: 250px;
   border: none;
   border-radius: 10px;
@@ -101,6 +153,15 @@
   border-radius: 3px;
 }
 
+@media screen and (max-width: 750px) {
+  .login {
+    width: 90%;
+    height: 400px;
+  }
+  .login__email, .login__password {
+    width: 230px;
+  }
+}
 .shift {
   border: none;
   border-radius: 10px;
@@ -168,119 +229,38 @@
   cursor: pointer;
 }
 
-.availabilityForm {
-  position: relative;
-  height: 800px;
+@media screen and (max-width: 768px) {
+  .shift {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -70%);
+    cursor: default;
+  }
+  .shift h2 {
+    display: flex;
+    flex-direction: column;
+  }
+  .shift__title {
+    font-size: 25px;
+    margin-top: 30px;
+  }
+  .shift__title span {
+    font-size: 25px;
+  }
+  .shift__date {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    cursor: default;
+    font-size: 25px;
+  }
+  .shift__startEndShift__start, .shift__startEndShift__end {
+    font-size: 20px;
+    padding: 5px;
+  }
 }
-.availabilityForm h1 {
-  font-size: 50px;
-  text-align: center;
-  margin-top: 50px;
-  cursor: default;
-}
-.availabilityForm__date {
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translate(-50%, -10%);
-  cursor: default;
-  font-size: 25px;
-  border-bottom: 2px solid rgb(22, 231, 231);
-}
-.availabilityForm #comment {
-  position: absolute;
-  top: 70%;
-  left: 50%;
-  transform: translate(-50%, -70%);
-  cursor: default;
-  border: none;
-  border-radius: 10px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-  padding: 10px;
-  cursor: text;
-}
-.availabilityForm .submit-btn {
-  background-color: black;
-  color: white;
-  padding: 5px 20px;
-  border: none;
-  border-radius: 5px;
-  box-shadow: rgba(64, 64, 64, 0.724) 0px 5px 15px;
-  transition: all 0.5s ease-in-out;
-  cursor: pointer;
-  position: absolute;
-  top: 80%;
-  left: 50%;
-  transform: translate(-50%, -80%);
-  cursor: default;
-  position: absolute;
-  display: flex;
-}
-.availabilityForm .submit-btn .save {
-  padding-left: 5px;
-}
-.availabilityForm .submit-btn:hover {
-  background-color: rgb(22, 231, 231);
-  color: black;
-  cursor: pointer;
-}
-.availabilityForm__table {
-  width: 905px;
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -35%);
-  cursor: default;
-  border: none;
-  border-radius: 10px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-}
-.availabilityForm__table thead {
-  display: flex;
-}
-.availabilityForm__table thead th {
-  width: 110px;
-  font-size: 25px;
-  padding-top: 5px;
-  letter-spacing: 2px;
-}
-.availabilityForm__table tbody {
-  display: flex;
-  border: none;
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-}
-.availabilityForm__table tbody td.availabilityForm__table__chartDatesContainer {
-  display: flex;
-  width: 900px;
-}
-.availabilityForm__table tbody td.availabilityForm__table__chartDatesContainer .availabilityForm__chartDate {
-  width: 110px;
-  margin: -10px 1px;
-}
-.availabilityForm__table tbody td.availabilityForm__table__chartDatesContainer .availabilityForm__chartDate:first-child {
-  margin-left: 115px;
-}
-.availabilityForm__table tbody td {
-  width: 110px;
-  padding: 10px 0;
-  text-align: center;
-}
-.availabilityForm__table tbody td button {
-  font-size: 15px;
-  padding: 10px;
-  border-radius: 50%;
-  border: none;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-  transition: all 0.5s ease-in-out;
-  cursor: pointer;
-}
-.availabilityForm__table tbody td button:hover {
-  background-color: rgb(22, 231, 231);
-  color: black;
-  cursor: pointer;
-}
-
 .main-sections-container {
   display: grid;
   grid-template-columns: 25% 75%;
