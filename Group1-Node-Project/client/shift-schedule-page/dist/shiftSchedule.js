@@ -47,6 +47,10 @@ function main() {
                 case 1:
                     _a.sent();
                     renderNavBar(navBarElement);
+                    // const startShift = localStorage.getItem("totalTimeShift");
+                    // if (startShift) {
+                    //   startClock();
+                    // }
                     renderAllAvailableEmployees();
                     return [2 /*return*/];
             }

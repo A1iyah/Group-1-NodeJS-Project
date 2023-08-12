@@ -56,19 +56,6 @@ function main() {
                 case 1:
                     _a.sent();
                     renderNavBar(navBarElement);
-                    console.log(userType);
-                    if (userType === UserType.Employee) {
-                        employeeUsingReport();
-                    }
-                    else if (userType === UserType.Manager) {
-                        employeeButton.style.display = "inline-block";
-                        salaryButton.style.display = "inline-block";
-                    }
-                    else if (userType === UserType.Admin) {
-                        employeeButton.style.display = "inline-block";
-                        salaryButton.style.display = "inline-block";
-                        managerButton.style.display = "inline-block";
-                    }
                     return [2 /*return*/];
             }
         });
