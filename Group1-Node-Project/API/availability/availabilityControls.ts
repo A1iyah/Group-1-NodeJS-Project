@@ -1,6 +1,6 @@
 import express from "express";
 import moment from "moment";
-import { WeekModel } from "./availabilityModel";
+import { WeekModel, DayModel } from "./availabilityModel";
 import { populate } from "dotenv";
 let roleString: string;
 
@@ -38,13 +38,12 @@ export const updateAvailability = async (req: any, res: any) => {
         
 
         const update = await WeekModel.findByIdAndUpdate(
-          "64d7ef388839f023be286698",
-          { $push: { [day]: 
-            {0: {
+          "64d7f65a9885a173a23a230d", 
+          { $push: { day : {
             employeeId: userId,
             role: roleString,
-            comment: commentValue}} }},
-          { new: true }
+            comment: commentValue}} },
+          
         );
       }
     }

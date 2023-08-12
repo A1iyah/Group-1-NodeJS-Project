@@ -127,7 +127,7 @@ function handleFormSubmit(event) {
                             headers: {
                                 "Content-Type": "application/json"
                             },
-                            body: JSON.stringify({ availabilityData: availabilityData, commentValue: commentValue, userId: user._id, role: userType })
+                            body: JSON.stringify({ availabilityData: availabilityData, commentValue: commentValue, userId: "64d083c69e5feea8ea4d3287", role: userType })
                         })];
                 case 2:
                     response = _a.sent();

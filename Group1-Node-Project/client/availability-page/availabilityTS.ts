@@ -110,7 +110,7 @@ async function handleFormSubmit(event: Event) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ availabilityData, commentValue, userId: user._id, role: userType }),
+      body: JSON.stringify({ availabilityData, commentValue, userId: "64d083c69e5feea8ea4d3287", role: userType }),
     });
 
     if (response.ok) {
