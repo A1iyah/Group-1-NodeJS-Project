@@ -327,4 +327,34 @@
 
 .shifts-panel {
   background-color: lightgray;
+  width: 100%;
+}
+.shifts-panel__days-header-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: auto;
+  gap: 110px;
+}
+.shifts-panel__day-box {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+.shifts-panel__day-box__day {
+  text-align: center;
+}
+.shifts-panel__day-box__date {
+  text-align: center;
+}
+.shifts-panel__manager-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.shifts-panel__role-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }/*# sourceMappingURL=style.css.map */
