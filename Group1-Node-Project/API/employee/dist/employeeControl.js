@@ -40,8 +40,8 @@ exports.addEmployee = exports.addAttendance = exports.getEmployee = exports.logi
 var employeeModel_1 = require("./employeeModel");
 var roleModel_1 = require("../role/roleModel");
 var jwt_simple_1 = require("jwt-simple");
-// const secret = process.env.JWT_SECRET;
-var secret = "secret";
+var secret = process.env.JWT_SECRET;
+//const secret: string = "secret";
 exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, email, password, employeeDB, token, error_1;
     return __generator(this, function (_b) {

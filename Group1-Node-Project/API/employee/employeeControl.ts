@@ -6,8 +6,8 @@ import AdminModel from "../admin/adminModel";
 import availability from "../availability/availabilityModel";
 
 import jwt from "jwt-simple";
-// const secret = process.env.JWT_SECRET;
-const secret: string = "secret";
+const secret = process.env.JWT_SECRET;
+//const secret: string = "secret";
 
 export const login = async (req: any, res: any) => {
   try {

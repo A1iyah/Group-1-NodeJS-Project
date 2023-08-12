@@ -40,14 +40,14 @@ exports.getEmployeesByRoleAndWeekday = exports.getAllAvailableWeeks = exports.ge
 var moment_1 = require("moment");
 var availabilityModel_1 = require("./availabilityModel");
 exports.updateAvailability = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, availabilityData, commentValue, userId, updateObject, _b, _c, _i, day, update, update, week, _d, sunday, saturday, error_1;
+    var _a, availabilityData, commentValue, userId, role, updateObject, _b, _c, _i, day, update, update, week, _d, sunday, saturday, error_1;
     var _e;
     return __generator(this, function (_f) {
         switch (_f.label) {
             case 0:
                 _f.trys.push([0, 8, , 9]);
                 console.log(req.body);
-                _a = req.body, availabilityData = _a.availabilityData, commentValue = _a.commentValue, userId = _a.userId;
+                _a = req.body, availabilityData = _a.availabilityData, commentValue = _a.commentValue, userId = _a.userId, role = _a.role;
                 updateObject = {};
                 _b = [];
                 for (_c in availabilityData)
@@ -58,7 +58,11 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                 if (!(_i < _b.length)) return [3 /*break*/, 4];
                 day = _b[_i];
                 if (!availabilityData[day]) return [3 /*break*/, 3];
-                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d634c69e27e8dd496a1930", { $push: (_e = {}, _e[day] = userId, _e) }, { "new": true })];
+                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d634c69e27e8dd496a1930", { $push: (_e = {}, _e[day] = {
+                            employeeId: userId,
+                            role: role,
+                            comment: commentValue
+                        }, _e) }, { "new": true })];
             case 2:
                 update = _f.sent();
                 _f.label = 3;

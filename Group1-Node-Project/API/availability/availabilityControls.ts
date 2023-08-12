@@ -5,7 +5,7 @@ import { WeekModel } from "./availabilityModel";
 export const updateAvailability = async (req: any, res: any) => {
   try {
     console.log(req.body);
-    const { availabilityData, commentValue, userId } = req.body;
+    const { availabilityData, commentValue, userId, role } = req.body;
 
     const updateObject: any = {};
 
@@ -14,7 +14,10 @@ export const updateAvailability = async (req: any, res: any) => {
       if (availabilityData[day]) {
         const update = await WeekModel.findByIdAndUpdate(
           "64d634c69e27e8dd496a1930",
-          { $push: { [day]: userId } },
+          { $push: { [day]: {
+            employeeId: userId,
+            role,
+            comment: commentValue}} },
           { new: true }
         );
       }

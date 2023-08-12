@@ -4,13 +4,41 @@ exports.WeekModel = void 0;
 var mongoose_1 = require("mongoose");
 //
 var weekSchema = new mongoose_1.Schema({
-    sundayMorning: [],
-    mondayMorning: [],
-    tuesdayMorning: [],
-    wednesdayMorning: [],
-    thursdayMorning: [],
-    fridayMorning: [],
-    saturdayMorning: [],
+    sundayMorning: [{
+            employeeId: { type: mongoose_1.Schema.Types.ObjectId },
+            role: String,
+            comment: String
+        }],
+    mondayMorning: [{
+            employeeId: { type: mongoose_1.Schema.Types.ObjectId },
+            role: String,
+            comment: String
+        }],
+    tuesdayMorning: [{
+            employeeId: { type: mongoose_1.Schema.Types.ObjectId },
+            role: String,
+            comment: String
+        }],
+    wednesdayMorning: [{
+            employeeId: { type: mongoose_1.Schema.Types.ObjectId },
+            role: String,
+            comment: String
+        }],
+    thursdayMorning: [{
+            employeeId: { type: mongoose_1.Schema.Types.ObjectId },
+            role: String,
+            comment: String
+        }],
+    fridayMorning: [{
+            employeeId: { type: mongoose_1.Schema.Types.ObjectId },
+            role: String,
+            comment: String
+        }],
+    saturdayMorning: [{
+            employeeId: { type: mongoose_1.Schema.Types.ObjectId },
+            role: String,
+            comment: String
+        }],
     comment: []
 });
 exports.WeekModel = mongoose_1["default"].model("Week", weekSchema);
@@ -94,3 +122,6 @@ exports["default"] = exports.WeekModel;
 //   console.log(result);
 // };
 // createBasicWeekSchema([], [], [], [], [], [], [], []);
+// const newWeekSchema = new WeekModel({
+// });
+// newWeekSchema.save();

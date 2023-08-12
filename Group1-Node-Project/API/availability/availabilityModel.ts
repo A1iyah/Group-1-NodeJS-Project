@@ -1,14 +1,44 @@
 import mongoose, { Schema } from "mongoose";
+import EmployeeModel from "../employee/employeeModel";
+import RoleModel from "../role/roleModel";
 
 //
 const weekSchema = new Schema({
-  sundayMorning: [],
-  mondayMorning: [],
-  tuesdayMorning: [],
-  wednesdayMorning: [],
-  thursdayMorning: [],
-  fridayMorning: [],
-  saturdayMorning: [],
+  sundayMorning: [{
+    employeeId: {type: Schema.Types.ObjectId},
+    role: String,
+    comment: String
+  }],
+  mondayMorning: [{
+    employeeId: {type: Schema.Types.ObjectId},
+    role: String,
+    comment: String
+  }],
+  tuesdayMorning: [{
+    employeeId: {type: Schema.Types.ObjectId},
+    role: String,
+    comment: String
+  }],
+  wednesdayMorning: [{
+    employeeId: {type: Schema.Types.ObjectId},
+    role: String,
+    comment: String
+  }],
+  thursdayMorning: [{
+    employeeId: {type: Schema.Types.ObjectId},
+    role: String,
+    comment: String
+  }],
+  fridayMorning: [{
+    employeeId: {type: Schema.Types.ObjectId},
+    role: String,
+    comment: String
+  }],
+  saturdayMorning: [{
+    employeeId: {type: Schema.Types.ObjectId},
+    role: String,
+    comment: String
+  }],
 
   comment: [],
 });
@@ -107,3 +137,8 @@ export default WeekModel;
 // };
 
 // createBasicWeekSchema([], [], [], [], [], [], [], []);
+
+// const newWeekSchema = new WeekModel({
+  
+// });
+// newWeekSchema.save();
