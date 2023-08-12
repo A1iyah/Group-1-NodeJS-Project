@@ -56,6 +56,19 @@ function main() {
                 case 1:
                     _a.sent();
                     renderNavBar(navBarElement);
+                    if (userType === UserType.Employee) {
+                        employeeUsingReport();
+                    }
+                    else if (userType === UserType.Manager) {
+                        managerButton.style.display = "none";
+                        employeeButton.style.display = "inline-block";
+                        salaryButton.style.display = "inline-block";
+                    }
+                    else if (userType === UserType.Admin) {
+                        managerButton.style.display = "inline-block";
+                        employeeButton.style.display = "inline-block";
+                        salaryButton.style.display = "inline-block";
+                    }
                     return [2 /*return*/];
             }
         });

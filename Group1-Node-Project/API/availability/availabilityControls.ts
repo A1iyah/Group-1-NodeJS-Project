@@ -62,44 +62,34 @@ function getCurrentWeekDates() {
   return { sunday, saturday };
 }
 
-export const getAllAvailableEmployees = async (req: any, res: any) =>
-{
+export const getAllAvailableEmployees = async (req: any, res: any) => {
   try {
     console.log("called");
-    
 
     const weekDays = await WeekModel.find({});
 
-    res.status(200).send({ok:true, weekDays});
-    
+    res.status(200).send({ ok: true, weekDays });
   } catch (error) {
     console.log(error);
     res.status(500).send("Did not get data.");
-    
   }
-}
+};
 
-export const getAllAvailableWeeks = async (req: any, res: any) =>
-{
+export const getAllAvailableWeeks = async (req: any, res: any) => {
   try {
-    
   } catch (error) {
     console.log(error);
     res.status(500).send("Did not get data.");
-    
   }
-}
+};
 
-export const getEmployeesByRoleAndWeekday = async (req: any, res: any) =>
-{
+export const getEmployeesByRoleAndWeekday = async (req: any, res: any) => {
   let day: string = "";
   console.log(req.body);
-  
+
   try {
     const { role, weekday } = req.body;
-    
-    
-    
+
     if (weekday === 0) day = "sundayMorning";
     if (weekday === 1) day = "modayMorning";
     if (weekday === 2) day = "thuesdayMorning";
@@ -113,15 +103,12 @@ export const getEmployeesByRoleAndWeekday = async (req: any, res: any) =>
       //if (!weekday) throw new Error("did not received weekday from client");
 
       const employees = await WeekModel.find({}).select(day);
-      
-      res.status(200).send({ok: true, employees })
+
+      res.status(200).send({ ok: true, employees });
     } catch (error) {
       console.log(error);
-      
     }
-    
   } catch (error) {
     res.status(500).send("Did not find data");
-    
   }
-}
+};
