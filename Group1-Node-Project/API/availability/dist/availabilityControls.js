@@ -46,9 +46,12 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
     return __generator(this, function (_f) {
         switch (_f.label) {
             case 0:
-                _f.trys.push([0, 6, , 7]);
-                return [4 /*yield*/, availabilityModel_1.WeekModel.find({})];
+                console.log("updateAvailability");
+                _f.label = 1;
             case 1:
+                _f.trys.push([1, 7, , 8]);
+                return [4 /*yield*/, availabilityModel_1.WeekModel.find({})];
+            case 2:
                 weekData = _f.sent();
                 if (!weekData)
                     throw new Error("no week found in DB");
@@ -70,24 +73,24 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                 for (_c in availabilityData)
                     _b.push(_c);
                 _i = 0;
-                _f.label = 2;
-            case 2:
-                if (!(_i < _b.length)) return [3 /*break*/, 5];
+                _f.label = 3;
+            case 3:
+                if (!(_i < _b.length)) return [3 /*break*/, 6];
                 day = _b[_i];
-                if (!availabilityData[day]) return [3 /*break*/, 4];
+                if (!availabilityData[day]) return [3 /*break*/, 5];
                 console.log("trying to update: ", day);
-                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d7e836ff65d58af1270dbe", { $push: (_e = {}, _e[day] = { 0: {
+                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d7ef388839f023be286698", { $push: (_e = {}, _e[day] = { 0: {
                                 employeeId: userId,
                                 role: roleString,
                                 comment: commentValue
                             } }, _e) }, { "new": true })];
-            case 3:
-                update = _f.sent();
-                _f.label = 4;
             case 4:
-                _i++;
-                return [3 /*break*/, 2];
+                update = _f.sent();
+                _f.label = 5;
             case 5:
+                _i++;
+                return [3 /*break*/, 3];
+            case 6:
                 _d = getCurrentWeekDates(), sunday = _d.sunday, saturday = _d.saturday;
                 res.status(200).json({
                     message: "Availability updated successfully",
@@ -96,13 +99,13 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                         saturday: saturday.format("D.M")
                     }
                 });
-                return [3 /*break*/, 7];
-            case 6:
+                return [3 /*break*/, 8];
+            case 7:
                 error_1 = _f.sent();
                 console.error(error_1);
                 res.status(500).send("Error updating availability");
-                return [3 /*break*/, 7];
-            case 7: return [2 /*return*/];
+                return [3 /*break*/, 8];
+            case 8: return [2 /*return*/];
         }
     });
 }); };

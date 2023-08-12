@@ -5,37 +5,37 @@ import RoleModel from "../role/roleModel";
 //
 const weekSchema = new Schema({
   sundayMorning: [{
-    employeeId: {type: Schema.Types.ObjectId},
+    employeeId: String,
     role: String,
     comment: String
   }],
   mondayMorning: [{
-    employeeId: {type: Schema.Types.ObjectId},
+    employeeId: String,
     role: String,
     comment: String
   }],
   tuesdayMorning: [{
-    employeeId: {type: Schema.Types.ObjectId},
+    employeeId: String,
     role: String,
     comment: String
   }],
   wednesdayMorning: [{
-    employeeId: {type: Schema.Types.ObjectId},
+    employeeId: String,
     role: String,
     comment: String
   }],
   thursdayMorning: [{
-    employeeId: {type: Schema.Types.ObjectId},
+    employeeId: String,
     role: String,
     comment: String
   }],
   fridayMorning: [{
-    employeeId: {type: Schema.Types.ObjectId},
+    employeeId: String,
     role: String,
     comment: String
   }],
   saturdayMorning: [{
-    employeeId: {type: Schema.Types.ObjectId},
+    employeeId: String,
     role: String,
     comment: String
   }],

@@ -6,6 +6,15 @@ enum UserType {
   Employee,
 }
 
+// const navBarElem = document.querySelector(".nav-bar") as HTMLDivElement;
+
+// async function main() {
+//   await getActiveUser();
+    
+//   renderNavBar(navBarElement);
+// }
+// main();
+
 async function getActiveUser() {
   try {
     const responseManager = await fetch("/api/manager/get-manager");

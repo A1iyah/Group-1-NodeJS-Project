@@ -42,6 +42,12 @@ var UserType;
     UserType[UserType["Manager"] = 1] = "Manager";
     UserType[UserType["Employee"] = 2] = "Employee";
 })(UserType || (UserType = {}));
+// const navBarElem = document.querySelector(".nav-bar") as HTMLDivElement;
+// async function main() {
+//   await getActiveUser();
+//   renderNavBar(navBarElement);
+// }
+// main();
 function getActiveUser() {
     return __awaiter(this, void 0, void 0, function () {
         var responseManager, dataManager, manager, error_1, responseAdmin, dataAdmin, admin, error_2, responseEmployee, dataEmployee, employee, error_3;

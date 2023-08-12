@@ -5,9 +5,10 @@ import { populate } from "dotenv";
 let roleString: string;
 
 export const updateAvailability = async (req: any, res: any) => {
+  console.log("updateAvailability");
   
 
-  
+
   try {
     let weekData = await WeekModel.find({});
     if (!weekData) throw new Error("no week found in DB");
@@ -37,7 +38,7 @@ export const updateAvailability = async (req: any, res: any) => {
         
 
         const update = await WeekModel.findByIdAndUpdate(
-          "64d7e836ff65d58af1270dbe",
+          "64d7ef388839f023be286698",
           { $push: { [day]: 
             {0: {
             employeeId: userId,

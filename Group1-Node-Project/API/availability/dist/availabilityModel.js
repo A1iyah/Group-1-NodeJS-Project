@@ -5,37 +5,37 @@ var mongoose_1 = require("mongoose");
 //
 var weekSchema = new mongoose_1.Schema({
     sundayMorning: [{
-            employeeId: { type: mongoose_1.Schema.Types.ObjectId },
+            employeeId: String,
             role: String,
             comment: String
         }],
     mondayMorning: [{
-            employeeId: { type: mongoose_1.Schema.Types.ObjectId },
+            employeeId: String,
             role: String,
             comment: String
         }],
     tuesdayMorning: [{
-            employeeId: { type: mongoose_1.Schema.Types.ObjectId },
+            employeeId: String,
             role: String,
             comment: String
         }],
     wednesdayMorning: [{
-            employeeId: { type: mongoose_1.Schema.Types.ObjectId },
+            employeeId: String,
             role: String,
             comment: String
         }],
     thursdayMorning: [{
-            employeeId: { type: mongoose_1.Schema.Types.ObjectId },
+            employeeId: String,
             role: String,
             comment: String
         }],
     fridayMorning: [{
-            employeeId: { type: mongoose_1.Schema.Types.ObjectId },
+            employeeId: String,
             role: String,
             comment: String
         }],
     saturdayMorning: [{
-            employeeId: { type: mongoose_1.Schema.Types.ObjectId },
+            employeeId: String,
             role: String,
             comment: String
         }]
