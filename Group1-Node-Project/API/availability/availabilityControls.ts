@@ -1,44 +1,130 @@
 import express from "express";
 import moment from "moment";
 import { WeekModel } from "./availabilityModel";
+import { populate } from "dotenv";
+let roleString: string;
 
 export const updateAvailability = async (req: any, res: any) => {
+  
+
+  
   try {
-    console.log(req.body);
+    let weekData = await WeekModel.find({});
+    if (!weekData) throw new Error("no week found in DB");
+
+    console.log("body: ", req.body);
     const { availabilityData, commentValue, userId, role } = req.body;
+
+    switch (role) {
+      case 0:
+        roleString = "Admin";
+      break;
+      case 1:
+        roleString = "Manager";
+      break;
+      case 2:
+        roleString = "Employee";
+      break;
+    }
 
     const updateObject: any = {};
 
-    // Loop through each day in availabilityData
+    //Loop through each day in availabilityData
     for (const day in availabilityData) {
       if (availabilityData[day]) {
+
+        console.log("trying to update: ", day);
+        
+
         const update = await WeekModel.findByIdAndUpdate(
-          "64d634c69e27e8dd496a1930",
-          { $push: { [day]: {
+          "64d7e836ff65d58af1270dbe",
+          { $push: { [day]: 
+            {0: {
             employeeId: userId,
-            role,
-            comment: commentValue}} },
+            role: roleString,
+            comment: commentValue}} }},
           { new: true }
         );
       }
     }
 
-    if (commentValue) {
-      const update = await WeekModel.findByIdAndUpdate(
-        "64d634c69e27e8dd496a1930",
-        {
-          $push: {
-            comment: {
-              user: userId,
-              comment: commentValue,
-            },
-          },
-        },
-        { new: true }
-      );
-    }
-    const week = await WeekModel.findById("64d634c69e27e8dd496a1930");
-    console.log(week);
+    
+
+    // const testWeek = WeekModel.find({});
+
+    // console.log("my id: ", (await testWeek).push);
+
+    // for( const day in availabilityData){
+    //   if (availabilityData[day])
+    //   {
+    //     const result = await testWeek
+    //   }
+    // };
+
+    
+    
+    // for( const day in availabilityData){
+    //   if (availabilityData[day])
+    //   {
+    //     console.log("trying to update: ", day);
+        
+    //     const result = WeekModel.findOneAndUpdate(availabilityData[day] = {}, 
+    //       {
+    //         employeeId: {userId},
+    //         role: {roleString},
+    //         comment: {commentValue}
+    //       });
+
+        // const update = await weekData[(day as string)].populate(
+        //   day,
+        //   {
+        //     employeeId: userId,
+        //     role: roleString,
+        //     comment: commentValue
+        //   }
+        // )
+      //}
+    //};
+        
+        
+    //     .updateOne({
+    //       $push: {
+    //         employeeId: userId,
+    //         role: roleString,
+    //         comment: commentValue
+    //       }
+    //     });
+    //   }
+    // }
+
+
+    // const update = await weekData[availabilityData[day]].updateOne({
+    //   $push: {
+    //     employeeId: userId,
+    //     role: roleString,
+    //     comment: commentValue
+    //   }
+    // });
+
+
+    // if (commentValue) {
+      
+      
+    //   const update = await WeekModel.findByIdAndUpdate(
+    //     "64d634c69e27e8dd496a1930",
+    //     {
+    //       $push: {
+    //         comment: {
+    //           user: userId,
+    //           comment: commentValue,
+    //         },
+    //       },
+    //     },
+    //     { new: true }
+    //   );
+    // }
+    // const week = await WeekModel.findOne();
+    // console.log(week);
 
     // Get date
     const { sunday, saturday } = getCurrentWeekDates();
@@ -80,6 +166,8 @@ export const getAllAvailableEmployees = async (req: any, res: any) => {
 
 export const getAllAvailableWeeks = async (req: any, res: any) => {
   try {
+
+    
   } catch (error) {
     console.log(error);
     res.status(500).send("Did not get data.");
@@ -88,11 +176,10 @@ export const getAllAvailableWeeks = async (req: any, res: any) => {
 
 export const getEmployeesByRoleAndWeekday = async (req: any, res: any) => {
   let day: string = "";
-  console.log(req.body);
 
   try {
     const { role, weekday } = req.body;
-
+    
     if (weekday === 0) day = "sundayMorning";
     if (weekday === 1) day = "modayMorning";
     if (weekday === 2) day = "thuesdayMorning";

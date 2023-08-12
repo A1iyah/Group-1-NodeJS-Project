@@ -38,8 +38,7 @@ var weekSchema = new mongoose_1.Schema({
             employeeId: { type: mongoose_1.Schema.Types.ObjectId },
             role: String,
             comment: String
-        }],
-    comment: []
+        }]
 });
 exports.WeekModel = mongoose_1["default"].model("Week", weekSchema);
 exports["default"] = exports.WeekModel;
@@ -123,5 +122,17 @@ exports["default"] = exports.WeekModel;
 // };
 // createBasicWeekSchema([], [], [], [], [], [], [], []);
 // const newWeekSchema = new WeekModel({
+//   sundayMorning: [{}],
+//    mondayMorning: [{}],
+//    tuesdayMorning: [{}],
+//    wednesdayMorning: [{}],
+//    thursdayMorning: [{}],
+//    fridayMorning: [{}],
+//    saturdayMorning: [{}],
 // });
 // newWeekSchema.save();
+// saturdayMorning: [{
+//   employeeId: {type: Schema.Types.ObjectId},
+//   role: String,
+//   comment: String
+// }],

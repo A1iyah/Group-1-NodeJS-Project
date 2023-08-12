@@ -52,6 +52,7 @@ function getActiveUser() {
                     return [4 /*yield*/, fetch("/api/manager/get-manager")];
                 case 1:
                     responseManager = _a.sent();
+                    console.log("responseManager", responseManager);
                     return [4 /*yield*/, responseManager.json()];
                 case 2:
                     dataManager = _a.sent();

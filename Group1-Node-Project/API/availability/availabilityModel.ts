@@ -40,7 +40,7 @@ const weekSchema = new Schema({
     comment: String
   }],
 
-  comment: [],
+  // comment: [],
 });
 
 export const WeekModel = mongoose.model("Week", weekSchema);
@@ -139,6 +139,19 @@ export default WeekModel;
 // createBasicWeekSchema([], [], [], [], [], [], [], []);
 
 // const newWeekSchema = new WeekModel({
-  
+//   sundayMorning: [{}],
+//    mondayMorning: [{}],
+//    tuesdayMorning: [{}],
+//    wednesdayMorning: [{}],
+//    thursdayMorning: [{}],
+//    fridayMorning: [{}],
+//    saturdayMorning: [{}],
 // });
 // newWeekSchema.save();
+
+
+// saturdayMorning: [{
+//   employeeId: {type: Schema.Types.ObjectId},
+//   role: String,
+//   comment: String
+// }],

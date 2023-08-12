@@ -80,10 +80,14 @@ exports.getManager = function (req, res) { return __awaiter(void 0, void 0, void
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 manager = req.cookies.manager;
+                if (!manager) {
+                    console.log("you are not a manager");
+                    res.status(500);
+                    return [2 /*return*/];
+                }
                 if (!secret)
                     throw new Error("no token");
                 decoded = jwt_simple_1["default"].decode(manager, secret);
-                console.log(decoded);
                 managerId = decoded.managerId, role = decoded.role;
                 return [4 /*yield*/, managerModel_1["default"].findById(managerId)];
             case 1:
