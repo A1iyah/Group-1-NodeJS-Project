@@ -89,9 +89,8 @@ const createNewWeekSchedule = (eve) =>
 function testt(eve) {
   eve.preventDefault();
   console.log(eve.target.elements.name.value);
-  
+
   console.log("works");
-  
 }
 
 /** Calc. start and the end of dates of next week and renders them */ 

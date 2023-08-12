@@ -16,19 +16,11 @@
 @mixin headerCenter {
   font-size: 50px;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 50px;
   cursor: default;
 }
 
-@mixin pageHeaderPlacement {
-  position: absolute;
-  top: 18%;
-  left: 5%;
-  transform: translate(-5%, -18%);
-  font-size: 40px;
-  cursor: default;
-}
-
+// SHADOWS -
 @mixin boxShadow {
   border: none;
   border-radius: 10px;
@@ -46,8 +38,8 @@
 
 @mixin chartShadow {
   border: none;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
 @mixin buttonDesign {

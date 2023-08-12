@@ -13,7 +13,7 @@ export const updateAvailability = async (req: any, res: any) => {
     for (const day in availabilityData) {
       if (availabilityData[day]) {
         const update = await WeekModel.findByIdAndUpdate(
-          "64d38a0680e3dcb7fbd1a67b",
+          "64d634c69e27e8dd496a1930",
           { $push: { [day]: userId } },
           { new: true }
         );
@@ -22,7 +22,7 @@ export const updateAvailability = async (req: any, res: any) => {
 
     if (commentValue) {
       const update = await WeekModel.findByIdAndUpdate(
-        "64d38a0680e3dcb7fbd1a67b",
+        "64d634c69e27e8dd496a1930",
         {
           $push: {
             comment: {
@@ -34,7 +34,7 @@ export const updateAvailability = async (req: any, res: any) => {
         { new: true }
       );
     }
-    const week = await WeekModel.findById("64d38a0680e3dcb7fbd1a67b");
+    const week = await WeekModel.findById("64d634c69e27e8dd496a1930");
     console.log(week);
 
     // Get date

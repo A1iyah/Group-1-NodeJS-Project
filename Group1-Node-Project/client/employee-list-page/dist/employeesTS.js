@@ -48,3 +48,130 @@ function main() {
     });
 }
 main();
+function handleCreateManager(e) {
+    e.preventDefault();
+    var name = e.target.elements.name.value;
+    var email = e.target.elements.email.value;
+    var password = e.target.elements.password.value;
+    var idNumber = e.target.elements.idNumber.value;
+    var phone = e.target.elements.phone.value;
+    var salary = e.target.elements.salary.value;
+    var birthday = e.target.elements.birthday.value;
+    var role = e.target.elements.role.value;
+    console.log(name, email, password, idNumber, phone, birthday, salary, role);
+    if (!name)
+        throw new Error("No name");
+    if (!email)
+        throw new Error("No email");
+    if (!password)
+        throw new Error("No password");
+    if (!idNumber)
+        throw new Error("No idNumber");
+    if (!phone)
+        throw new Error("No phone");
+    if (!birthday)
+        throw new Error("No birthday");
+    if (!salary)
+        throw new Error("No salary");
+    if (!role)
+        throw new Error("No role");
+    var newManager = { name: name, email: email, password: password, idNumber: idNumber, phone: phone, birthday: birthday, salary: salary, role: role };
+    fetch("/api/add-manager", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newManager)
+    })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+        console.log(data);
+    })["catch"](function (error) {
+        console.error(error);
+    });
+}
+;
+function handleCreateEmployee(e) {
+    e.preventDefault();
+    var name = e.target.elements.name.value;
+    var email = e.target.elements.email.value;
+    var password = e.target.elements.password.value;
+    var idNumber = e.target.elements.idNumber.value;
+    var phone = e.target.elements.phone.value;
+    var birthday = e.target.elements.birthday.value;
+    var salary = e.target.elements.salary.value;
+    var role = e.target.elements.role.value;
+    console.log(name, email, password, idNumber, phone, birthday, salary, role);
+    if (!name)
+        throw new Error("No name");
+    if (!email)
+        throw new Error("No email");
+    if (!password)
+        throw new Error("No password");
+    if (!idNumber)
+        throw new Error("No idNumber");
+    if (!phone)
+        throw new Error("No phone");
+    if (!birthday)
+        throw new Error("No birthday");
+    if (!salary)
+        throw new Error("No salary");
+    if (!role)
+        throw new Error("No role");
+    var newEmployee = { name: name, email: email, password: password, idNumber: idNumber, phone: phone, birthday: birthday, salary: salary, role: role };
+    fetch("/api/add-employee", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newEmployee)
+    })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+        console.log(data);
+    })["catch"](function (error) {
+        console.error(error);
+    });
+}
+;
+var create_Employee_tab = document.querySelector(".create_Employee_Role");
+var create_Manager_tab = document.querySelector(".create_Manager_Role");
+function getRole() {
+    try {
+        fetch("/api/get-roles")
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+            console.log(data);
+            if (!data)
+                throw new Error("didn't get any data");
+            var role = data.roles;
+            var html = role.map(function (role) {
+                return "<option> " + role.name + "</option>";
+            }).join(" ");
+            console.log(create_Manager_tab);
+            console.log(create_Employee_tab);
+            create_Employee_tab.innerHTML = "<select class= \"create_Employee_Role_Select\" name=\"role\">" + html + " </select><br><br>";
+            create_Manager_tab.innerHTML = "<select class= \"create_Employee_Role_Select\" name=\"role\">" + html + " </select><br><br>";
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+var create_Employee_Manager = document.querySelector(".create_Employee_Manager");
+function getManager() {
+    fetch("/api/get-managers")
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+        console.log(data);
+        if (!data)
+            throw new Error("didn't get any data");
+        var manager = data.managers;
+        var html = manager.map(function (manager) {
+            return "<option>" + manager.name + "</option>";
+        }).join(" ");
+        create_Employee_Manager.innerHTML = "<select class= \"create_Employee_Manager_Select\" name=\"manager\">" + html + " </select><br><br>";
+    });
+}
