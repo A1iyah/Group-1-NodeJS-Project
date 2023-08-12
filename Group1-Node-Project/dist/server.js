@@ -9,6 +9,7 @@ var companyRoute_1 = require("./API/company/companyRoute");
 var employeeRoute_1 = require("./API/employee/employeeRoute");
 var managerRoute_1 = require("./API/manager/managerRoute");
 var roleRoute_1 = require("./API/role/roleRoute");
+var scheduleRoute_1 = require("./API/schedule/scheduleRoute");
 var cookie_parser_1 = require("cookie-parser");
 dotenv.config();
 var uri = process.env.MONGOOSE_URI + "Node-Team-Project";
@@ -31,6 +32,7 @@ app.use("/api/employee/", employeeRoute_1["default"]);
 app.use("/api/manager/", managerRoute_1["default"]);
 app.use("/api/role/", roleRoute_1["default"]);
 app.use("/api/availability/", availabilityRoute_1["default"]);
+app.use("/api/schedule/", scheduleRoute_1["default"]);
 app.listen(3000, function () {
     console.log("server listen on port 3000");
 });
@@ -114,3 +116,21 @@ app.listen(3000, function () {
 //   97250642851,
 //   35
 // );
+// const weekSchema = new Schema({
+//   sundayMorning: [],
+//   mondayMorning: [],
+//   tuesdayMorning: [],
+//   wednesdayMorning: [],
+//   thursdayMorning: [],
+//   fridayMorning: [],
+//   saturdayMorning: [],
+//   sundayEvening: [],
+//   mondayEvening: [],
+//   tuesdayEvening: [],
+//   wednesdayEvening: [],
+//   thursdayEvening: [],
+//   fridayEvening: [],
+//   saturdayEvening: [],
+//   comment: [],
+// });
+// export const WeekModel = mongoose.model("Week", weekSchema);

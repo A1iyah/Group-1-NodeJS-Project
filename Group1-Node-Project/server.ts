@@ -7,6 +7,7 @@ import companyRoute from "./API/company/companyRoute";
 import employeeRoute from "./API/employee/employeeRoute";
 import managerRoute from "./API/manager/managerRoute";
 import roleRoute from "./API/role/roleRoute";
+import weekScheduleRouter from "./API/schedule/scheduleRoute";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -35,6 +36,7 @@ app.use("/api/employee/", employeeRoute);
 app.use("/api/manager/", managerRoute);
 app.use("/api/role/", roleRoute);
 app.use("/api/availability/", availabilityRoute);
+app.use("/api/schedule/", weekScheduleRouter);
 
 app.listen(3000, () => {
   console.log("server listen on port 3000");
@@ -127,3 +129,25 @@ app.listen(3000, () => {
 //   97250642851,
 //   35
 // );
+
+// const weekSchema = new Schema({
+//   sundayMorning: [],
+//   mondayMorning: [],
+//   tuesdayMorning: [],
+//   wednesdayMorning: [],
+//   thursdayMorning: [],
+//   fridayMorning: [],
+//   saturdayMorning: [],
+
+//   sundayEvening: [],
+//   mondayEvening: [],
+//   tuesdayEvening: [],
+//   wednesdayEvening: [],
+//   thursdayEvening: [],
+//   fridayEvening: [],
+//   saturdayEvening: [],
+
+//   comment: [],
+// });
+
+// export const WeekModel = mongoose.model("Week", weekSchema);

@@ -22,7 +22,7 @@
   align-items: center;
 }
 .nav-bar__link {
-  margin-right: 35px;
+  margin-right: 40px;
   cursor: pointer;
 }
 .nav-bar__link--bold {
@@ -33,6 +33,58 @@
   cursor: pointer;
 }
 
+@media screen and (max-width: 750px) {
+  .nav-bar {
+    width: 100%;
+    height: 100px;
+    padding: 5px;
+    font-size: 17px;
+    letter-spacing: 0.5px;
+  }
+  .nav-bar__links-group {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 50px);
+    text-align: center;
+  }
+  .nav-bar__link {
+    margin-right: 15px;
+    font-size: 12px;
+  }
+  .nav-bar__link__employee-manager {
+    grid-column-start: 1;
+    grid-column-end: 2;
+  }
+  .nav-bar__link__shift-schedule {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+  .nav-bar__link__availability {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+  .nav-bar__link__employees {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+  .nav-bar__link__reports {
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+  .nav-bar__user-name {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+}
 .login {
   position: absolute;
   top: 50%;
@@ -58,7 +110,7 @@
 }
 .login__email, .login__password {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   width: 250px;
   border: none;
   border-radius: 10px;
@@ -81,6 +133,7 @@
 .login__submit:hover {
   background-color: #16e7e7;
   color: black;
+  cursor: pointer;
 }
 .login__submit:hover a {
   color: black;
@@ -93,12 +146,22 @@
   top: 100%;
   left: 50%;
   transform: translate(-50%, 0);
+  cursor: default;
   background: #16e7e7;
   color: black;
   cursor: pointer;
   border-radius: 3px;
 }
 
+@media screen and (max-width: 750px) {
+  .login {
+    width: 90%;
+    height: 400px;
+  }
+  .login__email, .login__password {
+    width: 230px;
+  }
+}
 .shift {
   border: none;
   border-radius: 10px;
@@ -116,7 +179,8 @@
 .shift__title {
   font-size: 50px;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 50px;
+  cursor: default;
 }
 .shift__title span {
   font-size: 40px;
@@ -130,6 +194,7 @@
   top: 38%;
   left: 50%;
   transform: translate(-50%, -38%);
+  cursor: default;
   border: none;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
@@ -139,6 +204,7 @@
   top: 65%;
   left: 50%;
   transform: translate(-50%, -65%);
+  cursor: default;
   font-size: 30px;
 }
 .shift__startEndShift__start, .shift__startEndShift__end {
@@ -146,6 +212,7 @@
   top: 85%;
   left: 50%;
   transform: translate(-50%, -85%);
+  cursor: default;
   background-color: black;
   color: white;
   padding: 5px 20px;
@@ -159,85 +226,124 @@
 .shift__startEndShift__start:hover, .shift__startEndShift__end:hover {
   background-color: #16e7e7;
   color: black;
-}
-
-#availabilityForm h1 {
-  font-size: 50px;
-  text-align: center;
-  margin-top: 40px;
-}
-#availabilityForm #comment {
-  position: absolute;
-  top: 62%;
-  left: 20%;
-  transform: translate(-20%, -62%);
-  border: none;
-  border-radius: 10px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-  padding: 10px;
-}
-#availabilityForm .submit-btn {
-  background-color: black;
-  color: white;
-  padding: 5px 20px;
-  border: none;
-  border-radius: 5px;
-  box-shadow: rgba(64, 64, 64, 0.724) 0px 5px 15px;
-  transition: all 0.5s ease-in-out;
-  cursor: pointer;
-  position: absolute;
-  top: 60%;
-  left: 80%;
-  transform: translate(-80%, -60%);
-}
-#availabilityForm .submit-btn:hover {
-  background-color: #16e7e7;
-  color: black;
-}
-
-.availabilityForm__table {
-  width: 70%;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -40%);
-  border: none;
-  border-radius: 10px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-}
-.availabilityForm__table thead {
-  display: flex;
-  justify-content: end;
-  border: none;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-}
-.availabilityForm__table thead th {
-  width: 148px;
-  font-size: 30px;
-  padding: 10px;
-}
-.availabilityForm__table tbody {
-  display: flex;
-  justify-content: end;
-  border: none;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-}
-.availabilityForm__table tbody td {
-  width: 150px;
-  font-size: 25px;
-  padding: 10px;
-  text-align: center;
-}
-.availabilityForm__table tbody td button {
-  font-size: 25px;
-  padding: 10px;
-  border-radius: 50%;
-  border: none;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-  transition: all 0.5s ease-in-out;
   cursor: pointer;
 }
-.availabilityForm__table tbody td button:hover {
-  background-color: #16e7e7;
-  color: black;
+
+@media screen and (max-width: 768px) {
+  .shift {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -70%);
+    cursor: default;
+  }
+  .shift h2 {
+    display: flex;
+    flex-direction: column;
+  }
+  .shift__title {
+    font-size: 25px;
+    margin-top: 30px;
+  }
+  .shift__title span {
+    font-size: 25px;
+  }
+  .shift__date {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    cursor: default;
+    font-size: 25px;
+  }
+  .shift__startEndShift__start, .shift__startEndShift__end {
+    font-size: 20px;
+    padding: 5px;
+  }
+}
+.main-sections-container {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-template-rows: auto;
+  padding: 0 10px;
+  margin-top: 15px;
+}
+
+.employees-panel {
+  background-color: lightgray;
+  margin-right: 10px;
+}
+.employees-panel__week-displayer {
+  background-color: #b9aaaa;
+}
+.employees-panel__search-box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.employees-panel__search-box__image {
+  margin-top: 5px;
+  width: 28px;
+  padding: 2px;
+}
+.employees-panel__employees-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+.employees-panel__employee-box {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+.employees-panel__employee-box__markings-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.employees-panel__employee-box__allocations-count {
+  padding-right: 15px;
+}
+.employees-panel__employee-box__availability-img {
+  width: 20px;
+}
+.employees-panel__employee-box:hover {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.shifts-panel {
+  background-color: lightgray;
+  width: 100%;
+}
+.shifts-panel__days-header-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: auto;
+  gap: 110px;
+}
+.shifts-panel__day-box {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+.shifts-panel__day-box__day {
+  text-align: center;
+}
+.shifts-panel__day-box__date {
+  text-align: center;
+}
+.shifts-panel__manager-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.shifts-panel__role-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

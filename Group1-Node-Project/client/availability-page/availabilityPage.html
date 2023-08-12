@@ -14,6 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
     />
     <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="./style/availabilityStyle.css" />
     <script src="../common/dist/control.js" defer></script>
     <script src="./dist/availabilityView.js" defer></script>
     <script src="./dist/availabilityTS.js" defer></script>
@@ -22,8 +23,9 @@
   <body>
     <div class="nav-bar"></div>
 
-    <form id="availabilityForm">
+    <form class="availabilityForm">
       <h1>Availability</h1>
+      <div class="availabilityForm__date" id="weekDates"></div>
 
       <table class="availabilityForm__table">
         <thead>
@@ -36,83 +38,163 @@
           <th>Fri.</th>
           <th>Sat.</th>
         </thead>
+        <td class="availabilityForm__table__chartDatesContainer"></td>
 
         <tbody>
-          <td class="availabilityForm__table__dayShift">Day Shift</td>
-          <td>
-            <button
-              type="button"
-              class="availability-button"
-              data-day="Sunday"
-              data-shift="morning"
-            >
-              can't
-            </button>
-          </td>
-          <td>
-            <button
-              type="button"
-              class="availability-button"
-              data-day="Monday"
-              data-shift="morning"
-            >
-              can't
-            </button>
-          </td>
-          <td>
-            <button
-              type="button"
-              class="availability-button"
-              data-day="Tuesday"
-              data-shift="morning"
-            >
-              can't
-            </button>
-          </td>
-          <td>
-            <button
-              type="button"
-              class="availability-button"
-              data-day="Wednesday"
-              data-shift="morning"
-            >
-              can't
-            </button>
-          </td>
-          <td>
-            <button
-              type="button"
-              class="availability-button"
-              data-day="Thursday"
-              data-shift="morning"
-            >
-              can't
-            </button>
-          </td>
-          <td>
-            <button
-              type="button"
-              class="availability-button"
-              data-day="Friday"
-              data-shift="morning"
-            >
-              can't
-            </button>
-          </td>
-          <td>
-            <button
-              type="button"
-              class="availability-button"
-              data-day="Saturday"
-              data-shift="morning"
-            >
-              can't
-            </button>
-          </td>
+          <tr>
+            <td class="availabilityForm__table__shiftKind">
+              <span>Day Shift</span>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="sundayMorning"
+                data-shift="morning"
+              >
+                can't
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="mondayMorning"
+                data-shift="morning"
+              >
+                can't
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="tuesdayMorning"
+                data-shift="morning"
+              >
+                can't
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="wednesdayMorning"
+                data-shift="morning"
+              >
+                can't
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="thursdayMorning"
+                data-shift="morning"
+              >
+                can't
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="fridayMorning"
+                data-shift="morning"
+              >
+                can't
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="saturdayMorning"
+                data-shift="morning"
+              >
+                can't
+              </button>
+            </td>
+          </tr>
         </tbody>
+
+        <!-- <tbody>
+          <tr>
+            <td class="availabilityForm__table__shiftKind">Evening Shift</td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="sundayEvening"
+                data-shift="evening"
+              >
+                can't
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="mondayEvening"
+                data-shift="evening"
+              >
+                can't
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="tuesdayEvening"
+                data-shift="evening"
+              >
+                can't
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="wednesdayEvening"
+                data-shift="evening"
+              >
+                can't
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="thursdayEvening"
+                data-shift="evening"
+              >
+                can't
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="fridayEvening"
+                data-shift="evening"
+              >
+                can't
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="availability-button"
+                data-day="saturdayEvening"
+                data-shift="evening"
+              >
+                can't
+              </button>
+            </td>
+          </tr>
+        </tbody> -->
       </table>
 
-      <!-- <label for="comment">Additional Comments:</label> -->
       <textarea
         id="comment"
         name="comment"
@@ -124,7 +206,7 @@
 
       <button type="submit" class="submit-btn">
         <span class="material-symbols-outlined"> save </span>
-        SAVE
+        <span class="save">SAVE</span>
       </button>
     </form>
   </body>

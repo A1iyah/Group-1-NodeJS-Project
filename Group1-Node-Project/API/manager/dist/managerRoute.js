@@ -11,5 +11,6 @@ router
     .patch("/get-selected-salaryDown", managerControl_1.getSelectedSalaryDown)
     .patch("/get-selected-salaryBetween", managerControl_1.getSelectedSalaryBetween)
     .post("/login", managerControl_1.login)
-    .post("/add-attendance", managerControl_1.addAttendance);
+    .post("/add-attendance", managerControl_1.addAttendance)
+    .post("/add-manager", managerControl_1.addManager);
 exports["default"] = router;

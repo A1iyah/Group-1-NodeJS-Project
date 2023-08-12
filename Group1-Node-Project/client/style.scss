@@ -1,5 +1,4 @@
 @import "./styles/variety";
-@import "./common/_nav-bar";
 
 * {
   margin: 0;
@@ -14,7 +13,6 @@
   width: 100vw;
   height: 55px;
   padding: 0 20px;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -29,7 +27,7 @@
   }
 
   &__link {
-    margin-right: 35px;
+    margin-right: 40px;
     cursor: pointer;
 
     &--bold {
@@ -42,6 +40,72 @@
     }
   }
 }
+
+@media screen and (max-width: 750px) {
+  .nav-bar {
+    width: 100%;
+    height: 100px;
+    padding: 5px;
+    font-size: 17px;
+    letter-spacing: 0.5px;
+
+    &__links-group {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 50px);
+      text-align: center;
+    }
+
+    &__link {
+      margin-right: 15px;
+      font-size: 12px;
+    }
+
+    &__link__employee-manager {
+      grid-column-start: 1;
+      grid-column-end: 2;
+    }
+
+    &__link__shift-schedule {
+      grid-column-start: 1;
+      grid-column-end: 2;
+
+      grid-row-start: 2;
+      grid-row-end: 3;
+    }
+
+    &__link__availability {
+      grid-column-start: 2;
+      grid-column-end: 3;
+
+      grid-row-start: 2;
+      grid-row-end: 3;
+    }
+
+    &__link__employees {
+      grid-column-start: 3;
+      grid-column-end: 4;
+
+      grid-row-start: 2;
+      grid-row-end: 3;
+    }
+
+    &__link__reports {
+      grid-column-start: 4;
+      grid-column-end: 5;
+
+      grid-row-start: 2;
+      grid-row-end: 3;
+    }
+
+    &__user-name {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+  }
+}
+//
 
 // Login page -
 .login {
@@ -64,7 +128,7 @@
   &__email,
   &__password {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     width: 250px;
     @include inputShadow;
   }
@@ -74,14 +138,7 @@
     bottom: 30px;
     left: 50%;
     transform: translate(-50%);
-    // padding: 5px 20px;
     @include buttonDesign;
-
-    // a {
-    //   font-size: 20px;
-    //   text-decoration: none;
-    //   color: white;
-    // }
   }
 
   &__submit:hover {
@@ -99,6 +156,18 @@
     color: black;
     cursor: pointer;
     border-radius: 3px;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .login {
+    width: 90%;
+    height: 400px;
+
+    &__email,
+    &__password {
+      width: 230px;
+    }
   }
 }
 //
@@ -148,77 +217,145 @@
   }
 }
 
-// Availability page -
-#availabilityForm {
-  h1 {
-    @include headerCenter;
-  }
+@media screen and (max-width: 768px) {
+  .shift {
+    @include flexibleCenter(absolute, 70%, 50%, -50%, -70%);
 
-  #comment {
-    @include flexibleCenter(absolute, 62%, 20%, -20%, -62%);
-    @include boxShadow;
-    padding: 10px;
-  }
-
-  .submit-btn {
-    @include buttonDesign;
-    @include flexibleCenter(absolute, 60%, 80%, -80%, -60%);
-  }
-
-  .submit-btn:hover {
-    @include buttonHover;
-  }
-}
-
-.availabilityForm__table {
-  // border: 2px solid red;
-
-  width: 70%;
-  @include flexibleCenter(absolute, 40%, 50%, -50%, -40%);
-  @include boxShadow;
-
-  thead {
-    display: flex;
-    justify-content: end;
-    @include chartShadow;
-
-    th {
-      // border: 2px solid red;
-
-      width: 148px;
-      font-size: 30px;
-      padding: 10px;
+    h2 {
+      display: flex;
+      flex-direction: column;
     }
-  }
 
-  tbody {
-    display: flex;
-    justify-content: end;
-    @include chartShadow;
-
-    td {
-      // border: 2px solid red;
-
-      width: 150px;
+    &__title {
       font-size: 25px;
-      padding: 10px;
-      text-align: center;
+      margin-top: 30px;
 
-      button {
+      span {
         font-size: 25px;
-        padding: 10px;
-        border-radius: 50%;
-        border: none;
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-          rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
-          rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-        transition: all 0.5s ease-in-out;
-        cursor: pointer;
       }
+    }
 
-      button:hover {
-        @include buttonHover;
-      }
+    &__date {
+      @include flexibleCenter(absolute, 40%, 50%, -50%, -40%);
+      font-size: 25px;
+    }
+
+    &__startEndShift__start,
+    &__startEndShift__end {
+      font-size: 20px;
+      padding: 5px;
     }
   }
 }
+//
+
+// Shifts scheduling page
+.main-sections-container {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-template-rows: auto;
+  padding: 0 10px;
+  margin-top: 15px;
+}
+
+.employees-panel {
+  background-color: lightgray;
+  margin-right: 10px;
+
+  &__week-displayer {
+    background-color: rgb(185, 170, 170);
+  }
+
+  &__search-box {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    &__image {
+      margin-top: 5px;
+      width: 28px;
+      padding: 2px;
+    }
+  }
+
+  &__employees-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+  }
+
+  &__employee-box {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+
+    &__markings-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__allocations-count {
+      padding-right: 15px;
+    }
+
+    &__availability-img {
+      width: 20px;
+    }
+
+    &:hover {
+      //border: 1px solid rgb(72, 72, 72);
+
+      box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+        rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+        rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    }
+  }
+}
+
+.shifts-panel {
+  background-color: lightgray;
+  width: 100%;
+
+  &__days-header-container{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: auto;
+    gap: 110px;
+  }
+
+  &__day-box{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    
+
+    &__day{
+      text-align: center;
+    }
+
+    &__date{
+      text-align: center;
+    }
+  }
+
+  &__manager-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__role-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+}
+
+//

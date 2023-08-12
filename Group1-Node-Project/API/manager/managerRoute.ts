@@ -4,6 +4,7 @@ import {
   login,
   getManager,
   addAttendance,
+  addManager,
   getSelectedManager,
   getEmployeesList,
   getSelectedSalaryUp,
@@ -19,6 +20,6 @@ router
   .patch("/get-selected-salaryDown", getSelectedSalaryDown)
   .patch("/get-selected-salaryBetween", getSelectedSalaryBetween)
   .post("/login", login)
-  .post("/add-attendance", addAttendance);
-
+  .post("/add-attendance", addAttendance)
+  .post("/add-manager", addManager);
 export default router;

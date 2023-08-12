@@ -51,15 +51,45 @@ main();
 //
 var buttons = document.querySelectorAll(".availability-button");
 var comment = document.getElementById("comment");
-var form = document.getElementById("availabilityForm");
+var form = document.querySelector(".availabilityForm");
 var submitBtn = document.querySelector(".submit-btn");
-// Onclick for each check button -
-document.addEventListener("DOMContentLoaded", function () {
-    buttons.forEach(function (button) {
-        button.addEventListener("click", toggleButton);
+var availabilityDate = document.querySelector(".availabilityForm__date");
+var chartDates = document.querySelector(".availabilityForm__chartDates");
+// DATES -
+// Set up week dates -
+function updateWeekDates() {
+    var weekDatesDiv = document.getElementById("weekDates");
+    var today = new Date();
+    var dayOfWeek = today.getDay();
+    var sunday = new Date(today);
+    sunday.setDate(today.getDate() - dayOfWeek);
+    var saturday = new Date(today);
+    saturday.setDate(today.getDate() + (6 - dayOfWeek));
+    var options = {
+        month: "short",
+        day: "numeric"
+    };
+    weekDatesDiv.textContent = "<" + sunday.toLocaleDateString(undefined, options) + " - " + saturday.toLocaleDateString(undefined, options) + ">";
+    return { sunday: sunday, saturday: saturday };
+}
+// Chart dates -
+function updateChartDates() {
+    var chartDatesContainer = document.querySelector(".availabilityForm__table__chartDatesContainer");
+    var dayElements = document.querySelectorAll(".availabilityForm__table th:not(:first-child)");
+    var sunday = updateWeekDates().sunday;
+    dayElements.forEach(function (dayElement, index) {
+        var currentDate = new Date(sunday);
+        currentDate.setDate(sunday.getDate() + index);
+        var month = currentDate.getMonth() + 1;
+        var dayOfMonth = currentDate.getDate();
+        var dateElement = document.createElement("div");
+        dateElement.classList.add("availabilityForm__chartDate");
+        dateElement.textContent = dayOfMonth + "." + month;
+        chartDatesContainer.appendChild(dateElement);
     });
-    form.addEventListener("submit", handleFormSubmit);
-});
+}
+updateChartDates();
+// End of dates functions //
 // Toggle function -
 function toggleButton(event) {
     var clickedButton = event.target;
@@ -69,9 +99,10 @@ function toggleButton(event) {
     }
     else {
         clickedButton.textContent = "can";
+        clickedButton.style.backgroundColor = "rgb(21, 246, 92)";
     }
 }
-// Handle form button -
+// Handle form submit -
 function handleFormSubmit(event) {
     return __awaiter(this, void 0, void 0, function () {
         var commentValue, userId, availabilityData, response, error_1;
@@ -117,3 +148,10 @@ function handleFormSubmit(event) {
         });
     });
 }
+document.addEventListener("DOMContentLoaded", function () {
+    buttons.forEach(function (button) {
+        button.addEventListener("click", toggleButton);
+    });
+    updateWeekDates();
+    form.addEventListener("submit", handleFormSubmit);
+});

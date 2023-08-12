@@ -15,7 +15,178 @@
     <script src="./dist/employeesTS.js" defer></script>
     <title>Employees</title>
   </head>
-  <body>
+  <body onload="getRole(event); getManager(event)">
     <div class="nav-bar"></div>
+
+    <form class="create_Manager" onsubmit="handleCreateManager(event)">
+      <label for="name">Name:</label>
+      <br />
+      <input
+        class="create_Manager_Name"
+        type="text"
+        name="name"
+        placeholder="Name"
+        required
+      />
+      <br />
+      <br />
+      <label for="email">Email:</label>
+      <br />
+      <input
+        class="create_Manager_Email"
+        type="text"
+        name="email"
+        placeholder="Email"
+        required
+      />
+      <br />
+      <br />
+      <label for="password">Password:</label>
+      <br />
+      <input
+        class="create_Manager_Password"
+        type="text"
+        name="password"
+        placeholder="Password"
+        required
+      />
+      <br />
+      <br />
+      <label for="idNumber">ID Number:</label>
+      <br />
+      <input
+        class="create_Manager_idNumber"
+        type="number"
+        name="idNumber"
+        placeholder="ID Number"
+        required
+      />
+      <br />
+      <br />
+      <label for="phone">Phone Number:</label>
+      <br />
+      <input
+        class="create_Manager_Phone"
+        type="number"
+        name="phone"
+        placeholder="Phone Number"
+        required
+      />
+      <br />
+      <br />
+      <label for="birthday">BirthDay:</label>
+      <br />
+      <input
+        class="create_Manager_birthday"
+        type="date"
+        name="birthday"
+        required
+      />
+      <br />
+      <br />
+      <label for="salary">Manager Salary:</label>
+      <br />
+      <input
+        class="create_Manager_Salary"
+        type="number"
+        name="salary"
+        placeholder="Salary"
+        required
+      />
+      <br />
+      <br />
+      <label for="role">Select Role:</label>
+      <br />
+      <div class="create_Manager_Role"></div>
+      <button class="create_Manager_Button">Submit</button>
+    </form>
+
+    <h1>create employee</h1>
+    <form class="create_Employee" onsubmit="handleCreateEmployee(event)">
+      <label for="name">Name:</label>
+      <br />
+      <input
+        class="create_Employee_Name"
+        type="text"
+        name="name"
+        placeholder="Name"
+        required
+      />
+      <br />
+      <br />
+      <label for="email">Email:</label>
+      <br />
+      <input
+        class="create_Employee_Email"
+        type="text"
+        name="email"
+        placeholder="Email"
+        required
+      />
+      <br />
+      <br />
+      <label for="password">Password:</label>
+      <br />
+      <input
+        class="create_Employee_Password"
+        type="text"
+        name="password"
+        placeholder="Password"
+        required
+      />
+      <br />
+      <br />
+      <label for="idNumber">ID Number:</label>
+      <br />
+      <input
+        class="create_Employee_idNumber"
+        type="number"
+        name="idNumber"
+        placeholder="ID Number"
+        required
+      />
+      <br />
+      <br />
+      <label for="phone">Phone Number:</label>
+      <br />
+      <input
+        class="create_Employee_Phone"
+        type="number"
+        name="phone"
+        placeholder="Phone Number"
+        required
+      />
+      <br />
+      <br />
+      <label for="birthday">BirthDay:</label>
+      <br />
+      <input
+        class="create_Employee_birthday"
+        type="date"
+        name="birthday"
+        required
+      />
+      <br />
+      <br />
+      <label for="salary">create_Employee Salary:</label>
+      <br />
+      <input
+        class="create_Employee_Salary"
+        type="number"
+        name="salary"
+        placeholder="Salary"
+        required
+      />
+      <br />
+      <br />
+      <label for="role">select Role:</label>
+      <div class="create_Employee_Role"></div>
+      <br />
+      <br />
+      <label for="employees_manager">Select Manager:</label>
+      <br />
+      <div class="create_Employee_Manager"></div>
+      <button class="create_Employee_Button">Submit</button>
+    </form>
   </body>
 </html>
