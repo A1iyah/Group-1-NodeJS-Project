@@ -39,7 +39,7 @@ export const updateAvailability = async (req: any, res: any) => {
 
         const update = await WeekModel.findByIdAndUpdate(
           "64d7f65a9885a173a23a230d", 
-          { $push: { day : {
+          { $push: { [day] : {
             employeeId: userId,
             role: roleString,
             comment: commentValue}} },

@@ -42,16 +42,17 @@ var availabilityModel_1 = require("./availabilityModel");
 var roleString;
 exports.updateAvailability = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var weekData, _a, availabilityData, commentValue, userId, role, updateObject, _b, _c, _i, day, update, _d, sunday, saturday, error_1;
-    return __generator(this, function (_e) {
-        switch (_e.label) {
+    var _e;
+    return __generator(this, function (_f) {
+        switch (_f.label) {
             case 0:
                 console.log("updateAvailability");
-                _e.label = 1;
+                _f.label = 1;
             case 1:
-                _e.trys.push([1, 7, , 8]);
+                _f.trys.push([1, 7, , 8]);
                 return [4 /*yield*/, availabilityModel_1.WeekModel.find({})];
             case 2:
-                weekData = _e.sent();
+                weekData = _f.sent();
                 if (!weekData)
                     throw new Error("no week found in DB");
                 console.log("body: ", req.body);
@@ -72,20 +73,20 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                 for (_c in availabilityData)
                     _b.push(_c);
                 _i = 0;
-                _e.label = 3;
+                _f.label = 3;
             case 3:
                 if (!(_i < _b.length)) return [3 /*break*/, 6];
                 day = _b[_i];
                 if (!availabilityData[day]) return [3 /*break*/, 5];
                 console.log("trying to update: ", day);
-                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d7f65a9885a173a23a230d", { $push: { day: {
-                                employeeId: userId,
-                                role: roleString,
-                                comment: commentValue
-                            } } })];
+                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d7f65a9885a173a23a230d", { $push: (_e = {}, _e[day] = {
+                            employeeId: userId,
+                            role: roleString,
+                            comment: commentValue
+                        }, _e) })];
             case 4:
-                update = _e.sent();
-                _e.label = 5;
+                update = _f.sent();
+                _f.label = 5;
             case 5:
                 _i++;
                 return [3 /*break*/, 3];
@@ -100,7 +101,7 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                 });
                 return [3 /*break*/, 8];
             case 7:
-                error_1 = _e.sent();
+                error_1 = _f.sent();
                 console.error(error_1);
                 res.status(500).send("Error updating availability");
                 return [3 /*break*/, 8];
