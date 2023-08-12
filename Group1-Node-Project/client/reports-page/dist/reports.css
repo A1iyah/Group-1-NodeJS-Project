@@ -6,3 +6,11 @@
 .salaryReports__between__input {
   width: 350px;
 }
+
+.salaryReportTable {
+  width: 70%;
+}
+
+.employeeReports__byEmployee__List {
+  width: 300px;
+}

@@ -1,7 +1,12 @@
 async function main() {
   await getActiveUser();
-
   renderNavBar(navBarElement);
+
+  // const startShift = localStorage.getItem("totalTimeShift");
+  // if (startShift) {
+  //   let continueTime = startShift.toString();
+  //   continueClock();
+  // }
 }
 
 main();
@@ -58,6 +63,8 @@ startEndButtonS.addEventListener("click", (e) => {
   clearInterval(intervalId);
   startEndClock.innerHTML = `00:00:00`;
   startTime = Date.now();
+  console.log(startTime);
+
   currentTime = null;
   console.log(formattedTime);
   intervalId = null;
@@ -65,6 +72,7 @@ startEndButtonS.addEventListener("click", (e) => {
   startEndButtonE.style.display = "block";
 
   startClock();
+  localStorage.setItem("startTime", String(startTime));
 });
 
 function updateElapsedTime() {
@@ -80,16 +88,39 @@ function updateElapsedTime() {
   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   startEndClock.innerHTML = formattedTime;
   totalTimeShift = formattedTime;
+  localStorage.setItem("totalTimeShift", formattedTime);
 }
 
 function startClock() {
   intervalId = setInterval(updateElapsedTime, 1000);
 }
 
+function continueUpdateElapsedTime() {
+  const currentTime = Date.now();
+  const elapsedTime = currentTime - continueTime;
+
+  const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+  const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+
+  const formattedTime = `${String(hours).padStart(2, "0")}:${String(
+    minutes
+  ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  startEndClock.innerHTML = formattedTime;
+  totalTimeShift = formattedTime;
+  localStorage.setItem("totalTimeShift", formattedTime);
+}
+
+function continueClock() {
+  intervalId = setInterval(continueUpdateElapsedTime, 1000);
+}
+
 startEndButtonE.addEventListener("click", (e) => {
   startEndButtonS.style.display = "block";
   startEndButtonE.style.display = "none";
   stopClock();
+  localStorage.removeItem("startTime");
+  localStorage.removeItem("totalTimeShift");
 });
 
 function stopClock() {

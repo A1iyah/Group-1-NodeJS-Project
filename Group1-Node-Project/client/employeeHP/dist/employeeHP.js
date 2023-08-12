@@ -98,12 +98,14 @@ startEndButtonS.addEventListener("click", function (e) {
     clearInterval(intervalId);
     startEndClock.innerHTML = "00:00:00";
     startTime = Date.now();
+    console.log(startTime);
     currentTime = null;
     console.log(formattedTime);
     intervalId = null;
     startEndButtonS.style.display = "none";
     startEndButtonE.style.display = "block";
     startClock();
+    localStorage.setItem("startTime", String(startTime));
 });
 function updateElapsedTime() {
     var currentTime = Date.now();
@@ -114,14 +116,31 @@ function updateElapsedTime() {
     var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
     startEndClock.innerHTML = formattedTime;
     totalTimeShift = formattedTime;
+    localStorage.setItem("totalTimeShift", formattedTime);
 }
 function startClock() {
     intervalId = setInterval(updateElapsedTime, 1000);
+}
+function continueUpdateElapsedTime() {
+    var currentTime = Date.now();
+    var elapsedTime = currentTime - continueTime;
+    var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+    var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+    var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+    startEndClock.innerHTML = formattedTime;
+    totalTimeShift = formattedTime;
+    localStorage.setItem("totalTimeShift", formattedTime);
+}
+function continueClock() {
+    intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
 startEndButtonE.addEventListener("click", function (e) {
     startEndButtonS.style.display = "block";
     startEndButtonE.style.display = "none";
     stopClock();
+    localStorage.removeItem("startTime");
+    localStorage.removeItem("totalTimeShift");
 });
 function stopClock() {
     if (intervalId) {

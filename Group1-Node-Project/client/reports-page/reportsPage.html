@@ -19,9 +19,15 @@
     <div class="nav-bar"></div>
 
     <div class="reportButtons">
-      <button class="reportButtons__salary">Report by salary</button>
-      <button class="reportButtons__manager">Reports by manager</button>
-      <button class="reportButtons__employee">Reports by employee</button>
+      <button class="reportButtons__salary" style="display: none">
+        Report by salary
+      </button>
+      <button class="reportButtons__manager" style="display: none">
+        Reports by manager
+      </button>
+      <button class="reportButtons__employee" style="display: none">
+        Reports by employee
+      </button>
     </div>
 
     <div class="salaryReports" style="display: none">
@@ -93,5 +99,50 @@
         </button>
       </form>
     </div>
+
+    <div class="employeeReports" style="display: none">
+      <form
+        class="employeeReports__byEmployee"
+        onsubmit="HandleEmployeeReport(event)"
+      >
+        <label for="employees">Select Employee:</label>
+        <div class="employeeReports__byEmployee__List"></div>
+        <button
+          class="employeeReports__byEmployee__submit"
+          type="submit"
+          value="Enter"
+        >
+          Enter
+        </button>
+      </form>
+    </div>
+
+    <div class="managerReports" style="display: none">
+      <form
+        class="managerReports__byManager"
+        onsubmit="HandleManagerReport(event)"
+      >
+        <label for="managers">Select Manager:</label>
+        <div class="managerReports__byManager__List"></div>
+        <button
+          class="managerReports__byManager__submit"
+          type="submit"
+          value="Enter"
+        >
+          Enter
+        </button>
+      </form>
+    </div>
+
+    <table class="salaryReportTable" id="salaryReportResult">
+      <tr>
+        <th>Name</th>
+        <th>Birthday</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Salary Per Hour</th>
+        <th>Role</th>
+      </tr>
+    </table>
   </body>
 </html>

@@ -36,11 +36,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.addAttendance = exports.getEmployee = exports.login = void 0;
+exports.getSelectedEmployee = exports.addAttendance = exports.getEmployee = exports.login = void 0;
 var employeeModel_1 = require("./employeeModel");
+var dotenv = require("dotenv");
+dotenv.config();
 var jwt_simple_1 = require("jwt-simple");
-// const secret = process.env.JWT_SECRET;
-var secret = "secret";
+var secret = process.env.JWT_SECRET;
+console.log("secret:", secret);
+// const secret: string = "secret";
 exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, email, password, employeeDB, token, error_1;
     return __generator(this, function (_b) {
@@ -124,6 +127,33 @@ exports.addAttendance = function (req, res) { return __awaiter(void 0, void 0, v
                 error_3 = _b.sent();
                 console.error(error_3);
                 res.status(500).send({ error: error_3.message });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getSelectedEmployee = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var idNumber, employeeDB, error_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                idNumber = req.body.idNumber;
+                if (!idNumber)
+                    throw new Error("no id");
+                return [4 /*yield*/, employeeModel_1["default"].find({
+                        idNumber: idNumber
+                    })];
+            case 1:
+                employeeDB = _a.sent();
+                // .populate("roles")
+                // .exec();
+                res.send({ employeeDB: employeeDB });
+                return [3 /*break*/, 3];
+            case 2:
+                error_4 = _a.sent();
+                console.error(error_4);
+                res.status(500).send({ error: error_4.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

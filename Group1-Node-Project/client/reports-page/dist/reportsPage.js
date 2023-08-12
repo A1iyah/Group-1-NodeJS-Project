@@ -40,13 +40,12 @@ var salaryButton = document.querySelector(".reportButtons__salary");
 var managerButton = document.querySelector(".reportButtons__manager");
 var employeeButton = document.querySelector(".reportButtons__employee");
 var reportsBySalary = document.querySelector(".salaryReports");
-// const reportsByManager = document.querySelector(
-//   ".salaryReports"
-// ) as HTMLDivElement;
-// const reportsByEmployee = document.querySelector(
-//   ".salaryReports"
-// ) as HTMLDivElement;
+var employeesList = document.querySelector(".employeeReports__byEmployee__List");
+var managersList = document.querySelector(".managerReports__byManager__List");
+var reportsByManager = document.querySelector(".managerReports");
+var reportsByEmployee = document.querySelector(".employeeReports");
 var reportSalaryUp = document.querySelector(".salaryReports__salaryUp");
+var salaryReportResult = document.querySelector("#salaryReportResult");
 var reportSalaryDown = document.querySelector(".salaryReports__salaryDown");
 var reportSalaryBetween = document.querySelector(".salaryReports__between");
 function main() {
@@ -57,14 +56,70 @@ function main() {
                 case 1:
                     _a.sent();
                     renderNavBar(navBarElement);
+                    console.log(userType);
+                    if (userType === UserType.Employee) {
+                        employeeUsingReport();
+                    }
+                    else if (userType === UserType.Manager) {
+                        employeeButton.style.display = "inline-block";
+                        salaryButton.style.display = "inline-block";
+                    }
+                    else if (userType === UserType.Admin) {
+                        employeeButton.style.display = "inline-block";
+                        salaryButton.style.display = "inline-block";
+                        managerButton.style.display = "inline-block";
+                    }
                     return [2 /*return*/];
             }
         });
     });
 }
 main();
+function renderReportResult(employees) {
+    try {
+        if (!employees)
+            throw new Error("employees didn't found");
+        for (var i = 0; i < employees.length; i++) {
+            // const employeeToShow = employees[i];
+            var listItem = document.createElement("tr");
+            var tdName = document.createElement("td");
+            var tdBirthday = document.createElement("td");
+            var tdEmail = document.createElement("td");
+            var tdPhone = document.createElement("td");
+            var tdSalaryPerHour = document.createElement("td");
+            var tdRole = document.createElement("td");
+            tdName.appendChild(document.createTextNode(employees[i].name));
+            listItem.appendChild(tdName);
+            tdBirthday.appendChild(document.createTextNode(employees[i].birthday));
+            listItem.appendChild(tdBirthday);
+            tdEmail.appendChild(document.createTextNode(employees[i].email));
+            listItem.appendChild(tdEmail);
+            tdPhone.appendChild(document.createTextNode(employees[i].phone));
+            listItem.appendChild(tdPhone);
+            tdSalaryPerHour.appendChild(document.createTextNode(employees[i].salaryPerHour));
+            listItem.appendChild(tdSalaryPerHour);
+            if (employees[i].role) {
+                tdRole.appendChild(document.createTextNode(employees[i].role.name));
+                listItem.appendChild(tdRole);
+            }
+            else {
+                tdRole.appendChild(document.createTextNode("manager"));
+                listItem.appendChild(tdRole);
+            }
+            salaryReportResult === null || salaryReportResult === void 0 ? void 0 : salaryReportResult.appendChild(listItem);
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
 salaryButton.addEventListener("click", function (e) {
     reportsBySalary.style.display = "flex";
+    reportsByEmployee.style.display = "none";
+    reportsByManager.style.display = "none";
+    for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
+        salaryReportResult.removeChild(salaryReportResult.children[i]);
+    }
 });
 function HandleSalaryUp(ev) {
     try {
@@ -72,7 +127,320 @@ function HandleSalaryUp(ev) {
         var salaryUp = ev.target.elements.salaryUp.value;
         if (!salaryUp)
             throw new Error("no salary entered");
+        for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
+            salaryReportResult.removeChild(salaryReportResult.children[i]);
+        }
         console.log(salaryUp);
+        if (userType === UserType.Admin) {
+            var _id = user._id;
+            fetch("/api/admin/get-selected-salaryUp", {
+                method: "PATCH",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ salaryUp: salaryUp, _id: _id })
+            })
+                .then(function (res) { return res.json(); })
+                .then(function (_a) {
+                var employees = _a.employees;
+                console.log(employees.managers);
+                renderReportResult(employees.managers);
+                renderReportResult(employees.employees);
+            });
+        }
+        else if (userType === UserType.Manager) {
+            var _id = user._id;
+            fetch("/api/manager/get-selected-salaryUp", {
+                method: "PATCH",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ salaryUp: salaryUp, _id: _id })
+            })
+                .then(function (res) { return res.json(); })
+                .then(function (_a) {
+                var employees = _a.employees;
+                renderReportResult(employees.employees);
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+function HandleSalaryDown(ev) {
+    try {
+        ev.preventDefault();
+        var salaryDown = ev.target.elements.salaryDown.value;
+        if (!salaryDown)
+            throw new Error("no salary entered");
+        for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
+            salaryReportResult.removeChild(salaryReportResult.children[i]);
+        }
+        console.log(salaryDown);
+        if (userType === UserType.Admin) {
+            var _id = user._id;
+            fetch("/api/admin/get-selected-salaryDown", {
+                method: "PATCH",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ salaryDown: salaryDown, _id: _id })
+            })
+                .then(function (res) { return res.json(); })
+                .then(function (_a) {
+                var employees = _a.employees;
+                console.log(employees.managers);
+                renderReportResult(employees.managers);
+                renderReportResult(employees.employees);
+            });
+        }
+        else if (userType === UserType.Manager) {
+            var _id = user._id;
+            fetch("/api/manager/get-selected-salaryDown", {
+                method: "PATCH",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ salaryDown: salaryDown, _id: _id })
+            })
+                .then(function (res) { return res.json(); })
+                .then(function (_a) {
+                var employees = _a.employees;
+                renderReportResult(employees.employees);
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+function HandleSalaryBetween(ev) {
+    try {
+        ev.preventDefault();
+        var minSalary = ev.target.elements.minSalary.value;
+        var maxSalary = ev.target.elements.maxSalary.value;
+        if (!minSalary)
+            throw new Error("no minSalary entered");
+        if (!maxSalary)
+            throw new Error("no maxSalary entered");
+        for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
+            salaryReportResult.removeChild(salaryReportResult.children[i]);
+        }
+        console.log(minSalary, maxSalary);
+        if (userType === UserType.Admin) {
+            var _id = user._id;
+            fetch("/api/admin/get-selected-salaryBetween", {
+                method: "PATCH",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ minSalary: minSalary, maxSalary: maxSalary, _id: _id })
+            })
+                .then(function (res) { return res.json(); })
+                .then(function (_a) {
+                var employees = _a.employees;
+                console.log(employees.employees);
+                console.log(employees.managers);
+                renderReportResult(employees.managers);
+                renderReportResult(employees.employees);
+            });
+        }
+        else if (userType === UserType.Manager) {
+            var _id = user._id;
+            fetch("/api/manager/get-selected-salaryBetween", {
+                method: "PATCH",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ minSalary: minSalary, maxSalary: maxSalary, _id: _id })
+            })
+                .then(function (res) { return res.json(); })
+                .then(function (_a) {
+                var employees = _a.employees;
+                renderReportResult(employees.employees);
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+employeeButton.addEventListener("click", function (e) {
+    reportsBySalary.style.display = "none";
+    reportsByEmployee.style.display = "flex";
+    reportsByManager.style.display = "none";
+    for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
+        salaryReportResult.removeChild(salaryReportResult.children[i]);
+    }
+    if (userType === UserType.Admin) {
+        fetch("/api/admin/get-employees-list")
+            .then(function (res) { return res.json(); })
+            .then(function (employees) {
+            try {
+                if (!employees)
+                    throw new Error("didn't get any data");
+                console.log(employees);
+                var employeesToShow = employees.employees.employees;
+                console.log(employeesToShow);
+                var html1 = employeesToShow
+                    .map(function (employee) {
+                    return "<option> " + employee.name + " - " + employee.idNumber + "</option>";
+                })
+                    .join(" ");
+                employeesList.innerHTML = "<select class=\"employeeReports__byEmployee__List\" name=\"employees\">" + html1 + "</select>";
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
+    }
+    else if (userType === UserType.Manager) {
+        var _id = user._id;
+        fetch("/api/manager/get-employees-list", {
+            method: "PATCH",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ _id: _id })
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (_a) {
+            var employees = _a.employees;
+            console.log(employees);
+            try {
+                if (!employees)
+                    throw new Error("didn't get any data");
+                var employeesToShow = employees.employees;
+                console.log(employeesToShow);
+                var html1 = employeesToShow
+                    .map(function (employee) {
+                    return "<option> " + employee.name + " - " + employee.idNumber + "</option>";
+                })
+                    .join(" ");
+                employeesList.innerHTML = "<select class=\"employeeReports__byEmployee__List\" name=\"employees\">" + html1 + "</select>";
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
+    }
+});
+function HandleEmployeeReport(ev) {
+    try {
+        ev.preventDefault();
+        for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
+            salaryReportResult.removeChild(salaryReportResult.children[i]);
+        }
+        var employeeDetails = ev.target.elements.employees.value;
+        var _a = employeeDetails
+            .match(/^(.*?)\s-\s(\d+)$/)
+            .slice(1), name = _a[0], idNumber = _a[1];
+        if (!employeeDetails)
+            throw new Error("no employee selected");
+        console.log(name);
+        console.log(idNumber);
+        fetch("/api/employee/get-selected-employee", {
+            method: "PATCH",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ idNumber: idNumber })
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (_a) {
+            var employeeDB = _a.employeeDB;
+            console.log(employeeDB);
+            renderReportResult(employeeDB);
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+managerButton.addEventListener("click", function (e) {
+    reportsBySalary.style.display = "none";
+    reportsByEmployee.style.display = "none";
+    reportsByManager.style.display = "flex";
+    for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
+        salaryReportResult.removeChild(salaryReportResult.children[i]);
+    }
+    fetch("/api/admin/get-managers-list")
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+        try {
+            if (!data)
+                throw new Error("didn't get any data");
+            console.log(data);
+            var managers = data.managers.managers;
+            console.log(managers);
+            var html1 = managers
+                .map(function (manager) {
+                return "<option> " + manager.name + " - " + manager.idNumber + "</option>";
+            })
+                .join(" ");
+            managersList.innerHTML = "<select class=\"managerReports__byManager__List\" name=\"managers\">" + html1 + "</select>";
+        }
+        catch (error) {
+            console.log(error);
+        }
+    });
+});
+function HandleManagerReport(ev) {
+    try {
+        for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
+            salaryReportResult.removeChild(salaryReportResult.children[i]);
+        }
+        ev.preventDefault();
+        var managerDetails = ev.target.elements.managers.value;
+        var _a = managerDetails.match(/^(.*?)\s-\s(\d+)$/).slice(1), name = _a[0], idNumber = _a[1];
+        if (!managerDetails)
+            throw new Error("no employee selected");
+        console.log(name);
+        console.log(idNumber);
+        fetch("/api/manager/get-selected-manager", {
+            method: "PATCH",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ idNumber: idNumber })
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (_a) {
+            var managerDB = _a.managerDB;
+            renderReportResult(managerDB);
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+function employeeUsingReport() {
+    try {
+        var idNumber = user.idNumber;
+        fetch("/api/employee/get-selected-employee", {
+            method: "PATCH",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ idNumber: idNumber })
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (_a) {
+            var employeeDB = _a.employeeDB;
+            console.log(employeeDB);
+            renderReportResult(employeeDB);
+        });
     }
     catch (error) {
         console.log(error);

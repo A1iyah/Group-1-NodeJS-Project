@@ -4,4 +4,3 @@ import EmployeeModel from "../employee/employeeModel";
 import CompanyModel from "../company/companyModel";
 import AdminModel from "../admin/adminModel";
 import availability from "../availability/availabilityModel";
-
