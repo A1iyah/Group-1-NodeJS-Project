@@ -34,7 +34,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var _this = this;
 var navBarElement = document.querySelector(".nav-bar");
+var weekDays;
+var nextSunday;
+var nextSaturday;
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -43,27 +47,137 @@ function main() {
                 case 1:
                     _a.sent();
                     renderNavBar(navBarElement);
-                    renderWeekDisplayer();
-                    renderAllEmployeesPanel();
+                    renderAllAvailableEmployees();
                     return [2 /*return*/];
             }
         });
     });
 }
 main();
+/** Renders the form to create a new week */
+var displayWeekScheduleConfig = function () {
+    var newScheduleFormElem = document.querySelector(".new-schedule-form");
+    nextSunday = getNextSundayDate(new Date());
+    nextSaturday = getNextSaturdayDate(new Date());
+    newScheduleFormElem.innerHTML = "\n      <form onsubmit=\"createNewWeekSchedule(event)\">\n        <label for=\"startDate\">New schedule starts at:</label>\n        <input type=\"text\" class=\"new-schedule-form__date\" name=\"startDate\" value='" + nextSunday.toDateString() + "' readonly>\n        <label for=\"endDate\">New schedule end's at:</label>\n        <input type=\"text\" class=\"new-schedule-form__date\" name=\"endDate\" value='" + nextSaturday.toDateString() + "' readonly>\n        <p class=\"new-schedule-form__header\">Roles:</p>\n        <label for=\"roleManager\">Shift Managers:</label>\n        <input type=\"number\" class=\"new-schedule-form__role-count\" name=\"roleManager\" value=\"1\" readonly>\n        <label for=\"roleCashier\">Cashier:</label>\n        <input type=\"number\" class=\"new-schedule-form__role-count\" name=\"roleCashier\" value=\"1\" min=\"0\">\n        <label for=\"roleSales\">Sales person:</label>\n        <input type=\"number\" class=\"new-schedule-form__role-count\" name=\"roleSales\" value=\"1\" min=\"0\">\n        <input type=\"submit\">\n      </form>\n  ";
+};
+/** creates a new week schedule on form submitted */
+var createNewWeekSchedule = function (eve) {
+    eve.preventDefault();
+    var cashierCount = eve.target.elements.roleCashier.value;
+    var salesCount = eve.target.elements.roleSales.value;
+    try {
+        fetch("/api/schedule/create-new-week-for-scheduling", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nextSunday: nextSunday.toLocaleDateString(),
+                cashierCount: cashierCount,
+                salesCount: salesCount
+            })
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+            if (!data)
+                throw new Error("no schedule data received from DB.");
+            console.log("start date: ", data.weekSchedule);
+            var weekDaysArr = getWeekDaysDatesArr(new Date(data.weekSchedule.startDate));
+            renderEmployeesPanel(weekDaysArr);
+            renderAllocationsPanel(weekDaysArr, data.weekSchedule.scheduleRequirements);
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
 function testt(eve) {
     eve.preventDefault();
     console.log(eve.target.elements.name.value);
     console.log("works");
 }
-/// calc. start and the end of dates of next week and renders them
-var renderWeekDisplayer = function () {
-    var weekStartElem = document.querySelector(".employees-panel__week-displayer__week-start");
-    var weekEndElem = document.querySelector(".employees-panel__week-displayer__week-end");
-    var todayDate = new Date();
-    var nextSunday = new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() - todayDate.getDay() + 7).toDateString();
-    var nextSaturday = new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() + (6 - todayDate.getDay()) + 7).toDateString();
-    weekStartElem.innerHTML = nextSunday;
-    weekEndElem.innerHTML = nextSaturday;
+/** Calc. start and the end of dates of next week and renders them */
+var renderEmployeesPanel = function (weekDaysArr) {
+    var employeesPanelElem = document.querySelector(".employees-panel");
+    // const weekStartElem = document.querySelector(".employees-panel__week-displayer__week-start") as HTMLDivElement;
+    // const weekEndElem = document.querySelector(".employees-panel__week-displayer__week-end") as HTMLDivElement;
+    employeesPanelElem.innerHTML = "\n        <div class=\"employees-panel__week-displayer\">\n          <p class=\"employees-panel__week-displayer__text\"><span class=\"employees-panel__week-displayer__week-start\">" + weekDaysArr[0].toDateString() + "</span> - <br><span class=\"employees-panel__week-displayer__week-end\">" + weekDaysArr[6].toDateString() + "</span></p>\n        </div>\n\n        <div class=\"employees-panel__search-box\">\n          \n          <!-- <div class=\"employees-panel__search-box__search-box\"> -->\n            <form onsubmit=\"testt(event)\">\n              <input type=\"image\" src=\"./images/magnifying-glass.png\" alt=\"magnifying-glass\" class=\"employees-panel__search-box__image\">\n              <label for=\"name\"></label>\n              <input type=\"text\" name=\"name\" class=\"employees-panel__search-box__text\" value=\"Search employee\">\n            </form>\n          <!-- </div> -->\n        </div>\n\n        <div class=\"employees-panel__employees-list-container\">\n          <div class=\"employees-panel__employee-box\">\n            <p class=\"employees-panel__employee-name\">Neo Meo</p>\n            <div class=\"employees-panel__employee-box__markings-container\">\n              <p class=\"employees-panel__employee-box__allocations-count\">2</p>\n              <img src=\"./images/green-v.png\" alt=\"green-v\" class=\"employees-panel__employee-box__availability-img\">\n            </div>\n          </div>\n        </div>\n\n        <div class=\"comments-panel\"></div>\n  ";
 };
-var renderAllEmployeesPanel = function () { };
+var renderAllocationsPanel = function (weekDaysArr, scheduleRequirements) {
+    var shiftsPanelElem = document.querySelector(".shifts-panel");
+    shiftsPanelElem.innerHTML = "\n  <div class=\"shifts-panel__days-header-container\">" + renderWeekHeaders(weekDaysArr) + "</div>\n  " + renderRoleAllocationsPlaces(weekDaysArr, scheduleRequirements) + "\n  ";
+};
+var renderWeekHeaders = function (weekDaysArr) {
+    var daysNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var daysCounter = -1;
+    var daysHeadersHtml = weekDaysArr.map(function (dayHeader) {
+        daysCounter++;
+        return "<div class=\"shifts-panel__day-box\">\n      <p class=\"shifts-panel__day-box__day\">" + daysNames[daysCounter] + "</p>\n      <p class=\"shifts-panel__day-box__date\">" + weekDaysArr[daysCounter].getDate() + " / " + weekDaysArr[daysCounter].getMonth() + "</p>\n      </div>";
+    }).join("");
+    return daysHeadersHtml;
+};
+var renderRoleAllocationsPlaces = function (weekDaysArr, scheduleRequirements) {
+    console.log("scheduleReq: ", scheduleRequirements);
+    var numRolesInScheduleRequirements = scheduleRequirements.length;
+    var rolesCounter = -1;
+    var weekDayCounter = -1;
+    var rolesHtml = "";
+    for (var i = 0; i < numRolesInScheduleRequirements; i++) {
+        var numEmployeesRequiredForRole = scheduleRequirements[i]["numEmployeesRequired"];
+        if (numEmployeesRequiredForRole === 0)
+            continue;
+        for (var j = 0; j < numEmployeesRequiredForRole; j++) {
+            rolesHtml += "<div class=\"shifts-panel__role-row\"><p class=\"shifts-panel__role-row__title\">" + scheduleRequirements[i]["roleType"] + "</p>";
+            for (var weekdayIndex = 0; weekdayIndex < 7; weekdayIndex++) {
+                rolesHtml += "<div class=\"shifts-panel__role-row__" + scheduleRequirements[i]["roleType"] + "-num" + j + "-weekday" + weekdayIndex + "\">\n        <img src=\"./images/add-employee-to-shift.png\" alt=\"add-employee-to-shift\" class=\"shifts-panel__role-row__icon\" onclick=\"onShiftSelect('" + scheduleRequirements[i]["roleType"] + "', " + weekdayIndex + ")\"></div>";
+            }
+            rolesHtml += "</div>";
+        }
+    }
+    return rolesHtml;
+};
+var getNextSundayDate = function (todayDate) {
+    var date = new Date(todayDate.getFullYear(), todayDate.getMonth(), (todayDate.getDate() - todayDate.getDay()) + 7);
+    return date;
+};
+var getNextSaturdayDate = function (todayDate) {
+    var date = new Date(todayDate.getFullYear(), todayDate.getMonth(), (todayDate.getDate() + (6 - todayDate.getDay())) + 7);
+    return date;
+};
+var getWeekDaysDatesArr = function (startDate) {
+    var weekDaysArr = [];
+    for (var i = 0; i < 7; i++) {
+        weekDaysArr.push(new Date(startDate.getFullYear(), startDate.getMonth(), (startDate.getDate() + (i - startDate.getDay()))));
+    }
+    return weekDaysArr;
+};
+var renderAllAvailableEmployees = function () { return __awaiter(_this, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        return [2 /*return*/];
+    });
+}); };
+var onShiftSelect = function (roleType, weekdayIndex) {
+    console.log(roleType, weekdayIndex);
+    try {
+        fetch('/api/availability/get-employees-by-role-and-weekday', {
+            method: "SEARCH",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                role: roleType,
+                weekday: weekdayIndex
+            })
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+            console.log(data);
+        });
+    }
+    catch (error) {
+        console.error(error);
+    }
+};
