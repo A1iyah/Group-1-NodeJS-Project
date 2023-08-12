@@ -107,27 +107,6 @@ app.listen(3000, function () {
 // const AdminModel = mongoose.model("Admin", adminSchema);
 // const CompanyModel = mongoose.model("Company", companySchema);
 // const AttendanceModel = mongoose.model("Attendance", attendanceSchema);
-// async function createEmployee(
-//   idNumber: number,
-//   name: string,
-//   birthday: string,
-//   password: string,
-//   email: string,
-//   phone: number,
-//   salaryPerHour: number
-// ) {
-//   const employee = new ManagerModel({
-//     idNumber,
-//     name,
-//     birthday,
-//     password,
-//     email,
-//     phone,
-//     salaryPerHour,
-//   });
-//   const result = await employee.save();
-//   console.log(result);
-// }
 // createEmployee(
 //   222222222,
 //   "manager1",

@@ -4,10 +4,14 @@ import RoleModel from "../role/roleModel";
 import CompanyModel from "../company/companyModel";
 import AdminModel from "../admin/adminModel";
 import availability from "../availability/availabilityModel";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 import jwt from "jwt-simple";
-const secret = process.env.JWT_SECRET;
-//const secret: string = "secret";
+const secret: string | undefined = process.env.JWT_SECRET;
+console.log("secret:", secret);
+
+// const secret: string = "secret";
 
 export const login = async (req: any, res: any) => {
   try {
@@ -77,6 +81,23 @@ export const addAttendance = async (req: any, res: any) => {
   }
 };
 
+export const getSelectedEmployee = async (req: any, res: any) => {
+  try {
+    const { idNumber } = req.body;
+    if (!idNumber) throw new Error("no id");
+
+    const employeeDB: any = await EmployeeModel.find({
+      idNumber: idNumber,
+    });
+    // .populate("roles")
+    // .exec();
+
+    res.send({ employeeDB });
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).send({ error: error.message });
+  }
+};
 export const addEmployee = async (req: any, res: any) => {
   try {
       let { name, email, password, idNumber, phone, birthday, salary, role, } = req.body;

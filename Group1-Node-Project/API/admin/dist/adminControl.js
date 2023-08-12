@@ -36,11 +36,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getAdmin = exports.login = void 0;
+exports.getManagersList = exports.getEmployeesList = exports.getSelectedSalaryBetween = exports.getSelectedSalaryDown = exports.getSelectedSalaryUp = exports.getAdmin = exports.login = void 0;
 var adminModel_1 = require("./adminModel");
 var jwt_simple_1 = require("jwt-simple");
-// const secret: string | undefined = process.env.JWT_SECRET;
-var secret = "secret";
+var dotenv = require("dotenv");
+dotenv.config();
+var secret = process.env.JWT_SECRET;
+// const secret: string = "secret";
 exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, email, password, adminDB, token, error_1;
     return __generator(this, function (_b) {
@@ -91,6 +93,161 @@ exports.getAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0
                 error_2 = _a.sent();
                 console.error(error_2);
                 res.status(500).send({ error: error_2.message });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getSelectedSalaryUp = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, salaryUp, _id, employees, error_3;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                _a = req.body, salaryUp = _a.salaryUp, _id = _a._id;
+                console.log(salaryUp);
+                return [4 /*yield*/, adminModel_1["default"].findById(_id)
+                        .populate({
+                        path: "managers",
+                        match: {
+                            salaryPerHour: { $gt: salaryUp }
+                        }
+                    })
+                        .populate({
+                        path: "employee",
+                        match: {
+                            salaryPerHour: { $gt: salaryUp }
+                        }
+                    })
+                        .exec()];
+            case 1:
+                employees = _b.sent();
+                console.log(employees);
+                res.send({ employees: employees });
+                return [3 /*break*/, 3];
+            case 2:
+                error_3 = _b.sent();
+                console.log(error_3);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getSelectedSalaryDown = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, salaryDown, _id, employees, error_4;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                _a = req.body, salaryDown = _a.salaryDown, _id = _a._id;
+                console.log(salaryDown);
+                return [4 /*yield*/, adminModel_1["default"].findById(_id)
+                        .populate({
+                        path: "managers",
+                        match: {
+                            salaryPerHour: { $lt: salaryDown }
+                        }
+                    })
+                        .populate({
+                        path: "employees",
+                        match: {
+                            salaryPerHour: { $lt: salaryDown }
+                        },
+                        populate: {
+                            path: "roles",
+                            select: "name"
+                        }
+                    })
+                        .exec()];
+            case 1:
+                employees = _b.sent();
+                console.log(employees);
+                res.send({ employees: employees });
+                return [3 /*break*/, 3];
+            case 2:
+                error_4 = _b.sent();
+                console.log(error_4);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getSelectedSalaryBetween = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, minSalary, maxSalary, _id, employees, error_5;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                _a = req.body, minSalary = _a.minSalary, maxSalary = _a.maxSalary, _id = _a._id;
+                console.log(minSalary, maxSalary);
+                return [4 /*yield*/, adminModel_1["default"].findById(_id)
+                        .populate({
+                        path: "managers",
+                        match: {
+                            salaryPerHour: { $gte: minSalary, $lte: maxSalary }
+                        }
+                    })
+                        .populate({
+                        path: "employees",
+                        match: {
+                            salaryPerHour: { $gte: minSalary, $lte: maxSalary }
+                        }
+                    })
+                        .exec()];
+            case 1:
+                employees = _b.sent();
+                console.log(employees);
+                res.send({ employees: employees });
+                return [3 /*break*/, 3];
+            case 2:
+                error_5 = _b.sent();
+                console.log(error_5);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getEmployeesList = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var employees, error_6;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, adminModel_1["default"].findById("64d50e911e5749a59f1f4a6f")
+                        .populate("employees")
+                        .exec()];
+            case 1:
+                employees = _a.sent();
+                console.log(employees);
+                res.send({ employees: employees });
+                return [3 /*break*/, 3];
+            case 2:
+                error_6 = _a.sent();
+                console.error(error_6);
+                res.status(500).send({ error: error_6.message });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getManagersList = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var managers, error_7;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, adminModel_1["default"].findById("64d50e911e5749a59f1f4a6f")
+                        .populate("managers")
+                        .exec()];
+            case 1:
+                managers = _a.sent();
+                console.log(managers);
+                res.send({ managers: managers });
+                return [3 /*break*/, 3];
+            case 2:
+                error_7 = _a.sent();
+                console.error(error_7);
+                res.status(500).send({ error: error_7.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

@@ -14,6 +14,12 @@ const adminSchema = new Schema({
       ref: "Employee",
     },
   ],
+  managers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Manager",
+    },
+  ],
 });
 
 export const AdminModel = mongoose.model("Admin", adminSchema);

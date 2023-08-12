@@ -7,5 +7,6 @@ router
     .get("/get-employee", employeeControl_1.getEmployee)
     .post("/login", employeeControl_1.login)
     .post("/add-attendance", employeeControl_1.addAttendance)
+    .patch("/get-selected-employee", employeeControl_1.getSelectedEmployee)
     .post("/add-employee", employeeControl_1.addEmployee);
 exports["default"] = router;

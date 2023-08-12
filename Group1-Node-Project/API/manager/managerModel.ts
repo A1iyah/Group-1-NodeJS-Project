@@ -15,11 +15,6 @@ const managerSchema = new Schema({
       ref: "Employee",
     },
   ],
-
-  // availability: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "Week",
-  // },
 });
 
 export const ManagerModel = mongoose.model("Manager", managerSchema);

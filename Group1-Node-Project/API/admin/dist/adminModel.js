@@ -15,6 +15,12 @@ var adminSchema = new mongoose_1.Schema({
             type: mongoose_1["default"].Schema.Types.ObjectId,
             ref: "Employee"
         },
+    ],
+    managers: [
+        {
+            type: mongoose_1["default"].Schema.Types.ObjectId,
+            ref: "Manager"
+        },
     ]
 });
 exports.AdminModel = mongoose_1["default"].model("Admin", adminSchema);
