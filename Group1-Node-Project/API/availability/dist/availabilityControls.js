@@ -79,7 +79,7 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                 day = _b[_i];
                 if (!availabilityData[day]) return [3 /*break*/, 5];
                 console.log("trying to update: ", day);
-                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d7f65a9885a173a23a230d", { $push: (_e = {}, _e[day] = {
+                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d92372e4b98c38e81d5cd8", { $push: (_e = {}, _e[day] = {
                             employeeId: userId,
                             role: roleString,
                             comment: commentValue

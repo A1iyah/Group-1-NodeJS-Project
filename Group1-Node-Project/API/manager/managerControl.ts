@@ -39,8 +39,8 @@ export const getManager = async (req: any, res: any) => {
   try {
     const { manager } = req.cookies;
     if (!manager) {
-      console.log("you are not a manager");
-      res.status(500);
+      //console.log("you are not a manager");
+      res.status(500).send({message: "you are not a manager"});
       return;
     }
     if (!secret) throw new Error("no token");

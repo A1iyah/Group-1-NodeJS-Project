@@ -34,6 +34,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var _this = this;
+var userDB;
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -48,6 +50,64 @@ function main() {
     });
 }
 main();
+var getActiveEmployee = function () { return __awaiter(_this, void 0, void 0, function () {
+    var response, data, employee, error_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, fetch("/api/employee/get-employee")];
+            case 1:
+                response = _a.sent();
+                return [4 /*yield*/, response.json()];
+            case 2:
+                data = _a.sent();
+                console.log("data", data);
+                employee = data.employee;
+                //if(!data) throw new Error("no data received from DB");
+                if (employee) {
+                    userDB = employee;
+                    console.log("userDB: ", userDB);
+                    return [2 /*return*/];
+                }
+                getActiveManager();
+                return [3 /*break*/, 4];
+            case 3:
+                error_1 = _a.sent();
+                console.log(error_1);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+var getActiveManager = function () { return __awaiter(_this, void 0, void 0, function () {
+    var response, data, manager, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, fetch("/api/manager/get-manager")];
+            case 1:
+                response = _a.sent();
+                return [4 /*yield*/, response.json()];
+            case 2:
+                data = _a.sent();
+                console.log("data", data);
+                manager = data.manager;
+                if (!manager)
+                    throw new Error("didn't get employee or manager from DB");
+                userDB = manager;
+                console.log("userDB: ", userDB);
+                return [3 /*break*/, 4];
+            case 3:
+                error_2 = _a.sent();
+                console.error(error_2);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+getActiveEmployee();
 //
 var buttons = document.querySelectorAll(".availability-button");
 var comment = document.getElementById("comment");
@@ -105,7 +165,7 @@ function toggleButton(event) {
 // Handle form submit -
 function handleFormSubmit(event) {
     return __awaiter(this, void 0, void 0, function () {
-        var commentValue, availabilityData, response, error_1;
+        var commentValue, availabilityData, userRole, response, error_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -119,6 +179,8 @@ function handleFormSubmit(event) {
                             availabilityData[day] = isAvailable;
                         }
                     });
+                    userRole = userDB.role === (null || undefined) ? "Manager" : userDB.role;
+                    console.log("userRole: ", userRole);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
@@ -127,7 +189,7 @@ function handleFormSubmit(event) {
                             headers: {
                                 "Content-Type": "application/json"
                             },
-                            body: JSON.stringify({ availabilityData: availabilityData, commentValue: commentValue, userId: "64d083c69e5feea8ea4d3287", role: userType })
+                            body: JSON.stringify({ availabilityData: availabilityData, commentValue: commentValue, userId: userDB._id, role: userRole })
                         })];
                 case 2:
                     response = _a.sent();
@@ -139,8 +201,8 @@ function handleFormSubmit(event) {
                     }
                     return [3 /*break*/, 4];
                 case 3:
-                    error_1 = _a.sent();
-                    console.error("Error:", error_1);
+                    error_3 = _a.sent();
+                    console.error("Error:", error_3);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }

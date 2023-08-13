@@ -1,9 +1,53 @@
+let userDB;
+
 async function main() {
   await getActiveUser();
     
   renderNavBar(navBarElement);
 }
 main();
+
+const getActiveEmployee = async () => {
+  try {
+    const response = await fetch("/api/employee/get-employee");
+    const data = await response.json();
+    console.log("data", data);
+    const { employee } = data;
+
+    //if(!data) throw new Error("no data received from DB");
+    if (employee) {
+      userDB = employee;
+      console.log("userDB: ", userDB);
+      
+      return;
+    }
+
+    getActiveManager();
+
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
+
+const getActiveManager = async () => {
+  try {
+    const response = await fetch("/api/manager/get-manager");
+    const data = await response.json();
+    console.log("data", data);
+    const { manager } = data;
+
+    if (!manager) throw new Error("didn't get employee or manager from DB");
+    userDB = manager;
+
+    console.log("userDB: ", userDB);
+    
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+getActiveEmployee();
 
 //
 const buttons: NodeListOf<HTMLDivElement> = document.querySelectorAll(
@@ -104,13 +148,18 @@ async function handleFormSubmit(event: Event) {
     }
   });
 
+  const userRole = userDB.role === (null || undefined) ? "Manager" : userDB.role;
+
+  console.log("userRole: ", userRole);
+  
+
   try {
     const response = await fetch(`/api/availability/update`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ availabilityData, commentValue, userId: "64d083c69e5feea8ea4d3287", role: userType }),
+      body: JSON.stringify({ availabilityData, commentValue, userId: userDB._id, role: userRole }),
     });
 
     if (response.ok) {

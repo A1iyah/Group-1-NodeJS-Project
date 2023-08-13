@@ -80,8 +80,8 @@ exports.getManager = function (req, res) { return __awaiter(void 0, void 0, void
                 _a.trys.push([0, 2, , 3]);
                 manager = req.cookies.manager;
                 if (!manager) {
-                    console.log("you are not a manager");
-                    res.status(500);
+                    //console.log("you are not a manager");
+                    res.status(500).send({ message: "you are not a manager" });
                     return [2 /*return*/];
                 }
                 if (!secret)
