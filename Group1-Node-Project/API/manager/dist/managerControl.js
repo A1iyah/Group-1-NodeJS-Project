@@ -143,11 +143,11 @@ exports.getSelectedManager = function (req, res) { return __awaiter(void 0, void
                     throw new Error("no id");
                 return [4 /*yield*/, managerModel_1["default"].find({
                         idNumber: idNumber
-                    })];
+                    })
+                        .populate("employees")
+                        .exec()];
             case 1:
                 managerDB = _a.sent();
-                // .populate("role")
-                // .exec();
                 console.log(managerDB);
                 res.send({ managerDB: managerDB });
                 return [3 /*break*/, 3];
@@ -173,6 +173,10 @@ exports.getSelectedSalaryUp = function (req, res) { return __awaiter(void 0, voi
                         path: "employees",
                         match: {
                             salaryPerHour: { $gt: salaryUp }
+                        },
+                        populate: {
+                            path: "role",
+                            model: "Role"
                         }
                     })
                         .exec()];
@@ -202,12 +206,12 @@ exports.getSelectedSalaryDown = function (req, res) { return __awaiter(void 0, v
                         path: "employees",
                         match: {
                             salaryPerHour: { $lt: salaryDown }
+                        },
+                        populate: {
+                            path: "role",
+                            model: "Role"
                         }
                     })
-                        //   populate: {
-                        //     path: "role",
-                        //     model: "Role", // Specify the model name
-                        //   },
                         .exec()];
             case 1:
                 employees = _b.sent();
@@ -235,6 +239,10 @@ exports.getSelectedSalaryBetween = function (req, res) { return __awaiter(void 0
                         path: "employees",
                         match: {
                             salaryPerHour: { $gte: minSalary, $lte: maxSalary }
+                        },
+                        populate: {
+                            path: "role",
+                            model: "Role"
                         }
                     })
                         .exec()];
@@ -259,12 +267,25 @@ exports.getEmployeesList = function (req, res) { return __awaiter(void 0, void 0
                 _a.trys.push([0, 2, , 3]);
                 _id = req.body._id;
                 return [4 /*yield*/, managerModel_1["default"].findById(_id)
-                        .populate("employees")
+                        .populate({
+                        path: "employees",
+                        populate: {
+                            path: "role",
+                            model: "Role"
+                        }
+                    })
                         .exec()];
             case 1:
                 employees = _a.sent();
+                // .populate({
+                //   path: "employees",
+                //   populate: {
+                //     path: "role",
+                //     model: "Role",
+                //   },
+                // })
                 if (employees)
-                    console.log(employees.employees);
+                    console.log(employees);
                 res.send({ employees: employees });
                 return [3 /*break*/, 3];
             case 2:

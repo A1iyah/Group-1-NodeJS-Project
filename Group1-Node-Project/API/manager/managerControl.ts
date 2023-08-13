@@ -86,9 +86,9 @@ export const getSelectedManager = async (req: any, res: any) => {
 
     const managerDB: any = await ManagerModel.find({
       idNumber: idNumber,
-    });
-    // .populate("role")
-    // .exec();
+    })
+      .populate("employees")
+      .exec();
     console.log(managerDB);
 
     res.send({ managerDB });
@@ -109,10 +109,10 @@ export const getSelectedSalaryUp = async (req: any, res: any) => {
         match: {
           salaryPerHour: { $gt: salaryUp },
         },
-        //   populate: {
-        //     path: "role",
-        //     model: "Role", // Specify the model name
-        //   },
+        populate: {
+          path: "role",
+          model: "Role",
+        },
       })
       .exec();
 
@@ -135,11 +135,11 @@ export const getSelectedSalaryDown = async (req: any, res: any) => {
         match: {
           salaryPerHour: { $lt: salaryDown },
         },
+        populate: {
+          path: "role",
+          model: "Role",
+        },
       })
-      //   populate: {
-      //     path: "role",
-      //     model: "Role", // Specify the model name
-      //   },
       .exec();
 
     console.log(employees);
@@ -161,14 +161,12 @@ export const getSelectedSalaryBetween = async (req: any, res: any) => {
         match: {
           salaryPerHour: { $gte: minSalary, $lte: maxSalary },
         },
-        // populate: {
-        //   path: "role",
-        //   select: "name -_id",
-        // },
+        populate: {
+          path: "role",
+          model: "Role",
+        },
       })
-
       .exec();
-
     console.log(employees);
 
     res.send({ employees });
@@ -182,10 +180,24 @@ export const getEmployeesList = async (req: any, res: any) => {
     const { _id } = req.body;
 
     const employees = await ManagerModel.findById(_id)
-      .populate("employees")
+      .populate({
+        path: "employees",
+
+        populate: {
+          path: "role",
+          model: "Role",
+        },
+      })
       .exec();
 
-    if (employees) console.log(employees.employees);
+    // .populate({
+    //   path: "employees",
+    //   populate: {
+    //     path: "role",
+    //     model: "Role",
+    //   },
+    // })
+    if (employees) console.log(employees);
 
     res.send({ employees });
   } catch (error: any) {

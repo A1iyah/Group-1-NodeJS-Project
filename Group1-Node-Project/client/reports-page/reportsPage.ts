@@ -49,6 +49,14 @@ const reportSalaryBetween = document.querySelector(
   ".salaryReports__between"
 ) as HTMLDivElement;
 
+const attendanceReport = document.querySelector(
+  "#attendanceReport"
+) as HTMLTableElement;
+
+const attendanceReportTable = document.querySelector(
+  ".attendanceReport"
+) as HTMLTableElement;
+
 async function main() {
   await getActiveUser();
 
@@ -110,13 +118,35 @@ function renderReportResult(employees) {
   }
 }
 
+function renderShiftResult(employees) {
+  try {
+    if (!employees) throw new Error("employee not found");
+    attendanceReportTable.style.display = "block";
+    for (let i = 0; employees.attendance.length - 1 >= i; i++) {
+      const listItem = document.createElement("tr");
+      const tdDateHour = document.createElement("td");
+      const tdDuration = document.createElement("td");
+
+      tdDateHour.appendChild(
+        document.createTextNode(employees.attendance[i].date)
+      );
+      listItem.appendChild(tdDateHour);
+      tdDuration.appendChild(
+        document.createTextNode(employees.attendance[i].clock)
+      );
+      listItem.appendChild(tdDuration);
+      attendanceReport?.appendChild(listItem);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 salaryButton.addEventListener("click", (e) => {
   reportsBySalary.style.display = "flex";
   reportsByEmployee.style.display = "none";
   reportsByManager.style.display = "none";
-  for (let i = salaryReportResult.children.length - 1; i > 0; i--) {
-    salaryReportResult.removeChild(salaryReportResult.children[i]);
-  }
+  resetPage();
 });
 
 function HandleSalaryUp(ev) {
@@ -124,10 +154,7 @@ function HandleSalaryUp(ev) {
     ev.preventDefault();
     const salaryUp = ev.target.elements.salaryUp.value;
     if (!salaryUp) throw new Error("no salary entered");
-
-    for (let i = salaryReportResult.children.length - 1; i > 0; i--) {
-      salaryReportResult.removeChild(salaryReportResult.children[i]);
-    }
+    resetPage();
     console.log(salaryUp);
     if (userType === UserType.Admin) {
       const _id = user._id;
@@ -173,9 +200,7 @@ function HandleSalaryDown(ev) {
     const salaryDown = ev.target.elements.salaryDown.value;
     if (!salaryDown) throw new Error("no salary entered");
 
-    for (let i = salaryReportResult.children.length - 1; i > 0; i--) {
-      salaryReportResult.removeChild(salaryReportResult.children[i]);
-    }
+    resetPage();
 
     console.log(salaryDown);
     if (userType === UserType.Admin) {
@@ -209,6 +234,8 @@ function HandleSalaryDown(ev) {
       })
         .then((res) => res.json())
         .then(({ employees }) => {
+          console.log(employees.employees);
+
           renderReportResult(employees.employees);
         });
     }
@@ -225,9 +252,7 @@ function HandleSalaryBetween(ev) {
     if (!minSalary) throw new Error("no minSalary entered");
     if (!maxSalary) throw new Error("no maxSalary entered");
 
-    for (let i = salaryReportResult.children.length - 1; i > 0; i--) {
-      salaryReportResult.removeChild(salaryReportResult.children[i]);
-    }
+    resetPage();
 
     console.log(minSalary, maxSalary);
     if (userType === UserType.Admin) {
@@ -273,9 +298,7 @@ employeeButton.addEventListener("click", (e) => {
   reportsByEmployee.style.display = "flex";
   reportsByManager.style.display = "none";
 
-  for (let i = salaryReportResult.children.length - 1; i > 0; i--) {
-    salaryReportResult.removeChild(salaryReportResult.children[i]);
-  }
+  resetPage();
 
   if (userType === UserType.Admin) {
     fetch("/api/admin/get-employees-list")
@@ -338,9 +361,7 @@ function HandleEmployeeReport(ev) {
   try {
     ev.preventDefault();
 
-    for (let i = salaryReportResult.children.length - 1; i > 0; i--) {
-      salaryReportResult.removeChild(salaryReportResult.children[i]);
-    }
+    resetPage();
 
     const employeeDetails = ev.target.elements.employees.value;
 
@@ -362,9 +383,10 @@ function HandleEmployeeReport(ev) {
     })
       .then((res) => res.json())
       .then(({ employeeDB }) => {
-        console.log(employeeDB);
+        console.log(employeeDB[0]);
 
         renderReportResult(employeeDB);
+        renderShiftResult(employeeDB[0]);
       });
   } catch (error) {
     console.log(error);
@@ -375,10 +397,7 @@ managerButton.addEventListener("click", (e) => {
   reportsBySalary.style.display = "none";
   reportsByEmployee.style.display = "none";
   reportsByManager.style.display = "flex";
-  for (let i = salaryReportResult.children.length - 1; i > 0; i--) {
-    salaryReportResult.removeChild(salaryReportResult.children[i]);
-  }
-
+  resetPage();
   fetch("/api/admin/get-managers-list")
     .then((res) => res.json())
     .then((data) => {
@@ -404,9 +423,7 @@ managerButton.addEventListener("click", (e) => {
 
 function HandleManagerReport(ev) {
   try {
-    for (let i = salaryReportResult.children.length - 1; i > 0; i--) {
-      salaryReportResult.removeChild(salaryReportResult.children[i]);
-    }
+    resetPage();
     ev.preventDefault();
     const managerDetails = ev.target.elements.managers.value;
     const [name, idNumber] = managerDetails.match(/^(.*?)\s-\s(\d+)$/).slice(1);
@@ -424,7 +441,11 @@ function HandleManagerReport(ev) {
     })
       .then((res) => res.json())
       .then(({ managerDB }) => {
+        console.log(managerDB[0].employees);
+
         renderReportResult(managerDB);
+        renderReportResult(managerDB[0].employees);
+        renderShiftResult(managerDB[0]);
       });
   } catch (error) {
     console.log(error);
@@ -451,4 +472,15 @@ function employeeUsingReport() {
   } catch (error) {
     console.log(error);
   }
+}
+
+function resetPage() {
+  for (let i = salaryReportResult.children.length - 1; i > 0; i--) {
+    salaryReportResult.removeChild(salaryReportResult.children[i]);
+  }
+
+  for (let i = attendanceReport.children.length - 1; i > 0; i--) {
+    attendanceReport.removeChild(attendanceReport.children[i]);
+  }
+  attendanceReportTable.style.display = "none";
 }

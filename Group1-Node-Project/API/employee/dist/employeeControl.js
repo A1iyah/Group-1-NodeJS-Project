@@ -144,11 +144,11 @@ exports.getSelectedEmployee = function (req, res) { return __awaiter(void 0, voi
                     throw new Error("no id");
                 return [4 /*yield*/, employeeModel_1["default"].find({
                         idNumber: idNumber
-                    })];
+                    })
+                        .populate("role")
+                        .exec()];
             case 1:
                 employeeDB = _a.sent();
-                // .populate("roles")
-                // .exec();
                 res.send({ employeeDB: employeeDB });
                 return [3 /*break*/, 3];
             case 2:

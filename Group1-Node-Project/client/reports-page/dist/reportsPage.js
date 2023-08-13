@@ -48,6 +48,8 @@ var reportSalaryUp = document.querySelector(".salaryReports__salaryUp");
 var salaryReportResult = document.querySelector("#salaryReportResult");
 var reportSalaryDown = document.querySelector(".salaryReports__salaryDown");
 var reportSalaryBetween = document.querySelector(".salaryReports__between");
+var attendanceReport = document.querySelector("#attendanceReport");
+var attendanceReportTable = document.querySelector(".attendanceReport");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -113,13 +115,31 @@ function renderReportResult(employees) {
         console.log(error);
     }
 }
+function renderShiftResult(employees) {
+    try {
+        if (!employees)
+            throw new Error("employee not found");
+        attendanceReportTable.style.display = "block";
+        for (var i = 0; employees.attendance.length - 1 >= i; i++) {
+            var listItem = document.createElement("tr");
+            var tdDateHour = document.createElement("td");
+            var tdDuration = document.createElement("td");
+            tdDateHour.appendChild(document.createTextNode(employees.attendance[i].date));
+            listItem.appendChild(tdDateHour);
+            tdDuration.appendChild(document.createTextNode(employees.attendance[i].clock));
+            listItem.appendChild(tdDuration);
+            attendanceReport === null || attendanceReport === void 0 ? void 0 : attendanceReport.appendChild(listItem);
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
 salaryButton.addEventListener("click", function (e) {
     reportsBySalary.style.display = "flex";
     reportsByEmployee.style.display = "none";
     reportsByManager.style.display = "none";
-    for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
-        salaryReportResult.removeChild(salaryReportResult.children[i]);
-    }
+    resetPage();
 });
 function HandleSalaryUp(ev) {
     try {
@@ -127,9 +147,7 @@ function HandleSalaryUp(ev) {
         var salaryUp = ev.target.elements.salaryUp.value;
         if (!salaryUp)
             throw new Error("no salary entered");
-        for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
-            salaryReportResult.removeChild(salaryReportResult.children[i]);
-        }
+        resetPage();
         console.log(salaryUp);
         if (userType === UserType.Admin) {
             var _id = user._id;
@@ -176,9 +194,7 @@ function HandleSalaryDown(ev) {
         var salaryDown = ev.target.elements.salaryDown.value;
         if (!salaryDown)
             throw new Error("no salary entered");
-        for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
-            salaryReportResult.removeChild(salaryReportResult.children[i]);
-        }
+        resetPage();
         console.log(salaryDown);
         if (userType === UserType.Admin) {
             var _id = user._id;
@@ -211,6 +227,7 @@ function HandleSalaryDown(ev) {
                 .then(function (res) { return res.json(); })
                 .then(function (_a) {
                 var employees = _a.employees;
+                console.log(employees.employees);
                 renderReportResult(employees.employees);
             });
         }
@@ -228,9 +245,7 @@ function HandleSalaryBetween(ev) {
             throw new Error("no minSalary entered");
         if (!maxSalary)
             throw new Error("no maxSalary entered");
-        for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
-            salaryReportResult.removeChild(salaryReportResult.children[i]);
-        }
+        resetPage();
         console.log(minSalary, maxSalary);
         if (userType === UserType.Admin) {
             var _id = user._id;
@@ -276,9 +291,7 @@ employeeButton.addEventListener("click", function (e) {
     reportsBySalary.style.display = "none";
     reportsByEmployee.style.display = "flex";
     reportsByManager.style.display = "none";
-    for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
-        salaryReportResult.removeChild(salaryReportResult.children[i]);
-    }
+    resetPage();
     if (userType === UserType.Admin) {
         fetch("/api/admin/get-employees-list")
             .then(function (res) { return res.json(); })
@@ -336,9 +349,7 @@ employeeButton.addEventListener("click", function (e) {
 function HandleEmployeeReport(ev) {
     try {
         ev.preventDefault();
-        for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
-            salaryReportResult.removeChild(salaryReportResult.children[i]);
-        }
+        resetPage();
         var employeeDetails = ev.target.elements.employees.value;
         var _a = employeeDetails
             .match(/^(.*?)\s-\s(\d+)$/)
@@ -358,8 +369,9 @@ function HandleEmployeeReport(ev) {
             .then(function (res) { return res.json(); })
             .then(function (_a) {
             var employeeDB = _a.employeeDB;
-            console.log(employeeDB);
+            console.log(employeeDB[0]);
             renderReportResult(employeeDB);
+            renderShiftResult(employeeDB[0]);
         });
     }
     catch (error) {
@@ -370,9 +382,7 @@ managerButton.addEventListener("click", function (e) {
     reportsBySalary.style.display = "none";
     reportsByEmployee.style.display = "none";
     reportsByManager.style.display = "flex";
-    for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
-        salaryReportResult.removeChild(salaryReportResult.children[i]);
-    }
+    resetPage();
     fetch("/api/admin/get-managers-list")
         .then(function (res) { return res.json(); })
         .then(function (data) {
@@ -396,9 +406,7 @@ managerButton.addEventListener("click", function (e) {
 });
 function HandleManagerReport(ev) {
     try {
-        for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
-            salaryReportResult.removeChild(salaryReportResult.children[i]);
-        }
+        resetPage();
         ev.preventDefault();
         var managerDetails = ev.target.elements.managers.value;
         var _a = managerDetails.match(/^(.*?)\s-\s(\d+)$/).slice(1), name = _a[0], idNumber = _a[1];
@@ -417,7 +425,10 @@ function HandleManagerReport(ev) {
             .then(function (res) { return res.json(); })
             .then(function (_a) {
             var managerDB = _a.managerDB;
+            console.log(managerDB[0].employees);
             renderReportResult(managerDB);
+            renderReportResult(managerDB[0].employees);
+            renderShiftResult(managerDB[0]);
         });
     }
     catch (error) {
@@ -445,4 +456,13 @@ function employeeUsingReport() {
     catch (error) {
         console.log(error);
     }
+}
+function resetPage() {
+    for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
+        salaryReportResult.removeChild(salaryReportResult.children[i]);
+    }
+    for (var i = attendanceReport.children.length - 1; i > 0; i--) {
+        attendanceReport.removeChild(attendanceReport.children[i]);
+    }
+    attendanceReportTable.style.display = "none";
 }
