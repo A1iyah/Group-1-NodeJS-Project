@@ -1,6 +1,6 @@
 async function main() {
   await getActiveUser();
-
+    
   renderNavBar(navBarElement);
 }
 main();
@@ -92,7 +92,6 @@ async function handleFormSubmit(event: Event) {
   event.preventDefault();
 
   const commentValue = comment.value;
-  const userId = user._id;
 
   const availabilityData: Record<string, boolean> = {};
 
@@ -111,7 +110,7 @@ async function handleFormSubmit(event: Event) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ availabilityData, commentValue, userId }),
+      body: JSON.stringify({ availabilityData, commentValue, userId: "64d083c69e5feea8ea4d3287", role: userType }),
     });
 
     if (response.ok) {

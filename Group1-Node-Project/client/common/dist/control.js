@@ -42,6 +42,12 @@ var UserType;
     UserType[UserType["Manager"] = 1] = "Manager";
     UserType[UserType["Employee"] = 2] = "Employee";
 })(UserType || (UserType = {}));
+// const navBarElem = document.querySelector(".nav-bar") as HTMLDivElement;
+// async function main() {
+//   await getActiveUser();
+//   renderNavBar(navBarElement);
+// }
+// main();
 function getActiveUser() {
     return __awaiter(this, void 0, void 0, function () {
         var responseManager, dataManager, manager, error_1, responseAdmin, dataAdmin, admin, error_2, responseEmployee, dataEmployee, employee, error_3;
@@ -52,6 +58,7 @@ function getActiveUser() {
                     return [4 /*yield*/, fetch("/api/manager/get-manager")];
                 case 1:
                     responseManager = _a.sent();
+                    console.log("responseManager", responseManager);
                     return [4 /*yield*/, responseManager.json()];
                 case 2:
                     dataManager = _a.sent();
