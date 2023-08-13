@@ -410,7 +410,7 @@
   cursor: pointer;
 }
 .employees-page__chart {
-  width: 90%;
+  width: 80%;
   position: absolute;
   top: 30%;
   left: 50%;
@@ -424,7 +424,7 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 .employees-page__get-all-employees {
-  width: 90%;
+  width: 80%;
   height: 50%;
   overflow-y: scroll;
   position: absolute;
@@ -443,7 +443,7 @@
 }
 .employees-page__employeeCard .employee-details {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   padding: 15px 0;
   box-shadow: 0px 15px 10px -15px rgba(128, 128, 128, 0.5960784314);
 }
