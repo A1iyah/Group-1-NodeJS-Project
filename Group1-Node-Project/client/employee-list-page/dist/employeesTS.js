@@ -51,14 +51,6 @@ function main() {
                         handleGetWorkers();
                         addEmployeeBtn.style.display = "block";
                     }
-                    addEmployeeBtn.addEventListener("click", function () {
-                        if (addNewUsers.style.display === "none") {
-                            addNewUsers.style.display = "block";
-                        }
-                        else {
-                            addNewUsers.style.display = "none";
-                        }
-                    });
                     return [2 /*return*/];
             }
         });
@@ -66,8 +58,51 @@ function main() {
 }
 main();
 // Admin / Manager button -
-var addEmployeeBtn = document.querySelector(".add-users-btn");
-var addNewUsers = document.querySelector(".add-new-users");
+var addEmployeeBtn = document.querySelector(".add-employees-btn");
+var addManagerBtn = document.querySelector(".add-managers-btn");
+var openAddButton = document.querySelector(".open-add-btn");
+var addButtonsContainer = document.querySelector(".add-buttons-container");
+var addNewEmployees = document.querySelector(".employees-page__add-new-employees");
+var addNewManagers = document.querySelector(".employees-page__add-new-managers");
+var openDiv = null;
+openAddButton.addEventListener("click", function () {
+    if (addButtonsContainer.style.display === "block") {
+        addButtonsContainer.style.display = "none";
+        if (openDiv) {
+            openDiv.style.display = "none";
+            openDiv = null;
+        }
+    }
+    else {
+        addButtonsContainer.style.display = "block";
+    }
+});
+addEmployeeBtn.addEventListener("click", function () {
+    if (openDiv === addNewEmployees) {
+        addNewEmployees.style.display = "none";
+        openDiv = null;
+    }
+    else {
+        if (openDiv) {
+            openDiv.style.display = "none";
+        }
+        addNewEmployees.style.display = "block";
+        openDiv = addNewEmployees;
+    }
+});
+addManagerBtn.addEventListener("click", function () {
+    if (openDiv === addNewManagers) {
+        addNewManagers.style.display = "none";
+        openDiv = null;
+    }
+    else {
+        if (openDiv) {
+            openDiv.style.display = "none";
+        }
+        addNewManagers.style.display = "block";
+        openDiv = addNewManagers;
+    }
+});
 // Add new employee -
 function handleCreateEmployee(evt) {
     try {
@@ -78,9 +113,9 @@ function handleCreateEmployee(evt) {
         var idNumber = evt.target.elements.idNumber.value;
         var phone = evt.target.elements.phone.value;
         var birthday = evt.target.elements.birthday.value;
-        var salary = evt.target.elements.salary.value;
-        // const role = evt.target.elements.role.value;
-        console.log(name, email, password, idNumber, phone, birthday, salary);
+        var salaryPerHour = evt.target.elements.salaryPerHour.value;
+        var role = evt.target.elements.role.value;
+        console.log(name, email, password, idNumber, phone, birthday, salaryPerHour, role);
         if (!name)
             throw new Error("No name");
         if (!email)
@@ -93,9 +128,10 @@ function handleCreateEmployee(evt) {
             throw new Error("No phone");
         if (!birthday)
             throw new Error("No birthday");
-        if (!salary)
+        if (!salaryPerHour)
             throw new Error("No salary");
-        // if (!role) throw new Error("No role");
+        if (!role)
+            throw new Error("No role");
         var newEmployee = {
             name: name,
             email: email,
@@ -103,7 +139,8 @@ function handleCreateEmployee(evt) {
             idNumber: idNumber,
             phone: phone,
             birthday: birthday,
-            salary: salary
+            salaryPerHour: salaryPerHour,
+            role: role
         };
         fetch("/api/employees-page/add-employee", {
             method: "POST",
@@ -125,61 +162,55 @@ function handleCreateEmployee(evt) {
     }
 }
 // Add new manager -
-function handleCreateManager(evt) {
-    try {
-        evt.preventDefault();
-        var name = evt.target.elements.name.value;
-        var email = evt.target.elements.email.value;
-        var password = evt.target.elements.password.value;
-        var idNumber = evt.target.elements.idNumber.value;
-        var phone = evt.target.elements.phone.value;
-        var salary = evt.target.elements.salary.value;
-        var birthday = evt.target.elements.birthday.value;
-        // const role = e.target.elements.role.value;
-        console.log(name, email, password, idNumber, phone, birthday, salary);
-        if (!name)
-            throw new Error("No name");
-        if (!email)
-            throw new Error("No email");
-        if (!password)
-            throw new Error("No password");
-        if (!idNumber)
-            throw new Error("No idNumber");
-        if (!phone)
-            throw new Error("No phone");
-        if (!birthday)
-            throw new Error("No birthday");
-        if (!salary)
-            throw new Error("No salary");
-        // if (!role) throw new Error("No role");
-        var newManager = {
-            name: name,
-            email: email,
-            password: password,
-            idNumber: idNumber,
-            phone: phone,
-            birthday: birthday,
-            salary: salary
-        };
-        fetch("/api/employees-page/add-manager", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newManager)
-        })
-            .then(function (res) { return res.json(); })
-            .then(function (data) {
-            console.log(data);
-        })["catch"](function (error) {
-            console.error(error);
-        });
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
+// function handleCreateManager(evt: any) {
+//   try {
+//     evt.preventDefault();
+//     const name = evt.target.elements.name.value;
+//     const email = evt.target.elements.email.value;
+//     const password = evt.target.elements.password.value;
+//     const idNumber = evt.target.elements.idNumber.value;
+//     const phone = evt.target.elements.phone.value;
+//     const salaryPerHour = evt.target.elements.salaryPerHour.value;
+//     const birthday = evt.target.elements.birthday.value;
+//     // const role = e.target.elements.role.value;
+//     console.log(name, email, password, idNumber, phone, birthday, salaryPerHour);
+//     if (!name) throw new Error("No name");
+//     if (!email) throw new Error("No email");
+//     if (!password) throw new Error("No password");
+//     if (!idNumber) throw new Error("No idNumber");
+//     if (!phone) throw new Error("No phone");
+//     if (!birthday) throw new Error("No birthday");
+//     if (!salaryPerHour) throw new Error("No salary");
+//     // if (!role) throw new Error("No role");
+//     const newManager: any = {
+//       name,
+//       email,
+//       password,
+//       idNumber,
+//       phone,
+//       birthday,
+//       salaryPerHour,
+//       //   role,
+//     };
+//     fetch("/api/employees-page/add-manager", {
+//       method: "POST",
+//       headers: {
+//         Accept: "application/json",
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(newManager),
+//     })
+//       .then((res) => res.json())
+//       .then((data) => {
+//         console.log(data);
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//       });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 // Get all workers -
 var handleGetWorkers = function () {
     try {
@@ -201,10 +232,10 @@ var handleGetWorkers = function () {
                 var displayEmployees = employees.employees;
                 var htmlStr = displayEmployees
                     .map(function (employee) {
-                    return "<div class=\"employeeCard\">\n                <tr>\n                <td> " + employee.name + " </td>\n                <td> " + employee.birthday + " </td>\n                <td> " + employee.email + " </td>\n                <td> " + employee.phone + " </td>\n                <td> " + employee.role + " </td>\n                </tr>\n                </div>";
+                    return "<div class=\"employees-page__employeeCard\">\n              <div class=\"employee-details\">\n                <div class=\"employee-name\">" + employee.name + "</div>\n                <div class=\"employee-birthday\">" + employee.birthday + "</div>\n                <div class=\"employee-email\">" + employee.email + "</div>\n                <div class=\"employee-phone\">" + employee.phone + "</div>\n                <div class=\"employee-role\">" + employee.role.name + "</div>\n              </div>\n            </div>";
                 })
                     .join(" ");
-                var getAllEmployees = document.querySelector(".get-all-employees");
+                var getAllEmployees = document.querySelector(".employees-page__get-all-employees");
                 if (!getAllEmployees)
                     throw new Error("Can't find employees to display.");
                 getAllEmployees.innerHTML = htmlStr;
@@ -218,13 +249,6 @@ var handleGetWorkers = function () {
         console.log(error);
     }
 };
-// Display all workers -
-// const renderWorkersToScreen = () => {
-//   try {
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 // const create_Employee_tab = document.querySelector(
 //   ".create_Employee_Role"
 // ) as HTMLDivElement;

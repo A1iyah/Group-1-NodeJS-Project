@@ -11,22 +11,73 @@ async function main() {
     handleGetWorkers();
     addEmployeeBtn.style.display = "block";
   }
-
-  addEmployeeBtn.addEventListener("click", () => {
-    if (addNewUsers.style.display === "none") {
-      addNewUsers.style.display = "block";
-    } else {
-      addNewUsers.style.display = "none";
-    }
-  });
 }
 main();
 
 // Admin / Manager button -
 const addEmployeeBtn = document.querySelector(
-  ".add-users-btn"
+  ".add-employees-btn"
 ) as HTMLButtonElement;
-const addNewUsers = document.querySelector(".add-new-users") as HTMLDivElement;
+
+const addManagerBtn = document.querySelector(
+  ".add-managers-btn"
+) as HTMLButtonElement;
+
+const openAddButton = document.querySelector(
+  ".open-add-btn"
+) as HTMLButtonElement;
+
+const addButtonsContainer = document.querySelector(
+  ".add-buttons-container"
+) as HTMLDivElement;
+
+const addNewEmployees = document.querySelector(
+  ".employees-page__add-new-employees"
+) as HTMLDivElement;
+
+const addNewManagers = document.querySelector(
+  ".employees-page__add-new-managers"
+) as HTMLDivElement;
+
+let openDiv: HTMLDivElement | null = null;
+
+openAddButton.addEventListener("click", () => {
+  if (addButtonsContainer.style.display === "block") {
+    addButtonsContainer.style.display = "none";
+    if (openDiv) {
+      openDiv.style.display = "none";
+      openDiv = null;
+    }
+  } else {
+    addButtonsContainer.style.display = "block";
+  }
+});
+
+addEmployeeBtn.addEventListener("click", () => {
+  if (openDiv === addNewEmployees) {
+    addNewEmployees.style.display = "none";
+    openDiv = null;
+  } else {
+    if (openDiv) {
+      openDiv.style.display = "none";
+    }
+    addNewEmployees.style.display = "block";
+    openDiv = addNewEmployees;
+  }
+});
+
+addManagerBtn.addEventListener("click", () => {
+  if (openDiv === addNewManagers) {
+    addNewManagers.style.display = "none";
+    openDiv = null;
+  } else {
+    if (openDiv) {
+      openDiv.style.display = "none";
+    }
+    addNewManagers.style.display = "block";
+    openDiv = addNewManagers;
+  }
+});
 
 // Add new employee -
 function handleCreateEmployee(evt: any) {
@@ -38,10 +89,19 @@ function handleCreateEmployee(evt: any) {
     const idNumber = evt.target.elements.idNumber.value;
     const phone = evt.target.elements.phone.value;
     const birthday = evt.target.elements.birthday.value;
-    const salary = evt.target.elements.salary.value;
-    // const role = evt.target.elements.role.value;
+    const salaryPerHour = evt.target.elements.salaryPerHour.value;
+    const role = evt.target.elements.role.value;
 
-    console.log(name, email, password, idNumber, phone, birthday, salary);
+    console.log(
+      name,
+      email,
+      password,
+      idNumber,
+      phone,
+      birthday,
+      salaryPerHour,
+      role
+    );
 
     if (!name) throw new Error("No name");
     if (!email) throw new Error("No email");
@@ -49,8 +109,8 @@ function handleCreateEmployee(evt: any) {
     if (!idNumber) throw new Error("No idNumber");
     if (!phone) throw new Error("No phone");
     if (!birthday) throw new Error("No birthday");
-    if (!salary) throw new Error("No salary");
-    // if (!role) throw new Error("No role");
+    if (!salaryPerHour) throw new Error("No salary");
+    if (!role) throw new Error("No role");
 
     const newEmployee: any = {
       name,
@@ -59,8 +119,8 @@ function handleCreateEmployee(evt: any) {
       idNumber,
       phone,
       birthday,
-      salary,
-      //   role,
+      salaryPerHour,
+      role,
     };
 
     fetch("/api/employees-page/add-employee", {
@@ -84,59 +144,59 @@ function handleCreateEmployee(evt: any) {
 }
 
 // Add new manager -
-function handleCreateManager(evt: any) {
-  try {
-    evt.preventDefault();
-    const name = evt.target.elements.name.value;
-    const email = evt.target.elements.email.value;
-    const password = evt.target.elements.password.value;
-    const idNumber = evt.target.elements.idNumber.value;
-    const phone = evt.target.elements.phone.value;
-    const salary = evt.target.elements.salary.value;
-    const birthday = evt.target.elements.birthday.value;
-    // const role = e.target.elements.role.value;
+// function handleCreateManager(evt: any) {
+//   try {
+//     evt.preventDefault();
+//     const name = evt.target.elements.name.value;
+//     const email = evt.target.elements.email.value;
+//     const password = evt.target.elements.password.value;
+//     const idNumber = evt.target.elements.idNumber.value;
+//     const phone = evt.target.elements.phone.value;
+//     const salaryPerHour = evt.target.elements.salaryPerHour.value;
+//     const birthday = evt.target.elements.birthday.value;
+//     // const role = e.target.elements.role.value;
 
-    console.log(name, email, password, idNumber, phone, birthday, salary);
+//     console.log(name, email, password, idNumber, phone, birthday, salaryPerHour);
 
-    if (!name) throw new Error("No name");
-    if (!email) throw new Error("No email");
-    if (!password) throw new Error("No password");
-    if (!idNumber) throw new Error("No idNumber");
-    if (!phone) throw new Error("No phone");
-    if (!birthday) throw new Error("No birthday");
-    if (!salary) throw new Error("No salary");
-    // if (!role) throw new Error("No role");
+//     if (!name) throw new Error("No name");
+//     if (!email) throw new Error("No email");
+//     if (!password) throw new Error("No password");
+//     if (!idNumber) throw new Error("No idNumber");
+//     if (!phone) throw new Error("No phone");
+//     if (!birthday) throw new Error("No birthday");
+//     if (!salaryPerHour) throw new Error("No salary");
+//     // if (!role) throw new Error("No role");
 
-    const newManager: any = {
-      name,
-      email,
-      password,
-      idNumber,
-      phone,
-      birthday,
-      salary,
-      //   role,
-    };
+//     const newManager: any = {
+//       name,
+//       email,
+//       password,
+//       idNumber,
+//       phone,
+//       birthday,
+//       salaryPerHour,
+//       //   role,
+//     };
 
-    fetch("/api/employees-page/add-manager", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newManager),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  } catch (error) {
-    console.log(error);
-  }
-}
+//     fetch("/api/employees-page/add-manager", {
+//       method: "POST",
+//       headers: {
+//         Accept: "application/json",
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(newManager),
+//     })
+//       .then((res) => res.json())
+//       .then((data) => {
+//         console.log(data);
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//       });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 // Get all workers -
 const handleGetWorkers = () => {
@@ -159,21 +219,21 @@ const handleGetWorkers = () => {
           const displayEmployees = employees.employees;
 
           const htmlStr: string = displayEmployees
-            .map((employee) => {
-              return `<div class="employeeCard">
-                <tr>
-                <td> ${employee.name} </td>
-                <td> ${employee.birthday} </td>
-                <td> ${employee.email} </td>
-                <td> ${employee.phone} </td>
-                <td> ${employee.role} </td>
-                </tr>
-                </div>`;
+            .map((employee: any) => {
+              return `<div class="employees-page__employeeCard">
+              <div class="employee-details">
+                <div class="employee-name">${employee.name}</div>
+                <div class="employee-birthday">${employee.birthday}</div>
+                <div class="employee-email">${employee.email}</div>
+                <div class="employee-phone">${employee.phone}</div>
+                <div class="employee-role">${employee.role.name}</div>
+              </div>
+            </div>`;
             })
             .join(" ");
 
           const getAllEmployees = document.querySelector(
-            ".get-all-employees"
+            ".employees-page__get-all-employees"
           ) as HTMLDivElement;
           if (!getAllEmployees)
             throw new Error("Can't find employees to display.");
@@ -187,14 +247,6 @@ const handleGetWorkers = () => {
     console.log(error);
   }
 };
-
-// Display all workers -
-// const renderWorkersToScreen = () => {
-//   try {
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 
 // const create_Employee_tab = document.querySelector(
 //   ".create_Employee_Role"

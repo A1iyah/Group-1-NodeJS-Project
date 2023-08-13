@@ -5,12 +5,21 @@ import RoleModel from "../role/roleModel";
 
 export const addEmployee = async (req: any, res: any) => {
   try {
-    let { name, email, password, idNumber, phone, birthday, salary, role } =
-      req.body;
+    let {
+      name,
+      email,
+      password,
+      idNumber,
+      phone,
+      birthday,
+      salaryPerHour,
+      role,
+    } = req.body;
 
     if (role) {
-      const roleID = await RoleModel.find({ name: role }).select({ _id: 1 });
-      role = roleID[0]._id.toString();
+      const roleID = await RoleModel.find({ name: role });
+      // .select({ _id: 1 });
+      // role = roleID[0]._id.toString();
     }
 
     const employeeDB = await EmployeeModel.create({
@@ -20,8 +29,8 @@ export const addEmployee = async (req: any, res: any) => {
       idNumber,
       phone,
       birthday,
-      salary,
-      role,
+      salaryPerHour,
+      roleID: role.name,
     });
     console.log(employeeDB);
 
@@ -72,13 +81,29 @@ export const addManager = async (req: any, res: any) => {
 // Display all workers -
 export const displayWorkers = async (req: any, res: any) => {
   try {
-    const { _id } = req.body;
+    const { _id, role } = req.body;
+
+    let query = {};
+
+    if (role) {
+      const roleObj = await RoleModel.findOne({ name: role });
+
+      if (!roleObj) {
+        console.log(`Role ${roleObj} not found`);
+      }
+
+      query = { role: roleObj!._id };
+    }
 
     const employees = await ManagerModel.findById(_id).populate("employees");
-
     if (employees) console.log(employees.employees);
 
-    res.send({ employees });
+    const employeesRole = await EmployeeModel.find(query).populate(
+      "role",
+      "name"
+    );
+
+    res.send({ employees, employeesRole });
   } catch (error) {
     console.log(error);
   }

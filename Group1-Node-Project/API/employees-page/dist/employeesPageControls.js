@@ -41,17 +41,16 @@ var managerModel_1 = require("../manager/managerModel");
 var employeeModel_1 = require("../employee/employeeModel");
 var roleModel_1 = require("../role/roleModel");
 exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, name, email, password, idNumber, phone, birthday, salary, role, roleID, employeeDB, error_1;
+    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, roleID, employeeDB, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 4, , 5]);
-                _a = req.body, name = _a.name, email = _a.email, password = _a.password, idNumber = _a.idNumber, phone = _a.phone, birthday = _a.birthday, salary = _a.salary, role = _a.role;
+                _a = req.body, name = _a.name, email = _a.email, password = _a.password, idNumber = _a.idNumber, phone = _a.phone, birthday = _a.birthday, salaryPerHour = _a.salaryPerHour, role = _a.role;
                 if (!role) return [3 /*break*/, 2];
-                return [4 /*yield*/, roleModel_1["default"].find({ name: role }).select({ _id: 1 })];
+                return [4 /*yield*/, roleModel_1["default"].find({ name: role })];
             case 1:
                 roleID = _b.sent();
-                role = roleID[0]._id.toString();
                 _b.label = 2;
             case 2: return [4 /*yield*/, employeeModel_1["default"].create({
                     name: name,
@@ -60,8 +59,8 @@ exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, voi
                     idNumber: idNumber,
                     phone: phone,
                     birthday: birthday,
-                    salary: salary,
-                    role: role
+                    salaryPerHour: salaryPerHour,
+                    roleID: role.name
                 })];
             case 3:
                 employeeDB = _b.sent();
@@ -116,24 +115,37 @@ exports.addManager = function (req, res) { return __awaiter(void 0, void 0, void
 }); };
 // Display all workers -
 exports.displayWorkers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, employees, error_3;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _a, _id, role, query, roleObj, employees, employeesRole, error_3;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                _id = req.body._id;
-                return [4 /*yield*/, managerModel_1["default"].findById(_id).populate("employees")];
+                _b.trys.push([0, 5, , 6]);
+                _a = req.body, _id = _a._id, role = _a.role;
+                query = {};
+                if (!role) return [3 /*break*/, 2];
+                return [4 /*yield*/, roleModel_1["default"].findOne({ name: role })];
             case 1:
-                employees = _a.sent();
+                roleObj = _b.sent();
+                if (!roleObj) {
+                    console.log("Role " + roleObj + " not found");
+                }
+                query = { role: roleObj._id };
+                _b.label = 2;
+            case 2: return [4 /*yield*/, managerModel_1["default"].findById(_id).populate("employees")];
+            case 3:
+                employees = _b.sent();
                 if (employees)
                     console.log(employees.employees);
-                res.send({ employees: employees });
-                return [3 /*break*/, 3];
-            case 2:
-                error_3 = _a.sent();
+                return [4 /*yield*/, employeeModel_1["default"].find(query).populate("role", "name")];
+            case 4:
+                employeesRole = _b.sent();
+                res.send({ employees: employees, employeesRole: employeesRole });
+                return [3 /*break*/, 6];
+            case 5:
+                error_3 = _b.sent();
                 console.log(error_3);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 6];
+            case 6: return [2 /*return*/];
         }
     });
 }); };

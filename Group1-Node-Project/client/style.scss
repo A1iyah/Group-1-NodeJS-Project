@@ -10,9 +10,8 @@
 
 // Navbar -
 .nav-bar {
-  width: 100vw;
+  width: 100%;
   height: 55px;
-  padding: 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,6 +23,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 20px;
   }
 
   &__link {
@@ -38,6 +38,10 @@
       color: $mainBlue;
       cursor: pointer;
     }
+  }
+
+  &__user-name {
+    margin-right: 25px;
   }
 }
 
@@ -101,7 +105,7 @@
     &__user-name {
       position: absolute;
       top: 10px;
-      right: 10px;
+      right: 20px;
     }
   }
 }
@@ -320,7 +324,7 @@
   background-color: lightgray;
   width: 100%;
 
-  &__days-header-container{
+  &__days-header-container {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -328,34 +332,176 @@
     gap: 110px;
   }
 
-  &__day-box{
+  &__day-box {
     display: flex;
     flex-direction: column;
     align-content: center;
     justify-content: center;
-    
 
-    &__day{
+    &__day {
       text-align: center;
     }
 
-    &__date{
+    &__date {
       text-align: center;
     }
   }
 
-  &__manager-row{
+  &__manager-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  &__role-row{
+  &__role-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-
 }
 
 //
+
+// Employees page -
+.employees-page {
+  position: relative;
+  height: 900px;
+
+  border: 3px solid green;
+
+  &__main-header {
+    @include headerCenter;
+  }
+
+  .open-add-btn {
+    position: absolute;
+    left: 30px;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    padding-bottom: 4px;
+    border: none;
+    border-radius: 50%;
+    box-shadow: rgba(64, 64, 64, 0.724) 0px 5px 15px;
+    transition: all 0.5s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      @include buttonHover;
+    }
+  }
+
+  .add-buttons-container {
+    display: none;
+    position: relative;
+    margin-top: 20px;
+  }
+
+  .add-employees-btn,
+  .add-managers-btn {
+    @include buttonDesign;
+    width: 170px;
+    position: absolute;
+    top: 10px;
+    left: 80px;
+  }
+
+  .add-employees-btn {
+    top: 50px;
+  }
+
+  .add-employees-btn:hover,
+  .add-managers-btn:hover {
+    @include buttonHover;
+  }
+
+  &__chart {
+    width: 80%;
+    @include flexibleCenter(absolute, 30%, 50%, -50%, -30%);
+
+    th {
+      width: 250px;
+      @include inputShadow;
+    }
+  }
+
+  &__get-all-employees {
+    width: 80%;
+    height: 50%;
+    overflow-y: scroll;
+    @include flexibleCenter(absolute, 65%, 50%, -50%, -65%);
+  }
+
+  &__get-all-employees::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__employeeCard {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .employee-details {
+      display: flex;
+      justify-content: space-evenly;
+      padding: 15px 0;
+      box-shadow: 0px 15px 10px -15px #80808098;
+
+      .employee-name,
+      .employee-birthday,
+      .employee-email,
+      .employee-phone,
+      .employee-role {
+        text-align: center;
+        width: 250px;
+        letter-spacing: 0.5px;
+
+        // border: 1px solid green;
+      }
+
+      .employee-email {
+        overflow-x: scroll;
+      }
+
+      .employee-email::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+
+  &__add-new-employees,
+  &__add-new-managers {
+    @include flexibleCenter(fixed, 50%, 50%, -50%, -50%);
+    display: flex;
+
+    fieldset {
+      width: 400px;
+      background-color: $mainBlue;
+      text-align: center;
+      @include boxShadow;
+
+      legend {
+        text-align: center;
+        font-size: 30px;
+      }
+
+      input,
+      select {
+        width: 60%;
+        margin: 10px auto;
+        text-align: center;
+        @include inputShadow;
+      }
+
+      button {
+        display: block;
+        margin: 20px auto 20px;
+        @include buttonDesign;
+
+        &:hover {
+          @include buttonHover;
+        }
+      }
+    }
+  }
+}
