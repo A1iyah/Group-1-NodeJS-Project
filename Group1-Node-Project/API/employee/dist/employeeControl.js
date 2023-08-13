@@ -36,9 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.addEmployee = exports.getSelectedEmployee = exports.addAttendance = exports.getEmployee = exports.login = void 0;
+exports.getSelectedEmployee = exports.addAttendance = exports.getEmployee = exports.login = void 0;
 var employeeModel_1 = require("./employeeModel");
-var roleModel_1 = require("../role/roleModel");
 var dotenv = require("dotenv");
 dotenv.config();
 var jwt_simple_1 = require("jwt-simple");
@@ -144,11 +143,11 @@ exports.getSelectedEmployee = function (req, res) { return __awaiter(void 0, voi
                     throw new Error("no id");
                 return [4 /*yield*/, employeeModel_1["default"].find({
                         idNumber: idNumber
-                    })];
+                    })
+                        .populate("role")
+                        .exec()];
             case 1:
                 employeeDB = _a.sent();
-                // .populate("roles")
-                // .exec();
                 res.send({ employeeDB: employeeDB });
                 return [3 /*break*/, 3];
             case 2:
@@ -160,40 +159,28 @@ exports.getSelectedEmployee = function (req, res) { return __awaiter(void 0, voi
         }
     });
 }); };
-exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, name, email, password, idNumber, phone, birthday, salary, role, roleID, employeeDB, error_5;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _b.trys.push([0, 4, , 5]);
-                _a = req.body, name = _a.name, email = _a.email, password = _a.password, idNumber = _a.idNumber, phone = _a.phone, birthday = _a.birthday, salary = _a.salary, role = _a.role;
-                if (!role) return [3 /*break*/, 2];
-                return [4 /*yield*/, roleModel_1["default"].find({ name: role }).select({ _id: 1 })];
-            case 1:
-                roleID = _b.sent();
-                role = roleID[0]._id.toString();
-                _b.label = 2;
-            case 2: return [4 /*yield*/, employeeModel_1["default"].create({
-                    name: name,
-                    email: email,
-                    password: password,
-                    idNumber: idNumber,
-                    phone: phone,
-                    birthday: birthday,
-                    salary: salary,
-                    role: role
-                })];
-            case 3:
-                employeeDB = _b.sent();
-                console.log(employeeDB);
-                res.status(200).send({ ok: true });
-                return [3 /*break*/, 5];
-            case 4:
-                error_5 = _b.sent();
-                console.log(error_5);
-                res.status(500).send("did not get data");
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
-        }
-    });
-}); };
+// export const addEmployee = async (req: any, res: any) => {
+//   try {
+//     let { name, email, password, idNumber, phone, birthday, salary, role } =
+//       req.body;
+//     if (role) {
+//       const roleID = await RoleModel.find({ name: role }).select({ _id: 1 });
+//       role = roleID[0]._id.toString();
+//     }
+//     const employeeDB = await EmployeeModel.create({
+//       name,
+//       email,
+//       password,
+//       idNumber,
+//       phone,
+//       birthday,
+//       salary,
+//       role,
+//     });
+//     console.log(employeeDB);
+//     res.status(200).send({ ok: true });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send("did not get data");
+//   }
+// };

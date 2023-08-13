@@ -117,9 +117,12 @@ exports.getSelectedSalaryUp = function (req, res) { return __awaiter(void 0, voi
                         path: "employees",
                         match: {
                             salaryPerHour: { $gt: salaryUp }
+                        },
+                        populate: {
+                            path: "role",
+                            model: "Role"
                         }
-                    })
-                        .exec()];
+                    })];
             case 1:
                 employees = _b.sent();
                 console.log(employees);
@@ -152,6 +155,10 @@ exports.getSelectedSalaryDown = function (req, res) { return __awaiter(void 0, v
                         path: "employees",
                         match: {
                             salaryPerHour: { $lt: salaryDown }
+                        },
+                        populate: {
+                            path: "role",
+                            model: "Role"
                         }
                     })
                         .exec()];
@@ -187,6 +194,10 @@ exports.getSelectedSalaryBetween = function (req, res) { return __awaiter(void 0
                         path: "employees",
                         match: {
                             salaryPerHour: { $gte: minSalary, $lte: maxSalary }
+                        },
+                        populate: {
+                            path: "role",
+                            model: "Role"
                         }
                     })
                         .exec()];

@@ -36,9 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.addManager = exports.getEmployeesList = exports.getSelectedSalaryBetween = exports.getSelectedSalaryDown = exports.getSelectedSalaryUp = exports.getSelectedManager = exports.addAttendance = exports.getManager = exports.login = void 0;
+exports.getEmployeesList = exports.getSelectedSalaryBetween = exports.getSelectedSalaryDown = exports.getSelectedSalaryUp = exports.getSelectedManager = exports.addAttendance = exports.getManager = exports.login = void 0;
 var managerModel_1 = require("./managerModel");
-var roleModel_1 = require("../role/roleModel");
 var dotenv = require("dotenv");
 dotenv.config();
 var jwt_simple_1 = require("jwt-simple");
@@ -147,11 +146,11 @@ exports.getSelectedManager = function (req, res) { return __awaiter(void 0, void
                     throw new Error("no id");
                 return [4 /*yield*/, managerModel_1["default"].find({
                         idNumber: idNumber
-                    })];
+                    })
+                        .populate("employees")
+                        .exec()];
             case 1:
                 managerDB = _a.sent();
-                // .populate("role")
-                // .exec();
                 console.log(managerDB);
                 res.send({ managerDB: managerDB });
                 return [3 /*break*/, 3];
@@ -177,6 +176,10 @@ exports.getSelectedSalaryUp = function (req, res) { return __awaiter(void 0, voi
                         path: "employees",
                         match: {
                             salaryPerHour: { $gt: salaryUp }
+                        },
+                        populate: {
+                            path: "role",
+                            model: "Role"
                         }
                     })
                         .exec()];
@@ -206,12 +209,12 @@ exports.getSelectedSalaryDown = function (req, res) { return __awaiter(void 0, v
                         path: "employees",
                         match: {
                             salaryPerHour: { $lt: salaryDown }
+                        },
+                        populate: {
+                            path: "role",
+                            model: "Role"
                         }
                     })
-                        //   populate: {
-                        //     path: "role",
-                        //     model: "Role", // Specify the model name
-                        //   },
                         .exec()];
             case 1:
                 employees = _b.sent();
@@ -239,6 +242,10 @@ exports.getSelectedSalaryBetween = function (req, res) { return __awaiter(void 0
                         path: "employees",
                         match: {
                             salaryPerHour: { $gte: minSalary, $lte: maxSalary }
+                        },
+                        populate: {
+                            path: "role",
+                            model: "Role"
                         }
                     })
                         .exec()];
@@ -263,12 +270,25 @@ exports.getEmployeesList = function (req, res) { return __awaiter(void 0, void 0
                 _a.trys.push([0, 2, , 3]);
                 _id = req.body._id;
                 return [4 /*yield*/, managerModel_1["default"].findById(_id)
-                        .populate("employees")
+                        .populate({
+                        path: "employees",
+                        populate: {
+                            path: "role",
+                            model: "Role"
+                        }
+                    })
                         .exec()];
             case 1:
                 employees = _a.sent();
+                // .populate({
+                //   path: "employees",
+                //   populate: {
+                //     path: "role",
+                //     model: "Role",
+                //   },
+                // })
                 if (employees)
-                    console.log(employees.employees);
+                    console.log(employees);
                 res.send({ employees: employees });
                 return [3 /*break*/, 3];
             case 2:
@@ -280,40 +300,28 @@ exports.getEmployeesList = function (req, res) { return __awaiter(void 0, void 0
         }
     });
 }); };
-exports.addManager = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, name, email, password, idNumber, phone, birthday, salary, role, roleID, managerDB, error_9;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _b.trys.push([0, 4, , 5]);
-                _a = req.body, name = _a.name, email = _a.email, password = _a.password, idNumber = _a.idNumber, phone = _a.phone, birthday = _a.birthday, salary = _a.salary, role = _a.role;
-                if (!role) return [3 /*break*/, 2];
-                return [4 /*yield*/, roleModel_1["default"].find({ name: role }).select({ _id: 1 })];
-            case 1:
-                roleID = _b.sent();
-                role = roleID[0]._id.toString();
-                _b.label = 2;
-            case 2: return [4 /*yield*/, managerModel_1["default"].create({
-                    name: name,
-                    email: email,
-                    password: password,
-                    idNumber: idNumber,
-                    phone: phone,
-                    birthday: birthday,
-                    salary: salary,
-                    role: role
-                })];
-            case 3:
-                managerDB = _b.sent();
-                console.log(managerDB);
-                res.status(200).send({ ok: true });
-                return [3 /*break*/, 5];
-            case 4:
-                error_9 = _b.sent();
-                console.log(error_9);
-                res.status(500).send("did not get data");
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
-        }
-    });
-}); };
+// export const addManager = async (req: any, res: any) => {
+//   try {
+//     let { name, email, password, idNumber, phone, birthday, salary, role } =
+//       req.body;
+//     if (role) {
+//       const roleID = await RoleModel.find({ name: role }).select({ _id: 1 });
+//       role = roleID[0]._id.toString();
+//     }
+//     const managerDB = await ManagerModel.create({
+//       name,
+//       email,
+//       password,
+//       idNumber,
+//       phone,
+//       birthday,
+//       salary,
+//       role,
+//     });
+//     console.log(managerDB);
+//     res.status(200).send({ ok: true });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send("did not get data");
+//   }
+// };

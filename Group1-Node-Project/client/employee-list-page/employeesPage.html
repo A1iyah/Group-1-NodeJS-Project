@@ -12,181 +12,235 @@
     <link rel="stylesheet" href="../style.css" />
     <script src="../common/dist/control.js" defer></script>
     <script src="./dist/employeesView.js" defer></script>
-    <script src="./dist/employeesTS.js" defer></script>
+    <script src=".//dist/employeesTS.js" defer></script>
     <title>Employees</title>
   </head>
-  <body onload="getRole(event); getManager(event)">
+  <!-- onload="getRole(event); getManager(event)" -->
+  <body>
     <div class="nav-bar"></div>
 
-    <form class="create_Manager" onsubmit="handleCreateManager(event)">
-      <label for="name">Name:</label>
-      <br />
-      <input
-        class="create_Manager_Name"
-        type="text"
-        name="name"
-        placeholder="Name"
-        required
-      />
-      <br />
-      <br />
-      <label for="email">Email:</label>
-      <br />
-      <input
-        class="create_Manager_Email"
-        type="text"
-        name="email"
-        placeholder="Email"
-        required
-      />
-      <br />
-      <br />
-      <label for="password">Password:</label>
-      <br />
-      <input
-        class="create_Manager_Password"
-        type="text"
-        name="password"
-        placeholder="Password"
-        required
-      />
-      <br />
-      <br />
-      <label for="idNumber">ID Number:</label>
-      <br />
-      <input
-        class="create_Manager_idNumber"
-        type="number"
-        name="idNumber"
-        placeholder="ID Number"
-        required
-      />
-      <br />
-      <br />
-      <label for="phone">Phone Number:</label>
-      <br />
-      <input
-        class="create_Manager_Phone"
-        type="number"
-        name="phone"
-        placeholder="Phone Number"
-        required
-      />
-      <br />
-      <br />
-      <label for="birthday">BirthDay:</label>
-      <br />
-      <input
-        class="create_Manager_birthday"
-        type="date"
-        name="birthday"
-        required
-      />
-      <br />
-      <br />
-      <label for="salary">Manager Salary:</label>
-      <br />
-      <input
-        class="create_Manager_Salary"
-        type="number"
-        name="salary"
-        placeholder="Salary"
-        required
-      />
-      <br />
-      <br />
-      <label for="role">Select Role:</label>
-      <br />
-      <div class="create_Manager_Role"></div>
-      <button class="create_Manager_Button">Submit</button>
-    </form>
+    <button class="add-users-btn">Add New Employee</button>
 
-    <h1>create employee</h1>
-    <form class="create_Employee" onsubmit="handleCreateEmployee(event)">
-      <label for="name">Name:</label>
-      <br />
-      <input
-        class="create_Employee_Name"
-        type="text"
-        name="name"
-        placeholder="Name"
-        required
-      />
-      <br />
-      <br />
-      <label for="email">Email:</label>
-      <br />
-      <input
-        class="create_Employee_Email"
-        type="text"
-        name="email"
-        placeholder="Email"
-        required
-      />
-      <br />
-      <br />
-      <label for="password">Password:</label>
-      <br />
-      <input
-        class="create_Employee_Password"
-        type="text"
-        name="password"
-        placeholder="Password"
-        required
-      />
-      <br />
-      <br />
-      <label for="idNumber">ID Number:</label>
-      <br />
-      <input
-        class="create_Employee_idNumber"
-        type="number"
-        name="idNumber"
-        placeholder="ID Number"
-        required
-      />
-      <br />
-      <br />
-      <label for="phone">Phone Number:</label>
-      <br />
-      <input
-        class="create_Employee_Phone"
-        type="number"
-        name="phone"
-        placeholder="Phone Number"
-        required
-      />
-      <br />
-      <br />
-      <label for="birthday">BirthDay:</label>
-      <br />
-      <input
-        class="create_Employee_birthday"
-        type="date"
-        name="birthday"
-        required
-      />
-      <br />
-      <br />
-      <label for="salary">create_Employee Salary:</label>
-      <br />
-      <input
-        class="create_Employee_Salary"
-        type="number"
-        name="salary"
-        placeholder="Salary"
-        required
-      />
-      <br />
-      <br />
-      <label for="role">select Role:</label>
-      <div class="create_Employee_Role"></div>
-      <br />
-      <br />
-      <label for="employees_manager">Select Manager:</label>
-      <br />
-      <div class="create_Employee_Manager"></div>
-      <button class="create_Employee_Button">Submit</button>
-    </form>
+    <!-- Add Employee -->
+    <div class="add-new-users" style="display: none">
+      <fieldset>
+        <legend>Add Employee</legend>
+        <form class="create-Employee" onsubmit="handleCreateEmployee(event)">
+          <label for="name">Name:</label>
+          <br />
+          <input
+            class="create-employee-name"
+            type="text"
+            name="name"
+            placeholder="Name"
+            required
+          />
+          <br />
+          <br />
+
+          <label for="email">Email:</label>
+          <br />
+          <input
+            class="create-employee-email"
+            type="text"
+            name="email"
+            placeholder="Email"
+            required
+          />
+          <br />
+          <br />
+
+          <label for="password">Password:</label>
+          <br />
+          <input
+            class="create-employee-password"
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+          <br />
+          <br />
+
+          <label for="idNumber">ID Number:</label>
+          <br />
+          <input
+            class="create-employee-idNumber"
+            type="text"
+            name="idNumber"
+            placeholder="ID Number"
+            required
+          />
+          <br />
+          <br />
+
+          <label for="phone">Phone Number:</label>
+          <br />
+          <input
+            class="create-employee-phone"
+            type="text"
+            name="phone"
+            placeholder="Phone Number"
+            required
+          />
+          <br />
+          <br />
+
+          <label for="birthday">BirthDay:</label>
+          <br />
+          <input
+            class="create-employee-birthday"
+            type="date"
+            name="birthday"
+            required
+          />
+          <br />
+          <br />
+
+          <label for="salary">Employee Salary:</label>
+          <br />
+          <input
+            class="create-employee-salary"
+            type="text"
+            name="salary"
+            placeholder="Salary"
+            required
+          />
+          <br />
+          <br />
+
+          <!-- <label for="role">select Role:</label>
+          <br />
+          <select name="employee-roles" id="employee-roles">
+            <option value="role">ROLE</option>
+            <option value="cashier">Cashier</option>
+            <option value="sales">Sales</option>
+            <option value="shift-manager">Shift Manager</option>
+          </select> -->
+          <!-- <div class="create_Employee_Role"></div> -->
+          <br />
+          <br />
+
+          <!-- <label for="employees_manager">Select Manager:</label>
+        <br />
+        <div class="create_Employee_Manager"></div> -->
+          <!-- <br />
+        <br /> -->
+
+          <button type="submit" class="create-employee-button">Submit</button>
+        </form>
+      </fieldset>
+
+      <!-- Add Manager -->
+      <fieldset>
+        <legend>Add Manager</legend>
+        <form class="create_Manager" onsubmit="handleCreateManager(event)">
+          <label for="name">Name:</label>
+          <br />
+          <input
+            class="create-manager-name"
+            type="text"
+            name="name"
+            placeholder="Name"
+            required
+          />
+          <br />
+          <br />
+
+          <label for="email">Email:</label>
+          <br />
+          <input
+            class="create-manager-email"
+            type="text"
+            name="email"
+            placeholder="Email"
+            required
+          />
+          <br />
+          <br />
+
+          <label for="password">Password:</label>
+          <br />
+          <input
+            class="create-manager-password"
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+          <br />
+          <br />
+
+          <label for="idNumber">ID Number:</label>
+          <br />
+          <input
+            class="create-manager-idNumber"
+            type="text"
+            name="idNumber"
+            placeholder="ID Number"
+            required
+          />
+          <br />
+          <br />
+
+          <label for="phone">Phone Number:</label>
+          <br />
+          <input
+            class="create-manager-phone"
+            type="text"
+            name="phone"
+            placeholder="Phone Number"
+            required
+          />
+          <br />
+          <br />
+
+          <label for="birthday">BirthDay:</label>
+          <br />
+          <input
+            class="create-manager-birthday"
+            type="date"
+            name="birthday"
+            required
+          />
+          <br />
+          <br />
+
+          <label for="salary">Manager Salary:</label>
+          <br />
+          <input
+            class="create-manager-salary"
+            type="text"
+            name="salary"
+            placeholder="Salary"
+            required
+          />
+          <br />
+          <br />
+
+          <!-- <label for="role">Select Role:</label>
+        <br />
+        <div class="create_Manager_Role"></div>
+        <br />
+        <br /> -->
+
+          <button type="submit" class="create-manager-button">Submit</button>
+        </form>
+      </fieldset>
+    </div>
+
+    <h1>Employees</h1>
+
+    <table>
+      <tr>
+        <th>NAME</th>
+        <th>BIRTHDAY</th>
+        <th>EMAIL</th>
+        <th>PHONE</th>
+        <th>ROLE</th>
+      </tr>
+    </table>
+
+    <div class="get-all-employees"></div>
   </body>
 </html>
