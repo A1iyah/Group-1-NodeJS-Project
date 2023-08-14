@@ -468,6 +468,7 @@ function employeeUsingReport() {
         console.log(employeeDB);
 
         renderReportResult(employeeDB);
+        renderShiftResult(employeeDB[0]);
       });
   } catch (error) {
     console.log(error);

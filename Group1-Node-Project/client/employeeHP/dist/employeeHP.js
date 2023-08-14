@@ -34,14 +34,38 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var startTime = Date.now();
+var currentTime = null;
+var intervalId = null;
+var totalTimeShift = null;
+var formattedTime = null;
 function main() {
     return __awaiter(this, void 0, void 0, function () {
+        var startTimeString, currentTime_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, getActiveUser()];
                 case 1:
                     _a.sent();
                     renderNavBar(navBarElement);
+                    // const startShift = localStorage.getItem("totalTimeShift");
+                    // if (startShift) {
+                    //   let continueTime = startShift.toString();
+                    //   continueClock();
+                    // }
+                    totalTimeShift = localStorage.getItem("totalTimeShift");
+                    if (totalTimeShift) {
+                        startEndClock.innerHTML = totalTimeShift;
+                        startTimeString = localStorage.getItem("startTime");
+                        startTime = parseInt(startTimeString);
+                        console.log(startTime);
+                        currentTime_1 = Date.now();
+                        console.log(currentTime_1);
+                        startEndButtonS.style.display = "none";
+                        startEndButtonE.style.display = "block";
+                        // const elapsedTime = currentTime - startTime1;
+                        startClock();
+                    }
                     return [2 /*return*/];
             }
         });
@@ -89,11 +113,6 @@ function handleLoadEmployee() {
         });
     });
 }
-var startTime = Date.now();
-var currentTime = null;
-var intervalId = null;
-var totalTimeShift = null;
-var formattedTime = null;
 startEndButtonS.addEventListener("click", function (e) {
     clearInterval(intervalId);
     startEndClock.innerHTML = "00:00:00";
@@ -116,28 +135,33 @@ function updateElapsedTime() {
     var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
     startEndClock.innerHTML = formattedTime;
     totalTimeShift = formattedTime;
+    console.log(totalTimeShift);
     localStorage.setItem("totalTimeShift", formattedTime);
 }
 function startClock() {
     intervalId = setInterval(updateElapsedTime, 1000);
+    console.log(intervalId);
 }
-function continueUpdateElapsedTime() {
-    var currentTime = Date.now();
-    var elapsedTime = currentTime - continueTime;
-    var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
-    var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
-    var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
-    startEndClock.innerHTML = formattedTime;
-    totalTimeShift = formattedTime;
-    localStorage.setItem("totalTimeShift", formattedTime);
-}
-function continueClock() {
-    intervalId = setInterval(continueUpdateElapsedTime, 1000);
-}
+// function continueUpdateElapsedTime() {
+//   const currentTime = Date.now();
+//   const elapsedTime = currentTime - continueTime;
+//   const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+//   const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+//   const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+//   const formattedTime = `${String(hours).padStart(2, "0")}:${String(
+//     minutes
+//   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+//   startEndClock.innerHTML = formattedTime;
+//   totalTimeShift = formattedTime;
+//   localStorage.setItem("totalTimeShift", formattedTime);
+// }
+// function continueClock() {
+//   intervalId = setInterval(continueUpdateElapsedTime, 1000);
+// }
 startEndButtonE.addEventListener("click", function (e) {
     startEndButtonS.style.display = "block";
     startEndButtonE.style.display = "none";
+    console.log(intervalId);
     stopClock();
     localStorage.removeItem("startTime");
     localStorage.removeItem("totalTimeShift");

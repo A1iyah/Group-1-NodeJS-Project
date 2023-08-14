@@ -1,27 +1,65 @@
 const navBarElement = document.querySelector(".nav-bar") as HTMLDivElement;
+const runningClock = document.querySelector(".running-clock") as HTMLDivElement;
 
 let weekDays;
-let nextSunday:Date;
+let nextSunday: Date;
 let nextSaturday: Date;
+let startTime1: number;
+let intervalIdNew = null;
 
 async function main() {
   await getActiveUser();
   renderNavBar(navBarElement);
 
-  // const startShift = localStorage.getItem("totalTimeShift");
-  // if (startShift) {
-  //   startClock();
-  // }
-  
+  const totalTimeShift = localStorage.getItem("totalTimeShift");
+  if (totalTimeShift) {
+    runningClock.innerHTML = totalTimeShift;
+
+    const startTimeString = localStorage.getItem("startTime");
+    startTime1 = parseInt(startTimeString!);
+    console.log(startTime1);
+
+    const currentTime = Date.now();
+    console.log(currentTime);
+
+    // const elapsedTime = currentTime - startTime1;
+    updateClock();
+  }
+
   renderAllAvailableEmployees();
 }
 
 main();
 
+function continueUpdateElapsedTime() {
+  const currentTime = Date.now();
+  console.log(currentTime);
+
+  const elapsedTime = currentTime - startTime1;
+  console.log(elapsedTime);
+
+  const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+  const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+
+  const formattedTime = `${String(hours).padStart(2, "0")}:${String(
+    minutes
+  ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  runningClock.innerHTML = formattedTime;
+  totalTimeShift = formattedTime;
+  console.log(totalTimeShift);
+  localStorage.setItem("totalTimeShift", formattedTime);
+}
+
+function updateClock() {
+  intervalId = setInterval(continueUpdateElapsedTime, 1000);
+}
+
 /** Renders the form to create a new week */
-const displayWeekScheduleConfig = () =>
-{
-  const newScheduleFormElem = document.querySelector(".new-schedule-form") as HTMLDivElement;
+const displayWeekScheduleConfig = () => {
+  const newScheduleFormElem = document.querySelector(
+    ".new-schedule-form"
+  ) as HTMLDivElement;
 
   nextSunday = getNextSundayDate(new Date());
   nextSaturday = getNextSaturdayDate(new Date());
@@ -42,54 +80,48 @@ const displayWeekScheduleConfig = () =>
         <input type="submit">
       </form>
   `;
-}
+};
 
 /** creates a new week schedule on form submitted */
-const createNewWeekSchedule = (eve) =>
-{
+const createNewWeekSchedule = (eve) => {
   eve.preventDefault();
-  
+
   const cashierCount = eve.target.elements.roleCashier.value;
   const salesCount = eve.target.elements.roleSales.value;
 
   try {
-
-      fetch("/api/schedule/create-new-week-for-scheduling",
-    {
+    fetch("/api/schedule/create-new-week-for-scheduling", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(
-        {
-          nextSunday: nextSunday.toLocaleDateString(),
-          cashierCount, 
-          salesCount,
-        }
-      )
+      body: JSON.stringify({
+        nextSunday: nextSunday.toLocaleDateString(),
+        cashierCount,
+        salesCount,
+      }),
     })
-    .then( (res) => res.json())
-    .then((data) =>
-    {
-      if (!data) throw new Error("no schedule data received from DB.");
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data) throw new Error("no schedule data received from DB.");
 
-      console.log("start date: ", data.weekSchedule);
-      
-      const weekDaysArr: Array<Date> = getWeekDaysDatesArr(new Date(data.weekSchedule.startDate));
-      
-      renderEmployeesPanel(weekDaysArr);
-      renderAllocationsPanel(weekDaysArr, data.weekSchedule.scheduleRequirements);
-      
+        console.log("start date: ", data.weekSchedule);
 
+        const weekDaysArr: Array<Date> = getWeekDaysDatesArr(
+          new Date(data.weekSchedule.startDate)
+        );
 
-    })
-    
+        renderEmployeesPanel(weekDaysArr);
+        renderAllocationsPanel(
+          weekDaysArr,
+          data.weekSchedule.scheduleRequirements
+        );
+      });
   } catch (error) {
     console.log(error);
   }
-  
-}
+};
 
 function testt(eve) {
   eve.preventDefault();
@@ -98,13 +130,15 @@ function testt(eve) {
   console.log("works");
 }
 
-/** Calc. start and the end of dates of next week and renders them */ 
-const renderEmployeesPanel = (weekDaysArr: Array<Date>) =>{
-  const employeesPanelElem = document.querySelector(".employees-panel") as HTMLDivElement;
+/** Calc. start and the end of dates of next week and renders them */
+const renderEmployeesPanel = (weekDaysArr: Array<Date>) => {
+  const employeesPanelElem = document.querySelector(
+    ".employees-panel"
+  ) as HTMLDivElement;
   // const weekStartElem = document.querySelector(".employees-panel__week-displayer__week-start") as HTMLDivElement;
   // const weekEndElem = document.querySelector(".employees-panel__week-displayer__week-end") as HTMLDivElement;
 
-  employeesPanelElem.innerHTML= `
+  employeesPanelElem.innerHTML = `
         <div class="employees-panel__week-displayer">
           <p class="employees-panel__week-displayer__text"><span class="employees-panel__week-displayer__week-start">${weekDaysArr[0].toDateString()}</span> - <br><span class="employees-panel__week-displayer__week-end">${weekDaysArr[6].toDateString()}</span></p>
         </div>
@@ -126,59 +160,71 @@ const renderEmployeesPanel = (weekDaysArr: Array<Date>) =>{
 
         <div class="comments-panel"></div>
   `;
-
-}
-
-const renderAllocationsPanel = (weekDaysArr: Array<Date>, scheduleRequirements: Array<string>) =>
-{
-  const shiftsPanelElem = document.querySelector(".shifts-panel") as HTMLDivElement;
-  
-  shiftsPanelElem.innerHTML = `
-  <div class="shifts-panel__days-header-container">${renderWeekHeaders(weekDaysArr)}</div>
-  ${renderRoleAllocationsPlaces(weekDaysArr, scheduleRequirements)}
-  `;
-  
-  
 };
 
-const renderWeekHeaders = (weekDaysArr: Array<Date>):string =>
-{
-  const daysNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const renderAllocationsPanel = (
+  weekDaysArr: Array<Date>,
+  scheduleRequirements: Array<string>
+) => {
+  const shiftsPanelElem = document.querySelector(
+    ".shifts-panel"
+  ) as HTMLDivElement;
+
+  shiftsPanelElem.innerHTML = `
+  <div class="shifts-panel__days-header-container">${renderWeekHeaders(
+    weekDaysArr
+  )}</div>
+  ${renderRoleAllocationsPlaces(weekDaysArr, scheduleRequirements)}
+  `;
+};
+
+const renderWeekHeaders = (weekDaysArr: Array<Date>): string => {
+  const daysNames = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
   let daysCounter: number = -1;
-  
 
-  const daysHeadersHtml = weekDaysArr.map( (dayHeader) =>
-  {
-    daysCounter++;
-    return `<div class="shifts-panel__day-box">
+  const daysHeadersHtml = weekDaysArr
+    .map((dayHeader) => {
+      daysCounter++;
+      return `<div class="shifts-panel__day-box">
       <p class="shifts-panel__day-box__day">${daysNames[daysCounter]}</p>
-      <p class="shifts-panel__day-box__date">${weekDaysArr[daysCounter].getDate()} / ${weekDaysArr[daysCounter].getMonth()}</p>
-      </div>`
-  }).join("");
-  
-  return daysHeadersHtml; 
-}
+      <p class="shifts-panel__day-box__date">${weekDaysArr[
+        daysCounter
+      ].getDate()} / ${weekDaysArr[daysCounter].getMonth()}</p>
+      </div>`;
+    })
+    .join("");
 
-const renderRoleAllocationsPlaces = (weekDaysArr: Array<Date>, scheduleRequirements: Array<string>):string =>{
+  return daysHeadersHtml;
+};
+
+const renderRoleAllocationsPlaces = (
+  weekDaysArr: Array<Date>,
+  scheduleRequirements: Array<string>
+): string => {
   console.log("scheduleReq: ", scheduleRequirements);
   const numRolesInScheduleRequirements = scheduleRequirements.length;
-  let rolesCounter:number = -1;
-  let weekDayCounter:number = -1;
+  let rolesCounter: number = -1;
+  let weekDayCounter: number = -1;
 
-  let rolesHtml:string = "";
+  let rolesHtml: string = "";
 
-
-  for (let i = 0 ; i < numRolesInScheduleRequirements ;i++)
-  {
-    const numEmployeesRequiredForRole = scheduleRequirements[i]["numEmployeesRequired"];
+  for (let i = 0; i < numRolesInScheduleRequirements; i++) {
+    const numEmployeesRequiredForRole =
+      scheduleRequirements[i]["numEmployeesRequired"];
     if (numEmployeesRequiredForRole === 0) continue;
 
-    for(let j = 0 ; j < numEmployeesRequiredForRole; j++)
-    {
-      rolesHtml += `<div class="shifts-panel__role-row"><p class="shifts-panel__role-row__title">${scheduleRequirements[i]["roleType"]}</p>`
-      
-      for (let weekdayIndex = 0 ; weekdayIndex < 7 ; weekdayIndex++)
-      {
+    for (let j = 0; j < numEmployeesRequiredForRole; j++) {
+      rolesHtml += `<div class="shifts-panel__role-row"><p class="shifts-panel__role-row__title">${scheduleRequirements[i]["roleType"]}</p>`;
+
+      for (let weekdayIndex = 0; weekdayIndex < 7; weekdayIndex++) {
         rolesHtml += `<div class="shifts-panel__role-row__${scheduleRequirements[i]["roleType"]}-num${j}-weekday${weekdayIndex}">
         <img src="./images/add-employee-to-shift.png" alt="add-employee-to-shift" class="shifts-panel__role-row__icon" onclick="onShiftSelect('${scheduleRequirements[i]["roleType"]}', ${weekdayIndex})"></div>`;
       }
@@ -187,75 +233,76 @@ const renderRoleAllocationsPlaces = (weekDaysArr: Array<Date>, scheduleRequireme
   }
 
   return rolesHtml;
-}
+};
 
-const getNextSundayDate = (todayDate: Date):Date =>
-{
-  const date = new Date(todayDate.getFullYear(), todayDate.getMonth(), (todayDate.getDate()-todayDate.getDay())+7);
-
-  return date;
-}
-
-const getNextSaturdayDate = (todayDate: Date):Date =>
-{
-  const date = new Date(todayDate.getFullYear(), todayDate.getMonth(), (todayDate.getDate() + (6 - todayDate.getDay()))+7);
+const getNextSundayDate = (todayDate: Date): Date => {
+  const date = new Date(
+    todayDate.getFullYear(),
+    todayDate.getMonth(),
+    todayDate.getDate() - todayDate.getDay() + 7
+  );
 
   return date;
-}
+};
 
-const getWeekDaysDatesArr = (startDate: Date):Array<Date> =>
-{
-  let weekDaysArr:Array<Date> = [];
+const getNextSaturdayDate = (todayDate: Date): Date => {
+  const date = new Date(
+    todayDate.getFullYear(),
+    todayDate.getMonth(),
+    todayDate.getDate() + (6 - todayDate.getDay()) + 7
+  );
 
-  for (let i = 0; i< 7 ; i++)
-  {
-    weekDaysArr.push(new Date(startDate.getFullYear(), startDate.getMonth(), (startDate.getDate() + (i - startDate.getDay()))));
+  return date;
+};
+
+const getWeekDaysDatesArr = (startDate: Date): Array<Date> => {
+  let weekDaysArr: Array<Date> = [];
+
+  for (let i = 0; i < 7; i++) {
+    weekDaysArr.push(
+      new Date(
+        startDate.getFullYear(),
+        startDate.getMonth(),
+        startDate.getDate() + (i - startDate.getDay())
+      )
+    );
   }
 
   return weekDaysArr;
-}
+};
 
-const renderAllAvailableEmployees = async () =>{
+const renderAllAvailableEmployees = async () => {
   // console.log("renderAllAvailableEmployees called");
-  
   // fetch('/api/availability/get-all-available-employees')
   // .then( (res) => res.json())
   // .then( (data) =>
   // {
   //   try {
   //     if (!data) throw new Error("did not get available employees from DB");
-
   //     //console.log("weeks data: ", data.weekDays[0]);
   //     weekDays = data.weekDays[0];
   //     console.log(weekDays);
   //     console.log(weekDays["Sunday"]);
   //     //console.log("try: ", weekDays[1]);
-
-      
-      
-      
   //   } catch (error) {
   //     console.error(error);
   //   }
   // })
-}
+};
 
 const onShiftSelect = (roleType: string, weekdayIndex: number) =>
 {
   try {
-    fetch('/api/availability/get-employees-by-role-and-weekday',
-  {
-    method: "SEARCH",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(
-      {
-        role: roleType, 
-        weekday: weekdayIndex
-      }
-    )
+    fetch("/api/availability/get-employees-by-role-and-weekday", {
+      method: "SEARCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        role: roleType,
+        weekday: weekdayIndex,
+      }),
     })
     .then( (res) => res.json())
     .then( (data) => {
@@ -264,7 +311,6 @@ const onShiftSelect = (roleType: string, weekdayIndex: number) =>
     });
   } catch (error) {
     console.error(error);
-    
   }
 }
  

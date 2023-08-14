@@ -36,21 +36,32 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 var navBarElement = document.querySelector(".nav-bar");
+var runningClock = document.querySelector(".running-clock");
 var weekDays;
 var nextSunday;
 var nextSaturday;
+var startTime1;
+var intervalIdNew = null;
 function main() {
     return __awaiter(this, void 0, void 0, function () {
+        var totalTimeShift, startTimeString, currentTime;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, getActiveUser()];
                 case 1:
                     _a.sent();
                     renderNavBar(navBarElement);
-                    // const startShift = localStorage.getItem("totalTimeShift");
-                    // if (startShift) {
-                    //   startClock();
-                    // }
+                    totalTimeShift = localStorage.getItem("totalTimeShift");
+                    if (totalTimeShift) {
+                        runningClock.innerHTML = totalTimeShift;
+                        startTimeString = localStorage.getItem("startTime");
+                        startTime1 = parseInt(startTimeString);
+                        console.log(startTime1);
+                        currentTime = Date.now();
+                        console.log(currentTime);
+                        // const elapsedTime = currentTime - startTime1;
+                        updateClock();
+                    }
                     renderAllAvailableEmployees();
                     return [2 /*return*/];
             }
@@ -58,6 +69,23 @@ function main() {
     });
 }
 main();
+function continueUpdateElapsedTime() {
+    var currentTime = Date.now();
+    console.log(currentTime);
+    var elapsedTime = currentTime - startTime1;
+    console.log(elapsedTime);
+    var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+    var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+    var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+    runningClock.innerHTML = formattedTime;
+    totalTimeShift = formattedTime;
+    console.log(totalTimeShift);
+    localStorage.setItem("totalTimeShift", formattedTime);
+}
+function updateClock() {
+    intervalId = setInterval(continueUpdateElapsedTime, 1000);
+}
 /** Renders the form to create a new week */
 var displayWeekScheduleConfig = function () {
     var newScheduleFormElem = document.querySelector(".new-schedule-form");
@@ -114,12 +142,22 @@ var renderAllocationsPanel = function (weekDaysArr, scheduleRequirements) {
     shiftsPanelElem.innerHTML = "\n  <div class=\"shifts-panel__days-header-container\">" + renderWeekHeaders(weekDaysArr) + "</div>\n  " + renderRoleAllocationsPlaces(weekDaysArr, scheduleRequirements) + "\n  ";
 };
 var renderWeekHeaders = function (weekDaysArr) {
-    var daysNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var daysNames = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+    ];
     var daysCounter = -1;
-    var daysHeadersHtml = weekDaysArr.map(function (dayHeader) {
+    var daysHeadersHtml = weekDaysArr
+        .map(function (dayHeader) {
         daysCounter++;
         return "<div class=\"shifts-panel__day-box\">\n      <p class=\"shifts-panel__day-box__day\">" + daysNames[daysCounter] + "</p>\n      <p class=\"shifts-panel__day-box__date\">" + weekDaysArr[daysCounter].getDate() + " / " + weekDaysArr[daysCounter].getMonth() + "</p>\n      </div>";
-    }).join("");
+    })
+        .join("");
     return daysHeadersHtml;
 };
 var renderRoleAllocationsPlaces = function (weekDaysArr, scheduleRequirements) {
@@ -143,17 +181,17 @@ var renderRoleAllocationsPlaces = function (weekDaysArr, scheduleRequirements) {
     return rolesHtml;
 };
 var getNextSundayDate = function (todayDate) {
-    var date = new Date(todayDate.getFullYear(), todayDate.getMonth(), (todayDate.getDate() - todayDate.getDay()) + 7);
+    var date = new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() - todayDate.getDay() + 7);
     return date;
 };
 var getNextSaturdayDate = function (todayDate) {
-    var date = new Date(todayDate.getFullYear(), todayDate.getMonth(), (todayDate.getDate() + (6 - todayDate.getDay())) + 7);
+    var date = new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() + (6 - todayDate.getDay()) + 7);
     return date;
 };
 var getWeekDaysDatesArr = function (startDate) {
     var weekDaysArr = [];
     for (var i = 0; i < 7; i++) {
-        weekDaysArr.push(new Date(startDate.getFullYear(), startDate.getMonth(), (startDate.getDate() + (i - startDate.getDay()))));
+        weekDaysArr.push(new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + (i - startDate.getDay())));
     }
     return weekDaysArr;
 };
@@ -164,7 +202,7 @@ var renderAllAvailableEmployees = function () { return __awaiter(_this, void 0, 
 }); };
 var onShiftSelect = function (roleType, weekdayIndex) {
     try {
-        fetch('/api/availability/get-employees-by-role-and-weekday', {
+        fetch("/api/availability/get-employees-by-role-and-weekday", {
             method: "SEARCH",
             headers: {
                 Accept: "application/json",

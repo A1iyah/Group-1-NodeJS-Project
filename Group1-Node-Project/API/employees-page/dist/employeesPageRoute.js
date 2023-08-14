@@ -8,3 +8,8 @@ router
     .post("/add-employee", employeesPageControls_1.addEmployee)
     .patch("/get-workers", employeesPageControls_1.displayWorkers);
 exports["default"] = router;
+// if (userType === UserType.Admin || userType === UserType.Manager) {
+//   openAddButton.style.display = "block";
+// } else if (userType === UserType.Employee) {
+//   openAddButton.style.display = "none";
+// }
