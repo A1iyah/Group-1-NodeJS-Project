@@ -6,6 +6,11 @@ let nextSunday: Date;
 let nextSaturday: Date;
 let startTime1: number;
 let intervalIdNew = null;
+let targetedDayIndex: number;
+let targetedRoleType: string;
+let targetedRoleCount: number;
+
+
 
 async function main() {
   await getActiveUser();
@@ -226,7 +231,7 @@ const renderRoleAllocationsPlaces = (
 
       for (let weekdayIndex = 0; weekdayIndex < 7; weekdayIndex++) {
         rolesHtml += `<div class="shifts-panel__role-row__${scheduleRequirements[i]["roleType"]}-num${j}-weekday${weekdayIndex}">
-        <img src="./images/add-employee-to-shift.png" alt="add-employee-to-shift" class="shifts-panel__role-row__icon" onclick="onShiftSelect('${scheduleRequirements[i]["roleType"]}', ${weekdayIndex})"></div>`;
+        <img src="./images/add-employee-to-shift.png" alt="add-employee-to-shift" class="shifts-panel__role-row__icon" onclick="onShiftSelect('${scheduleRequirements[i]["roleType"]}', '${weekdayIndex}', '${j}')"></div>`;
       }
       rolesHtml += "</div>";
     }
@@ -290,8 +295,12 @@ const renderAllAvailableEmployees = async () => {
   // })
 };
 
-const onShiftSelect = (roleType: string, weekdayIndex: number) =>
+const onShiftSelect = (roleType: string, weekdayIndex: number, roleCount: number) =>
 {
+  targetedDayIndex = weekdayIndex;
+  targetedRoleType = roleType;
+  targetedRoleCount = roleCount;
+
   try {
     fetch("/api/availability/get-employees-by-role-and-weekday", {
       method: "SEARCH",
@@ -316,37 +325,44 @@ const onShiftSelect = (roleType: string, weekdayIndex: number) =>
  
 const processShiftSelection = (allAvailableEmployees: Array<Object> ,roleType: string, weekdayIndex: number) =>
 {
+
+  console.log("allAvailableEmployees", allAvailableEmployees);
+  
+
   let allAvailableEmployeesOnDay: Array<string> = [];
 
-  switch (weekdayIndex) {
-    case 0:
+  switch (String(weekdayIndex)) {
+    case "0":
       allAvailableEmployeesOnDay = allAvailableEmployees[0]["sundayMorning"];
     break;
 
-    case 1:
+    case "1":
       allAvailableEmployeesOnDay = allAvailableEmployees[0]["mondayMorning"];
     break;
 
-    case 2:
+    case "2":
       allAvailableEmployeesOnDay = allAvailableEmployees[0]["tuesdayMorning"];
     break;
 
-    case 3:
+    case "3":
       allAvailableEmployeesOnDay = allAvailableEmployees[0]["wednesdayMorning"];
     break;
     
-    case 4:
+    case "4":
       allAvailableEmployeesOnDay = allAvailableEmployees[0]["thursdayMorning"];
     break;
 
-    case 5:
+    case "5":
       allAvailableEmployeesOnDay = allAvailableEmployees[0]["fridayMorning"];
     break;
 
-    case 6:
+    case "6":
       allAvailableEmployeesOnDay = allAvailableEmployees[0]["saturdayMorning"];
     break;
   }
+
+  console.log("allAvailableEmployeesOnDay", allAvailableEmployeesOnDay );
+  
 
   try {
     fetch("/api/role/get-role-id-by-name" , {
@@ -362,6 +378,8 @@ const processShiftSelection = (allAvailableEmployees: Array<Object> ,roleType: s
 
       if (!data) throw new Error("no name of Id found on DB");
 
+      console.log("data.roleId[0]:", data);
+      
       renderEmployeesPanelByRole(data.roleId[0]._id, allAvailableEmployeesOnDay, weekdayIndex);
     });
 
@@ -392,7 +410,7 @@ const renderEmployeesPanelByRole = (roleId: string, employees: Array<string>, we
 
     const comment:string = employees[i]["comment"];
 
-    employeesNamesList.innerHTML += `<div class="employees-panel__employee-box" onmouseover="renderEmployeeComment('${employees[i]["employeeId"]}', '${weekdayIndex}')">
+    employeesNamesList.innerHTML += `<div class="employees-panel__employee-box" onmouseover="renderEmployeeComment('${employees[i]["employeeId"]}', '${weekdayIndex}')" onclick="processEmployeeAllocation('${employees[i]["employeeId"]}')">
             <p class="employees-panel__employee-name">${employees[i]["name"]}</p>
             <div class="employees-panel__employee-box__markings-container">
             </div>
@@ -470,6 +488,12 @@ const convertWeekIndexToDayString = (weekdayIndex: string):string =>
     break;
   }
 
+}
+
+const processEmployeeAllocation = (employeeId: string) =>
+{
+  console.log("selected: ", employeeId);
+  
 }
 
 
