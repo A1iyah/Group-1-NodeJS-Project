@@ -1,8 +1,6 @@
 const navBarElement = document.querySelector(".nav-bar") as HTMLDivElement;
 const userName = document.querySelector("#userName") as HTMLDivElement;
 
-// Reports
-
 const salaryButton = document.querySelector(
   ".reportButtons__salary"
 ) as HTMLDivElement;

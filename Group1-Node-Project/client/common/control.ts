@@ -10,7 +10,7 @@ enum UserType {
 
 // async function main() {
 //   await getActiveUser();
-    
+
 //   renderNavBar(navBarElement);
 // }
 // main();
@@ -18,7 +18,7 @@ enum UserType {
 async function getActiveUser() {
   try {
     const responseManager = await fetch("/api/manager/get-manager");
-    
+
     const dataManager = await responseManager.json();
     const { manager } = dataManager;
 
