@@ -1,5 +1,6 @@
 const navBarElement = document.querySelector(".nav-bar") as HTMLDivElement;
 const userName = document.querySelector("#userName") as HTMLDivElement;
+const runningClock = document.querySelector(".running-clock") as HTMLDivElement;
 
 // Reports
 

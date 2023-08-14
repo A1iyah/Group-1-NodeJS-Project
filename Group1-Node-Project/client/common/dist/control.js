@@ -70,7 +70,7 @@ function getActiveUser() {
                     return [3 /*break*/, 4];
                 case 3:
                     error_1 = _a.sent();
-                    console.error(error_1);
+                    console.error("test");
                     return [3 /*break*/, 4];
                 case 4:
                     _a.trys.push([4, 7, , 8]);

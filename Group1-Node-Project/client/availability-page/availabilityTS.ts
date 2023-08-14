@@ -2,7 +2,7 @@ let userDB;
 
 async function main() {
   await getActiveUser();
-  
+
   renderNavBar(navBarElement);
 
   const totalTimeShift = localStorage.getItem("totalTimeShift");
@@ -18,6 +18,7 @@ async function main() {
 
     // const elapsedTime = currentTime - startTime1;
     updateClock();
+  }
 }
 main();
 

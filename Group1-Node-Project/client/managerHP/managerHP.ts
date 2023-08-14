@@ -105,6 +105,8 @@ startEndButtonE.addEventListener("click", (e) => {
   startEndButtonS.style.display = "block";
   startEndButtonE.style.display = "none";
   stopClock();
+  localStorage.removeItem("startTime");
+  localStorage.removeItem("totalTimeShift");
 });
 
 function stopClock() {

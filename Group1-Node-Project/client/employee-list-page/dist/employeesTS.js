@@ -35,6 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var navBarElement = document.querySelector(".nav-bar");
+var runningClock2 = document.querySelector(".running-clock");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         var totalTimeShift, startTimeString, currentTime;
@@ -46,7 +47,7 @@ function main() {
                     renderNavBar(navBarElement);
                     totalTimeShift = localStorage.getItem("totalTimeShift");
                     if (totalTimeShift) {
-                        runningClock.innerHTML = totalTimeShift;
+                        runningClock2.innerHTML = totalTimeShift;
                         startTimeString = localStorage.getItem("startTime");
                         startTime1 = parseInt(startTimeString);
                         console.log(startTime1);
@@ -78,7 +79,7 @@ function continueUpdateElapsedTime() {
     var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
     var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
-    runningClock.innerHTML = formattedTime;
+    runningClock2.innerHTML = formattedTime;
     totalTimeShift = formattedTime;
     console.log(totalTimeShift);
     localStorage.setItem("totalTimeShift", formattedTime);

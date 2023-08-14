@@ -1,11 +1,15 @@
 const navBarElement = document.querySelector(".nav-bar") as HTMLDivElement;
+const runningClock2 = document.querySelector(
+  ".running-clock"
+) as HTMLDivElement;
+
 async function main() {
   await getActiveUser();
   renderNavBar(navBarElement);
 
   const totalTimeShift = localStorage.getItem("totalTimeShift");
   if (totalTimeShift) {
-    runningClock.innerHTML = totalTimeShift;
+    runningClock2.innerHTML = totalTimeShift;
 
     const startTimeString = localStorage.getItem("startTime");
     startTime1 = parseInt(startTimeString!);
@@ -42,7 +46,7 @@ function continueUpdateElapsedTime() {
   const formattedTime = `${String(hours).padStart(2, "0")}:${String(
     minutes
   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-  runningClock.innerHTML = formattedTime;
+  runningClock2.innerHTML = formattedTime;
   totalTimeShift = formattedTime;
   console.log(totalTimeShift);
   localStorage.setItem("totalTimeShift", formattedTime);
@@ -51,6 +55,7 @@ function continueUpdateElapsedTime() {
 function updateClock() {
   intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
+
 // Admin / Manager button -
 const addEmployeeBtn = document.querySelector(
   ".add-employees-btn"
