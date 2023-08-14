@@ -45,11 +45,11 @@ function main() {
                     renderNavBar(navBarElement);
                     if (userType === UserType.Employee) {
                         handleGetWorkers();
-                        addEmployeeBtn.style.display = "none";
+                        openAddButton.style.display = "none";
                     }
                     else {
                         handleGetWorkers();
-                        addEmployeeBtn.style.display = "block";
+                        openAddButton.style.display = "block";
                     }
                     return [2 /*return*/];
             }
@@ -156,61 +156,84 @@ function handleCreateEmployee(evt) {
         })["catch"](function (error) {
             console.error(error);
         });
+        evt.target.elements.name.value = "";
+        evt.target.elements.email.value = "";
+        evt.target.elements.password.value = "";
+        evt.target.elements.idNumber.value = "";
+        evt.target.elements.phone.value = "";
+        evt.target.elements.salaryPerHour.value = "";
+        evt.target.elements.birthday.value = "";
+        evt.target.elements.role.value = "";
+        addNewEmployees.style.display = "none";
     }
     catch (error) {
         console.log(error);
     }
 }
 // Add new manager -
-// function handleCreateManager(evt: any) {
-//   try {
-//     evt.preventDefault();
-//     const name = evt.target.elements.name.value;
-//     const email = evt.target.elements.email.value;
-//     const password = evt.target.elements.password.value;
-//     const idNumber = evt.target.elements.idNumber.value;
-//     const phone = evt.target.elements.phone.value;
-//     const salaryPerHour = evt.target.elements.salaryPerHour.value;
-//     const birthday = evt.target.elements.birthday.value;
-//     // const role = e.target.elements.role.value;
-//     console.log(name, email, password, idNumber, phone, birthday, salaryPerHour);
-//     if (!name) throw new Error("No name");
-//     if (!email) throw new Error("No email");
-//     if (!password) throw new Error("No password");
-//     if (!idNumber) throw new Error("No idNumber");
-//     if (!phone) throw new Error("No phone");
-//     if (!birthday) throw new Error("No birthday");
-//     if (!salaryPerHour) throw new Error("No salary");
-//     // if (!role) throw new Error("No role");
-//     const newManager: any = {
-//       name,
-//       email,
-//       password,
-//       idNumber,
-//       phone,
-//       birthday,
-//       salaryPerHour,
-//       //   role,
-//     };
-//     fetch("/api/employees-page/add-manager", {
-//       method: "POST",
-//       headers: {
-//         Accept: "application/json",
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(newManager),
-//     })
-//       .then((res) => res.json())
-//       .then((data) => {
-//         console.log(data);
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//       });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+function handleCreateManager(evt) {
+    try {
+        evt.preventDefault();
+        var name = evt.target.elements.name.value;
+        var email = evt.target.elements.email.value;
+        var password = evt.target.elements.password.value;
+        var idNumber = evt.target.elements.idNumber.value;
+        var phone = evt.target.elements.phone.value;
+        var salaryPerHour = evt.target.elements.salaryPerHour.value;
+        var birthday = evt.target.elements.birthday.value;
+        // const role = e.target.elements.role.value;
+        console.log(name, email, password, idNumber, phone, birthday, salaryPerHour);
+        if (!name)
+            throw new Error("No name");
+        if (!email)
+            throw new Error("No email");
+        if (!password)
+            throw new Error("No password");
+        if (!idNumber)
+            throw new Error("No idNumber");
+        if (!phone)
+            throw new Error("No phone");
+        if (!birthday)
+            throw new Error("No birthday");
+        if (!salaryPerHour)
+            throw new Error("No salary");
+        // if (!role) throw new Error("No role");
+        var newManager = {
+            name: name,
+            email: email,
+            password: password,
+            idNumber: idNumber,
+            phone: phone,
+            birthday: birthday,
+            salaryPerHour: salaryPerHour
+        };
+        fetch("/api/employees-page/add-manager", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newManager)
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+            console.log(data);
+        })["catch"](function (error) {
+            console.error(error);
+        });
+        evt.target.elements.name.value = "";
+        evt.target.elements.email.value = "";
+        evt.target.elements.password.value = "";
+        evt.target.elements.idNumber.value = "";
+        evt.target.elements.phone.value = "";
+        evt.target.elements.salaryPerHour.value = "";
+        evt.target.elements.birthday.value = "";
+        addNewManagers.style.display = "none";
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
 // Get all workers -
 var handleGetWorkers = function () {
     try {

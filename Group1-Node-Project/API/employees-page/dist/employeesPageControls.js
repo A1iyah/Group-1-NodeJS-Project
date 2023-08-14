@@ -41,18 +41,50 @@ var managerModel_1 = require("../manager/managerModel");
 var employeeModel_1 = require("../employee/employeeModel");
 var roleModel_1 = require("../role/roleModel");
 exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, roleID, employeeDB, error_1;
+    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, employeeDB, error_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                _a = req.body, name = _a.name, email = _a.email, password = _a.password, idNumber = _a.idNumber, phone = _a.phone, birthday = _a.birthday, salaryPerHour = _a.salaryPerHour, role = _a.role;
+                return [4 /*yield*/, employeeModel_1["default"].create({
+                        name: name,
+                        email: email,
+                        password: password,
+                        idNumber: idNumber,
+                        phone: phone,
+                        birthday: birthday,
+                        salaryPerHour: salaryPerHour,
+                        role: role._id
+                    })];
+            case 1:
+                employeeDB = _b.sent();
+                console.log(employeeDB);
+                res.status(200).send({ ok: true, employeeDB: employeeDB });
+                return [3 /*break*/, 3];
+            case 2:
+                error_1 = _b.sent();
+                console.log(error_1);
+                res.status(500).send("did not get data");
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.addManager = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, roleID, managerDB, error_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 4, , 5]);
                 _a = req.body, name = _a.name, email = _a.email, password = _a.password, idNumber = _a.idNumber, phone = _a.phone, birthday = _a.birthday, salaryPerHour = _a.salaryPerHour, role = _a.role;
                 if (!role) return [3 /*break*/, 2];
-                return [4 /*yield*/, roleModel_1["default"].find({ name: role })];
+                return [4 /*yield*/, roleModel_1["default"].find({ name: role }).select({ _id: 1 })];
             case 1:
                 roleID = _b.sent();
+                role = roleID[0]._id.toString();
                 _b.label = 2;
-            case 2: return [4 /*yield*/, employeeModel_1["default"].create({
+            case 2: return [4 /*yield*/, managerModel_1["default"].create({
                     name: name,
                     email: email,
                     password: password,
@@ -60,44 +92,7 @@ exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, voi
                     phone: phone,
                     birthday: birthday,
                     salaryPerHour: salaryPerHour,
-                    roleID: role.name
-                })];
-            case 3:
-                employeeDB = _b.sent();
-                console.log(employeeDB);
-                res.status(200).send({ ok: true, employeeDB: employeeDB });
-                return [3 /*break*/, 5];
-            case 4:
-                error_1 = _b.sent();
-                console.log(error_1);
-                res.status(500).send("did not get data");
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
-        }
-    });
-}); };
-exports.addManager = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, nameM, emailM, passwordM, idNumberM, phoneM, birthdayM, salaryM, roleM, roleID, managerDB, error_2;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _b.trys.push([0, 4, , 5]);
-                _a = req.body, nameM = _a.nameM, emailM = _a.emailM, passwordM = _a.passwordM, idNumberM = _a.idNumberM, phoneM = _a.phoneM, birthdayM = _a.birthdayM, salaryM = _a.salaryM, roleM = _a.roleM;
-                if (!roleM) return [3 /*break*/, 2];
-                return [4 /*yield*/, roleModel_1["default"].find({ name: roleM }).select({ _id: 1 })];
-            case 1:
-                roleID = _b.sent();
-                roleM = roleID[0]._id.toString();
-                _b.label = 2;
-            case 2: return [4 /*yield*/, managerModel_1["default"].create({
-                    nameM: nameM,
-                    emailM: emailM,
-                    passwordM: passwordM,
-                    idNumberM: idNumberM,
-                    phoneM: phoneM,
-                    birthdayM: birthdayM,
-                    salaryM: salaryM,
-                    roleM: roleM
+                    role: role
                 })];
             case 3:
                 managerDB = _b.sent();

@@ -16,11 +16,11 @@ export const addEmployee = async (req: any, res: any) => {
       role,
     } = req.body;
 
-    if (role) {
-      const roleID = await RoleModel.find({ name: role });
-      // .select({ _id: 1 });
-      // role = roleID[0]._id.toString();
-    }
+    // if (role) {
+    //   const roleID = await RoleModel.find({ name: role });
+    //   // .select({ _id: 1 });
+    //   // role = roleID[0]._id.toString();
+    // }
 
     const employeeDB = await EmployeeModel.create({
       name,
@@ -30,7 +30,7 @@ export const addEmployee = async (req: any, res: any) => {
       phone,
       birthday,
       salaryPerHour,
-      roleID: role.name,
+      role: role._id,
     });
     console.log(employeeDB);
 
@@ -44,30 +44,30 @@ export const addEmployee = async (req: any, res: any) => {
 export const addManager = async (req: any, res: any) => {
   try {
     let {
-      nameM,
-      emailM,
-      passwordM,
-      idNumberM,
-      phoneM,
-      birthdayM,
-      salaryM,
-      roleM,
+      name,
+      email,
+      password,
+      idNumber,
+      phone,
+      birthday,
+      salaryPerHour,
+      role,
     } = req.body;
 
-    if (roleM) {
-      const roleID = await RoleModel.find({ name: roleM }).select({ _id: 1 });
-      roleM = roleID[0]._id.toString();
+    if (role) {
+      const roleID = await RoleModel.find({ name: role }).select({ _id: 1 });
+      role = roleID[0]._id.toString();
     }
 
     const managerDB = await ManagerModel.create({
-      nameM,
-      emailM,
-      passwordM,
-      idNumberM,
-      phoneM,
-      birthdayM,
-      salaryM,
-      roleM,
+      name,
+      email,
+      password,
+      idNumber,
+      phone,
+      birthday,
+      salaryPerHour,
+      role,
     });
     console.log(managerDB);
 
