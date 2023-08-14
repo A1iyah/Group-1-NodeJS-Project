@@ -18,18 +18,13 @@ enum UserType {
 async function getActiveUser() {
   try {
     const responseManager = await fetch("/api/manager/get-manager");
-    console.log("responseManager", responseManager);
     
     const dataManager = await responseManager.json();
     const { manager } = dataManager;
-    console.log("dataManager: ", dataManager);
-
-    console.log("user: ", manager);
 
     if (dataManager.ok === true && manager._id !== null) {
       userType = UserType.Manager;
       user = manager;
-      console.log("userType: ", userType);
       return;
     }
   } catch (error) {
