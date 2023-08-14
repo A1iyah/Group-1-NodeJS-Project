@@ -2,7 +2,7 @@
 
 MONGOOSE_URI = mongodb+srv://shalgony:XZl3FNYd6crPEEby@cluster0.d7by7a4.mongodb.net/
 
-let userType: UserType;
+<!-- let userType: UserType;
 let user: any;
 enum UserType {
 Admin,
@@ -85,25 +85,28 @@ if (!navBarElem) console.error("no nav bar HTMLDivElement received");
 
 switch (userType) {
 case UserType.Admin:
-let navBarHtml: string = `<div class="nav-bar__links-group">
+<!-- let navBarHtml: string = `<div class="nav-bar__links-group">
                 <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Shift Schedule</p>
                 <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
                 <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employee-list-page/employeesPage.html')">Employees</p>
                 <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
                 </div>
-                <p class="nav-bar__user-name">${user.name}</p>`;
-navBarElem.innerHTML = navBarHtml;
+                <p class="nav-bar__user-name">${user.name}</p>`; -->
+
+<!-- navBarElem.innerHTML = navBarHtml;
 break;
-case UserType.Manager:
-navBarHtml = `<div class="nav-bar__links-group">
+case UserType.Manager: -->
+
+<!-- navBarHtml = `<div class="nav-bar__links-group">
                 <p class="nav-bar__link nav-bar__link__employee-manager" onclick="gotoPage('../managerHP/managerHP.html')">Start/End Shift</p>
                 <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Shift Schedule</p>
                 <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
                 <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employee-list-page/employeesPage.html')">Employees</p>
                 <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
                 </div>
-                <p class="nav-bar__user-name">${user.name}</p>`;
-navBarElem.innerHTML = navBarHtml;
+                <p class="nav-bar__user-name">${user.name}</p>`; -->
+
+<!-- navBarElem.innerHTML = navBarHtml;
 break;
 
     case UserType.Employee:
@@ -120,9 +123,11 @@ break;
 }
 
 switch (window.location.pathname) {
-case "/start-end-shift/employeeManager-HP.html":
-targetDivEle = document.querySelector(".nav-bar**link**employee-manager");
-break;
+case "/start-end-shift/employeeManager-HP.html": -->
+
+<!-- targetDivEle = document.querySelector(".nav-bar**link**employee-manager"); -->
+
+<!-- break;
 
     case "/shift-schedule-page/shiftSchedule.html":
       targetDivEle = document.querySelector(".nav-bar__link__shift-schedule");
@@ -145,8 +150,8 @@ break;
 
       break;
 
-}
-
+} -->
+<!--
 if (targetDivEle) {
 (targetDivEle as HTMLDivElement).classList.add("nav-bar\_\_link--bold");
 }
