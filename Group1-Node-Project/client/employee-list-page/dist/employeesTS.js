@@ -37,12 +37,24 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var navBarElement = document.querySelector(".nav-bar");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
+        var totalTimeShift, startTimeString, currentTime;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, getActiveUser()];
                 case 1:
                     _a.sent();
                     renderNavBar(navBarElement);
+                    totalTimeShift = localStorage.getItem("totalTimeShift");
+                    if (totalTimeShift) {
+                        runningClock.innerHTML = totalTimeShift;
+                        startTimeString = localStorage.getItem("startTime");
+                        startTime1 = parseInt(startTimeString);
+                        console.log(startTime1);
+                        currentTime = Date.now();
+                        console.log(currentTime);
+                        // const elapsedTime = currentTime - startTime1;
+                        updateClock();
+                    }
                     if (userType === UserType.Employee) {
                         handleGetWorkers();
                         addEmployeeBtn.style.display = "none";
@@ -57,6 +69,23 @@ function main() {
     });
 }
 main();
+function continueUpdateElapsedTime() {
+    var currentTime = Date.now();
+    console.log(currentTime);
+    var elapsedTime = currentTime - startTime1;
+    console.log(elapsedTime);
+    var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+    var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+    var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+    runningClock.innerHTML = formattedTime;
+    totalTimeShift = formattedTime;
+    console.log(totalTimeShift);
+    localStorage.setItem("totalTimeShift", formattedTime);
+}
+function updateClock() {
+    intervalId = setInterval(continueUpdateElapsedTime, 1000);
+}
 // Admin / Manager button -
 var addEmployeeBtn = document.querySelector(".add-employees-btn");
 var addManagerBtn = document.querySelector(".add-managers-btn");

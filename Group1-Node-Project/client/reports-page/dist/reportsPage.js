@@ -52,12 +52,24 @@ var attendanceReport = document.querySelector("#attendanceReport");
 var attendanceReportTable = document.querySelector(".attendanceReport");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
+        var totalTimeShift, startTimeString, currentTime;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, getActiveUser()];
                 case 1:
                     _a.sent();
                     renderNavBar(navBarElement);
+                    totalTimeShift = localStorage.getItem("totalTimeShift");
+                    if (totalTimeShift) {
+                        runningClock.innerHTML = totalTimeShift;
+                        startTimeString = localStorage.getItem("startTime");
+                        startTime1 = parseInt(startTimeString);
+                        console.log(startTime1);
+                        currentTime = Date.now();
+                        console.log(currentTime);
+                        // const elapsedTime = currentTime - startTime1;
+                        updateClock();
+                    }
                     if (userType === UserType.Employee) {
                         employeeUsingReport();
                     }
@@ -77,6 +89,23 @@ function main() {
     });
 }
 main();
+function continueUpdateElapsedTime() {
+    var currentTime = Date.now();
+    console.log(currentTime);
+    var elapsedTime = currentTime - startTime1;
+    console.log(elapsedTime);
+    var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+    var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+    var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+    runningClock.innerHTML = formattedTime;
+    totalTimeShift = formattedTime;
+    console.log(totalTimeShift);
+    localStorage.setItem("totalTimeShift", formattedTime);
+}
+function updateClock() {
+    intervalId = setInterval(continueUpdateElapsedTime, 1000);
+}
 function renderReportResult(employees) {
     try {
         if (!employees)

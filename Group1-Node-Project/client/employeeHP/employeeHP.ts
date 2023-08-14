@@ -8,11 +8,6 @@ async function main() {
   await getActiveUser();
   renderNavBar(navBarElement);
 
-  // const startShift = localStorage.getItem("totalTimeShift");
-  // if (startShift) {
-  //   let continueTime = startShift.toString();
-  //   continueClock();
-  // }
   totalTimeShift = localStorage.getItem("totalTimeShift");
   if (totalTimeShift) {
     startEndClock.innerHTML = totalTimeShift;
@@ -114,26 +109,6 @@ function startClock() {
   intervalId = setInterval(updateElapsedTime, 1000);
   console.log(intervalId);
 }
-
-// function continueUpdateElapsedTime() {
-//   const currentTime = Date.now();
-//   const elapsedTime = currentTime - continueTime;
-
-//   const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
-//   const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
-//   const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
-
-//   const formattedTime = `${String(hours).padStart(2, "0")}:${String(
-//     minutes
-//   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-//   startEndClock.innerHTML = formattedTime;
-//   totalTimeShift = formattedTime;
-//   localStorage.setItem("totalTimeShift", formattedTime);
-// }
-
-// function continueClock() {
-//   intervalId = setInterval(continueUpdateElapsedTime, 1000);
-// }
 
 startEndButtonE.addEventListener("click", (e) => {
   startEndButtonS.style.display = "block";

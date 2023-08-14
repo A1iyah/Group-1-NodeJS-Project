@@ -34,185 +34,213 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
 var userDB;
 function main() {
     return __awaiter(this, void 0, void 0, function () {
+        function continueUpdateElapsedTime() {
+            var currentTime = Date.now();
+            console.log(currentTime);
+            var elapsedTime = currentTime - startTime1;
+            console.log(elapsedTime);
+            var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+            var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+            var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+            runningClock.innerHTML = formattedTime;
+            totalTimeShift = formattedTime;
+            console.log(totalTimeShift);
+            localStorage.setItem("totalTimeShift", formattedTime);
+        }
+        function updateClock() {
+            intervalId = setInterval(continueUpdateElapsedTime, 1000);
+        }
+        // DATES -
+        // Set up week dates -
+        function updateWeekDates() {
+            var weekDatesDiv = document.getElementById("weekDates");
+            var today = new Date();
+            var dayOfWeek = today.getDay();
+            var sunday = new Date(today);
+            sunday.setDate(today.getDate() - dayOfWeek);
+            var saturday = new Date(today);
+            saturday.setDate(today.getDate() + (6 - dayOfWeek));
+            var options = {
+                month: "short",
+                day: "numeric"
+            };
+            weekDatesDiv.textContent = "<" + sunday.toLocaleDateString(undefined, options) + " - " + saturday.toLocaleDateString(undefined, options) + ">";
+            return { sunday: sunday, saturday: saturday };
+        }
+        // Chart dates -
+        function updateChartDates() {
+            var chartDatesContainer = document.querySelector(".availabilityForm__table__chartDatesContainer");
+            var dayElements = document.querySelectorAll(".availabilityForm__table th:not(:first-child)");
+            var sunday = updateWeekDates().sunday;
+            dayElements.forEach(function (dayElement, index) {
+                var currentDate = new Date(sunday);
+                currentDate.setDate(sunday.getDate() + index);
+                var month = currentDate.getMonth() + 1;
+                var dayOfMonth = currentDate.getDate();
+                var dateElement = document.createElement("div");
+                dateElement.classList.add("availabilityForm__chartDate");
+                dateElement.textContent = dayOfMonth + "." + month;
+                chartDatesContainer.appendChild(dateElement);
+            });
+        }
+        // End of dates functions //
+        // Toggle function -
+        function toggleButton(event) {
+            var clickedButton = event.target;
+            var day = clickedButton.getAttribute("data-day");
+            if (clickedButton.textContent === "can") {
+                clickedButton.textContent = "can't";
+            }
+            else {
+                clickedButton.textContent = "can";
+                clickedButton.style.backgroundColor = "rgb(21, 246, 92)";
+            }
+        }
+        // Handle form submit -
+        function handleFormSubmit(event) {
+            return __awaiter(this, void 0, void 0, function () {
+                var commentValue, availabilityData, userRole, response, error_1;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            event.preventDefault();
+                            commentValue = comment.value;
+                            availabilityData = {};
+                            buttons.forEach(function (button) {
+                                var day = button.getAttribute("data-day");
+                                var isAvailable = button.textContent === "can";
+                                if (day) {
+                                    availabilityData[day] = isAvailable;
+                                }
+                            });
+                            userRole = userDB.role === (null || undefined) ? "Manager" : userDB.role;
+                            console.log("userRole: ", userRole);
+                            _a.label = 1;
+                        case 1:
+                            _a.trys.push([1, 3, , 4]);
+                            return [4 /*yield*/, fetch("/api/availability/update", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify({ availabilityData: availabilityData, commentValue: commentValue, userId: userDB._id, role: userRole })
+                                })];
+                        case 2:
+                            response = _a.sent();
+                            if (response.ok) {
+                                console.log("Availability updated successfully");
+                            }
+                            else {
+                                console.error("Error updating availability");
+                            }
+                            return [3 /*break*/, 4];
+                        case 3:
+                            error_1 = _a.sent();
+                            console.error("Error:", error_1);
+                            return [3 /*break*/, 4];
+                        case 4: return [2 /*return*/];
+                    }
+                });
+            });
+        }
+        var totalTimeShift, startTimeString, currentTime, getActiveEmployee, getActiveManager, buttons, comment, form, submitBtn, availabilityDate, chartDates;
+        var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, getActiveUser()];
                 case 1:
                     _a.sent();
                     renderNavBar(navBarElement);
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
-main();
-var getActiveEmployee = function () { return __awaiter(_this, void 0, void 0, function () {
-    var response, data, employee, error_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 3, , 4]);
-                return [4 /*yield*/, fetch("/api/employee/get-employee")];
-            case 1:
-                response = _a.sent();
-                return [4 /*yield*/, response.json()];
-            case 2:
-                data = _a.sent();
-                console.log("data", data);
-                employee = data.employee;
-                //if(!data) throw new Error("no data received from DB");
-                if (employee) {
-                    userDB = employee;
-                    console.log("userDB: ", userDB);
-                    return [2 /*return*/];
-                }
-                getActiveManager();
-                return [3 /*break*/, 4];
-            case 3:
-                error_1 = _a.sent();
-                console.log(error_1);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
-        }
-    });
-}); };
-var getActiveManager = function () { return __awaiter(_this, void 0, void 0, function () {
-    var response, data, manager, error_2;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 3, , 4]);
-                return [4 /*yield*/, fetch("/api/manager/get-manager")];
-            case 1:
-                response = _a.sent();
-                return [4 /*yield*/, response.json()];
-            case 2:
-                data = _a.sent();
-                console.log("data", data);
-                manager = data.manager;
-                if (!manager)
-                    throw new Error("didn't get employee or manager from DB");
-                userDB = manager;
-                console.log("userDB: ", userDB);
-                return [3 /*break*/, 4];
-            case 3:
-                error_2 = _a.sent();
-                console.error(error_2);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
-        }
-    });
-}); };
-getActiveEmployee();
-//
-var buttons = document.querySelectorAll(".availability-button");
-var comment = document.getElementById("comment");
-var form = document.querySelector(".availabilityForm");
-var submitBtn = document.querySelector(".submit-btn");
-var availabilityDate = document.querySelector(".availabilityForm__date");
-var chartDates = document.querySelector(".availabilityForm__chartDates");
-// DATES -
-// Set up week dates -
-function updateWeekDates() {
-    var weekDatesDiv = document.getElementById("weekDates");
-    var today = new Date();
-    var dayOfWeek = today.getDay();
-    var sunday = new Date(today);
-    sunday.setDate(today.getDate() - dayOfWeek);
-    var saturday = new Date(today);
-    saturday.setDate(today.getDate() + (6 - dayOfWeek));
-    var options = {
-        month: "short",
-        day: "numeric"
-    };
-    weekDatesDiv.textContent = "<" + sunday.toLocaleDateString(undefined, options) + " - " + saturday.toLocaleDateString(undefined, options) + ">";
-    return { sunday: sunday, saturday: saturday };
-}
-// Chart dates -
-function updateChartDates() {
-    var chartDatesContainer = document.querySelector(".availabilityForm__table__chartDatesContainer");
-    var dayElements = document.querySelectorAll(".availabilityForm__table th:not(:first-child)");
-    var sunday = updateWeekDates().sunday;
-    dayElements.forEach(function (dayElement, index) {
-        var currentDate = new Date(sunday);
-        currentDate.setDate(sunday.getDate() + index);
-        var month = currentDate.getMonth() + 1;
-        var dayOfMonth = currentDate.getDate();
-        var dateElement = document.createElement("div");
-        dateElement.classList.add("availabilityForm__chartDate");
-        dateElement.textContent = dayOfMonth + "." + month;
-        chartDatesContainer.appendChild(dateElement);
-    });
-}
-updateChartDates();
-// End of dates functions //
-// Toggle function -
-function toggleButton(event) {
-    var clickedButton = event.target;
-    var day = clickedButton.getAttribute("data-day");
-    if (clickedButton.textContent === "can") {
-        clickedButton.textContent = "can't";
-    }
-    else {
-        clickedButton.textContent = "can";
-        clickedButton.style.backgroundColor = "rgb(21, 246, 92)";
-    }
-}
-// Handle form submit -
-function handleFormSubmit(event) {
-    return __awaiter(this, void 0, void 0, function () {
-        var commentValue, availabilityData, userRole, response, error_3;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    event.preventDefault();
-                    commentValue = comment.value;
-                    availabilityData = {};
-                    buttons.forEach(function (button) {
-                        var day = button.getAttribute("data-day");
-                        var isAvailable = button.textContent === "can";
-                        if (day) {
-                            availabilityData[day] = isAvailable;
-                        }
+                    totalTimeShift = localStorage.getItem("totalTimeShift");
+                    if (totalTimeShift) {
+                        runningClock.innerHTML = totalTimeShift;
+                        startTimeString = localStorage.getItem("startTime");
+                        startTime1 = parseInt(startTimeString);
+                        console.log(startTime1);
+                        currentTime = Date.now();
+                        console.log(currentTime);
+                        // const elapsedTime = currentTime - startTime1;
+                        updateClock();
+                    }
+                    main();
+                    getActiveEmployee = function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response, data, employee, error_2;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    _a.trys.push([0, 3, , 4]);
+                                    return [4 /*yield*/, fetch("/api/employee/get-employee")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [4 /*yield*/, response.json()];
+                                case 2:
+                                    data = _a.sent();
+                                    console.log("data", data);
+                                    employee = data.employee;
+                                    //if(!data) throw new Error("no data received from DB");
+                                    if (employee) {
+                                        userDB = employee;
+                                        console.log("userDB: ", userDB);
+                                        return [2 /*return*/];
+                                    }
+                                    getActiveManager();
+                                    return [3 /*break*/, 4];
+                                case 3:
+                                    error_2 = _a.sent();
+                                    console.log(error_2);
+                                    return [3 /*break*/, 4];
+                                case 4: return [2 /*return*/];
+                            }
+                        });
+                    }); };
+                    getActiveManager = function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response, data, manager, error_3;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    _a.trys.push([0, 3, , 4]);
+                                    return [4 /*yield*/, fetch("/api/manager/get-manager")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [4 /*yield*/, response.json()];
+                                case 2:
+                                    data = _a.sent();
+                                    console.log("data", data);
+                                    manager = data.manager;
+                                    if (!manager)
+                                        throw new Error("didn't get employee or manager from DB");
+                                    userDB = manager;
+                                    console.log("userDB: ", userDB);
+                                    return [3 /*break*/, 4];
+                                case 3:
+                                    error_3 = _a.sent();
+                                    console.error(error_3);
+                                    return [3 /*break*/, 4];
+                                case 4: return [2 /*return*/];
+                            }
+                        });
+                    }); };
+                    getActiveEmployee();
+                    buttons = document.querySelectorAll(".availability-button");
+                    comment = document.getElementById("comment");
+                    form = document.querySelector(".availabilityForm");
+                    submitBtn = document.querySelector(".submit-btn");
+                    availabilityDate = document.querySelector(".availabilityForm__date");
+                    chartDates = document.querySelector(".availabilityForm__chartDates");
+                    updateChartDates();
+                    document.addEventListener("DOMContentLoaded", function () {
+                        buttons.forEach(function (button) {
+                            button.addEventListener("click", toggleButton);
+                        });
+                        updateWeekDates();
+                        form.addEventListener("submit", handleFormSubmit);
                     });
-                    userRole = userDB.role === (null || undefined) ? "Manager" : userDB.role;
-                    console.log("userRole: ", userRole);
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, fetch("/api/availability/update", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({ availabilityData: availabilityData, commentValue: commentValue, userId: userDB._id, role: userRole })
-                        })];
-                case 2:
-                    response = _a.sent();
-                    if (response.ok) {
-                        console.log("Availability updated successfully");
-                    }
-                    else {
-                        console.error("Error updating availability");
-                    }
-                    return [3 /*break*/, 4];
-                case 3:
-                    error_3 = _a.sent();
-                    console.error("Error:", error_3);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    return [2 /*return*/];
             }
         });
     });
 }
-document.addEventListener("DOMContentLoaded", function () {
-    buttons.forEach(function (button) {
-        button.addEventListener("click", toggleButton);
-    });
-    updateWeekDates();
-    form.addEventListener("submit", handleFormSubmit);
-});
