@@ -451,6 +451,7 @@ function employeeUsingReport() {
             var employeeDB = _a.employeeDB;
             console.log(employeeDB);
             renderReportResult(employeeDB);
+            renderShiftResult(employeeDB[0]);
         });
     }
     catch (error) {
