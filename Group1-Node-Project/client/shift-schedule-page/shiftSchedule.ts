@@ -378,7 +378,6 @@ const processShiftSelection = (allAvailableEmployees: Array<Object> ,roleType: s
 }
 
 const renderEmployeesPanelByRole = (roleId: string, employees: Array<string>, weekdayIndex:number) => {
-  console.log(employees);
 
   const commentsPanel = document.querySelector(".comments-panel");
   if (commentsPanel){
@@ -399,7 +398,7 @@ const renderEmployeesPanelByRole = (roleId: string, employees: Array<string>, we
 
     const comment:string = employees[i]["comment"];
 
-    employeesNamesList.innerHTML += `<div class="employees-panel__employee-box" onmouseover="renderEmployeeComment('${employees[i]["employeeId"]}', '${weekdayIndex}')" onclick="processEmployeeAllocation('${employees[i]["employeeId"]}')">
+    employeesNamesList.innerHTML += `<div class="employees-panel__employee-box" onmouseover="renderEmployeeComment('${employees[i]["employeeId"]}', '${weekdayIndex}')" onclick="processEmployeeAllocation('${employees[i]["employeeId"]}', '${employees[i]["name"]}')">
             <p class="employees-panel__employee-name">${employees[i]["name"]}</p>
             <div class="employees-panel__employee-box__markings-container">
             </div>
@@ -479,9 +478,20 @@ const convertWeekIndexToDayString = (weekdayIndex: string):string =>
 
 }
 
-const processEmployeeAllocation = (employeeId: string) =>
+const processEmployeeAllocation = (employeeId: string, employeeName: string) =>
 {
-  console.log("selected: ", employeeId);
+  const targetShift = document.querySelector(`.shifts-panel__role-row__${targetedRoleType}-num${targetedRoleCount}-weekday${targetedDayIndex}`);
+
+  if (!targetShift) 
+  {
+    console.log("target shift allocation slot not found in DOM");
+    return;
+  }
+
+  targetShift!.innerHTML = `<p>${employeeName}</p>`
+
+  
+  
   
 }
 

@@ -272,7 +272,6 @@ var processShiftSelection = function (allAvailableEmployees, roleType, weekdayIn
     }
 };
 var renderEmployeesPanelByRole = function (roleId, employees, weekdayIndex) {
-    console.log(employees);
     var commentsPanel = document.querySelector(".comments-panel");
     if (commentsPanel) {
         commentsPanel.innerHTML = "";
@@ -286,7 +285,7 @@ var renderEmployeesPanelByRole = function (roleId, employees, weekdayIndex) {
         if (employees[i]["role"] !== roleId)
             continue;
         var comment = employees[i]["comment"];
-        employeesNamesList.innerHTML += "<div class=\"employees-panel__employee-box\" onmouseover=\"renderEmployeeComment('" + employees[i]["employeeId"] + "', '" + weekdayIndex + "')\" onclick=\"processEmployeeAllocation('" + employees[i]["employeeId"] + "')\">\n            <p class=\"employees-panel__employee-name\">" + employees[i]["name"] + "</p>\n            <div class=\"employees-panel__employee-box__markings-container\">\n            </div>\n          </div>";
+        employeesNamesList.innerHTML += "<div class=\"employees-panel__employee-box\" onmouseover=\"renderEmployeeComment('" + employees[i]["employeeId"] + "', '" + weekdayIndex + "')\" onclick=\"processEmployeeAllocation('" + employees[i]["employeeId"] + "', '" + employees[i]["name"] + "')\">\n            <p class=\"employees-panel__employee-name\">" + employees[i]["name"] + "</p>\n            <div class=\"employees-panel__employee-box__markings-container\">\n            </div>\n          </div>";
     }
 };
 var renderEmployeeComment = function (targetEmployeeId, weekdayIndex) {
@@ -347,8 +346,13 @@ var convertWeekIndexToDayString = function (weekdayIndex) {
             break;
     }
 };
-var processEmployeeAllocation = function (employeeId) {
-    console.log("selected: ", employeeId);
+var processEmployeeAllocation = function (employeeId, employeeName) {
+    var targetShift = document.querySelector(".shifts-panel__role-row__" + targetedRoleType + "-num" + targetedRoleCount + "-weekday" + targetedDayIndex);
+    if (!targetShift) {
+        console.log("target shift allocation slot not found in DOM");
+        return;
+    }
+    targetShift.innerHTML = "<p>" + employeeName + "</p>";
 };
 // class="employees-panel__employee-box__allocations-count">2</p>
 //           <img src="./images/green-v.png" alt="green-v" class="employees-panel__employee-box__availability-img">

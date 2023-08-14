@@ -68,8 +68,6 @@ function getCurrentWeekDates() {
 
 export const getAllAvailableEmployees = async (req: any, res: any) => {
   try {
-    console.log("called");
-
     const weekDays = await WeekModel.find({});
 
     res.status(200).send({ ok: true, weekDays });
@@ -95,9 +93,6 @@ export const getEmployeesByRoleAndWeekday = async (req: any, res: any) => {
   try {
     const { role, weekday } = req.body;
 
-    console.log("weekday: ", weekday);
-    
-    
     if (weekday === 0) day = "sundayMorning";
     if (weekday === 1) day = "mondayMorning";
     if (weekday === 2) day = "tuesdayMorning";

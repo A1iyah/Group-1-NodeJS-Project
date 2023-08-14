@@ -107,7 +107,6 @@ exports.getAllAvailableEmployees = function (req, res) { return __awaiter(void 0
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                console.log("called");
                 return [4 /*yield*/, availabilityModel_1.WeekModel.find({})];
             case 1:
                 weekDays = _a.sent();
@@ -143,7 +142,6 @@ exports.getEmployeesByRoleAndWeekday = function (req, res) { return __awaiter(vo
             case 1:
                 _b.trys.push([1, 6, , 7]);
                 _a = req.body, role = _a.role, weekday = _a.weekday;
-                console.log("weekday: ", weekday);
                 if (weekday === 0)
                     day = "sundayMorning";
                 if (weekday === 1)
