@@ -118,7 +118,6 @@ var createNewWeekSchedule = function (eve) {
             .then(function (data) {
             if (!data)
                 throw new Error("no schedule data received from DB.");
-            console.log("start date: ", data.weekSchedule);
             var weekDaysArr = getWeekDaysDatesArr(new Date(data.weekSchedule.startDate));
             renderEmployeesPanel(weekDaysArr);
             renderAllocationsPanel(weekDaysArr, data.weekSchedule.scheduleRequirements);
@@ -164,7 +163,6 @@ var renderWeekHeaders = function (weekDaysArr) {
     return daysHeadersHtml;
 };
 var renderRoleAllocationsPlaces = function (weekDaysArr, scheduleRequirements) {
-    console.log("scheduleReq: ", scheduleRequirements);
     var numRolesInScheduleRequirements = scheduleRequirements.length;
     var rolesCounter = -1;
     var weekDayCounter = -1;
@@ -229,7 +227,6 @@ var onShiftSelect = function (roleType, weekdayIndex, roleCount) {
     }
 };
 var processShiftSelection = function (allAvailableEmployees, roleType, weekdayIndex) {
-    console.log("allAvailableEmployees", allAvailableEmployees);
     var allAvailableEmployeesOnDay = [];
     switch (String(weekdayIndex)) {
         case "0":
@@ -254,7 +251,6 @@ var processShiftSelection = function (allAvailableEmployees, roleType, weekdayIn
             allAvailableEmployeesOnDay = allAvailableEmployees[0]["saturdayMorning"];
             break;
     }
-    console.log("allAvailableEmployeesOnDay", allAvailableEmployeesOnDay);
     try {
         fetch("/api/role/get-role-id-by-name", {
             method: "SEARCH",
@@ -268,7 +264,6 @@ var processShiftSelection = function (allAvailableEmployees, roleType, weekdayIn
             .then(function (data) {
             if (!data)
                 throw new Error("no name of Id found on DB");
-            console.log("data.roleId[0]:", data);
             renderEmployeesPanelByRole(data.roleId[0]._id, allAvailableEmployeesOnDay, weekdayIndex);
         });
     }

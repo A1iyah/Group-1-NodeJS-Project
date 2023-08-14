@@ -111,8 +111,6 @@ const createNewWeekSchedule = (eve) => {
       .then((data) => {
         if (!data) throw new Error("no schedule data received from DB.");
 
-        console.log("start date: ", data.weekSchedule);
-
         const weekDaysArr: Array<Date> = getWeekDaysDatesArr(
           new Date(data.weekSchedule.startDate)
         );
@@ -214,7 +212,6 @@ const renderRoleAllocationsPlaces = (
   weekDaysArr: Array<Date>,
   scheduleRequirements: Array<string>
 ): string => {
-  console.log("scheduleReq: ", scheduleRequirements);
   const numRolesInScheduleRequirements = scheduleRequirements.length;
   let rolesCounter: number = -1;
   let weekDayCounter: number = -1;
@@ -326,9 +323,6 @@ const onShiftSelect = (roleType: string, weekdayIndex: number, roleCount: number
 const processShiftSelection = (allAvailableEmployees: Array<Object> ,roleType: string, weekdayIndex: number) =>
 {
 
-  console.log("allAvailableEmployees", allAvailableEmployees);
-  
-
   let allAvailableEmployeesOnDay: Array<string> = [];
 
   switch (String(weekdayIndex)) {
@@ -361,9 +355,6 @@ const processShiftSelection = (allAvailableEmployees: Array<Object> ,roleType: s
     break;
   }
 
-  console.log("allAvailableEmployeesOnDay", allAvailableEmployeesOnDay );
-  
-
   try {
     fetch("/api/role/get-role-id-by-name" , {
       method:"SEARCH",
@@ -378,8 +369,6 @@ const processShiftSelection = (allAvailableEmployees: Array<Object> ,roleType: s
 
       if (!data) throw new Error("no name of Id found on DB");
 
-      console.log("data.roleId[0]:", data);
-      
       renderEmployeesPanelByRole(data.roleId[0]._id, allAvailableEmployeesOnDay, weekdayIndex);
     });
 
