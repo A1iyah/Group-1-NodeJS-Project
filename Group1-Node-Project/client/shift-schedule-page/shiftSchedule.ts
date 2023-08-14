@@ -121,13 +121,7 @@ const renderEmployeesPanel = (weekDaysArr: Array<Date>) =>{
         </div>
 
         <div class="employees-panel__employees-list-container">
-          <div class="employees-panel__employee-box">
-            <p class="employees-panel__employee-name">Neo Meo</p>
-            <div class="employees-panel__employee-box__markings-container">
-              <p class="employees-panel__employee-box__allocations-count">2</p>
-              <img src="./images/green-v.png" alt="green-v" class="employees-panel__employee-box__availability-img">
-            </div>
-          </div>
+          
         </div>
 
         <div class="comments-panel"></div>
@@ -248,9 +242,6 @@ const renderAllAvailableEmployees = async () =>{
 
 const onShiftSelect = (roleType: string, weekdayIndex: number) =>
 {
-  console.log(roleType, weekdayIndex);
-  
-
   try {
     fetch('/api/availability/get-employees-by-role-and-weekday',
   {
@@ -268,16 +259,175 @@ const onShiftSelect = (roleType: string, weekdayIndex: number) =>
     })
     .then( (res) => res.json())
     .then( (data) => {
-      console.log(data);
+      processShiftSelection(data.employees, roleType, weekdayIndex);
       
     });
   } catch (error) {
     console.error(error);
     
   }
-
-
-  
-  
 }
+ 
+const processShiftSelection = (allAvailableEmployees: Array<Object> ,roleType: string, weekdayIndex: number) =>
+{
+  let allAvailableEmployeesOnDay: Array<string> = [];
+
+  switch (weekdayIndex) {
+    case 0:
+      allAvailableEmployeesOnDay = allAvailableEmployees[0]["sundayMorning"];
+    break;
+
+    case 1:
+      allAvailableEmployeesOnDay = allAvailableEmployees[0]["mondayMorning"];
+    break;
+
+    case 2:
+      allAvailableEmployeesOnDay = allAvailableEmployees[0]["tuesdayMorning"];
+    break;
+
+    case 3:
+      allAvailableEmployeesOnDay = allAvailableEmployees[0]["wednesdayMorning"];
+    break;
+    
+    case 4:
+      allAvailableEmployeesOnDay = allAvailableEmployees[0]["thursdayMorning"];
+    break;
+
+    case 5:
+      allAvailableEmployeesOnDay = allAvailableEmployees[0]["fridayMorning"];
+    break;
+
+    case 6:
+      allAvailableEmployeesOnDay = allAvailableEmployees[0]["saturdayMorning"];
+    break;
+  }
+
+  try {
+    fetch("/api/role/get-role-id-by-name" , {
+      method:"SEARCH",
+      headers:{
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify( {targetName: roleType}),
+    })
+    .then( (res) => res.json())
+    .then( (data) => {
+
+      if (!data) throw new Error("no name of Id found on DB");
+
+      renderEmployeesPanelByRole(data.roleId[0]._id, allAvailableEmployeesOnDay, weekdayIndex);
+    });
+
+  } catch (error) {
+      console.error(error);
+  }
+}
+
+const renderEmployeesPanelByRole = (roleId: string, employees: Array<string>, weekdayIndex:number) => {
+  console.log(employees);
+
+  const commentsPanel = document.querySelector(".comments-panel");
+  if (commentsPanel){
+    commentsPanel.innerHTML = "";
+  }
+  
+  const employeeslengh: number = employees.length;
+  
+  const employeesNamesList = document.querySelector(".employees-panel__employees-list-container");
+
+  if (!employeesNamesList) throw new Error("did not find employees-panel__employees-list-container on DOM.");
+
+  employeesNamesList.innerHTML = " ";
+
+  for (let i = 0 ; i < employeeslengh ; i++)
+  {
+    if (employees[i]["role"] !== roleId) continue;
+
+    const comment:string = employees[i]["comment"];
+
+    employeesNamesList.innerHTML += `<div class="employees-panel__employee-box" onmouseover="renderEmployeeComment('${employees[i]["employeeId"]}', '${weekdayIndex}')">
+            <p class="employees-panel__employee-name">${employees[i]["name"]}</p>
+            <div class="employees-panel__employee-box__markings-container">
+            </div>
+          </div>`
+  }
+}
+
+const renderEmployeeComment = (targetEmployeeId: string, weekdayIndex: number) =>
+{
+  const commentsPanel = document.querySelector(".comments-panel");
+
+  try {
+    fetch("/api/availability/get-comment-by-employee-id-and-weekday" , {
+      method:"SEARCH",
+      headers:{
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify( {employeeId: targetEmployeeId, weekdayIndex}),
+    })
+    .then( (res) => res.json())
+    .then( (data) => {
+
+      if (!data) throw new Error("no comment of Id found on DB");
+      
+      const weekDayString = convertWeekIndexToDayString(String(weekdayIndex));
+      const dayDBLenght = data.dayDB[weekDayString].length;
+      
+      for (let i = 0 ; i < dayDBLenght ; i++)
+      {
+        if (data.dayDB[weekDayString][i]["employeeId"] === targetEmployeeId)
+        {
+          commentsPanel!.innerHTML = `<p>${data.dayDB[weekDayString][i]["comment"]}</p> 
+          `;
+          break;
+        }
+      }
+      
+    });
+
+  } catch (error) {
+      console.error(error);
+  }
+}
+
+const convertWeekIndexToDayString = (weekdayIndex: string):string =>
+{
+  switch (weekdayIndex) {
+    case "0":
+      return "sundayMorning";
+      break;
+      case "1":
+        return "mondayMorning";
+      break;
+      case "2":
+        return "tuesdayMorning";
+      break;
+      case "3":
+        return "wednesdayMorning";
+      break;
+      case "4":
+        return "thursdayMorning";
+      break;
+      case "5":
+        return "fridayMorning";
+      break;
+      case "6":
+        return "saturdayMorning";
+      break;
+  
+    default:
+    console.log("no day shift index received");
+      
+    return "null";  
+    break;
+  }
+
+}
+
+
+// class="employees-panel__employee-box__allocations-count">2</p>
+//           <img src="./images/green-v.png" alt="green-v" class="employees-panel__employee-box__availability-img">
+
 

@@ -107,7 +107,7 @@ var renderEmployeesPanel = function (weekDaysArr) {
     var employeesPanelElem = document.querySelector(".employees-panel");
     // const weekStartElem = document.querySelector(".employees-panel__week-displayer__week-start") as HTMLDivElement;
     // const weekEndElem = document.querySelector(".employees-panel__week-displayer__week-end") as HTMLDivElement;
-    employeesPanelElem.innerHTML = "\n        <div class=\"employees-panel__week-displayer\">\n          <p class=\"employees-panel__week-displayer__text\"><span class=\"employees-panel__week-displayer__week-start\">" + weekDaysArr[0].toDateString() + "</span> - <br><span class=\"employees-panel__week-displayer__week-end\">" + weekDaysArr[6].toDateString() + "</span></p>\n        </div>\n\n        <div class=\"employees-panel__search-box\">\n          \n          <!-- <div class=\"employees-panel__search-box__search-box\"> -->\n            <form onsubmit=\"testt(event)\">\n              <input type=\"image\" src=\"./images/magnifying-glass.png\" alt=\"magnifying-glass\" class=\"employees-panel__search-box__image\">\n              <label for=\"name\"></label>\n              <input type=\"text\" name=\"name\" class=\"employees-panel__search-box__text\" value=\"Search employee\">\n            </form>\n          <!-- </div> -->\n        </div>\n\n        <div class=\"employees-panel__employees-list-container\">\n          <div class=\"employees-panel__employee-box\">\n            <p class=\"employees-panel__employee-name\">Neo Meo</p>\n            <div class=\"employees-panel__employee-box__markings-container\">\n              <p class=\"employees-panel__employee-box__allocations-count\">2</p>\n              <img src=\"./images/green-v.png\" alt=\"green-v\" class=\"employees-panel__employee-box__availability-img\">\n            </div>\n          </div>\n        </div>\n\n        <div class=\"comments-panel\"></div>\n  ";
+    employeesPanelElem.innerHTML = "\n        <div class=\"employees-panel__week-displayer\">\n          <p class=\"employees-panel__week-displayer__text\"><span class=\"employees-panel__week-displayer__week-start\">" + weekDaysArr[0].toDateString() + "</span> - <br><span class=\"employees-panel__week-displayer__week-end\">" + weekDaysArr[6].toDateString() + "</span></p>\n        </div>\n\n        <div class=\"employees-panel__search-box\">\n          \n          <!-- <div class=\"employees-panel__search-box__search-box\"> -->\n            <form onsubmit=\"testt(event)\">\n              <input type=\"image\" src=\"./images/magnifying-glass.png\" alt=\"magnifying-glass\" class=\"employees-panel__search-box__image\">\n              <label for=\"name\"></label>\n              <input type=\"text\" name=\"name\" class=\"employees-panel__search-box__text\" value=\"Search employee\">\n            </form>\n          <!-- </div> -->\n        </div>\n\n        <div class=\"employees-panel__employees-list-container\">\n          \n        </div>\n\n        <div class=\"comments-panel\"></div>\n  ";
 };
 var renderAllocationsPanel = function (weekDaysArr, scheduleRequirements) {
     var shiftsPanelElem = document.querySelector(".shifts-panel");
@@ -163,7 +163,6 @@ var renderAllAvailableEmployees = function () { return __awaiter(_this, void 0, 
     });
 }); };
 var onShiftSelect = function (roleType, weekdayIndex) {
-    console.log(roleType, weekdayIndex);
     try {
         fetch('/api/availability/get-employees-by-role-and-weekday', {
             method: "SEARCH",
@@ -178,10 +177,133 @@ var onShiftSelect = function (roleType, weekdayIndex) {
         })
             .then(function (res) { return res.json(); })
             .then(function (data) {
-            console.log(data);
+            processShiftSelection(data.employees, roleType, weekdayIndex);
         });
     }
     catch (error) {
         console.error(error);
     }
 };
+var processShiftSelection = function (allAvailableEmployees, roleType, weekdayIndex) {
+    var allAvailableEmployeesOnDay = [];
+    switch (weekdayIndex) {
+        case 0:
+            allAvailableEmployeesOnDay = allAvailableEmployees[0]["sundayMorning"];
+            break;
+        case 1:
+            allAvailableEmployeesOnDay = allAvailableEmployees[0]["mondayMorning"];
+            break;
+        case 2:
+            allAvailableEmployeesOnDay = allAvailableEmployees[0]["tuesdayMorning"];
+            break;
+        case 3:
+            allAvailableEmployeesOnDay = allAvailableEmployees[0]["wednesdayMorning"];
+            break;
+        case 4:
+            allAvailableEmployeesOnDay = allAvailableEmployees[0]["thursdayMorning"];
+            break;
+        case 5:
+            allAvailableEmployeesOnDay = allAvailableEmployees[0]["fridayMorning"];
+            break;
+        case 6:
+            allAvailableEmployeesOnDay = allAvailableEmployees[0]["saturdayMorning"];
+            break;
+    }
+    try {
+        fetch("/api/role/get-role-id-by-name", {
+            method: "SEARCH",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ targetName: roleType })
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+            if (!data)
+                throw new Error("no name of Id found on DB");
+            renderEmployeesPanelByRole(data.roleId[0]._id, allAvailableEmployeesOnDay, weekdayIndex);
+        });
+    }
+    catch (error) {
+        console.error(error);
+    }
+};
+var renderEmployeesPanelByRole = function (roleId, employees, weekdayIndex) {
+    console.log(employees);
+    var commentsPanel = document.querySelector(".comments-panel");
+    if (commentsPanel) {
+        commentsPanel.innerHTML = "";
+    }
+    var employeeslengh = employees.length;
+    var employeesNamesList = document.querySelector(".employees-panel__employees-list-container");
+    if (!employeesNamesList)
+        throw new Error("did not find employees-panel__employees-list-container on DOM.");
+    employeesNamesList.innerHTML = " ";
+    for (var i = 0; i < employeeslengh; i++) {
+        if (employees[i]["role"] !== roleId)
+            continue;
+        var comment = employees[i]["comment"];
+        employeesNamesList.innerHTML += "<div class=\"employees-panel__employee-box\" onmouseover=\"renderEmployeeComment('" + employees[i]["employeeId"] + "', '" + weekdayIndex + "')\">\n            <p class=\"employees-panel__employee-name\">" + employees[i]["name"] + "</p>\n            <div class=\"employees-panel__employee-box__markings-container\">\n            </div>\n          </div>";
+    }
+};
+var renderEmployeeComment = function (targetEmployeeId, weekdayIndex) {
+    var commentsPanel = document.querySelector(".comments-panel");
+    try {
+        fetch("/api/availability/get-comment-by-employee-id-and-weekday", {
+            method: "SEARCH",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ employeeId: targetEmployeeId, weekdayIndex: weekdayIndex })
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+            if (!data)
+                throw new Error("no comment of Id found on DB");
+            var weekDayString = convertWeekIndexToDayString(String(weekdayIndex));
+            var dayDBLenght = data.dayDB[weekDayString].length;
+            for (var i = 0; i < dayDBLenght; i++) {
+                if (data.dayDB[weekDayString][i]["employeeId"] === targetEmployeeId) {
+                    commentsPanel.innerHTML = "<p>" + data.dayDB[weekDayString][i]["comment"] + "</p> \n          ";
+                    break;
+                }
+            }
+        });
+    }
+    catch (error) {
+        console.error(error);
+    }
+};
+var convertWeekIndexToDayString = function (weekdayIndex) {
+    switch (weekdayIndex) {
+        case "0":
+            return "sundayMorning";
+            break;
+        case "1":
+            return "mondayMorning";
+            break;
+        case "2":
+            return "tuesdayMorning";
+            break;
+        case "3":
+            return "wednesdayMorning";
+            break;
+        case "4":
+            return "thursdayMorning";
+            break;
+        case "5":
+            return "fridayMorning";
+            break;
+        case "6":
+            return "saturdayMorning";
+            break;
+        default:
+            console.log("no day shift index received");
+            return "null";
+            break;
+    }
+};
+// class="employees-panel__employee-box__allocations-count">2</p>
+//           <img src="./images/green-v.png" alt="green-v" class="employees-panel__employee-box__availability-img">

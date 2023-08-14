@@ -2,7 +2,9 @@
 exports.__esModule = true;
 var express_1 = require("express");
 var router = express_1["default"].Router();
+var roleControl_1 = require("./roleControl");
 // router.post("/add-user", addUsers);
 // router.post("/login", login);
 // router.get("/get-user", getUser);
+router.search("/get-role-id-by-name", roleControl_1.getRoleIdByName);
 exports["default"] = router;

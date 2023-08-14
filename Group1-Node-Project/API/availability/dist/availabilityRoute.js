@@ -6,5 +6,6 @@ var router = express_1["default"].Router();
 router
     .post("/update", availabilityControls_1.updateAvailability)
     .get("/get-all-available-employees", availabilityControls_1.getAllAvailableEmployees)
-    .search("/get-employees-by-role-and-weekday", availabilityControls_1.getEmployeesByRoleAndWeekday);
+    .search("/get-employees-by-role-and-weekday", availabilityControls_1.getEmployeesByRoleAndWeekday)
+    .search("/get-comment-by-employee-id-and-weekday", availabilityControls_1.getCommentByEmployeeIdAndWeekday);
 exports["default"] = router;

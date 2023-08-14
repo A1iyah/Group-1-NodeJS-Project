@@ -5,6 +5,7 @@ import RoleModel from "../role/roleModel";
 
 const daySchema = new mongoose.Schema({
   employeeId: String,
+  name: String,
   role: String,
   comment: String
 });
