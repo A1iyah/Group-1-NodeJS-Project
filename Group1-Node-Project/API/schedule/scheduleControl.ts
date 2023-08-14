@@ -7,8 +7,6 @@ export const createNewWeekSchedule = async () =>
    
     const result = await weekSchedule.save();
 
-    console.log(result);
-    
 }  
 
 export const getAllWeekSchedules = async (req: any, res: any) =>
@@ -31,9 +29,6 @@ export const getAllWeekSchedules = async (req: any, res: any) =>
 export const createNewWeekForScheduling = async (req: any, res: any) =>
 {
     const {nextSunday, cashierCount, salesCount } = req.body;
-    console.log("reached server!");
-    
-    console.log(nextSunday);
     
     try {
         const weekSchedule = await WeekScheduleModel.create(
@@ -69,8 +64,6 @@ const getNextSunday = ():Date =>
 {
     const todayDate: Date = new Date();
     const date = new Date(todayDate.getFullYear(), todayDate.getMonth(), (todayDate.getDate()-todayDate.getDay())+7);
-    console.log(date);
-    
 
     return date;
 }

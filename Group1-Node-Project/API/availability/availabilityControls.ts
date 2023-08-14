@@ -5,28 +5,23 @@ import { populate } from "dotenv";
 let roleString: string;
 
 export const updateAvailability = async (req: any, res: any) => {
-  console.log("updateAvailability");
-  
-
-
   try {
     let weekData = await WeekModel.find({});
     if (!weekData) throw new Error("no week found in DB");
 
-    console.log("body: ", req.body);
-    const { availabilityData, commentValue, userId, role } = req.body;
+    const { availabilityData, commentValue, userId, role, name } = req.body;
 
-    switch (role) {
-      case 0:
-        roleString = "Admin";
-      break;
-      case 1:
-        roleString = "Manager";
-      break;
-      case 2:
-        roleString = "Employee";
-      break;
-    }
+    // switch (role) {
+    //   case 0:
+    //     roleString = "Admin";
+    //   break;
+    //   case 1:
+    //     roleString = "Manager";
+    //   break;
+    //   case 2:
+    //     roleString = "Employee";
+    //   break;
+    // }
 
     const updateObject: any = {};
 
@@ -34,97 +29,17 @@ export const updateAvailability = async (req: any, res: any) => {
     for (const day in availabilityData) {
       if (availabilityData[day]) {
 
-        console.log("trying to update: ", day);
-        
-
         const update = await WeekModel.findByIdAndUpdate(
-          "64d92372e4b98c38e81d5cd8", 
+          "64d9b40583ec1ae61b9c5db9", 
           { $push: { [day] : {
             employeeId: userId,
-            role: roleString,
+            name: name,
+            role: role.userRole,
             comment: commentValue}} },
           
         );
       }
     }
-
-    
-
-    // const testWeek = WeekModel.find({});
-
-    // console.log("my id: ", (await testWeek).push);
-
-    // for( const day in availabilityData){
-    //   if (availabilityData[day])
-    //   {
-    //     const result = await testWeek
-    //   }
-    // };
-
-    
-    
-    // for( const day in availabilityData){
-    //   if (availabilityData[day])
-    //   {
-    //     console.log("trying to update: ", day);
-        
-    //     const result = WeekModel.findOneAndUpdate(availabilityData[day] = {}, 
-    //       {
-    //         employeeId: {userId},
-    //         role: {roleString},
-    //         comment: {commentValue}
-    //       });
-
-        // const update = await weekData[(day as string)].populate(
-        //   day,
-        //   {
-        //     employeeId: userId,
-        //     role: roleString,
-        //     comment: commentValue
-        //   }
-        // )
-      //}
-    //};
-        
-        
-    //     .updateOne({
-    //       $push: {
-    //         employeeId: userId,
-    //         role: roleString,
-    //         comment: commentValue
-    //       }
-    //     });
-    //   }
-    // }
-
-
-    // const update = await weekData[availabilityData[day]].updateOne({
-    //   $push: {
-    //     employeeId: userId,
-    //     role: roleString,
-    //     comment: commentValue
-    //   }
-    // });
-
-
-    // if (commentValue) {
-      
-      
-    //   const update = await WeekModel.findByIdAndUpdate(
-    //     "64d634c69e27e8dd496a1930",
-    //     {
-    //       $push: {
-    //         comment: {
-    //           user: userId,
-    //           comment: commentValue,
-    //         },
-    //       },
-    //     },
-    //     { new: true }
-    //   );
-    // }
-    // const week = await WeekModel.findOne();
-    // console.log(week);
 
     // Get date
     const { sunday, saturday } = getCurrentWeekDates();
@@ -153,8 +68,6 @@ function getCurrentWeekDates() {
 
 export const getAllAvailableEmployees = async (req: any, res: any) => {
   try {
-    console.log("called");
-
     const weekDays = await WeekModel.find({});
 
     res.status(200).send({ ok: true, weekDays });
@@ -179,10 +92,10 @@ export const getEmployeesByRoleAndWeekday = async (req: any, res: any) => {
 
   try {
     const { role, weekday } = req.body;
-    
+
     if (weekday === 0) day = "sundayMorning";
-    if (weekday === 1) day = "modayMorning";
-    if (weekday === 2) day = "thuesdayMorning";
+    if (weekday === 1) day = "mondayMorning";
+    if (weekday === 2) day = "tuesdayMorning";
     if (weekday === 3) day = "wednesdayMorning";
     if (weekday === 4) day = "thursdayMorning";
     if (weekday === 5) day = "fridayMorning";
@@ -202,3 +115,35 @@ export const getEmployeesByRoleAndWeekday = async (req: any, res: any) => {
     res.status(500).send("Did not find data");
   }
 };
+
+export const getCommentByEmployeeIdAndWeekday = async (req:any, res:any) =>
+{
+  let day: string = "";
+  
+  try {
+    const { employeeId, weekdayIndex } = req.body;
+
+    if (weekdayIndex === "0") day = "sundayMorning";
+    if (weekdayIndex === "1") day = "mondayMorning";
+    if (weekdayIndex === "2") day = "tuesdayMorning";
+    if (weekdayIndex === "3") day = "wednesdayMorning";
+    if (weekdayIndex === "4") day = "thursdayMorning";
+    if (weekdayIndex === "5") day = "fridayMorning";
+    if (weekdayIndex === "6") day = "saturdayMorning";
+
+    try {
+      //const comment = await WeekModel.find({}).select(day).findById(employeeId).select("comment");
+      
+      
+      const dayDB = await WeekModel.findOne({ }).select(day);
+
+      if (!dayDB) throw new Error("no day found on DB");
+
+      res.status(200).send({ ok: true, dayDB });
+    } catch (error) {
+      console.log(error);
+    }
+  } catch (error) {
+    res.status(500).send("Did not find data");
+  }
+}

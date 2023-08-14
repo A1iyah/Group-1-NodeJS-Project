@@ -47,7 +47,6 @@ exports.createNewWeekSchedule = function () { return __awaiter(void 0, void 0, v
                 return [4 /*yield*/, weekSchedule.save()];
             case 1:
                 result = _a.sent();
-                console.log(result);
                 return [2 /*return*/];
         }
     });
@@ -88,8 +87,6 @@ exports.createNewWeekForScheduling = function (req, res) { return __awaiter(void
         switch (_b.label) {
             case 0:
                 _a = req.body, nextSunday = _a.nextSunday, cashierCount = _a.cashierCount, salesCount = _a.salesCount;
-                console.log("reached server!");
-                console.log(nextSunday);
                 _b.label = 1;
             case 1:
                 _b.trys.push([1, 3, , 4]);
@@ -122,6 +119,5 @@ exports.createNewWeekForScheduling = function (req, res) { return __awaiter(void
 var getNextSunday = function () {
     var todayDate = new Date();
     var date = new Date(todayDate.getFullYear(), todayDate.getMonth(), (todayDate.getDate() - todayDate.getDay()) + 7);
-    console.log(date);
     return date;
 };

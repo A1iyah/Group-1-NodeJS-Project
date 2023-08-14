@@ -4,6 +4,7 @@ exports.WeekModel = exports.DayModel = void 0;
 var mongoose_1 = require("mongoose");
 var daySchema = new mongoose_1["default"].Schema({
     employeeId: String,
+    name: String,
     role: String,
     comment: String
 });

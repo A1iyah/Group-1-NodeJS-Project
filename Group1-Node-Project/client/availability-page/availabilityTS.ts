@@ -56,17 +56,15 @@ const getActiveEmployee = async () => {
     if (employee) {
       userDB = employee;
       console.log("userDB: ", userDB);
-      
+
       return;
     }
 
     getActiveManager();
-
   } catch (error) {
     console.log(error);
-    
   }
-}
+};
 
 const getActiveManager = async () => {
   try {
@@ -79,11 +77,10 @@ const getActiveManager = async () => {
     userDB = manager;
 
     console.log("userDB: ", userDB);
-    
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 getActiveEmployee();
 
@@ -186,10 +183,10 @@ async function handleFormSubmit(event: Event) {
     }
   });
 
-  const userRole = userDB.role === (null || undefined) ? "Manager" : userDB.role;
+  const userRole =
+    userDB.role === (null || undefined) ? "Manager" : userDB.role;
 
   console.log("userRole: ", userRole);
-  
 
   try {
     const response = await fetch(`/api/availability/update`, {
@@ -197,7 +194,13 @@ async function handleFormSubmit(event: Event) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ availabilityData, commentValue, userId: userDB._id, role: userRole }),
+      body: JSON.stringify({
+        availabilityData,
+        commentValue,
+        userId: userDB._id,
+        role: { userRole },
+        name: userDB.name,
+      }),
     });
 
     if (response.ok) {

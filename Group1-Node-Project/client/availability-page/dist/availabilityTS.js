@@ -54,6 +54,123 @@ function main() {
         function updateClock() {
             intervalId = setInterval(continueUpdateElapsedTime, 1000);
         }
+    });
+}); };
+getActiveEmployee();
+//
+var buttons = document.querySelectorAll(".availability-button");
+var comment = document.getElementById("comment");
+var form = document.querySelector(".availabilityForm");
+var submitBtn = document.querySelector(".submit-btn");
+var availabilityDate = document.querySelector(".availabilityForm__date");
+var chartDates = document.querySelector(".availabilityForm__chartDates");
+// DATES -
+// Set up week dates -
+function updateWeekDates() {
+    var weekDatesDiv = document.getElementById("weekDates");
+    var today = new Date();
+    var dayOfWeek = today.getDay();
+    var sunday = new Date(today);
+    sunday.setDate(today.getDate() - dayOfWeek);
+    var saturday = new Date(today);
+    saturday.setDate(today.getDate() + (6 - dayOfWeek));
+    var options = {
+        month: "short",
+        day: "numeric"
+    };
+    weekDatesDiv.textContent = "<" + sunday.toLocaleDateString(undefined, options) + " - " + saturday.toLocaleDateString(undefined, options) + ">";
+    return { sunday: sunday, saturday: saturday };
+}
+// Chart dates -
+function updateChartDates() {
+    var chartDatesContainer = document.querySelector(".availabilityForm__table__chartDatesContainer");
+    var dayElements = document.querySelectorAll(".availabilityForm__table th:not(:first-child)");
+    var sunday = updateWeekDates().sunday;
+    dayElements.forEach(function (dayElement, index) {
+        var currentDate = new Date(sunday);
+        currentDate.setDate(sunday.getDate() + index);
+        var month = currentDate.getMonth() + 1;
+        var dayOfMonth = currentDate.getDate();
+        var dateElement = document.createElement("div");
+        dateElement.classList.add("availabilityForm__chartDate");
+        dateElement.textContent = dayOfMonth + "." + month;
+        chartDatesContainer.appendChild(dateElement);
+    });
+}
+updateChartDates();
+// End of dates functions //
+// Toggle function -
+function toggleButton(event) {
+    var clickedButton = event.target;
+    var day = clickedButton.getAttribute("data-day");
+    if (clickedButton.textContent === "can") {
+        clickedButton.textContent = "can't";
+    }
+    else {
+        clickedButton.textContent = "can";
+        clickedButton.style.backgroundColor = "rgb(21, 246, 92)";
+    }
+}
+// Handle form submit -
+function handleFormSubmit(event) {
+    return __awaiter(this, void 0, void 0, function () {
+        var commentValue, availabilityData, userRole, response, error_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    event.preventDefault();
+                    commentValue = comment.value;
+                    availabilityData = {};
+                    buttons.forEach(function (button) {
+                        var day = button.getAttribute("data-day");
+                        var isAvailable = button.textContent === "can";
+                        if (day) {
+                            availabilityData[day] = isAvailable;
+                        }
+                    });
+                    userRole = userDB.role === (null || undefined) ? "Manager" : userDB.role;
+                    console.log("userRole: ", userRole);
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, fetch("/api/availability/update", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                availabilityData: availabilityData,
+                                commentValue: commentValue,
+                                userId: userDB._id,
+                                role: { userRole: userRole },
+                                name: userDB.name
+                            })
+                        })];
+                case 2:
+                    response = _a.sent();
+                    if (response.ok) {
+                        console.log("Availability updated successfully");
+                    }
+                    else {
+                        console.error("Error updating availability");
+                    }
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_3 = _a.sent();
+                    console.error("Error:", error_3);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
+document.addEventListener("DOMContentLoaded", function () {
+    buttons.forEach(function (button) {
+        button.addEventListener("click", toggleButton);
+    });
+    updateWeekDates();
+    form.addEventListener("submit", handleFormSubmit);
+});
         // DATES -
         // Set up week dates -
         function updateWeekDates() {
