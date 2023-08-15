@@ -22,13 +22,13 @@ async function main() {
     updateClock();
   }
 
+  // Add employees buttons -
   if (userType === UserType.Employee) {
-    handleGetWorkers();
     openAddButton.style.display = "none";
   } else {
-    handleGetWorkers();
     openAddButton.style.display = "block";
   }
+  handleGetWorkers();
 }
 main();
 
@@ -73,53 +73,79 @@ const addButtonsContainer = document.querySelector(
   ".add-buttons-container"
 ) as HTMLDivElement;
 
-const addNewEmployees = document.querySelector(
+const addManagersBtnContainer = document.querySelector(
+  ".add-managers-button-container"
+) as HTMLDivElement;
+
+const addNewEmployeesForm = document.querySelector(
   ".employees-page__add-new-employees"
 ) as HTMLDivElement;
 
-const addNewManagers = document.querySelector(
+const addNewManagersForm = document.querySelector(
   ".employees-page__add-new-managers"
 ) as HTMLDivElement;
 
 let openDiv: HTMLDivElement | null = null;
 
-openAddButton.addEventListener("click", () => {
-  if (addButtonsContainer.style.display === "block") {
-    addButtonsContainer.style.display = "none";
-    if (openDiv) {
-      openDiv.style.display = "none";
-      openDiv = null;
-    }
-  } else {
+function updateUIForUserType(userType: UserType) {
+  if (userType === UserType.Admin) {
+    openAddButton.style.display = "block";
     addButtonsContainer.style.display = "block";
+    addManagersBtnContainer.style.display = "block";
+  } else if (userType === UserType.Manager) {
+    openAddButton.style.display = "block";
+    addButtonsContainer.style.display = "block";
+    addManagersBtnContainer.style.display = "none";
+  } else {
+    openAddButton.style.display = "none";
+    addButtonsContainer.style.display = "none";
+    addManagersBtnContainer.style.display = "none";
+  }
+}
+
+openAddButton.addEventListener("click", () => {
+  if (userType === UserType.Admin) {
+    if (addButtonsContainer.style.display === "block") {
+      addButtonsContainer.style.display = "none";
+    } else {
+      addButtonsContainer.style.display = "block";
+      addManagersBtnContainer.style.display = "block";
+    }
+  } else if (userType === UserType.Manager) {
+    if (addButtonsContainer.style.display === "block") {
+      addButtonsContainer.style.display = "none";
+    } else {
+      addButtonsContainer.style.display = "block";
+    }
   }
 });
 
 addEmployeeBtn.addEventListener("click", () => {
-  if (openDiv === addNewEmployees) {
-    addNewEmployees.style.display = "none";
+  if (openDiv === addNewEmployeesForm) {
+    addNewEmployeesForm.style.display = "none";
     openDiv = null;
   } else {
     if (openDiv) {
       openDiv.style.display = "none";
     }
-    addNewEmployees.style.display = "block";
-    openDiv = addNewEmployees;
+    addNewEmployeesForm.style.display = "block";
+    openDiv = addNewEmployeesForm;
   }
 });
 
 addManagerBtn.addEventListener("click", () => {
-  if (openDiv === addNewManagers) {
-    addNewManagers.style.display = "none";
+  if (openDiv === addNewManagersForm) {
+    addNewManagersForm.style.display = "none";
     openDiv = null;
   } else {
     if (openDiv) {
       openDiv.style.display = "none";
     }
-    addNewManagers.style.display = "block";
-    openDiv = addNewManagers;
+    addNewManagersForm.style.display = "block";
+    openDiv = addNewManagersForm;
   }
 });
+updateUIForUserType(userType);
 
 // Add new employee -
 function handleCreateEmployee(evt: any) {
@@ -181,16 +207,7 @@ function handleCreateEmployee(evt: any) {
         console.error(error);
       });
 
-    evt.target.elements.name.value = "";
-    evt.target.elements.email.value = "";
-    evt.target.elements.password.value = "";
-    evt.target.elements.idNumber.value = "";
-    evt.target.elements.phone.value = "";
-    evt.target.elements.salaryPerHour.value = "";
-    evt.target.elements.birthday.value = "";
-    evt.target.elements.role.value = "";
-
-    addNewEmployees.style.display = "none";
+    addNewEmployeesForm.style.display = "none";
   } catch (error) {
     console.log(error);
   }
@@ -255,14 +272,7 @@ function handleCreateManager(evt: any) {
         console.error(error);
       });
 
-    evt.target.elements.name.value = "";
-    evt.target.elements.email.value = "";
-    evt.target.elements.password.value = "";
-    evt.target.elements.idNumber.value = "";
-    evt.target.elements.phone.value = "";
-    evt.target.elements.salaryPerHour.value = "";
-    evt.target.elements.birthday.value = "";
-    addNewManagers.style.display = "none";
+    addNewManagersForm.style.display = "none";
   } catch (error) {
     console.log(error);
   }
@@ -273,46 +283,73 @@ const handleGetWorkers = () => {
   try {
     const _id = user._id;
 
-    fetch("/api/employees-page/get-workers", {
-      method: "PATCH",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ _id }),
-    })
-      .then((res) => res.json())
-      .then(({ employees }) => {
-        try {
-          if (!employees) throw new Error("No employees data found");
+    if (userType === UserType.Admin) {
+      fetch("/api/employees-page/get-admin-workers", {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ _id }),
+      })
+        .then((res) => res.json())
+        .then(({ allWorkers }) => {
+          try {
+            if (!allWorkers) throw new Error("No workers data found");
 
-          const displayEmployees = employees.employees;
+            renderEmployeeList(allWorkers.managers);
+            renderEmployeeList(allWorkers.employees);
+          } catch (error) {
+            console.log(error, "get-admin-workers error");
+          }
+        });
+    } else if (userType === UserType.Manager) {
+      fetch("/api/employees-page/get-manager-employees", {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ _id }),
+      })
+        .then((res) => res.json())
+        .then(({ employees }) => {
+          try {
+            if (!employees) throw new Error("No employees data found");
 
-          const htmlStr: string = displayEmployees
-            .map((employee: any) => {
-              return `<div class="employees-page__employeeCard">
-              <div class="employee-details">
-                <div class="employee-name">${employee.name}</div>
-                <div class="employee-birthday">${employee.birthday}</div>
-                <div class="employee-email">${employee.email}</div>
-                <div class="employee-phone">${employee.phone}</div>
-                <div class="employee-role">${employee.role.name}</div>
-              </div>
-            </div>`;
-            })
-            .join(" ");
+            renderEmployeeList(employees.employees);
+          } catch (error) {
+            console.log(error);
+          }
+        });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-          const getAllEmployees = document.querySelector(
-            ".employees-page__get-all-employees"
-          ) as HTMLDivElement;
-          if (!getAllEmployees)
-            throw new Error("Can't find employees to display.");
+const renderEmployeeList = (employees: any) => {
+  try {
+    const htmlStr: string = employees
+      .map((employee: any) => {
+        return `<div class="employees-page__employeeCard">
+        <div class="employee-details">
+        <div class="employee-name">${employee.name}</div>
+        <div class="employee-birthday">${employee.birthday}</div>
+        <div class="employee-email">${employee.email}</div>
+        <div class="employee-phone">${employee.phone}</div>
+        <div class="employee-role">${employee.role.name}</div>
+        </div>
+        </div>`;
+      })
+      .join(" ");
 
-          getAllEmployees.innerHTML = htmlStr;
-        } catch (error) {
-          console.log();
-        }
-      });
+    const getAllEmployees = document.querySelector(
+      ".employees-page__get-all-employees"
+    ) as HTMLDivElement;
+    if (!getAllEmployees) throw new Error("Can't find employees to display.");
+
+    getAllEmployees.innerHTML = htmlStr;
   } catch (error) {
     console.log(error);
   }

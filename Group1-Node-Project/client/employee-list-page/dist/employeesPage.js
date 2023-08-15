@@ -56,14 +56,14 @@ function main() {
                         // const elapsedTime = currentTime - startTime1;
                         updateClock();
                     }
+                    // Add employees buttons -
                     if (userType === UserType.Employee) {
-                        handleGetWorkers();
                         openAddButton.style.display = "none";
                     }
                     else {
-                        handleGetWorkers();
                         openAddButton.style.display = "block";
                     }
+                    handleGetWorkers();
                     return [2 /*return*/];
             }
         });
@@ -92,47 +92,73 @@ var addEmployeeBtn = document.querySelector(".add-employees-btn");
 var addManagerBtn = document.querySelector(".add-managers-btn");
 var openAddButton = document.querySelector(".open-add-btn");
 var addButtonsContainer = document.querySelector(".add-buttons-container");
-var addNewEmployees = document.querySelector(".employees-page__add-new-employees");
-var addNewManagers = document.querySelector(".employees-page__add-new-managers");
+var addManagersBtnContainer = document.querySelector(".add-managers-button-container");
+var addNewEmployeesForm = document.querySelector(".employees-page__add-new-employees");
+var addNewManagersForm = document.querySelector(".employees-page__add-new-managers");
 var openDiv = null;
-openAddButton.addEventListener("click", function () {
-    if (addButtonsContainer.style.display === "block") {
-        addButtonsContainer.style.display = "none";
-        if (openDiv) {
-            openDiv.style.display = "none";
-            openDiv = null;
-        }
+function updateUIForUserType(userType) {
+    if (userType === UserType.Admin) {
+        openAddButton.style.display = "block";
+        addButtonsContainer.style.display = "block";
+        addManagersBtnContainer.style.display = "block";
+    }
+    else if (userType === UserType.Manager) {
+        openAddButton.style.display = "block";
+        addButtonsContainer.style.display = "block";
+        addManagersBtnContainer.style.display = "none";
     }
     else {
-        addButtonsContainer.style.display = "block";
+        openAddButton.style.display = "none";
+        addButtonsContainer.style.display = "none";
+        addManagersBtnContainer.style.display = "none";
+    }
+}
+openAddButton.addEventListener("click", function () {
+    if (userType === UserType.Admin) {
+        if (addButtonsContainer.style.display === "block") {
+            addButtonsContainer.style.display = "none";
+        }
+        else {
+            addButtonsContainer.style.display = "block";
+            addManagersBtnContainer.style.display = "block";
+        }
+    }
+    else if (userType === UserType.Manager) {
+        if (addButtonsContainer.style.display === "block") {
+            addButtonsContainer.style.display = "none";
+        }
+        else {
+            addButtonsContainer.style.display = "block";
+        }
     }
 });
 addEmployeeBtn.addEventListener("click", function () {
-    if (openDiv === addNewEmployees) {
-        addNewEmployees.style.display = "none";
+    if (openDiv === addNewEmployeesForm) {
+        addNewEmployeesForm.style.display = "none";
         openDiv = null;
     }
     else {
         if (openDiv) {
             openDiv.style.display = "none";
         }
-        addNewEmployees.style.display = "block";
-        openDiv = addNewEmployees;
+        addNewEmployeesForm.style.display = "block";
+        openDiv = addNewEmployeesForm;
     }
 });
 addManagerBtn.addEventListener("click", function () {
-    if (openDiv === addNewManagers) {
-        addNewManagers.style.display = "none";
+    if (openDiv === addNewManagersForm) {
+        addNewManagersForm.style.display = "none";
         openDiv = null;
     }
     else {
         if (openDiv) {
             openDiv.style.display = "none";
         }
-        addNewManagers.style.display = "block";
-        openDiv = addNewManagers;
+        addNewManagersForm.style.display = "block";
+        openDiv = addNewManagersForm;
     }
 });
+updateUIForUserType(userType);
 // Add new employee -
 function handleCreateEmployee(evt) {
     try {
@@ -186,15 +212,7 @@ function handleCreateEmployee(evt) {
         })["catch"](function (error) {
             console.error(error);
         });
-        evt.target.elements.name.value = "";
-        evt.target.elements.email.value = "";
-        evt.target.elements.password.value = "";
-        evt.target.elements.idNumber.value = "";
-        evt.target.elements.phone.value = "";
-        evt.target.elements.salaryPerHour.value = "";
-        evt.target.elements.birthday.value = "";
-        evt.target.elements.role.value = "";
-        addNewEmployees.style.display = "none";
+        addNewEmployeesForm.style.display = "none";
     }
     catch (error) {
         console.log(error);
@@ -251,14 +269,7 @@ function handleCreateManager(evt) {
         })["catch"](function (error) {
             console.error(error);
         });
-        evt.target.elements.name.value = "";
-        evt.target.elements.email.value = "";
-        evt.target.elements.password.value = "";
-        evt.target.elements.idNumber.value = "";
-        evt.target.elements.phone.value = "";
-        evt.target.elements.salaryPerHour.value = "";
-        evt.target.elements.birthday.value = "";
-        addNewManagers.style.display = "none";
+        addNewManagersForm.style.display = "none";
     }
     catch (error) {
         console.log(error);
@@ -268,35 +279,67 @@ function handleCreateManager(evt) {
 var handleGetWorkers = function () {
     try {
         var _id = user._id;
-        fetch("/api/employees-page/get-workers", {
-            method: "PATCH",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ _id: _id })
+        if (userType === UserType.Admin) {
+            fetch("/api/employees-page/get-admin-workers", {
+                method: "PATCH",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ _id: _id })
+            })
+                .then(function (res) { return res.json(); })
+                .then(function (_a) {
+                var allWorkers = _a.allWorkers;
+                try {
+                    if (!allWorkers)
+                        throw new Error("No workers data found");
+                    renderEmployeeList(allWorkers.managers);
+                    renderEmployeeList(allWorkers.employees);
+                }
+                catch (error) {
+                    console.log(error, "get-admin-workers error");
+                }
+            });
+        }
+        else if (userType === UserType.Manager) {
+            fetch("/api/employees-page/get-manager-employees", {
+                method: "PATCH",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ _id: _id })
+            })
+                .then(function (res) { return res.json(); })
+                .then(function (_a) {
+                var employees = _a.employees;
+                try {
+                    if (!employees)
+                        throw new Error("No employees data found");
+                    renderEmployeeList(employees.employees);
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
+var renderEmployeeList = function (employees) {
+    try {
+        var htmlStr = employees
+            .map(function (employee) {
+            return "<div class=\"employees-page__employeeCard\">\n        <div class=\"employee-details\">\n        <div class=\"employee-name\">" + employee.name + "</div>\n        <div class=\"employee-birthday\">" + employee.birthday + "</div>\n        <div class=\"employee-email\">" + employee.email + "</div>\n        <div class=\"employee-phone\">" + employee.phone + "</div>\n        <div class=\"employee-role\">" + employee.role.name + "</div>\n        </div>\n        </div>";
         })
-            .then(function (res) { return res.json(); })
-            .then(function (_a) {
-            var employees = _a.employees;
-            try {
-                if (!employees)
-                    throw new Error("No employees data found");
-                var displayEmployees = employees.employees;
-                var htmlStr = displayEmployees
-                    .map(function (employee) {
-                    return "<div class=\"employees-page__employeeCard\">\n              <div class=\"employee-details\">\n                <div class=\"employee-name\">" + employee.name + "</div>\n                <div class=\"employee-birthday\">" + employee.birthday + "</div>\n                <div class=\"employee-email\">" + employee.email + "</div>\n                <div class=\"employee-phone\">" + employee.phone + "</div>\n                <div class=\"employee-role\">" + employee.role.name + "</div>\n              </div>\n            </div>";
-                })
-                    .join(" ");
-                var getAllEmployees = document.querySelector(".employees-page__get-all-employees");
-                if (!getAllEmployees)
-                    throw new Error("Can't find employees to display.");
-                getAllEmployees.innerHTML = htmlStr;
-            }
-            catch (error) {
-                console.log();
-            }
-        });
+            .join(" ");
+        var getAllEmployees = document.querySelector(".employees-page__get-all-employees");
+        if (!getAllEmployees)
+            throw new Error("Can't find employees to display.");
+        getAllEmployees.innerHTML = htmlStr;
     }
     catch (error) {
         console.log(error);

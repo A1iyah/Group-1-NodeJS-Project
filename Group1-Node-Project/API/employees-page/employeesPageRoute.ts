@@ -3,12 +3,14 @@ const router = express.Router();
 import {
   addEmployee,
   addManager,
-  displayWorkers,
+  getAdminWorkers,
+  getManagerEmployees,
 } from "./employeesPageControls";
 
 router
   .post("/add-manager", addManager)
   .post("/add-employee", addEmployee)
-  .patch("/get-workers", displayWorkers);
+  .patch("/get-admin-workers", getAdminWorkers)
+  .patch("/get-manager-employees", getManagerEmployees);
 
 export default router;

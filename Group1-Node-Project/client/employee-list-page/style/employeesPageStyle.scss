@@ -42,7 +42,7 @@
     left: 80px;
   }
 
-  .add-employees-btn {
+  .add-managers-btn {
     top: 50px;
   }
 
@@ -53,7 +53,7 @@
 
   &__chart {
     width: 80%;
-    @include flexibleCenter(absolute, 30%, 50%, -50%, -30%);
+    @include flexibleCenter(absolute, 22%, 50%, -50%, -22%);
 
     th {
       width: 250px;
@@ -65,7 +65,7 @@
     width: 80%;
     height: 50%;
     overflow-y: scroll;
-    @include flexibleCenter(absolute, 65%, 50%, -50%, -65%);
+    @include flexibleCenter(absolute, 50%, 50%, -50%, -50%);
   }
 
   &__get-all-employees::-webkit-scrollbar {

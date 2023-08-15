@@ -1,7 +1,46 @@
 import express from "express";
+import AdminModel from "../admin/adminModel";
 import ManagerModel from "../manager/managerModel";
 import EmployeeModel from "../employee/employeeModel";
 import RoleModel from "../role/roleModel";
+
+// export const addEmployee = async (
+//   req: any,
+//   res: any,
+//   name: string,
+//   email: string,
+//   password: string,
+//   idNumber: number,
+//   phone: number,
+//   birthday: Date,
+//   salaryPerHour: number,
+//   roleName: string
+// ) => {
+//   try {
+//     const role = await RoleModel.findOne({ name: roleName });
+//     if (!roleName) {
+//       console.log(`Role ${roleName} not found`);
+//       return;
+//     }
+
+//     const employeeDB = await EmployeeModel.create({
+//       name,
+//       email,
+//       password,
+//       idNumber,
+//       phone,
+//       birthday,
+//       salaryPerHour,
+//       role: role?._id,
+//     });
+
+//     const result = await employeeDB.save();
+
+//     res.status(200).send({ ok: true, result });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 export const addEmployee = async (req: any, res: any) => {
   try {
@@ -16,12 +55,6 @@ export const addEmployee = async (req: any, res: any) => {
       role,
     } = req.body;
 
-    // if (role) {
-    //   const roleID = await RoleModel.find({ name: role });
-    //   // .select({ _id: 1 });
-    //   // role = roleID[0]._id.toString();
-    // }
-
     const employeeDB = await EmployeeModel.create({
       name,
       email,
@@ -33,6 +66,8 @@ export const addEmployee = async (req: any, res: any) => {
       role: role._id,
     });
     console.log(employeeDB);
+
+    console.log("Received role id:", role._id);
 
     res.status(200).send({ ok: true, employeeDB });
   } catch (error) {
@@ -79,31 +114,48 @@ export const addManager = async (req: any, res: any) => {
 };
 
 // Display all workers -
-export const displayWorkers = async (req: any, res: any) => {
+export const getAdminWorkers = async (req: any, res: any) => {
   try {
-    const { _id, role } = req.body;
+    const { _id } = req.body;
 
-    let query = {};
+    const allWorkers = await AdminModel.findById(_id)
+      .populate({
+        path: "managers",
+        populate: {
+          path: "role",
+          model: "Role",
+        },
+      })
 
-    if (role) {
-      const roleObj = await RoleModel.findOne({ name: role });
+      .populate({
+        path: "employees",
+        populate: {
+          path: "role",
+          model: "Role",
+        },
+      })
+      .exec();
 
-      if (!roleObj) {
-        console.log(`Role ${roleObj} not found`);
-      }
+    console.log(allWorkers);
 
-      query = { role: roleObj!._id };
-    }
+    res.send({ allWorkers });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-    const employees = await ManagerModel.findById(_id).populate("employees");
+export const getManagerEmployees = async (req: any, res: any) => {
+  try {
+    const { _id } = req.body;
+
+    const employees = await ManagerModel.findById(_id).populate({
+      path: "employees",
+      populate: { path: "role", model: "Role" },
+    });
+
     if (employees) console.log(employees.employees);
 
-    const employeesRole = await EmployeeModel.find(query).populate(
-      "role",
-      "name"
-    );
-
-    res.send({ employees, employeesRole });
+    res.send({ employees });
   } catch (error) {
     console.log(error);
   }

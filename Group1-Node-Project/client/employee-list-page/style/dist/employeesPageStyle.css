@@ -46,7 +46,7 @@
   top: 10px;
   left: 80px;
 }
-.employees-page .add-employees-btn {
+.employees-page .add-managers-btn {
   top: 50px;
 }
 .employees-page .add-employees-btn:hover,
@@ -58,9 +58,9 @@
 .employees-page__chart {
   width: 80%;
   position: absolute;
-  top: 30%;
+  top: 22%;
   left: 50%;
-  transform: translate(-50%, -30%);
+  transform: translate(-50%, -22%);
   cursor: default;
 }
 .employees-page__chart th {
@@ -74,9 +74,9 @@
   height: 50%;
   overflow-y: scroll;
   position: absolute;
-  top: 65%;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -65%);
+  transform: translate(-50%, -50%);
   cursor: default;
 }
 .employees-page__get-all-employees::-webkit-scrollbar {

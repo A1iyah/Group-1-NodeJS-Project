@@ -6,5 +6,6 @@ var employeesPageControls_1 = require("./employeesPageControls");
 router
     .post("/add-manager", employeesPageControls_1.addManager)
     .post("/add-employee", employeesPageControls_1.addEmployee)
-    .patch("/get-workers", employeesPageControls_1.displayWorkers);
+    .patch("/get-admin-workers", employeesPageControls_1.getAdminWorkers)
+    .patch("/get-manager-employees", employeesPageControls_1.getManagerEmployees);
 exports["default"] = router;
