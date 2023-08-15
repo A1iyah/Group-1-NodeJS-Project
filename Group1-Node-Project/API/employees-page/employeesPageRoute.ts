@@ -12,9 +12,3 @@ router
   .patch("/get-workers", displayWorkers);
 
 export default router;
-
-// if (userType === UserType.Admin || userType === UserType.Manager) {
-//   openAddButton.style.display = "block";
-// } else if (userType === UserType.Employee) {
-//   openAddButton.style.display = "none";
-// }
