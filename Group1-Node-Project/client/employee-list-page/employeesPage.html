@@ -26,8 +26,6 @@
     <div class="running-clock"></div>
 
     <div class="employees-page">
-      <h1 class="employees-page__main-header">Employees</h1>
-
       <button class="open-add-btn">
         <span class="material-symbols-outlined">add_circle</span>
       </button>
@@ -39,17 +37,41 @@
         </div>
       </div>
 
-      <table class="employees-page__chart">
-        <tr>
-          <th>NAME</th>
-          <th>BIRTHDAY</th>
-          <th>EMAIL</th>
-          <th>PHONE</th>
-          <th>ROLE</th>
-        </tr>
-      </table>
+      <div class="employees-page__employees-section">
+        <h1 class="employees-page__employees-section__employees-header">
+          Employees
+        </h1>
 
-      <div class="employees-page__get-all-employees"></div>
+        <table class="employees-page__employees-section__employees-chart">
+          <tr>
+            <th>NAME</th>
+            <th>BIRTHDAY</th>
+            <th>EMAIL</th>
+            <th>PHONE</th>
+            <th>ROLE</th>
+          </tr>
+        </table>
+
+        <div class="employees-page__employees-section__get-all-employees"></div>
+      </div>
+
+      <div class="employees-page__managers-section">
+        <h1 class="employees-page__managers-section__managers-header">
+          Managers
+        </h1>
+
+        <table class="employees-page__managers-section__managers-chart">
+          <tr>
+            <th>NAME</th>
+            <th>BIRTHDAY</th>
+            <th>EMAIL</th>
+            <th>PHONE</th>
+            <th>ROLE</th>
+          </tr>
+        </table>
+
+        <div class="employees-page__managers-section__get-all-managers"></div>
+      </div>
 
       <!-- Add Employee -->
       <div class="employees-page__add-new-employees" style="display: none">

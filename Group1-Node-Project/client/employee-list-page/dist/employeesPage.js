@@ -88,29 +88,39 @@ function updateClock() {
     intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
 // Admin / Manager button -
-var addEmployeeBtn = document.querySelector(".add-employees-btn");
-var addManagerBtn = document.querySelector(".add-managers-btn");
 var openAddButton = document.querySelector(".open-add-btn");
 var addButtonsContainer = document.querySelector(".add-buttons-container");
+var addEmployeeBtn = document.querySelector(".add-employees-btn");
 var addManagersBtnContainer = document.querySelector(".add-managers-button-container");
+var addManagerBtn = document.querySelector(".add-managers-btn");
 var addNewEmployeesForm = document.querySelector(".employees-page__add-new-employees");
 var addNewManagersForm = document.querySelector(".employees-page__add-new-managers");
+// const managerCard = document.querySelector(
+//   ".employees-page__managerCard"
+// ) as HTMLDivElement;
+var managerSection = document.querySelector(".employees-page__managers-section");
 var openDiv = null;
 function updateUIForUserType(userType) {
     if (userType === UserType.Admin) {
         openAddButton.style.display = "block";
         addButtonsContainer.style.display = "block";
         addManagersBtnContainer.style.display = "block";
+        // managerCard!.style.display = "block";
+        // managerSection.style.display = "block";
     }
     else if (userType === UserType.Manager) {
         openAddButton.style.display = "block";
         addButtonsContainer.style.display = "block";
         addManagersBtnContainer.style.display = "none";
+        // managerCard!.style.display = "none";
+        // managerSection.style.display = "none";
     }
     else {
         openAddButton.style.display = "none";
         addButtonsContainer.style.display = "none";
         addManagersBtnContainer.style.display = "none";
+        // managerCard!.style.display = "none";
+        // managerSection.style.display = "none";
     }
 }
 openAddButton.addEventListener("click", function () {
@@ -159,6 +169,14 @@ addManagerBtn.addEventListener("click", function () {
     }
 });
 updateUIForUserType(userType);
+// Manager section -
+// if (userType === UserType.Admin) {
+//   managerCard!.style.display = "block";
+//   managerSection!.style.display = "block";
+// } else {
+//   managerCard!.style.display = "none";
+//   managerSection!.style.display = "none";
+// }
 // Add new employee -
 function handleCreateEmployee(evt) {
     try {
@@ -294,8 +312,8 @@ var handleGetWorkers = function () {
                 try {
                     if (!allWorkers)
                         throw new Error("No workers data found");
-                    renderEmployeeList(allWorkers.managers);
                     renderEmployeeList(allWorkers.employees);
+                    renderManagersList(allWorkers.managers);
                 }
                 catch (error) {
                     console.log(error, "get-admin-workers error");
@@ -336,10 +354,26 @@ var renderEmployeeList = function (employees) {
             return "<div class=\"employees-page__employeeCard\">\n        <div class=\"employee-details\">\n        <div class=\"employee-name\">" + employee.name + "</div>\n        <div class=\"employee-birthday\">" + employee.birthday + "</div>\n        <div class=\"employee-email\">" + employee.email + "</div>\n        <div class=\"employee-phone\">" + employee.phone + "</div>\n        <div class=\"employee-role\">" + employee.role.name + "</div>\n        </div>\n        </div>";
         })
             .join(" ");
-        var getAllEmployees = document.querySelector(".employees-page__get-all-employees");
+        var getAllEmployees = document.querySelector(".employees-page__employees-section__get-all-employees");
         if (!getAllEmployees)
             throw new Error("Can't find employees to display.");
         getAllEmployees.innerHTML = htmlStr;
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
+var renderManagersList = function (managers) {
+    try {
+        var htmlStr = managers
+            .map(function (manager) {
+            return "<div class=\"employees-page__managerCard\" \">\n        <div class=\"manager-details\">\n        <div class=\"manager-name\">" + manager.name + "</div>\n        <div class=\"manager-birthday\">" + manager.birthday + "</div>\n        <div class=\"manager-email\">" + manager.email + "</div>\n        <div class=\"manager-phone\">" + manager.phone + "</div>\n        <div class=\"manager-role\">" + manager.role.name + "</div>\n        </div>\n        </div>";
+        })
+            .join(" ");
+        var getAllManagers = document.querySelector(".employees-page__managers-section__get-all-managers");
+        if (!getAllManagers)
+            throw new Error("Can't find employees to display.");
+        getAllManagers.innerHTML = htmlStr;
     }
     catch (error) {
         console.log(error);

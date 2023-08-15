@@ -2,19 +2,14 @@
   position: relative;
   height: 900px;
 }
-.employees-page__main-header {
-  font-size: 50px;
-  text-align: center;
-  margin-top: 50px;
-  cursor: default;
-}
 .employees-page .open-add-btn {
   position: absolute;
+  top: 15px;
   left: 30px;
   background-color: black;
   color: white;
-  padding: 10px;
-  padding-bottom: 4px;
+  padding: 5px;
+  padding-bottom: 0;
   border: none;
   border-radius: 50%;
   box-shadow: rgba(64, 64, 64, 0.724) 0px 5px 15px;
@@ -55,39 +50,64 @@
   color: black;
   cursor: pointer;
 }
-.employees-page__chart {
-  width: 80%;
-  position: absolute;
-  top: 22%;
-  left: 50%;
-  transform: translate(-50%, -22%);
+.employees-page__employees-section, .employees-page__managers-section {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  box-shadow: 0px 15px 15px -15px #111;
+}
+.employees-page__employees-section__employees-header, .employees-page__employees-section__managers-header, .employees-page__managers-section__employees-header, .employees-page__managers-section__managers-header {
+  font-size: 50px;
+  text-align: center;
+  margin-top: 50px;
   cursor: default;
 }
-.employees-page__chart th {
+.employees-page__employees-section__employees-chart, .employees-page__employees-section__managers-chart, .employees-page__managers-section__employees-chart, .employees-page__managers-section__managers-chart {
+  width: 80%;
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -25%);
+  cursor: default;
+}
+.employees-page__employees-section__employees-chart th, .employees-page__employees-section__managers-chart th, .employees-page__managers-section__employees-chart th, .employees-page__managers-section__managers-chart th {
   width: 250px;
   border: none;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
-.employees-page__get-all-employees {
+.employees-page__employees-section__get-all-employees, .employees-page__employees-section__get-all-managers, .employees-page__managers-section__get-all-employees, .employees-page__managers-section__get-all-managers {
   width: 80%;
   height: 50%;
   overflow-y: scroll;
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -60%);
   cursor: default;
 }
-.employees-page__get-all-employees::-webkit-scrollbar {
-  display: none;
+.employees-page__employees-section__get-all-employees::-webkit-scrollbar, .employees-page__employees-section__get-all-managers::-webkit-scrollbar, .employees-page__managers-section__get-all-employees::-webkit-scrollbar, .employees-page__managers-section__get-all-managers::-webkit-scrollbar {
+  width: 8px;
 }
-.employees-page__employeeCard {
+.employees-page__employees-section__get-all-employees::-webkit-scrollbar-track, .employees-page__employees-section__get-all-managers::-webkit-scrollbar-track, .employees-page__managers-section__get-all-employees::-webkit-scrollbar-track, .employees-page__managers-section__get-all-managers::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 5px;
+}
+.employees-page__employees-section__get-all-employees::-webkit-scrollbar-thumb, .employees-page__employees-section__get-all-managers::-webkit-scrollbar-thumb, .employees-page__managers-section__get-all-employees::-webkit-scrollbar-thumb, .employees-page__managers-section__get-all-managers::-webkit-scrollbar-thumb {
+  background: #16e7e7;
+  border-radius: 5px;
+}
+.employees-page__employees-section__get-all-employees::-webkit-scrollbar-thumb:hover, .employees-page__employees-section__get-all-managers::-webkit-scrollbar-thumb:hover, .employees-page__managers-section__get-all-employees::-webkit-scrollbar-thumb:hover, .employees-page__managers-section__get-all-managers::-webkit-scrollbar-thumb:hover {
+  background: #07c4c4;
+}
+.employees-page__employeeCard, .employees-page__managerCard {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
-.employees-page__employeeCard .employee-details {
+.employees-page__employeeCard .employee-details,
+.employees-page__employeeCard .manager-details, .employees-page__managerCard .employee-details,
+.employees-page__managerCard .manager-details {
   display: flex;
   justify-content: space-evenly;
   padding: 10px 0;
@@ -96,7 +116,41 @@
 .employees-page__employeeCard .employee-details .employee-birthday,
 .employees-page__employeeCard .employee-details .employee-email,
 .employees-page__employeeCard .employee-details .employee-phone,
-.employees-page__employeeCard .employee-details .employee-role {
+.employees-page__employeeCard .employee-details .employee-role,
+.employees-page__employeeCard .employee-details .manager-name,
+.employees-page__employeeCard .employee-details .manager-birthday,
+.employees-page__employeeCard .employee-details .manager-email,
+.employees-page__employeeCard .employee-details .manager-phone,
+.employees-page__employeeCard .employee-details .manager-role,
+.employees-page__employeeCard .manager-details .employee-name,
+.employees-page__employeeCard .manager-details .employee-birthday,
+.employees-page__employeeCard .manager-details .employee-email,
+.employees-page__employeeCard .manager-details .employee-phone,
+.employees-page__employeeCard .manager-details .employee-role,
+.employees-page__employeeCard .manager-details .manager-name,
+.employees-page__employeeCard .manager-details .manager-birthday,
+.employees-page__employeeCard .manager-details .manager-email,
+.employees-page__employeeCard .manager-details .manager-phone,
+.employees-page__employeeCard .manager-details .manager-role, .employees-page__managerCard .employee-details .employee-name,
+.employees-page__managerCard .employee-details .employee-birthday,
+.employees-page__managerCard .employee-details .employee-email,
+.employees-page__managerCard .employee-details .employee-phone,
+.employees-page__managerCard .employee-details .employee-role,
+.employees-page__managerCard .employee-details .manager-name,
+.employees-page__managerCard .employee-details .manager-birthday,
+.employees-page__managerCard .employee-details .manager-email,
+.employees-page__managerCard .employee-details .manager-phone,
+.employees-page__managerCard .employee-details .manager-role,
+.employees-page__managerCard .manager-details .employee-name,
+.employees-page__managerCard .manager-details .employee-birthday,
+.employees-page__managerCard .manager-details .employee-email,
+.employees-page__managerCard .manager-details .employee-phone,
+.employees-page__managerCard .manager-details .employee-role,
+.employees-page__managerCard .manager-details .manager-name,
+.employees-page__managerCard .manager-details .manager-birthday,
+.employees-page__managerCard .manager-details .manager-email,
+.employees-page__managerCard .manager-details .manager-phone,
+.employees-page__managerCard .manager-details .manager-role {
   text-align: center;
   width: 250px;
   padding: 5px;
@@ -110,7 +164,41 @@
 .employees-page__employeeCard .employee-details .employee-birthday::-webkit-scrollbar,
 .employees-page__employeeCard .employee-details .employee-email::-webkit-scrollbar,
 .employees-page__employeeCard .employee-details .employee-phone::-webkit-scrollbar,
-.employees-page__employeeCard .employee-details .employee-role::-webkit-scrollbar {
+.employees-page__employeeCard .employee-details .employee-role::-webkit-scrollbar,
+.employees-page__employeeCard .employee-details .manager-name::-webkit-scrollbar,
+.employees-page__employeeCard .employee-details .manager-birthday::-webkit-scrollbar,
+.employees-page__employeeCard .employee-details .manager-email::-webkit-scrollbar,
+.employees-page__employeeCard .employee-details .manager-phone::-webkit-scrollbar,
+.employees-page__employeeCard .employee-details .manager-role::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .employee-name::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .employee-birthday::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .employee-email::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .employee-phone::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .employee-role::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .manager-name::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .manager-birthday::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .manager-email::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .manager-phone::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .manager-role::-webkit-scrollbar, .employees-page__managerCard .employee-details .employee-name::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .employee-birthday::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .employee-email::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .employee-phone::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .employee-role::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .manager-name::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .manager-birthday::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .manager-email::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .manager-phone::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .manager-role::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .employee-name::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .employee-birthday::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .employee-email::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .employee-phone::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .employee-role::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .manager-name::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .manager-birthday::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .manager-email::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .manager-phone::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .manager-role::-webkit-scrollbar {
   display: none;
 }
 .employees-page__add-new-employees, .employees-page__add-new-managers {

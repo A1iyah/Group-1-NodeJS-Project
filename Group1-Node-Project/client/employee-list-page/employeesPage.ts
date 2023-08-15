@@ -57,14 +57,6 @@ function updateClock() {
 }
 
 // Admin / Manager button -
-const addEmployeeBtn = document.querySelector(
-  ".add-employees-btn"
-) as HTMLButtonElement;
-
-const addManagerBtn = document.querySelector(
-  ".add-managers-btn"
-) as HTMLButtonElement;
-
 const openAddButton = document.querySelector(
   ".open-add-btn"
 ) as HTMLButtonElement;
@@ -73,9 +65,17 @@ const addButtonsContainer = document.querySelector(
   ".add-buttons-container"
 ) as HTMLDivElement;
 
+const addEmployeeBtn = document.querySelector(
+  ".add-employees-btn"
+) as HTMLButtonElement;
+
 const addManagersBtnContainer = document.querySelector(
   ".add-managers-button-container"
 ) as HTMLDivElement;
+
+const addManagerBtn = document.querySelector(
+  ".add-managers-btn"
+) as HTMLButtonElement;
 
 const addNewEmployeesForm = document.querySelector(
   ".employees-page__add-new-employees"
@@ -85,6 +85,13 @@ const addNewManagersForm = document.querySelector(
   ".employees-page__add-new-managers"
 ) as HTMLDivElement;
 
+// const managerCard = document.querySelector(
+//   ".employees-page__managerCard"
+// ) as HTMLDivElement;
+const managerSection = document.querySelector(
+  ".employees-page__managers-section"
+) as HTMLDivElement;
+
 let openDiv: HTMLDivElement | null = null;
 
 function updateUIForUserType(userType: UserType) {
@@ -92,14 +99,20 @@ function updateUIForUserType(userType: UserType) {
     openAddButton.style.display = "block";
     addButtonsContainer.style.display = "block";
     addManagersBtnContainer.style.display = "block";
+    // managerCard!.style.display = "block";
+    // managerSection.style.display = "block";
   } else if (userType === UserType.Manager) {
     openAddButton.style.display = "block";
     addButtonsContainer.style.display = "block";
     addManagersBtnContainer.style.display = "none";
+    // managerCard!.style.display = "none";
+    // managerSection.style.display = "none";
   } else {
     openAddButton.style.display = "none";
     addButtonsContainer.style.display = "none";
     addManagersBtnContainer.style.display = "none";
+    // managerCard!.style.display = "none";
+    // managerSection.style.display = "none";
   }
 }
 
@@ -146,6 +159,16 @@ addManagerBtn.addEventListener("click", () => {
   }
 });
 updateUIForUserType(userType);
+
+// Manager section -
+
+// if (userType === UserType.Admin) {
+//   managerCard!.style.display = "block";
+//   managerSection!.style.display = "block";
+// } else {
+//   managerCard!.style.display = "none";
+//   managerSection!.style.display = "none";
+// }
 
 // Add new employee -
 function handleCreateEmployee(evt: any) {
@@ -297,8 +320,8 @@ const handleGetWorkers = () => {
           try {
             if (!allWorkers) throw new Error("No workers data found");
 
-            renderEmployeeList(allWorkers.managers);
             renderEmployeeList(allWorkers.employees);
+            renderManagersList(allWorkers.managers);
           } catch (error) {
             console.log(error, "get-admin-workers error");
           }
@@ -345,11 +368,38 @@ const renderEmployeeList = (employees: any) => {
       .join(" ");
 
     const getAllEmployees = document.querySelector(
-      ".employees-page__get-all-employees"
+      ".employees-page__employees-section__get-all-employees"
     ) as HTMLDivElement;
     if (!getAllEmployees) throw new Error("Can't find employees to display.");
 
     getAllEmployees.innerHTML = htmlStr;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const renderManagersList = (managers: any) => {
+  try {
+    const htmlStr: string = managers
+      .map((manager: any) => {
+        return `<div class="employees-page__managerCard" ">
+        <div class="manager-details">
+        <div class="manager-name">${manager.name}</div>
+        <div class="manager-birthday">${manager.birthday}</div>
+        <div class="manager-email">${manager.email}</div>
+        <div class="manager-phone">${manager.phone}</div>
+        <div class="manager-role">${manager.role.name}</div>
+        </div>
+        </div>`;
+      })
+      .join(" ");
+
+    const getAllManagers = document.querySelector(
+      ".employees-page__managers-section__get-all-managers"
+    ) as HTMLDivElement;
+    if (!getAllManagers) throw new Error("Can't find employees to display.");
+
+    getAllManagers.innerHTML = htmlStr;
   } catch (error) {
     console.log(error);
   }
