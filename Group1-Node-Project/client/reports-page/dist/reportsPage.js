@@ -36,11 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var navBarElement = document.querySelector(".nav-bar");
 var userName = document.querySelector("#userName");
-<<<<<<< HEAD
 var runningClock = document.querySelector(".running-clock");
-// Reports
-=======
->>>>>>> e741459376a4c41b64aa2993a31b8645cef235b9
 var salaryButton = document.querySelector(".reportButtons__salary");
 var managerButton = document.querySelector(".reportButtons__manager");
 var employeeButton = document.querySelector(".reportButtons__employee");
