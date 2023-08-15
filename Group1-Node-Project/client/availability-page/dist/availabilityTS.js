@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 var userDB;
+var runningClock = document.querySelector(".running-clock");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         var totalTimeShift, startTimeString, currentTime;
@@ -53,7 +54,6 @@ function main() {
                         console.log(startTime1);
                         currentTime = Date.now();
                         console.log(currentTime);
-                        // const elapsedTime = currentTime - startTime1;
                         updateClock();
                     }
                     return [2 /*return*/];
@@ -139,6 +139,7 @@ var getActiveManager = function () { return __awaiter(_this, void 0, void 0, fun
 getActiveEmployee();
 //
 var buttons = document.querySelectorAll(".availability-button");
+var clickButton = document.querySelector(".availability-button");
 var comment = document.getElementById("comment");
 var form = document.querySelector(".availabilityForm");
 var submitBtn = document.querySelector(".submit-btn");
@@ -182,13 +183,14 @@ updateChartDates();
 // Toggle function -
 function toggleButton(event) {
     var clickedButton = event.target;
-    var day = clickedButton.getAttribute("data-day");
-    if (clickedButton.textContent === "can") {
-        clickedButton.textContent = "can't";
+    // const day = clickedButton.getAttribute("data-day");
+    var currentImage = window.getComputedStyle(clickedButton).backgroundImage;
+    console.log(currentImage);
+    if (currentImage.includes("can.png")) {
+        clickedButton.style.backgroundImage = "url(\"../cant.png\")";
     }
     else {
-        clickedButton.textContent = "can";
-        clickedButton.style.backgroundColor = "rgb(21, 246, 92)";
+        clickedButton.style.backgroundImage = "url(\"../can.png\")";
     }
 }
 // Handle form submit -

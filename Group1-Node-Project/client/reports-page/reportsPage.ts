@@ -62,7 +62,7 @@ async function main() {
   await getActiveUser();
 
   renderNavBar(navBarElement);
-
+  // runningClockPage(runningClock);
   const totalTimeShift = localStorage.getItem("totalTimeShift");
   if (totalTimeShift) {
     runningClock.innerHTML = totalTimeShift;
@@ -74,7 +74,6 @@ async function main() {
     const currentTime = Date.now();
     console.log(currentTime);
 
-    // const elapsedTime = currentTime - startTime1;
     updateClock();
   }
 
@@ -121,38 +120,57 @@ function renderReportResult(employees) {
   try {
     if (!employees) throw new Error("employees didn't found");
 
-    for (let i = 0; i < employees.length; i++) {
-      // const employeeToShow = employees[i];
-      const listItem = document.createElement("tr");
-      const tdName = document.createElement("td");
-      const tdBirthday = document.createElement("td");
-      const tdEmail = document.createElement("td");
-      const tdPhone = document.createElement("td");
-      const tdSalaryPerHour = document.createElement("td");
-      const tdRole = document.createElement("td");
+    const html: string = employees.map((employee) => {
+      return `
+            <div class="employees-page__employeeCard">
+              <div class="employee-details">
+                <div class="employee-name">${employee.name}</div>
+                <div class="employee-birthday">${employee.birthday}</div>
+                <div class="employee-email">${employee.email}</div>
+                <div class="employee-phone">${employee.phone}</div>
+                <div class="employee-salary">${employee.salaryPerHour}</div>
+                <div class="employee-role">${employee.role.name}</div>
+              </div>
+            </div>
+      `;
+    });
 
-      tdName.appendChild(document.createTextNode(employees[i].name));
-      listItem.appendChild(tdName);
-      tdBirthday.appendChild(document.createTextNode(employees[i].birthday));
-      listItem.appendChild(tdBirthday);
-      tdEmail.appendChild(document.createTextNode(employees[i].email));
-      listItem.appendChild(tdEmail);
-      tdPhone.appendChild(document.createTextNode(employees[i].phone));
-      listItem.appendChild(tdPhone);
-      tdSalaryPerHour.appendChild(
-        document.createTextNode(employees[i].salaryPerHour)
-      );
-      listItem.appendChild(tdSalaryPerHour);
+    // for (let i = 0; i < employees.length; i++) {
+    //   // const employeeToShow = employees[i];
+    //   const listItem = document.createElement("tr");
+    //   const tdName = document.createElement("td");
+    //   const tdBirthday = document.createElement("td");
+    //   const tdEmail = document.createElement("td");
+    //   const tdPhone = document.createElement("td");
+    //   const tdSalaryPerHour = document.createElement("td");
+    //   const tdRole = document.createElement("td");
 
-      if (employees[i].role) {
-        tdRole.appendChild(document.createTextNode(employees[i].role.name));
-        listItem.appendChild(tdRole);
-      } else {
-        tdRole.appendChild(document.createTextNode("manager"));
-        listItem.appendChild(tdRole);
-      }
-      salaryReportResult?.appendChild(listItem);
-    }
+    //   tdName.appendChild(document.createTextNode(employees[i].name));
+    //   listItem.appendChild(tdName);
+    //   tdBirthday.appendChild(document.createTextNode(employees[i].birthday));
+    //   listItem.appendChild(tdBirthday);
+    //   tdEmail.appendChild(document.createTextNode(employees[i].email));
+    //   listItem.appendChild(tdEmail);
+    //   tdPhone.appendChild(document.createTextNode(employees[i].phone));
+    //   listItem.appendChild(tdPhone);
+    //   tdSalaryPerHour.appendChild(
+    //     document.createTextNode(employees[i].salaryPerHour)
+    //   );
+    //   listItem.appendChild(tdSalaryPerHour);
+
+    //   if (employees[i].role) {
+    //     tdRole.appendChild(document.createTextNode(employees[i].role.name));
+    //     listItem.appendChild(tdRole);
+    //   } else {
+    //     tdRole.appendChild(document.createTextNode("manager"));
+    //     listItem.appendChild(tdRole);
+    //   }
+    //   salaryReportResult?.appendChild(listItem);
+    // }
+    const employeeDetails = document.querySelector(
+      ".employeeDetails"
+    ) as HTMLDivElement;
+    employeeDetails.innerHTML = html;
   } catch (error) {
     console.log(error);
   }

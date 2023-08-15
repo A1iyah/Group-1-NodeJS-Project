@@ -79,11 +79,10 @@ exports.getManager = function (req, res) { return __awaiter(void 0, void 0, void
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 manager = req.cookies.manager;
-                if (!manager) {
-                    //console.log("you are not a manager");
-                    res.status(500).send({ message: "you are not a manager" });
-                    return [2 /*return*/];
-                }
+                // if (!manager) {
+                //   res.status(500).send({message: "you are not a manager"});
+                //   return;
+                // }
                 if (!secret)
                     throw new Error("no token");
                 decoded = jwt_simple_1["default"].decode(manager, secret);

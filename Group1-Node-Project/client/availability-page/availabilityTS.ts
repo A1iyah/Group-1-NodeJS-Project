@@ -1,10 +1,11 @@
 let userDB;
+const runningClock = document.querySelector(".running-clock") as HTMLDivElement;
 
 async function main() {
   await getActiveUser();
 
   renderNavBar(navBarElement);
-
+  // runningClockPage();
   const totalTimeShift = localStorage.getItem("totalTimeShift");
   if (totalTimeShift) {
     runningClock.innerHTML = totalTimeShift;
@@ -16,7 +17,6 @@ async function main() {
     const currentTime = Date.now();
     console.log(currentTime);
 
-    // const elapsedTime = currentTime - startTime1;
     updateClock();
   }
 }
@@ -89,6 +89,10 @@ getActiveEmployee();
 const buttons: NodeListOf<HTMLDivElement> = document.querySelectorAll(
   ".availability-button"
 );
+
+const clickButton = document.querySelector(
+  ".availability-button"
+) as HTMLButtonElement;
 const comment = document.getElementById("comment") as HTMLTextAreaElement;
 const form = document.querySelector(".availabilityForm") as HTMLFormElement;
 const submitBtn = document.querySelector(".submit-btn") as HTMLButtonElement;
@@ -157,13 +161,14 @@ updateChartDates();
 // Toggle function -
 function toggleButton(event: Event) {
   const clickedButton = event.target as HTMLButtonElement;
-  const day = clickedButton.getAttribute("data-day");
+  // const day = clickedButton.getAttribute("data-day");
+  const currentImage = window.getComputedStyle(clickedButton).backgroundImage;
+  console.log(currentImage);
 
-  if (clickedButton.textContent === "can") {
-    clickedButton.textContent = "can't";
+  if (currentImage.includes("can.png")) {
+    clickedButton.style.backgroundImage = `url("../cant.png")`;
   } else {
-    clickedButton.textContent = "can";
-    clickedButton.style.backgroundColor = "rgb(21, 246, 92)";
+    clickedButton.style.backgroundImage = `url("../can.png")`;
   }
 }
 

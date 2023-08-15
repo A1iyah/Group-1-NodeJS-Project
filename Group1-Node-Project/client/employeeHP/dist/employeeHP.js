@@ -132,6 +132,7 @@ function updateElapsedTime() {
     totalTimeShift = formattedTime;
     console.log(totalTimeShift);
     localStorage.setItem("totalTimeShift", formattedTime);
+    localStorage.setItem("intervalId", intervalId);
 }
 function startClock() {
     intervalId = setInterval(updateElapsedTime, 1000);
