@@ -1,14 +1,18 @@
 @import "../../styles/variety";
 
-// Employees page -
-.employees-page {
+// Employees page:
+// Buttons -
+.addButtons {
   position: relative;
-  height: 900px;
+  width: 100%;
 
-  .open-add-btn {
+  // border: 1px solid pink;
+
+  &__open-add-btn {
     position: absolute;
-    top: 15px;
-    left: 30px;
+    top: 70px;
+    right: 35px;
+    z-index: 900;
     background-color: black;
     color: white;
     padding: 5px;
@@ -24,37 +28,41 @@
     }
   }
 
-  .add-buttons-container {
+  &__add-buttons-container {
     display: none;
-    position: relative;
-    margin-top: 20px;
+    position: absolute;
+    top: 90px;
+    right: 80px;
+    z-index: 900;
   }
 
-  .add-employees-btn,
-  .add-managers-btn {
+  &__add-employees-btn,
+  &__add-managers-btn {
     @include buttonDesign;
     width: 170px;
-    position: absolute;
-    top: 10px;
-    left: 80px;
+    z-index: 900;
   }
 
-  .add-managers-btn {
-    top: 50px;
+  &__add-managers-btn {
+    margin-top: 10px;
   }
 
-  .add-employees-btn:hover,
-  .add-managers-btn:hover {
+  &__add-employees-btn:hover,
+  &__add-managers-btn:hover {
     @include buttonHover;
   }
+}
 
-  // Employees + Managers section -
+// Page
+.employees-page {
+  position: relative;
+  height: 900px;
+
   &__employees-section,
   &__managers-section {
     position: relative;
     width: 100%;
-    height: 600px;
-    box-shadow: 0px 15px 15px -15px #111;
+    height: 500px;
 
     &__employees-header,
     &__managers-header {
@@ -63,28 +71,28 @@
 
     &__employees-chart,
     &__managers-chart {
-      width: 80%;
-      @include flexibleCenter(absolute, 25%, 50%, -50%, -25%);
+      width: 95%;
+      @include flexibleCenter(absolute, 30%, 50%, -50%, -30%);
 
       th {
-        width: 250px;
-        @include inputShadow;
+        width: 100px;
+        // @include inputShadow;
       }
     }
 
     &__get-all-employees,
     &__get-all-managers {
-      width: 80%;
+      width: 95%;
       height: 50%;
       overflow-y: scroll;
-      @include flexibleCenter(absolute, 60%, 50%, -50%, -60%);
+      @include flexibleCenter(absolute, 90%, 50%, -50%, -90%);
 
       &::-webkit-scrollbar {
-        width: 8px;
+        width: 5px;
       }
 
       &::-webkit-scrollbar-track {
-        box-shadow: inset 0 0 5px grey;
+        box-shadow: inset 0 0 5px rgb(202, 202, 202);
         border-radius: 5px;
       }
 
@@ -105,6 +113,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    border-bottom: 1px solid $mainBlue;
 
     .employee-details,
     .manager-details {
@@ -123,12 +132,12 @@
       .manager-phone,
       .manager-role {
         text-align: center;
-        width: 250px;
+        width: 100%;
         padding: 5px;
         letter-spacing: 0.5px;
         overflow: scroll;
 
-        @include inputShadow;
+        // @include inputShadow;
 
         &::-webkit-scrollbar {
           display: none;

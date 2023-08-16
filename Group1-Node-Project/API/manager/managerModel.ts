@@ -15,12 +15,10 @@ const managerSchema = new Schema({
       ref: "Employee",
     },
   ],
-  role: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Role",
-    },
-  ],
+  role: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Role",
+  },
 });
 
 export const ManagerModel = mongoose.model("Manager", managerSchema);
