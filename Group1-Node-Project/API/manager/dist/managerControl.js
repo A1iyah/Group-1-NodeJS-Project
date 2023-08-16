@@ -146,7 +146,13 @@ exports.getSelectedManager = function (req, res) { return __awaiter(void 0, void
                 return [4 /*yield*/, managerModel_1["default"].find({
                         idNumber: idNumber
                     })
-                        .populate("employees")
+                        .populate({
+                        path: "employees",
+                        populate: {
+                            path: "role",
+                            model: "Role"
+                        }
+                    })
                         .exec()];
             case 1:
                 managerDB = _a.sent();

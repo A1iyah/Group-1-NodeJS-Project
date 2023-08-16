@@ -60,6 +60,10 @@ export const getSelectedSalaryUp = async (req: any, res: any) => {
         match: {
           salaryPerHour: { $gt: salaryUp },
         },
+        populate: {
+          path: "role",
+          model: "Role",
+        },
       })
 
       .populate({
@@ -91,6 +95,10 @@ export const getSelectedSalaryDown = async (req: any, res: any) => {
         path: "managers",
         match: {
           salaryPerHour: { $lt: salaryDown },
+        },
+        populate: {
+          path: "role",
+          model: "Role",
         },
       })
 
@@ -124,6 +132,10 @@ export const getSelectedSalaryBetween = async (req: any, res: any) => {
         path: "managers",
         match: {
           salaryPerHour: { $gte: minSalary, $lte: maxSalary },
+        },
+        populate: {
+          path: "role",
+          model: "Role",
         },
       })
 

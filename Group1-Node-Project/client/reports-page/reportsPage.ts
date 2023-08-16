@@ -58,6 +58,18 @@ const attendanceReportTable = document.querySelector(
   ".attendanceReport"
 ) as HTMLTableElement;
 
+const employeeDetails = document.querySelector(
+  ".employeeDetails"
+) as HTMLDivElement;
+
+const managerDetails = document.querySelector(
+  ".managerDetails"
+) as HTMLDivElement;
+
+const employeeAttendance = document.querySelector(
+  ".employeeAttendance"
+) as HTMLDivElement;
+
 async function main() {
   await getActiveUser();
 
@@ -116,60 +128,49 @@ function updateClock() {
   intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
 
-function renderReportResult(employees) {
+function renderReportResultManager(managers: any) {
+  try {
+    if (!managers) throw new Error("employees didn't found");
+    const html: string = managers.map((manager) => {
+      return `
+            <div class="employees-page__employeeCard">
+            <div class="employee-details">
+              <div class="employee-name">${manager.name}</div>
+              <div class="employee-birthday">${manager.birthday}</div>
+              <div class="employee-email">${manager.email}</div>
+              <div class="employee-phone">${manager.phone}</div>
+              <div class="employee-salary">${manager.salaryPerHour}</div>
+              <div class="employee-role">${manager.role.name}</div>
+            </div>
+          </div>
+      `;
+    });
+
+    managerDetails.innerHTML = html;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function renderReportResultEmployees(employees: any) {
   try {
     if (!employees) throw new Error("employees didn't found");
 
     const html: string = employees.map((employee) => {
       return `
-            <div class="employees-page__employeeCard">
-              <div class="employee-details">
-                <div class="employee-name">${employee.name}</div>
-                <div class="employee-birthday">${employee.birthday}</div>
-                <div class="employee-email">${employee.email}</div>
-                <div class="employee-phone">${employee.phone}</div>
-                <div class="employee-salary">${employee.salaryPerHour}</div>
-                <div class="employee-role">${employee.role.name}</div>
+            <div class="reportCard">
+              <div class="reportCard__report-details">
+                <div class="reportCard__report-details__name">${employee.name}</div>
+                <div class="reportCard__report-details__birthday">${employee.birthday}</div>
+                <div class="reportCard__report-details__email">${employee.email}</div>
+                <div class="reportCard__report-details__phone">${employee.phone}</div>
+                <div class="reportCard__report-details__salary">${employee.salaryPerHour}</div>
+                <div class="reportCard__report-details__role">${employee.role.name}</div>
               </div>
             </div>
       `;
     });
 
-    // for (let i = 0; i < employees.length; i++) {
-    //   // const employeeToShow = employees[i];
-    //   const listItem = document.createElement("tr");
-    //   const tdName = document.createElement("td");
-    //   const tdBirthday = document.createElement("td");
-    //   const tdEmail = document.createElement("td");
-    //   const tdPhone = document.createElement("td");
-    //   const tdSalaryPerHour = document.createElement("td");
-    //   const tdRole = document.createElement("td");
-
-    //   tdName.appendChild(document.createTextNode(employees[i].name));
-    //   listItem.appendChild(tdName);
-    //   tdBirthday.appendChild(document.createTextNode(employees[i].birthday));
-    //   listItem.appendChild(tdBirthday);
-    //   tdEmail.appendChild(document.createTextNode(employees[i].email));
-    //   listItem.appendChild(tdEmail);
-    //   tdPhone.appendChild(document.createTextNode(employees[i].phone));
-    //   listItem.appendChild(tdPhone);
-    //   tdSalaryPerHour.appendChild(
-    //     document.createTextNode(employees[i].salaryPerHour)
-    //   );
-    //   listItem.appendChild(tdSalaryPerHour);
-
-    //   if (employees[i].role) {
-    //     tdRole.appendChild(document.createTextNode(employees[i].role.name));
-    //     listItem.appendChild(tdRole);
-    //   } else {
-    //     tdRole.appendChild(document.createTextNode("manager"));
-    //     listItem.appendChild(tdRole);
-    //   }
-    //   salaryReportResult?.appendChild(listItem);
-    // }
-    const employeeDetails = document.querySelector(
-      ".employeeDetails"
-    ) as HTMLDivElement;
     employeeDetails.innerHTML = html;
   } catch (error) {
     console.log(error);
@@ -180,39 +181,39 @@ function renderShiftResult(employees) {
   try {
     if (!employees) throw new Error("employee not found");
     attendanceReportTable.style.display = "block";
-    for (let i = 0; employees.attendance.length - 1 >= i; i++) {
-      const listItem = document.createElement("tr");
-      const tdDateHour = document.createElement("td");
-      const tdDuration = document.createElement("td");
+    let attendanceArr = employees.attendance;
 
-      tdDateHour.appendChild(
-        document.createTextNode(employees.attendance[i].date)
-      );
-      listItem.appendChild(tdDateHour);
-      tdDuration.appendChild(
-        document.createTextNode(employees.attendance[i].clock)
-      );
-      listItem.appendChild(tdDuration);
-      attendanceReport?.appendChild(listItem);
-    }
+    const html: string = attendanceArr.map((attendance) => {
+      return `
+            <div class="employees-page__employeeCard">
+              <div class="employee-details">
+                <div class="employee-name">${attendance.date}</div>
+                <div class="employee-birthday">${attendance.clock}</div>
+              </div>
+            </div>
+      `;
+    });
+
+    employeeAttendance.innerHTML = html;
   } catch (error) {
     console.log(error);
   }
 }
 
 salaryButton.addEventListener("click", (e) => {
+  resetPage();
   reportsBySalary.style.display = "flex";
   reportsByEmployee.style.display = "none";
   reportsByManager.style.display = "none";
-  resetPage();
 });
 
 function HandleSalaryUp(ev) {
   try {
+    resetPage();
     ev.preventDefault();
     const salaryUp = ev.target.elements.salaryUp.value;
     if (!salaryUp) throw new Error("no salary entered");
-    resetPage();
+
     console.log(salaryUp);
     if (userType === UserType.Admin) {
       const _id = user._id;
@@ -228,9 +229,10 @@ function HandleSalaryUp(ev) {
         .then((res) => res.json())
         .then(({ employees }) => {
           console.log(employees.managers);
+          console.log(employees.employees);
 
-          renderReportResult(employees.managers);
-          renderReportResult(employees.employees);
+          renderReportResultManager(employees.managers);
+          renderReportResultEmployees(employees.employees);
         });
     } else if (userType === UserType.Manager) {
       const _id = user._id;
@@ -244,7 +246,7 @@ function HandleSalaryUp(ev) {
       })
         .then((res) => res.json())
         .then(({ employees }) => {
-          renderReportResult(employees.employees);
+          renderReportResultEmployees(employees.employees);
         });
     }
   } catch (error) {
@@ -276,8 +278,8 @@ function HandleSalaryDown(ev) {
         .then(({ employees }) => {
           console.log(employees.managers);
 
-          renderReportResult(employees.managers);
-          renderReportResult(employees.employees);
+          renderReportResultManager(employees.managers);
+          renderReportResultEmployees(employees.employees);
         });
     } else if (userType === UserType.Manager) {
       const _id = user._id;
@@ -294,7 +296,7 @@ function HandleSalaryDown(ev) {
         .then(({ employees }) => {
           console.log(employees.employees);
 
-          renderReportResult(employees.employees);
+          renderReportResultEmployees(employees.employees);
         });
     }
   } catch (error) {
@@ -328,8 +330,8 @@ function HandleSalaryBetween(ev) {
           console.log(employees.employees);
           console.log(employees.managers);
 
-          renderReportResult(employees.managers);
-          renderReportResult(employees.employees);
+          renderReportResultManager(employees.managers);
+          renderReportResultEmployees(employees.employees);
         });
     } else if (userType === UserType.Manager) {
       const _id = user._id;
@@ -343,7 +345,7 @@ function HandleSalaryBetween(ev) {
       })
         .then((res) => res.json())
         .then(({ employees }) => {
-          renderReportResult(employees.employees);
+          renderReportResultEmployees(employees.employees);
         });
     }
   } catch (error) {
@@ -443,7 +445,7 @@ function HandleEmployeeReport(ev) {
       .then(({ employeeDB }) => {
         console.log(employeeDB[0]);
 
-        renderReportResult(employeeDB);
+        renderReportResultEmployees(employeeDB);
         renderShiftResult(employeeDB[0]);
       });
   } catch (error) {
@@ -501,8 +503,8 @@ function HandleManagerReport(ev) {
       .then(({ managerDB }) => {
         console.log(managerDB[0].employees);
 
-        renderReportResult(managerDB);
-        renderReportResult(managerDB[0].employees);
+        renderReportResultManager(managerDB);
+        renderReportResultManager(managerDB[0].employees);
         renderShiftResult(managerDB[0]);
       });
   } catch (error) {
@@ -525,7 +527,7 @@ function employeeUsingReport() {
       .then(({ employeeDB }) => {
         console.log(employeeDB);
 
-        renderReportResult(employeeDB);
+        renderReportResultEmployees(employeeDB);
         renderShiftResult(employeeDB[0]);
       });
   } catch (error) {
@@ -534,12 +536,8 @@ function employeeUsingReport() {
 }
 
 function resetPage() {
-  for (let i = salaryReportResult.children.length - 1; i > 0; i--) {
-    salaryReportResult.removeChild(salaryReportResult.children[i]);
-  }
-
-  for (let i = attendanceReport.children.length - 1; i > 0; i--) {
-    attendanceReport.removeChild(attendanceReport.children[i]);
-  }
+  managerDetails.innerHTML = "";
+  employeeDetails.innerHTML = "";
   attendanceReportTable.style.display = "none";
+  employeeAttendance.innerHTML = "";
 }

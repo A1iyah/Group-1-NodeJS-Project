@@ -16,15 +16,14 @@ export const addEmployee = async (req: any, res: any) => {
       birthday,
       salaryPerHour,
       role,
+      managerID,
     } = req.body;
 
-    let roleObj = await RoleModel.findOne({ name: role });
+    console.log(managerID);
+    const selectedRole = await RoleModel.findOne({ name: role }).select("_id");
 
-    if (!roleObj) {
-      roleObj = new RoleModel({
-        name: role,
-      });
-      await roleObj.save();
+    if (!selectedRole) {
+      throw new Error("Role not found");
     }
 
     const employeeDB = await EmployeeModel.create({
@@ -35,11 +34,37 @@ export const addEmployee = async (req: any, res: any) => {
       phone,
       birthday,
       salaryPerHour,
-      role: roleObj._id,
+      role: selectedRole._id,
     });
+
     console.log(employeeDB);
 
-    res.status(200).send({ ok: true, employeeDB });
+    const newUserId = await EmployeeModel.find({ idNumber: idNumber }).select({
+      _id: 1,
+    });
+
+    const newUserIdString = managerID.toString();
+    const managerIdString = newUserId[0]._id.toString();
+
+    const updateManager = await ManagerModel.findByIdAndUpdate(
+      managerID,
+      { $push: { employees: newUserId[0]._id } },
+      { new: true }
+    );
+
+    const managerDB = await ManagerModel.findById(managerID)
+      .populate({
+        path: "employees",
+        populate: {
+          path: "role",
+          model: "Role",
+        },
+      })
+      .exec();
+
+    console.log(managerDB);
+
+    res.status(200).send({ ok: true, managerDB });
   } catch (error) {
     console.log(error);
     res.status(500).send("did not get data");
@@ -135,25 +160,55 @@ export const getMyTeam = async (req: any, res: any) => {
   try {
     const { _id } = req.body;
 
-    const employee = await EmployeeModel.findById(_id);
+    // const managerID = await ManagerModel.findOne({
+    //   employee: { _id },
+    // });
 
-    if (!employee) {
-      throw new Error("Employee not found");
+    const manager = await ManagerModel.findOne({ employees: _id })
+      .populate("employees")
+      .exec();
+
+    console.log(manager);
+
+    if (manager) {
+      const managerDetails = manager.toJSON();
+      console.log("Manager:", managerDetails);
+      console.log("Employee:", managerDetails.employees);
+    } else {
+      console.log("No manager found for the employee.");
     }
 
-    const managerId = employee.manager;
+    // if (employees) console.log(employees.employees);
 
-    if (!managerId) {
-      throw new Error("Employee does not have a manager");
-    }
-
-    const teamEmployees = await EmployeeModel.find({
-      manager: managerId,
-    }).populate("role");
-
-    res.send({ employees: teamEmployees });
+    // res.send({ employees });
   } catch (error) {
     console.log(error);
-    res.status(500).send({ error: "Internal Server Error" });
   }
 };
+
+// export const getMyTeam = async (req: any, res: any) => {
+//   try {
+//     const { _id } = req.body;
+
+//     const employee = await EmployeeModel.findById(_id);
+
+//     if (!employee) {
+//       throw new Error("Employee not found");
+//     }
+
+//     const managerId = employee.manager;
+
+//     if (!managerId) {
+//       throw new Error("Employee does not have a manager");
+//     }
+
+//     const teamEmployees = await EmployeeModel.find({
+//       manager: managerId,
+//     }).populate("role");
+
+//     res.send({ employees: teamEmployees });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send({ error: "Internal Server Error" });
+//   }
+// };

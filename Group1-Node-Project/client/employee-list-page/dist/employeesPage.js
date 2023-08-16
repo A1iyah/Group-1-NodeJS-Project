@@ -103,6 +103,7 @@ var addNewEmployeesForm = document.querySelector(".employees-page__add-new-emplo
 var addNewManagersForm = document.querySelector(".employees-page__add-new-managers");
 var managerSection = document.querySelector(".employees-page__managers-section");
 var openDiv = null;
+var isFormsOpen = false;
 function updateUIForUserType(userType) {
     if (userType === UserType.Admin) {
         openAddButton.style.display = "block";
@@ -127,18 +128,26 @@ openAddButton.addEventListener("click", function () {
     if (userType === UserType.Admin) {
         if (addButtonsContainer.style.display === "block") {
             addButtonsContainer.style.display = "none";
+            addNewEmployeesForm.style.display = "none";
+            addNewManagersForm.style.display = "none";
+            isFormsOpen = false;
         }
         else {
             addButtonsContainer.style.display = "block";
             addManagersBtnContainer.style.display = "block";
+            isFormsOpen = true;
         }
     }
     else if (userType === UserType.Manager) {
         if (addButtonsContainer.style.display === "block") {
             addButtonsContainer.style.display = "none";
+            addNewEmployeesForm.style.display = "none";
+            addNewManagersForm.style.display = "none";
+            isFormsOpen = false;
         }
         else {
             addButtonsContainer.style.display = "block";
+            isFormsOpen = true;
         }
     }
 });
@@ -146,6 +155,7 @@ addEmployeeBtn.addEventListener("click", function () {
     if (openDiv === addNewEmployeesForm) {
         addNewEmployeesForm.style.display = "none";
         openDiv = null;
+        isFormsOpen = false;
     }
     else {
         if (openDiv) {
@@ -153,12 +163,14 @@ addEmployeeBtn.addEventListener("click", function () {
         }
         addNewEmployeesForm.style.display = "block";
         openDiv = addNewEmployeesForm;
+        isFormsOpen = true;
     }
 });
 addManagerBtn.addEventListener("click", function () {
     if (openDiv === addNewManagersForm) {
         addNewManagersForm.style.display = "none";
         openDiv = null;
+        isFormsOpen = false;
     }
     else {
         if (openDiv) {
@@ -166,6 +178,7 @@ addManagerBtn.addEventListener("click", function () {
         }
         addNewManagersForm.style.display = "block";
         openDiv = addNewManagersForm;
+        isFormsOpen = true;
     }
 });
 updateUIForUserType(userType);
@@ -173,52 +186,77 @@ updateUIForUserType(userType);
 function handleCreateEmployee(evt) {
     try {
         evt.preventDefault();
-        var name = evt.target.elements.name.value;
-        var email = evt.target.elements.email.value;
-        var password = evt.target.elements.password.value;
-        var idNumber = evt.target.elements.idNumber.value;
-        var phone = evt.target.elements.phone.value;
-        var birthday = evt.target.elements.birthday.value;
-        var salaryPerHour = evt.target.elements.salaryPerHour.value;
-        var role = evt.target.elements.role.value;
-        if (!name)
+        console.log(user._id);
+        var managerID_1 = user._id;
+        var name_1 = evt.target.elements.name.value;
+        var email_1 = evt.target.elements.email.value;
+        var password_1 = evt.target.elements.password.value;
+        var idNumber_1 = evt.target.elements.idNumber.value;
+        var phone_1 = evt.target.elements.phone.value;
+        var birthday_1 = evt.target.elements.birthday.value;
+        var salaryPerHour_1 = evt.target.elements.salaryPerHour.value;
+        var role_1 = evt.target.elements.role.value;
+        if (!name_1)
             throw new Error("No name");
-        if (!email)
+        if (!email_1)
             throw new Error("No email");
-        if (!password)
+        if (!password_1)
             throw new Error("No password");
-        if (!idNumber)
+        if (!idNumber_1)
             throw new Error("No idNumber");
-        if (!phone)
+        if (!phone_1)
             throw new Error("No phone");
-        if (!birthday)
+        if (!birthday_1)
             throw new Error("No birthday");
-        if (!salaryPerHour)
+        if (!salaryPerHour_1)
             throw new Error("No salary");
-        if (!role)
+        if (!role_1)
             throw new Error("No role");
-        var newEmployee = {
-            name: name,
-            email: email,
-            password: password,
-            idNumber: idNumber,
-            phone: phone,
-            birthday: birthday,
-            salaryPerHour: salaryPerHour,
-            role: role
-        };
-        fetch("/api/employees-page/add-employee", {
+        fetch("/api/employees-page/get-role-id", {
             method: "POST",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(newEmployee)
+            body: JSON.stringify({ targetName: role_1 })
         })
             .then(function (res) { return res.json(); })
             .then(function (data) {
-            console.log(data);
-            // handleGetWorkers();
+            var newEmployee = {
+                name: name_1,
+                email: email_1,
+                password: password_1,
+                idNumber: idNumber_1,
+                phone: phone_1,
+                birthday: birthday_1,
+                salaryPerHour: salaryPerHour_1,
+                role: role_1
+            };
+            fetch("/api/employees-page/add-employee", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: name_1,
+                    email: email_1,
+                    password: password_1,
+                    idNumber: idNumber_1,
+                    phone: phone_1,
+                    birthday: birthday_1,
+                    salaryPerHour: salaryPerHour_1,
+                    role: role_1,
+                    managerID: managerID_1
+                })
+            })
+                .then(function (res) { return res.json(); })
+                .then(function (data) {
+                console.log(data);
+                renderEmployeeList(data.managerDB.employees);
+            })["catch"](function (error) {
+                console.error(error);
+            });
         })["catch"](function (error) {
             console.error(error);
         });
@@ -363,6 +401,7 @@ var handleGetWorkers = function () {
 };
 var renderEmployeeList = function (employees) {
     try {
+        console.log(employees);
         var htmlStr = employees
             .map(function (employee) {
             return "<div class=\"employees-page__employeeCard\">\n        <div class=\"employee-details\">\n        <div class=\"employee-name\">" + employee.name + "</div>\n        <div class=\"employee-birthday\">" + employee.birthday + "</div>\n        <div class=\"employee-email\">" + employee.email + "</div>\n        <div class=\"employee-phone\">" + employee.phone + "</div>\n        <div class=\"employee-role\">" + employee.role.name + "</div>\n        </div>\n        </div>";

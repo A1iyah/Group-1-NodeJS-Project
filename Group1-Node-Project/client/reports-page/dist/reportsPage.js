@@ -51,6 +51,9 @@ var reportSalaryDown = document.querySelector(".salaryReports__salaryDown");
 var reportSalaryBetween = document.querySelector(".salaryReports__between");
 var attendanceReport = document.querySelector("#attendanceReport");
 var attendanceReportTable = document.querySelector(".attendanceReport");
+var employeeDetails = document.querySelector(".employeeDetails");
+var managerDetails = document.querySelector(".managerDetails");
+var employeeAttendance = document.querySelector(".employeeAttendance");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         var totalTimeShift, startTimeString, currentTime;
@@ -106,44 +109,26 @@ function continueUpdateElapsedTime() {
 function updateClock() {
     intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
-function renderReportResult(employees) {
+function renderReportResultManager(managers) {
+    try {
+        if (!managers)
+            throw new Error("employees didn't found");
+        var html = managers.map(function (manager) {
+            return "\n            <div class=\"employees-page__employeeCard\">\n            <div class=\"employee-details\">\n              <div class=\"employee-name\">" + manager.name + "</div>\n              <div class=\"employee-birthday\">" + manager.birthday + "</div>\n              <div class=\"employee-email\">" + manager.email + "</div>\n              <div class=\"employee-phone\">" + manager.phone + "</div>\n              <div class=\"employee-salary\">" + manager.salaryPerHour + "</div>\n              <div class=\"employee-role\">" + manager.role.name + "</div>\n            </div>\n          </div>\n      ";
+        });
+        managerDetails.innerHTML = html;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+function renderReportResultEmployees(employees) {
     try {
         if (!employees)
             throw new Error("employees didn't found");
         var html = employees.map(function (employee) {
-            return "\n            <div class=\"employees-page__employeeCard\">\n              <div class=\"employee-details\">\n                <div class=\"employee-name\">" + employee.name + "</div>\n                <div class=\"employee-birthday\">" + employee.birthday + "</div>\n                <div class=\"employee-email\">" + employee.email + "</div>\n                <div class=\"employee-phone\">" + employee.phone + "</div>\n                <div class=\"employee-salary\">" + employee.salaryPerHour + "</div>\n                <div class=\"employee-role\">" + employee.role.name + "</div>\n              </div>\n            </div>\n      ";
+            return "\n            <div class=\"reportCard\">\n              <div class=\"reportCard__report-details\">\n                <div class=\"reportCard__report-details__name\">" + employee.name + "</div>\n                <div class=\"reportCard__report-details__birthday\">" + employee.birthday + "</div>\n                <div class=\"reportCard__report-details__email\">" + employee.email + "</div>\n                <div class=\"reportCard__report-details__phone\">" + employee.phone + "</div>\n                <div class=\"reportCard__report-details__salary\">" + employee.salaryPerHour + "</div>\n                <div class=\"reportCard__report-details__role\">" + employee.role.name + "</div>\n              </div>\n            </div>\n      ";
         });
-        // for (let i = 0; i < employees.length; i++) {
-        //   // const employeeToShow = employees[i];
-        //   const listItem = document.createElement("tr");
-        //   const tdName = document.createElement("td");
-        //   const tdBirthday = document.createElement("td");
-        //   const tdEmail = document.createElement("td");
-        //   const tdPhone = document.createElement("td");
-        //   const tdSalaryPerHour = document.createElement("td");
-        //   const tdRole = document.createElement("td");
-        //   tdName.appendChild(document.createTextNode(employees[i].name));
-        //   listItem.appendChild(tdName);
-        //   tdBirthday.appendChild(document.createTextNode(employees[i].birthday));
-        //   listItem.appendChild(tdBirthday);
-        //   tdEmail.appendChild(document.createTextNode(employees[i].email));
-        //   listItem.appendChild(tdEmail);
-        //   tdPhone.appendChild(document.createTextNode(employees[i].phone));
-        //   listItem.appendChild(tdPhone);
-        //   tdSalaryPerHour.appendChild(
-        //     document.createTextNode(employees[i].salaryPerHour)
-        //   );
-        //   listItem.appendChild(tdSalaryPerHour);
-        //   if (employees[i].role) {
-        //     tdRole.appendChild(document.createTextNode(employees[i].role.name));
-        //     listItem.appendChild(tdRole);
-        //   } else {
-        //     tdRole.appendChild(document.createTextNode("manager"));
-        //     listItem.appendChild(tdRole);
-        //   }
-        //   salaryReportResult?.appendChild(listItem);
-        // }
-        var employeeDetails = document.querySelector(".employeeDetails");
         employeeDetails.innerHTML = html;
     }
     catch (error) {
@@ -155,34 +140,29 @@ function renderShiftResult(employees) {
         if (!employees)
             throw new Error("employee not found");
         attendanceReportTable.style.display = "block";
-        for (var i = 0; employees.attendance.length - 1 >= i; i++) {
-            var listItem = document.createElement("tr");
-            var tdDateHour = document.createElement("td");
-            var tdDuration = document.createElement("td");
-            tdDateHour.appendChild(document.createTextNode(employees.attendance[i].date));
-            listItem.appendChild(tdDateHour);
-            tdDuration.appendChild(document.createTextNode(employees.attendance[i].clock));
-            listItem.appendChild(tdDuration);
-            attendanceReport === null || attendanceReport === void 0 ? void 0 : attendanceReport.appendChild(listItem);
-        }
+        var attendanceArr = employees.attendance;
+        var html = attendanceArr.map(function (attendance) {
+            return "\n            <div class=\"employees-page__employeeCard\">\n              <div class=\"employee-details\">\n                <div class=\"employee-name\">" + attendance.date + "</div>\n                <div class=\"employee-birthday\">" + attendance.clock + "</div>\n              </div>\n            </div>\n      ";
+        });
+        employeeAttendance.innerHTML = html;
     }
     catch (error) {
         console.log(error);
     }
 }
 salaryButton.addEventListener("click", function (e) {
+    resetPage();
     reportsBySalary.style.display = "flex";
     reportsByEmployee.style.display = "none";
     reportsByManager.style.display = "none";
-    resetPage();
 });
 function HandleSalaryUp(ev) {
     try {
+        resetPage();
         ev.preventDefault();
         var salaryUp = ev.target.elements.salaryUp.value;
         if (!salaryUp)
             throw new Error("no salary entered");
-        resetPage();
         console.log(salaryUp);
         if (userType === UserType.Admin) {
             var _id = user._id;
@@ -198,8 +178,9 @@ function HandleSalaryUp(ev) {
                 .then(function (_a) {
                 var employees = _a.employees;
                 console.log(employees.managers);
-                renderReportResult(employees.managers);
-                renderReportResult(employees.employees);
+                console.log(employees.employees);
+                renderReportResultManager(employees.managers);
+                renderReportResultEmployees(employees.employees);
             });
         }
         else if (userType === UserType.Manager) {
@@ -215,7 +196,7 @@ function HandleSalaryUp(ev) {
                 .then(function (res) { return res.json(); })
                 .then(function (_a) {
                 var employees = _a.employees;
-                renderReportResult(employees.employees);
+                renderReportResultEmployees(employees.employees);
             });
         }
     }
@@ -245,8 +226,8 @@ function HandleSalaryDown(ev) {
                 .then(function (_a) {
                 var employees = _a.employees;
                 console.log(employees.managers);
-                renderReportResult(employees.managers);
-                renderReportResult(employees.employees);
+                renderReportResultManager(employees.managers);
+                renderReportResultEmployees(employees.employees);
             });
         }
         else if (userType === UserType.Manager) {
@@ -263,7 +244,7 @@ function HandleSalaryDown(ev) {
                 .then(function (_a) {
                 var employees = _a.employees;
                 console.log(employees.employees);
-                renderReportResult(employees.employees);
+                renderReportResultEmployees(employees.employees);
             });
         }
     }
@@ -297,8 +278,8 @@ function HandleSalaryBetween(ev) {
                 var employees = _a.employees;
                 console.log(employees.employees);
                 console.log(employees.managers);
-                renderReportResult(employees.managers);
-                renderReportResult(employees.employees);
+                renderReportResultManager(employees.managers);
+                renderReportResultEmployees(employees.employees);
             });
         }
         else if (userType === UserType.Manager) {
@@ -314,7 +295,7 @@ function HandleSalaryBetween(ev) {
                 .then(function (res) { return res.json(); })
                 .then(function (_a) {
                 var employees = _a.employees;
-                renderReportResult(employees.employees);
+                renderReportResultEmployees(employees.employees);
             });
         }
     }
@@ -385,11 +366,11 @@ function HandleEmployeeReport(ev) {
     try {
         ev.preventDefault();
         resetPage();
-        var employeeDetails = ev.target.elements.employees.value;
-        var _a = employeeDetails
+        var employeeDetails_1 = ev.target.elements.employees.value;
+        var _a = employeeDetails_1
             .match(/^(.*?)\s-\s(\d+)$/)
             .slice(1), name = _a[0], idNumber = _a[1];
-        if (!employeeDetails)
+        if (!employeeDetails_1)
             throw new Error("no employee selected");
         console.log(name);
         console.log(idNumber);
@@ -405,7 +386,7 @@ function HandleEmployeeReport(ev) {
             .then(function (_a) {
             var employeeDB = _a.employeeDB;
             console.log(employeeDB[0]);
-            renderReportResult(employeeDB);
+            renderReportResultEmployees(employeeDB);
             renderShiftResult(employeeDB[0]);
         });
     }
@@ -443,9 +424,9 @@ function HandleManagerReport(ev) {
     try {
         resetPage();
         ev.preventDefault();
-        var managerDetails = ev.target.elements.managers.value;
-        var _a = managerDetails.match(/^(.*?)\s-\s(\d+)$/).slice(1), name = _a[0], idNumber = _a[1];
-        if (!managerDetails)
+        var managerDetails_1 = ev.target.elements.managers.value;
+        var _a = managerDetails_1.match(/^(.*?)\s-\s(\d+)$/).slice(1), name = _a[0], idNumber = _a[1];
+        if (!managerDetails_1)
             throw new Error("no employee selected");
         console.log(name);
         console.log(idNumber);
@@ -461,8 +442,8 @@ function HandleManagerReport(ev) {
             .then(function (_a) {
             var managerDB = _a.managerDB;
             console.log(managerDB[0].employees);
-            renderReportResult(managerDB);
-            renderReportResult(managerDB[0].employees);
+            renderReportResultManager(managerDB);
+            renderReportResultManager(managerDB[0].employees);
             renderShiftResult(managerDB[0]);
         });
     }
@@ -485,7 +466,7 @@ function employeeUsingReport() {
             .then(function (_a) {
             var employeeDB = _a.employeeDB;
             console.log(employeeDB);
-            renderReportResult(employeeDB);
+            renderReportResultEmployees(employeeDB);
             renderShiftResult(employeeDB[0]);
         });
     }
@@ -494,11 +475,8 @@ function employeeUsingReport() {
     }
 }
 function resetPage() {
-    for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
-        salaryReportResult.removeChild(salaryReportResult.children[i]);
-    }
-    for (var i = attendanceReport.children.length - 1; i > 0; i--) {
-        attendanceReport.removeChild(attendanceReport.children[i]);
-    }
+    managerDetails.innerHTML = "";
+    employeeDetails.innerHTML = "";
     attendanceReportTable.style.display = "none";
+    employeeAttendance.innerHTML = "";
 }

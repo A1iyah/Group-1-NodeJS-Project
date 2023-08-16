@@ -95,6 +95,7 @@ const managerSection = document.querySelector(
 ) as HTMLDivElement;
 
 let openDiv: HTMLDivElement | null = null;
+let isFormsOpen = false;
 
 function updateUIForUserType(userType: UserType) {
   if (userType === UserType.Admin) {
@@ -119,15 +120,23 @@ openAddButton.addEventListener("click", () => {
   if (userType === UserType.Admin) {
     if (addButtonsContainer.style.display === "block") {
       addButtonsContainer.style.display = "none";
+      addNewEmployeesForm.style.display = "none";
+      addNewManagersForm.style.display = "none";
+      isFormsOpen = false;
     } else {
       addButtonsContainer.style.display = "block";
       addManagersBtnContainer.style.display = "block";
+      isFormsOpen = true;
     }
   } else if (userType === UserType.Manager) {
     if (addButtonsContainer.style.display === "block") {
       addButtonsContainer.style.display = "none";
+      addNewEmployeesForm.style.display = "none";
+      addNewManagersForm.style.display = "none";
+      isFormsOpen = false;
     } else {
       addButtonsContainer.style.display = "block";
+      isFormsOpen = true;
     }
   }
 });
@@ -136,12 +145,14 @@ addEmployeeBtn.addEventListener("click", () => {
   if (openDiv === addNewEmployeesForm) {
     addNewEmployeesForm.style.display = "none";
     openDiv = null;
+    isFormsOpen = false;
   } else {
     if (openDiv) {
       openDiv.style.display = "none";
     }
     addNewEmployeesForm.style.display = "block";
     openDiv = addNewEmployeesForm;
+    isFormsOpen = true;
   }
 });
 
@@ -149,12 +160,14 @@ addManagerBtn.addEventListener("click", () => {
   if (openDiv === addNewManagersForm) {
     addNewManagersForm.style.display = "none";
     openDiv = null;
+    isFormsOpen = false;
   } else {
     if (openDiv) {
       openDiv.style.display = "none";
     }
     addNewManagersForm.style.display = "block";
     openDiv = addNewManagersForm;
+    isFormsOpen = true;
   }
 });
 updateUIForUserType(userType);
@@ -163,6 +176,8 @@ updateUIForUserType(userType);
 function handleCreateEmployee(evt: any) {
   try {
     evt.preventDefault();
+    console.log(user._id);
+    const managerID = user._id;
     const name = evt.target.elements.name.value;
     const email = evt.target.elements.email.value;
     const password = evt.target.elements.password.value;
@@ -181,29 +196,53 @@ function handleCreateEmployee(evt: any) {
     if (!salaryPerHour) throw new Error("No salary");
     if (!role) throw new Error("No role");
 
-    const newEmployee: any = {
-      name,
-      email,
-      password,
-      idNumber,
-      phone,
-      birthday,
-      salaryPerHour,
-      role,
-    };
-
-    fetch("/api/employees-page/add-employee", {
+    fetch("/api/employees-page/get-role-id", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newEmployee),
+      body: JSON.stringify({ targetName: role }),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        // handleGetWorkers();
+        const newEmployee: any = {
+          name,
+          email,
+          password,
+          idNumber,
+          phone,
+          birthday,
+          salaryPerHour,
+          role,
+        };
+
+        fetch("/api/employees-page/add-employee", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            password,
+            idNumber,
+            phone,
+            birthday,
+            salaryPerHour,
+            role,
+            managerID,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            renderEmployeeList(data.managerDB.employees);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       })
       .catch((error) => {
         console.error(error);
@@ -351,6 +390,8 @@ const handleGetWorkers = () => {
 
 const renderEmployeeList = (employees: any) => {
   try {
+    console.log(employees);
+
     const htmlStr: string = employees
       .map((employee: any) => {
         return `<div class="employees-page__employeeCard">
