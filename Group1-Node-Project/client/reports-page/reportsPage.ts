@@ -116,10 +116,10 @@ function updateClock() {
   intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
 
-function renderReportResult(employees) {
+function renderReportResult(managers, employees) {
   try {
     if (!employees) throw new Error("employees didn't found");
-
+    let totalHtml: string = "";
     const html: string = employees.map((employee) => {
       return `
             <div class="employees-page__employeeCard">
@@ -134,7 +134,22 @@ function renderReportResult(employees) {
             </div>
       `;
     });
-
+    totalHtml += html;
+    const html2: string = managers.map((manager) => {
+      return `
+            <div class="employees-page__employeeCard">
+              <div class="employee-details">
+                <div class="employee-name">${manager.name}</div>
+                <div class="employee-birthday">${manager.birthday}</div>
+                <div class="employee-email">${manager.email}</div>
+                <div class="employee-phone">${manager.phone}</div>
+                <div class="employee-salary">${manager.salaryPerHour}</div>
+                <div class="employee-role">${manager.role.name}</div>
+              </div>
+            </div>
+      `;
+    });
+    totalHtml += html2;
     // for (let i = 0; i < employees.length; i++) {
     //   // const employeeToShow = employees[i];
     //   const listItem = document.createElement("tr");
@@ -170,7 +185,7 @@ function renderReportResult(employees) {
     const employeeDetails = document.querySelector(
       ".employeeDetails"
     ) as HTMLDivElement;
-    employeeDetails.innerHTML = html;
+    employeeDetails.innerHTML = totalHtml;
   } catch (error) {
     console.log(error);
   }
@@ -180,21 +195,38 @@ function renderShiftResult(employees) {
   try {
     if (!employees) throw new Error("employee not found");
     attendanceReportTable.style.display = "block";
-    for (let i = 0; employees.attendance.length - 1 >= i; i++) {
-      const listItem = document.createElement("tr");
-      const tdDateHour = document.createElement("td");
-      const tdDuration = document.createElement("td");
+    let attendanceArr = employees.attendance;
 
-      tdDateHour.appendChild(
-        document.createTextNode(employees.attendance[i].date)
-      );
-      listItem.appendChild(tdDateHour);
-      tdDuration.appendChild(
-        document.createTextNode(employees.attendance[i].clock)
-      );
-      listItem.appendChild(tdDuration);
-      attendanceReport?.appendChild(listItem);
-    }
+    const html: string = attendanceArr.map((attendance) => {
+      return `
+            <div class="employees-page__employeeCard">
+              <div class="employee-details">
+                <div class="employee-name">${attendance.date}</div>
+                <div class="employee-birthday">${attendance.clock}</div>
+              </div>
+            </div>
+      `;
+    });
+    const employeeAttendance = document.querySelector(
+      ".employeeAttendance"
+    ) as HTMLDivElement;
+    employeeAttendance.innerHTML = html;
+
+    // for (let i = 0; employees.attendance.length - 1 >= i; i++) {
+    //   const listItem = document.createElement("tr");
+    //   const tdDateHour = document.createElement("td");
+    //   const tdDuration = document.createElement("td");
+
+    //   tdDateHour.appendChild(
+    //     document.createTextNode(employees.attendance[i].date)
+    //   );
+    //   listItem.appendChild(tdDateHour);
+    //   tdDuration.appendChild(
+    //     document.createTextNode(employees.attendance[i].clock)
+    //   );
+    //   listItem.appendChild(tdDuration);
+    //   attendanceReport?.appendChild(listItem);
+    // }
   } catch (error) {
     console.log(error);
   }
@@ -228,9 +260,11 @@ function HandleSalaryUp(ev) {
         .then((res) => res.json())
         .then(({ employees }) => {
           console.log(employees.managers);
+          console.log(employees.employees);
 
-          renderReportResult(employees.managers);
-          renderReportResult(employees.employees);
+          renderReportResult(employees.managers, employees.employees);
+          // renderReportResult(employees.managers, employees.employees);
+          // renderReportResult();
         });
     } else if (userType === UserType.Manager) {
       const _id = user._id;
@@ -276,8 +310,8 @@ function HandleSalaryDown(ev) {
         .then(({ employees }) => {
           console.log(employees.managers);
 
-          renderReportResult(employees.managers);
-          renderReportResult(employees.employees);
+          renderReportResult(employees.managers, employees.employees);
+          // renderReportResult(employees.employees);
         });
     } else if (userType === UserType.Manager) {
       const _id = user._id;
