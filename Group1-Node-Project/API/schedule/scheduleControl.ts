@@ -78,29 +78,18 @@ export const addEmployeeToSchedule = async (req: any, res: any) =>
         if (!thisScheduleId || !employeeId || !weekdayIndex) throw new Error("did not receive all data from client");
 
         const weekdayName = convertWeekdayIndexToWeekdayName(weekdayIndex);
-        console.log("weekdayName: ", weekdayName);
-        
+        const employeeIdObj = await EmployeeModel.findById(employeeId);
 
-        //const targetSchedule = await WeekScheduleModel.findByIdAndUpdate(thisScheduleId, {weekdayName : {$push: {employeeId: employeeId}}});
+        const updateObject = {
+            $push: {
+              [weekdayName]: employeeIdObj?._id
+            }
+          };
 
-        //const employeeIdObj = await EmployeeModel.findById(employeeId)[0]._id.toString();
-
-        // console.log(employeeIdObj);
-        
-    
-        // const targetSchedule = await WeekScheduleModel.findByIdAndUpdate(
-        //     thisScheduleId,
-        //     {$push: {weekdayName: employeeIdObj}
-        // });
-
-        //const targetSchedule = WeekScheduleModel.findById(thisScheduleId).populate();
-
-        // const updatedSchedule = await WeekScheduleModel.findById(thisScheduleId).populate(
-        //     {
-        //         path: weekdayName,
-        //         populate: {path: 'EmployeeModel'}
-        //     }
-        // )
+        const targetSchedule = await WeekScheduleModel.findByIdAndUpdate(
+            thisScheduleId,
+            updateObject,
+            {new: true});
 
         res.status(200).send({ok: true});
     } catch (error) {
