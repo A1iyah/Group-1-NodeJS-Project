@@ -37,6 +37,8 @@ export const addEmployee = async (req: any, res: any) => {
 
     console.log(employeeDB);
 
+    const updateManager = await ManagerModel.findByIdAndUpdate();
+
     res.status(200).send({ ok: true, employeeDB });
   } catch (error) {
     console.log(error);
