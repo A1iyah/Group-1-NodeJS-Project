@@ -42,11 +42,11 @@ var managerModel_1 = require("../manager/managerModel");
 var employeeModel_1 = require("../employee/employeeModel");
 var roleModel_1 = require("../role/roleModel");
 exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, selectedRole, employeeDB, updateManager, error_1;
+    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, selectedRole, employeeDB, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 4, , 5]);
+                _b.trys.push([0, 3, , 4]);
                 _a = req.body, name = _a.name, email = _a.email, password = _a.password, idNumber = _a.idNumber, phone = _a.phone, birthday = _a.birthday, salaryPerHour = _a.salaryPerHour, role = _a.role;
                 return [4 /*yield*/, roleModel_1["default"].findOne({ name: role }).select("_id")];
             case 1:
@@ -67,17 +67,14 @@ exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, voi
             case 2:
                 employeeDB = _b.sent();
                 console.log(employeeDB);
-                return [4 /*yield*/, managerModel_1["default"].findByIdAndUpdate()];
-            case 3:
-                updateManager = _b.sent();
                 res.status(200).send({ ok: true, employeeDB: employeeDB });
-                return [3 /*break*/, 5];
-            case 4:
+                return [3 /*break*/, 4];
+            case 3:
                 error_1 = _b.sent();
                 console.log(error_1);
                 res.status(500).send("did not get data");
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
