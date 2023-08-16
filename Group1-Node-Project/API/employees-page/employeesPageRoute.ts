@@ -3,18 +3,16 @@ const router = express.Router();
 import {
   addEmployee,
   addManager,
-  displayWorkers,
+  getAdminWorkers,
+  getManagerEmployees,
+  getMyTeam,
 } from "./employeesPageControls";
 
 router
   .post("/add-manager", addManager)
   .post("/add-employee", addEmployee)
-  .patch("/get-workers", displayWorkers);
+  .patch("/get-admin-workers", getAdminWorkers)
+  .patch("/get-manager-employees", getManagerEmployees)
+  .patch("/get-my-team", getMyTeam);
 
 export default router;
-
-// if (userType === UserType.Admin || userType === UserType.Manager) {
-//   openAddButton.style.display = "block";
-// } else if (userType === UserType.Employee) {
-//   openAddButton.style.display = "none";
-// }

@@ -61,6 +61,7 @@ function getActiveUser() {
                     return [4 /*yield*/, responseManager.json()];
                 case 2:
                     dataManager = _a.sent();
+                    console.log("dataManager", dataManager);
                     manager = dataManager.manager;
                     if (dataManager.ok === true && manager._id !== null) {
                         userType = UserType.Manager;
@@ -70,7 +71,7 @@ function getActiveUser() {
                     return [3 /*break*/, 4];
                 case 3:
                     error_1 = _a.sent();
-                    console.error(error_1);
+                    console.error("test");
                     return [3 /*break*/, 4];
                 case 4:
                     _a.trys.push([4, 7, , 8]);
@@ -163,3 +164,36 @@ var renderNavBar = function (navBarElem) {
 var gotoPage = function (targetPage) {
     window.location.href = targetPage;
 };
+function runningClockPage(runningClock) {
+    var startTime1;
+    var totalTimeShift = localStorage.getItem("totalTimeShift");
+    if (totalTimeShift) {
+        runningClock.innerHTML = totalTimeShift;
+        var intervalId = localStorage.getItem("intervalId");
+        var startTimeString = localStorage.getItem("startTime");
+        startTime1 = parseInt(startTimeString);
+        console.log(startTime1);
+        var currentTime = Date.now();
+        console.log(currentTime);
+        // const elapsedTime = currentTime - startTime1;
+        updateClockPages();
+    }
+}
+function continueUpdateElapsedTimePages(totalTimeShift) {
+    var currentTime = Date.now();
+    console.log(currentTime);
+    var elapsedTime = currentTime - startTime1;
+    console.log(elapsedTime);
+    var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+    var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+    var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+    runningClock.innerHTML = formattedTime;
+    totalTimeShift = formattedTime;
+    console.log(totalTimeShift);
+    localStorage.setItem("totalTimeShift", formattedTime);
+    localStorage.setItem("intervalId", intervalId);
+}
+function updateClockPages() {
+    intervalId = setInterval(continueUpdateElapsedTimePages, 1000);
+}

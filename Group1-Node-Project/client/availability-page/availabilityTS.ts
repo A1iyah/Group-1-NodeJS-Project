@@ -1,11 +1,50 @@
 let userDB;
+const runningClock = document.querySelector(".running-clock") as HTMLDivElement;
 
 async function main() {
   await getActiveUser();
 
   renderNavBar(navBarElement);
+  // runningClockPage();
+  const totalTimeShift = localStorage.getItem("totalTimeShift");
+  if (totalTimeShift) {
+    runningClock.innerHTML = totalTimeShift;
+
+    const startTimeString = localStorage.getItem("startTime");
+    startTime1 = parseInt(startTimeString!);
+    console.log(startTime1);
+
+    const currentTime = Date.now();
+    console.log(currentTime);
+
+    updateClock();
+  }
 }
 main();
+
+function continueUpdateElapsedTime() {
+  const currentTime = Date.now();
+  console.log(currentTime);
+
+  const elapsedTime = currentTime - startTime1;
+  console.log(elapsedTime);
+
+  const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+  const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+
+  const formattedTime = `${String(hours).padStart(2, "0")}:${String(
+    minutes
+  ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  runningClock.innerHTML = formattedTime;
+  totalTimeShift = formattedTime;
+  console.log(totalTimeShift);
+  localStorage.setItem("totalTimeShift", formattedTime);
+}
+
+function updateClock() {
+  intervalId = setInterval(continueUpdateElapsedTime, 1000);
+}
 
 const getActiveEmployee = async () => {
   try {
@@ -50,6 +89,10 @@ getActiveEmployee();
 const buttons: NodeListOf<HTMLDivElement> = document.querySelectorAll(
   ".availability-button"
 );
+
+const clickButton = document.querySelector(
+  ".availability-button"
+) as HTMLButtonElement;
 const comment = document.getElementById("comment") as HTMLTextAreaElement;
 const form = document.querySelector(".availabilityForm") as HTMLFormElement;
 const submitBtn = document.querySelector(".submit-btn") as HTMLButtonElement;
@@ -118,13 +161,14 @@ updateChartDates();
 // Toggle function -
 function toggleButton(event: Event) {
   const clickedButton = event.target as HTMLButtonElement;
-  const day = clickedButton.getAttribute("data-day");
+  // const day = clickedButton.getAttribute("data-day");
+  const currentImage = window.getComputedStyle(clickedButton).backgroundImage;
+  console.log(currentImage);
 
-  if (clickedButton.textContent === "can") {
-    clickedButton.textContent = "can't";
+  if (currentImage.includes("can.png")) {
+    clickedButton.style.backgroundImage = `url("../cant.png")`;
   } else {
-    clickedButton.textContent = "can";
-    clickedButton.style.backgroundColor = "rgb(21, 246, 92)";
+    clickedButton.style.backgroundImage = `url("../can.png")`;
   }
 }
 

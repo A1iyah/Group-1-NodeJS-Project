@@ -143,8 +143,13 @@ var __generator = void 0 && (void 0).__generator || function (thisArg, body) {
   }
 };
 
+var _this = void 0;
+
+var userDB;
+
 function main() {
   return __awaiter(this, void 0, void 0, function () {
+    var totalTimeShift, startTimeString, currentTime;
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
@@ -156,6 +161,19 @@ function main() {
           _a.sent();
 
           renderNavBar(navBarElement);
+          totalTimeShift = localStorage.getItem("totalTimeShift");
+
+          if (totalTimeShift) {
+            runningClock.innerHTML = totalTimeShift;
+            startTimeString = localStorage.getItem("startTime");
+            startTime1 = parseInt(startTimeString);
+            console.log(startTime1);
+            currentTime = Date.now();
+            console.log(currentTime); // const elapsedTime = currentTime - startTime1;
+
+            updateClock();
+          }
+
           return [2
           /*return*/
           ];
@@ -164,48 +182,206 @@ function main() {
   });
 }
 
-main(); //
+main();
 
-var buttons = Array.from(document.querySelectorAll(".availability-button"));
-var comment = document.getElementById("comment");
-var form = document.getElementById("availabilityForm"); // Onclick for each check button -
+function continueUpdateElapsedTime() {
+  var currentTime = Date.now();
+  console.log(currentTime);
+  var elapsedTime = currentTime - startTime1;
+  console.log(elapsedTime);
+  var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+  var minutes = Math.floor(elapsedTime % (1000 * 60 * 60) / (1000 * 60));
+  var seconds = Math.floor(elapsedTime % (1000 * 60) / 1000);
+  var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+  runningClock.innerHTML = formattedTime;
+  totalTimeShift = formattedTime;
+  console.log(totalTimeShift);
+  localStorage.setItem("totalTimeShift", formattedTime);
+}
 
-document.addEventListener("DOMContentLoaded", function () {
-  buttons.forEach(function (button) {
-    button.addEventListener("click", toggleButton);
+function updateClock() {
+  intervalId = setInterval(continueUpdateElapsedTime, 1000);
+}
+
+var getActiveEmployee = function getActiveEmployee() {
+  return __awaiter(_this, void 0, void 0, function () {
+    var response, data, employee, error_1;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 3,, 4]);
+
+          return [4
+          /*yield*/
+          , fetch("/api/employee/get-employee")];
+
+        case 1:
+          response = _a.sent();
+          return [4
+          /*yield*/
+          , response.json()];
+
+        case 2:
+          data = _a.sent();
+          console.log("data", data);
+          employee = data.employee; //if(!data) throw new Error("no data received from DB");
+
+          if (employee) {
+            userDB = employee;
+            console.log("userDB: ", userDB);
+            return [2
+            /*return*/
+            ];
+          }
+
+          getActiveManager();
+          return [3
+          /*break*/
+          , 4];
+
+        case 3:
+          error_1 = _a.sent();
+          console.log(error_1);
+          return [3
+          /*break*/
+          , 4];
+
+        case 4:
+          return [2
+          /*return*/
+          ];
+      }
+    });
   });
-  form.addEventListener("submit", handleFormSubmit);
-}); // Toggle function -
+};
+
+var getActiveManager = function getActiveManager() {
+  return __awaiter(_this, void 0, void 0, function () {
+    var response, data, manager, error_2;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 3,, 4]);
+
+          return [4
+          /*yield*/
+          , fetch("/api/manager/get-manager")];
+
+        case 1:
+          response = _a.sent();
+          return [4
+          /*yield*/
+          , response.json()];
+
+        case 2:
+          data = _a.sent();
+          console.log("data", data);
+          manager = data.manager;
+          if (!manager) throw new Error("didn't get employee or manager from DB");
+          userDB = manager;
+          console.log("userDB: ", userDB);
+          return [3
+          /*break*/
+          , 4];
+
+        case 3:
+          error_2 = _a.sent();
+          console.error(error_2);
+          return [3
+          /*break*/
+          , 4];
+
+        case 4:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+};
+
+getActiveEmployee(); //
+
+var buttons = document.querySelectorAll(".availability-button");
+var comment = document.getElementById("comment");
+var form = document.querySelector(".availabilityForm");
+var submitBtn = document.querySelector(".submit-btn");
+var availabilityDate = document.querySelector(".availabilityForm__date");
+var chartDates = document.querySelector(".availabilityForm__chartDates"); // DATES -
+// Set up week dates -
+
+function updateWeekDates() {
+  var weekDatesDiv = document.getElementById("weekDates");
+  var today = new Date();
+  var dayOfWeek = today.getDay();
+  var sunday = new Date(today);
+  sunday.setDate(today.getDate() - dayOfWeek);
+  var saturday = new Date(today);
+  saturday.setDate(today.getDate() + (6 - dayOfWeek));
+  var options = {
+    month: "short",
+    day: "numeric"
+  };
+  weekDatesDiv.textContent = "<" + sunday.toLocaleDateString(undefined, options) + " - " + saturday.toLocaleDateString(undefined, options) + ">";
+  return {
+    sunday: sunday,
+    saturday: saturday
+  };
+} // Chart dates -
+
+
+function updateChartDates() {
+  var chartDatesContainer = document.querySelector(".availabilityForm__table__chartDatesContainer");
+  var dayElements = document.querySelectorAll(".availabilityForm__table th:not(:first-child)");
+  var sunday = updateWeekDates().sunday;
+  dayElements.forEach(function (dayElement, index) {
+    var currentDate = new Date(sunday);
+    currentDate.setDate(sunday.getDate() + index);
+    var month = currentDate.getMonth() + 1;
+    var dayOfMonth = currentDate.getDate();
+    var dateElement = document.createElement("div");
+    dateElement.classList.add("availabilityForm__chartDate");
+    dateElement.textContent = dayOfMonth + "." + month;
+    chartDatesContainer.appendChild(dateElement);
+  });
+}
+
+updateChartDates(); // End of dates functions //
+// Toggle function -
 
 function toggleButton(event) {
   var clickedButton = event.target;
   var day = clickedButton.getAttribute("data-day");
+  var currentImage = window.getComputedStyle(clickedButton).backgroundImage;
 
-  if (clickedButton.textContent === "✅") {
-    clickedButton.textContent = "❌";
+  if (currentImage.includes("can.png")) {
+    // clickedButton.style.backgroundImage = "none";
+    clickedButton.style.backgroundImage = 'url("../cant.png")';
   } else {
-    clickedButton.textContent = "✅";
+    clickedButton.style.backgroundImage = 'url("../can.png")';
   }
-} // Handle form button -
+} // Handle form submit -
 
 
 function handleFormSubmit(event) {
   return __awaiter(this, void 0, void 0, function () {
-    var availabilityData, commentValue, response, error_1;
+    var commentValue, availabilityData, userRole, response, error_3;
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
           event.preventDefault();
+          commentValue = comment.value;
           availabilityData = {};
           buttons.forEach(function (button) {
             var day = button.getAttribute("data-day");
-            var isAvailable = button.textContent === "✅";
+            var isAvailable = button.textContent === "can";
 
             if (day) {
               availabilityData[day] = isAvailable;
             }
           });
-          commentValue = comment.value;
+          userRole = userDB.role === (null || undefined) ? "Manager" : userDB.role;
+          console.log("userRole: ", userRole);
           _a.label = 1;
 
         case 1:
@@ -220,7 +396,12 @@ function handleFormSubmit(event) {
             },
             body: JSON.stringify({
               availabilityData: availabilityData,
-              commentValue: commentValue
+              commentValue: commentValue,
+              userId: userDB._id,
+              role: {
+                userRole: userRole
+              },
+              name: userDB.name
             })
           })];
 
@@ -238,8 +419,8 @@ function handleFormSubmit(event) {
           , 4];
 
         case 3:
-          error_1 = _a.sent();
-          console.error("Error:", error_1);
+          error_3 = _a.sent();
+          console.error("Error:", error_3);
           return [3
           /*break*/
           , 4];
@@ -252,3 +433,11 @@ function handleFormSubmit(event) {
     });
   });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  buttons.forEach(function (button) {
+    button.addEventListener("click", toggleButton);
+  });
+  updateWeekDates();
+  form.addEventListener("submit", handleFormSubmit);
+});

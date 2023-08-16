@@ -1,7 +1,6 @@
 const navBarElement = document.querySelector(".nav-bar") as HTMLDivElement;
 const userName = document.querySelector("#userName") as HTMLDivElement;
-
-// Reports
+const runningClock = document.querySelector(".running-clock") as HTMLDivElement;
 
 const salaryButton = document.querySelector(
   ".reportButtons__salary"
@@ -63,6 +62,20 @@ async function main() {
   await getActiveUser();
 
   renderNavBar(navBarElement);
+  // runningClockPage(runningClock);
+  const totalTimeShift = localStorage.getItem("totalTimeShift");
+  if (totalTimeShift) {
+    runningClock.innerHTML = totalTimeShift;
+
+    const startTimeString = localStorage.getItem("startTime");
+    startTime1 = parseInt(startTimeString!);
+    console.log(startTime1);
+
+    const currentTime = Date.now();
+    console.log(currentTime);
+
+    updateClock();
+  }
 
   if (userType === UserType.Employee) {
     employeeUsingReport();
@@ -79,42 +92,85 @@ async function main() {
 
 main();
 
+function continueUpdateElapsedTime() {
+  const currentTime = Date.now();
+  console.log(currentTime);
+
+  const elapsedTime = currentTime - startTime1;
+  console.log(elapsedTime);
+
+  const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+  const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+
+  const formattedTime = `${String(hours).padStart(2, "0")}:${String(
+    minutes
+  ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  runningClock.innerHTML = formattedTime;
+  totalTimeShift = formattedTime;
+  console.log(totalTimeShift);
+  localStorage.setItem("totalTimeShift", formattedTime);
+}
+
+function updateClock() {
+  intervalId = setInterval(continueUpdateElapsedTime, 1000);
+}
+
 function renderReportResult(employees) {
   try {
     if (!employees) throw new Error("employees didn't found");
 
-    for (let i = 0; i < employees.length; i++) {
-      // const employeeToShow = employees[i];
-      const listItem = document.createElement("tr");
-      const tdName = document.createElement("td");
-      const tdBirthday = document.createElement("td");
-      const tdEmail = document.createElement("td");
-      const tdPhone = document.createElement("td");
-      const tdSalaryPerHour = document.createElement("td");
-      const tdRole = document.createElement("td");
+    const html: string = employees.map((employee) => {
+      return `
+            <div class="employees-page__employeeCard">
+              <div class="employee-details">
+                <div class="employee-name">${employee.name}</div>
+                <div class="employee-birthday">${employee.birthday}</div>
+                <div class="employee-email">${employee.email}</div>
+                <div class="employee-phone">${employee.phone}</div>
+                <div class="employee-salary">${employee.salaryPerHour}</div>
+                <div class="employee-role">${employee.role.name}</div>
+              </div>
+            </div>
+      `;
+    });
 
-      tdName.appendChild(document.createTextNode(employees[i].name));
-      listItem.appendChild(tdName);
-      tdBirthday.appendChild(document.createTextNode(employees[i].birthday));
-      listItem.appendChild(tdBirthday);
-      tdEmail.appendChild(document.createTextNode(employees[i].email));
-      listItem.appendChild(tdEmail);
-      tdPhone.appendChild(document.createTextNode(employees[i].phone));
-      listItem.appendChild(tdPhone);
-      tdSalaryPerHour.appendChild(
-        document.createTextNode(employees[i].salaryPerHour)
-      );
-      listItem.appendChild(tdSalaryPerHour);
+    // for (let i = 0; i < employees.length; i++) {
+    //   // const employeeToShow = employees[i];
+    //   const listItem = document.createElement("tr");
+    //   const tdName = document.createElement("td");
+    //   const tdBirthday = document.createElement("td");
+    //   const tdEmail = document.createElement("td");
+    //   const tdPhone = document.createElement("td");
+    //   const tdSalaryPerHour = document.createElement("td");
+    //   const tdRole = document.createElement("td");
 
-      if (employees[i].role) {
-        tdRole.appendChild(document.createTextNode(employees[i].role.name));
-        listItem.appendChild(tdRole);
-      } else {
-        tdRole.appendChild(document.createTextNode("manager"));
-        listItem.appendChild(tdRole);
-      }
-      salaryReportResult?.appendChild(listItem);
-    }
+    //   tdName.appendChild(document.createTextNode(employees[i].name));
+    //   listItem.appendChild(tdName);
+    //   tdBirthday.appendChild(document.createTextNode(employees[i].birthday));
+    //   listItem.appendChild(tdBirthday);
+    //   tdEmail.appendChild(document.createTextNode(employees[i].email));
+    //   listItem.appendChild(tdEmail);
+    //   tdPhone.appendChild(document.createTextNode(employees[i].phone));
+    //   listItem.appendChild(tdPhone);
+    //   tdSalaryPerHour.appendChild(
+    //     document.createTextNode(employees[i].salaryPerHour)
+    //   );
+    //   listItem.appendChild(tdSalaryPerHour);
+
+    //   if (employees[i].role) {
+    //     tdRole.appendChild(document.createTextNode(employees[i].role.name));
+    //     listItem.appendChild(tdRole);
+    //   } else {
+    //     tdRole.appendChild(document.createTextNode("manager"));
+    //     listItem.appendChild(tdRole);
+    //   }
+    //   salaryReportResult?.appendChild(listItem);
+    // }
+    const employeeDetails = document.querySelector(
+      ".employeeDetails"
+    ) as HTMLDivElement;
+    employeeDetails.innerHTML = html;
   } catch (error) {
     console.log(error);
   }

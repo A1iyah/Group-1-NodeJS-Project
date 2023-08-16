@@ -1,9 +1,13 @@
 import mongoose, { Schema } from "mongoose";
+import EmployeeModel from "../employee/employeeModel";
 
 const companySchema = new Schema({
-    name: String,
-  });
+  originalID: String,
+  systemRole: String,
+  email: String,
+  password: String,
+});
 
-export const CompanyModel = mongoose.model("Company", companySchema);
+export const CompanyModel = mongoose.model("company", companySchema);
 
 export default CompanyModel;

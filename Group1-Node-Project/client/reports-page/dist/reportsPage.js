@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var navBarElement = document.querySelector(".nav-bar");
 var userName = document.querySelector("#userName");
-// Reports
+var runningClock = document.querySelector(".running-clock");
 var salaryButton = document.querySelector(".reportButtons__salary");
 var managerButton = document.querySelector(".reportButtons__manager");
 var employeeButton = document.querySelector(".reportButtons__employee");
@@ -53,12 +53,23 @@ var attendanceReport = document.querySelector("#attendanceReport");
 var attendanceReportTable = document.querySelector(".attendanceReport");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
+        var totalTimeShift, startTimeString, currentTime;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, getActiveUser()];
                 case 1:
                     _a.sent();
                     renderNavBar(navBarElement);
+                    totalTimeShift = localStorage.getItem("totalTimeShift");
+                    if (totalTimeShift) {
+                        runningClock.innerHTML = totalTimeShift;
+                        startTimeString = localStorage.getItem("startTime");
+                        startTime1 = parseInt(startTimeString);
+                        console.log(startTime1);
+                        currentTime = Date.now();
+                        console.log(currentTime);
+                        updateClock();
+                    }
                     if (userType === UserType.Employee) {
                         employeeUsingReport();
                     }
@@ -78,39 +89,62 @@ function main() {
     });
 }
 main();
+function continueUpdateElapsedTime() {
+    var currentTime = Date.now();
+    console.log(currentTime);
+    var elapsedTime = currentTime - startTime1;
+    console.log(elapsedTime);
+    var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+    var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+    var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+    runningClock.innerHTML = formattedTime;
+    totalTimeShift = formattedTime;
+    console.log(totalTimeShift);
+    localStorage.setItem("totalTimeShift", formattedTime);
+}
+function updateClock() {
+    intervalId = setInterval(continueUpdateElapsedTime, 1000);
+}
 function renderReportResult(employees) {
     try {
         if (!employees)
             throw new Error("employees didn't found");
-        for (var i = 0; i < employees.length; i++) {
-            // const employeeToShow = employees[i];
-            var listItem = document.createElement("tr");
-            var tdName = document.createElement("td");
-            var tdBirthday = document.createElement("td");
-            var tdEmail = document.createElement("td");
-            var tdPhone = document.createElement("td");
-            var tdSalaryPerHour = document.createElement("td");
-            var tdRole = document.createElement("td");
-            tdName.appendChild(document.createTextNode(employees[i].name));
-            listItem.appendChild(tdName);
-            tdBirthday.appendChild(document.createTextNode(employees[i].birthday));
-            listItem.appendChild(tdBirthday);
-            tdEmail.appendChild(document.createTextNode(employees[i].email));
-            listItem.appendChild(tdEmail);
-            tdPhone.appendChild(document.createTextNode(employees[i].phone));
-            listItem.appendChild(tdPhone);
-            tdSalaryPerHour.appendChild(document.createTextNode(employees[i].salaryPerHour));
-            listItem.appendChild(tdSalaryPerHour);
-            if (employees[i].role) {
-                tdRole.appendChild(document.createTextNode(employees[i].role.name));
-                listItem.appendChild(tdRole);
-            }
-            else {
-                tdRole.appendChild(document.createTextNode("manager"));
-                listItem.appendChild(tdRole);
-            }
-            salaryReportResult === null || salaryReportResult === void 0 ? void 0 : salaryReportResult.appendChild(listItem);
-        }
+        var html = employees.map(function (employee) {
+            return "\n            <div class=\"employees-page__employeeCard\">\n              <div class=\"employee-details\">\n                <div class=\"employee-name\">" + employee.name + "</div>\n                <div class=\"employee-birthday\">" + employee.birthday + "</div>\n                <div class=\"employee-email\">" + employee.email + "</div>\n                <div class=\"employee-phone\">" + employee.phone + "</div>\n                <div class=\"employee-salary\">" + employee.salaryPerHour + "</div>\n                <div class=\"employee-role\">" + employee.role.name + "</div>\n              </div>\n            </div>\n      ";
+        });
+        // for (let i = 0; i < employees.length; i++) {
+        //   // const employeeToShow = employees[i];
+        //   const listItem = document.createElement("tr");
+        //   const tdName = document.createElement("td");
+        //   const tdBirthday = document.createElement("td");
+        //   const tdEmail = document.createElement("td");
+        //   const tdPhone = document.createElement("td");
+        //   const tdSalaryPerHour = document.createElement("td");
+        //   const tdRole = document.createElement("td");
+        //   tdName.appendChild(document.createTextNode(employees[i].name));
+        //   listItem.appendChild(tdName);
+        //   tdBirthday.appendChild(document.createTextNode(employees[i].birthday));
+        //   listItem.appendChild(tdBirthday);
+        //   tdEmail.appendChild(document.createTextNode(employees[i].email));
+        //   listItem.appendChild(tdEmail);
+        //   tdPhone.appendChild(document.createTextNode(employees[i].phone));
+        //   listItem.appendChild(tdPhone);
+        //   tdSalaryPerHour.appendChild(
+        //     document.createTextNode(employees[i].salaryPerHour)
+        //   );
+        //   listItem.appendChild(tdSalaryPerHour);
+        //   if (employees[i].role) {
+        //     tdRole.appendChild(document.createTextNode(employees[i].role.name));
+        //     listItem.appendChild(tdRole);
+        //   } else {
+        //     tdRole.appendChild(document.createTextNode("manager"));
+        //     listItem.appendChild(tdRole);
+        //   }
+        //   salaryReportResult?.appendChild(listItem);
+        // }
+        var employeeDetails = document.querySelector(".employeeDetails");
+        employeeDetails.innerHTML = html;
     }
     catch (error) {
         console.log(error);

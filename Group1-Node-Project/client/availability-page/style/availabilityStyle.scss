@@ -18,13 +18,13 @@
   }
 
   &__date {
-    @include flexibleCenter(absolute, 10%, 50%, -50%, -10%);
+    @include flexibleCenter(absolute, 10%, 75px, 0, -10%);
     font-size: 25px;
     border-bottom: 2px solid $mainBlue;
   }
 
   #comment {
-    @include flexibleCenter(absolute, 70%, 50%, -50%, -70%);
+    @include flexibleCenter(absolute, 60%, 50%, -50%, -60%);
     @include boxShadow;
     padding: 10px;
     cursor: text;
@@ -32,9 +32,8 @@
 
   .submit-btn {
     @include buttonDesign;
-    @include flexibleCenter(absolute, 80%, 50%, -50%, -80%);
+    @include flexibleCenter(absolute, 75%, 50%, -50%, -75%);
     position: absolute;
-
     display: flex;
 
     .save {
@@ -48,8 +47,8 @@
 
   &__table {
     width: 905px;
-    @include flexibleCenter(absolute, 35%, 50%, -50%, -35%);
-    @include boxShadow;
+    @include flexibleCenter(absolute, 30%, 50%, -50%, -30%);
+    @include chartShadow;
 
     thead {
       display: flex;
@@ -64,7 +63,6 @@
 
     tbody {
       display: flex;
-      @include chartShadow;
 
       td.availabilityForm__table__chartDatesContainer {
         display: flex;
@@ -88,12 +86,16 @@
         button {
           font-size: 15px;
           padding: 10px;
+          width: 35px;
+          height: 35px;
           border-radius: 50%;
           border: none;
           box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
             rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
             rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
           transition: all 0.5s ease-in-out;
+          background-image: url("../can.png");
+          background-size: cover;
           cursor: pointer;
         }
 
@@ -145,7 +147,7 @@
           font-size: 20px;
           padding: 10px 0 22.2px 0;
           letter-spacing: 2px;
-          box-shadow: 0 2px 5px -2px rgba(165, 165, 165, 0.728);
+          // box-shadow: 0 2px 5px -2px rgba(165, 165, 165, 0.728);
 
           &:first-child {
             padding: 23px 0;
@@ -154,7 +156,7 @@
 
           &:last-child {
             box-shadow: none;
-            box-shadow: 2px 0 5px -2px rgba(165, 165, 165, 0.728);
+            // box-shadow: 2px 0 5px -2px rgba(165, 165, 165, 0.728);
           }
         }
       }
@@ -194,7 +196,7 @@
           width: 100px;
           text-align: center;
 
-          box-shadow: 0 2px 5px -2px rgba(165, 165, 165, 0.728);
+          // box-shadow: 0 2px 5px -2px rgba(165, 165, 165, 0.728);
 
           &:last-child {
             box-shadow: none;

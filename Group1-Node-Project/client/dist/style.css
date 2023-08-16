@@ -12,14 +12,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: black;
-  color: white;
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 .nav-bar__links-group {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 10px;
 }
 .nav-bar__link {
   margin-right: 40px;
@@ -29,18 +30,19 @@
   font-weight: 700;
 }
 .nav-bar__link:hover {
-  color: #16e7e7;
+  color: #9ad8df;
+  border-bottom: 1.5px solid #9ad8df;
   cursor: pointer;
 }
 .nav-bar__user-name {
-  margin-right: 25px;
+  margin-right: 20px;
 }
 
 @media screen and (max-width: 750px) {
   .nav-bar {
     width: 100%;
     height: 100px;
-    padding: 5px;
+    padding: 10px;
     font-size: 17px;
     letter-spacing: 0.5px;
   }
@@ -51,7 +53,7 @@
     text-align: center;
   }
   .nav-bar__link {
-    margin-right: 15px;
+    margin-right: 10px;
     font-size: 12px;
   }
   .nav-bar__link__employee-manager {
@@ -85,7 +87,8 @@
   .nav-bar__user-name {
     position: absolute;
     top: 10px;
-    right: 20px;
+    right: 10px;
+    margin-right: 0;
   }
 }
 .login {
@@ -115,6 +118,7 @@
   text-align: center;
   margin-bottom: 30px;
   width: 250px;
+  background-color: #b9f5fb;
   border: none;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
@@ -134,7 +138,7 @@
   cursor: pointer;
 }
 .login__submit:hover {
-  background-color: #16e7e7;
+  background-color: #9ad8df;
   color: black;
   cursor: pointer;
 }
@@ -150,7 +154,7 @@
   left: 50%;
   transform: translate(-50%, 0);
   cursor: default;
-  background: #16e7e7;
+  background-color: #b9f5fb;
   color: black;
   cursor: pointer;
   border-radius: 3px;
@@ -168,7 +172,7 @@
 .shift {
   border: none;
   border-radius: 10px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -181,40 +185,45 @@
 }
 .shift__title {
   font-size: 50px;
-  text-align: center;
-  margin-top: 50px;
+  margin: 50px;
   cursor: default;
 }
 .shift__title span {
   font-size: 40px;
-  color: #16e7e7;
-  text-shadow: 2px 2px 15px white;
+  color: #9ad8df;
 }
 .shift__date {
   font-size: 30px;
   width: 200px;
   position: absolute;
-  top: 38%;
+  top: 32%;
   left: 50%;
-  transform: translate(-50%, -38%);
+  transform: translate(-50%, -32%);
   cursor: default;
-  border: none;
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+.shift__startEndShift {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%);
+  border-radius: 50%;
+  border: 2px solid #9ad8df;
+  height: 270px;
+  width: 270px;
 }
 .shift__startEndShift__clock {
   position: absolute;
-  top: 65%;
+  top: 30%;
   left: 50%;
-  transform: translate(-50%, -65%);
+  transform: translate(-50%, -30%);
   cursor: default;
   font-size: 30px;
 }
 .shift__startEndShift__start, .shift__startEndShift__end {
   position: absolute;
-  top: 85%;
+  top: 80%;
   left: 50%;
-  transform: translate(-50%, -85%);
+  transform: translate(-50%, -80%);
   cursor: default;
   background-color: black;
   color: white;
@@ -224,10 +233,10 @@
   box-shadow: rgba(64, 64, 64, 0.724) 0px 5px 15px;
   transition: all 0.5s ease-in-out;
   cursor: pointer;
-  font-size: 25px;
+  font-size: 20px;
 }
 .shift__startEndShift__start:hover, .shift__startEndShift__end:hover {
-  background-color: #16e7e7;
+  background-color: #9ad8df;
   color: black;
   cursor: pointer;
 }
@@ -253,9 +262,26 @@
   }
   .shift__date {
     position: absolute;
-    top: 40%;
+    top: 50%;
     left: 50%;
-    transform: translate(-50%, -40%);
+    transform: translate(-50%, -50%);
+    cursor: default;
+    font-size: 23px;
+  }
+  .shift__startEndShift {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%);
+    height: 150px;
+    width: 100%;
+    border: none;
+  }
+  .shift__startEndShift__clock {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -15%);
     cursor: default;
     font-size: 25px;
   }

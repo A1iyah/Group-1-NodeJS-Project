@@ -1,7 +1,30 @@
+let startTime: number = Date.now();
+let currentTime: number | null = null;
+let intervalId: number | null | any = null;
+let totalTimeShift: any = null;
+let formattedTime: any = null;
+
 async function main() {
   await getActiveUser();
-
   renderNavBar(navBarElement);
+
+  totalTimeShift = localStorage.getItem("totalTimeShift");
+  if (totalTimeShift) {
+    startEndClock.innerHTML = totalTimeShift;
+
+    const startTimeString = localStorage.getItem("startTime");
+    startTime = parseInt(startTimeString!);
+    console.log(startTime);
+
+    const currentTime = Date.now();
+    console.log(currentTime);
+
+    startEndButtonS.style.display = "none";
+    startEndButtonE.style.display = "block";
+
+    // const elapsedTime = currentTime - startTime1;
+    startClock();
+  }
 }
 
 main();
@@ -44,12 +67,6 @@ async function handleLoadUser() {
   dateToday.innerHTML = new Date().toLocaleString();
 }
 
-let startTime: number = Date.now();
-let currentTime: number | null = null;
-let intervalId: number | null | any = null;
-let totalTimeShift: any = null;
-let formattedTime: any = null;
-
 startEndButtonS.addEventListener("click", (e) => {
   clearInterval(intervalId);
   startEndClock.innerHTML = `00:00:00`;
@@ -61,6 +78,7 @@ startEndButtonS.addEventListener("click", (e) => {
   startEndButtonE.style.display = "block";
 
   startClock();
+  localStorage.setItem("startTime", String(startTime));
 });
 
 function updateElapsedTime() {
@@ -76,6 +94,7 @@ function updateElapsedTime() {
   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   startEndClock.innerHTML = formattedTime;
   totalTimeShift = formattedTime;
+  localStorage.setItem("totalTimeShift", formattedTime);
 }
 
 function startClock() {
@@ -86,6 +105,8 @@ startEndButtonE.addEventListener("click", (e) => {
   startEndButtonS.style.display = "block";
   startEndButtonE.style.display = "none";
   stopClock();
+  localStorage.removeItem("startTime");
+  localStorage.removeItem("totalTimeShift");
 });
 
 function stopClock() {
@@ -104,3 +125,12 @@ function stopClock() {
     });
   }
 }
+
+// moveToShiftSchedule.addEventListener("click", (e) => {
+//   const url = new URL(
+//     "../shift-schedule-page/shiftSchedule.html",
+//     window.location.href
+//   );
+//   console.log("new URL:", url.href);
+//   window.location.href = url.href;
+// });

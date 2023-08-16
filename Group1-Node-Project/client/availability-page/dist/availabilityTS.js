@@ -36,20 +36,49 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 var userDB;
+var runningClock = document.querySelector(".running-clock");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
+        var totalTimeShift, startTimeString, currentTime;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, getActiveUser()];
                 case 1:
                     _a.sent();
                     renderNavBar(navBarElement);
+                    totalTimeShift = localStorage.getItem("totalTimeShift");
+                    if (totalTimeShift) {
+                        runningClock.innerHTML = totalTimeShift;
+                        startTimeString = localStorage.getItem("startTime");
+                        startTime1 = parseInt(startTimeString);
+                        console.log(startTime1);
+                        currentTime = Date.now();
+                        console.log(currentTime);
+                        updateClock();
+                    }
                     return [2 /*return*/];
             }
         });
     });
 }
 main();
+function continueUpdateElapsedTime() {
+    var currentTime = Date.now();
+    console.log(currentTime);
+    var elapsedTime = currentTime - startTime1;
+    console.log(elapsedTime);
+    var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+    var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+    var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+    runningClock.innerHTML = formattedTime;
+    totalTimeShift = formattedTime;
+    console.log(totalTimeShift);
+    localStorage.setItem("totalTimeShift", formattedTime);
+}
+function updateClock() {
+    intervalId = setInterval(continueUpdateElapsedTime, 1000);
+}
 var getActiveEmployee = function () { return __awaiter(_this, void 0, void 0, function () {
     var response, data, employee, error_1;
     return __generator(this, function (_a) {
@@ -110,6 +139,7 @@ var getActiveManager = function () { return __awaiter(_this, void 0, void 0, fun
 getActiveEmployee();
 //
 var buttons = document.querySelectorAll(".availability-button");
+var clickButton = document.querySelector(".availability-button");
 var comment = document.getElementById("comment");
 var form = document.querySelector(".availabilityForm");
 var submitBtn = document.querySelector(".submit-btn");
@@ -153,13 +183,14 @@ updateChartDates();
 // Toggle function -
 function toggleButton(event) {
     var clickedButton = event.target;
-    var day = clickedButton.getAttribute("data-day");
-    if (clickedButton.textContent === "can") {
-        clickedButton.textContent = "can't";
+    // const day = clickedButton.getAttribute("data-day");
+    var currentImage = window.getComputedStyle(clickedButton).backgroundImage;
+    console.log(currentImage);
+    if (currentImage.includes("can.png")) {
+        clickedButton.style.backgroundImage = "url(\"../cant.png\")";
     }
     else {
-        clickedButton.textContent = "can";
-        clickedButton.style.backgroundColor = "rgb(21, 246, 92)";
+        clickedButton.style.backgroundImage = "url(\"../can.png\")";
     }
 }
 // Handle form submit -

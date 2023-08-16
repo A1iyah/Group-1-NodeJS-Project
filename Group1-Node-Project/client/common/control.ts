@@ -10,7 +10,7 @@ enum UserType {
 
 // async function main() {
 //   await getActiveUser();
-    
+
 //   renderNavBar(navBarElement);
 // }
 // main();
@@ -18,8 +18,10 @@ enum UserType {
 async function getActiveUser() {
   try {
     const responseManager = await fetch("/api/manager/get-manager");
-    
+
     const dataManager = await responseManager.json();
+    console.log("dataManager", dataManager);
+
     const { manager } = dataManager;
 
     if (dataManager.ok === true && manager._id !== null) {
@@ -28,7 +30,7 @@ async function getActiveUser() {
       return;
     }
   } catch (error) {
-    console.error(error);
+    console.error("test");
   }
 
   try {
@@ -141,3 +143,48 @@ const renderNavBar = (navBarElem: HTMLDivElement) => {
 const gotoPage = (targetPage: string) => {
   window.location.href = targetPage;
 };
+
+function runningClockPage(runningClock) {
+  let startTime1: number;
+
+  const totalTimeShift = localStorage.getItem("totalTimeShift");
+  if (totalTimeShift) {
+    runningClock.innerHTML = totalTimeShift;
+
+    let intervalId = localStorage.getItem("intervalId");
+    const startTimeString = localStorage.getItem("startTime");
+    startTime1 = parseInt(startTimeString!);
+    console.log(startTime1);
+
+    const currentTime = Date.now();
+    console.log(currentTime);
+
+    // const elapsedTime = currentTime - startTime1;
+    updateClockPages();
+  }
+}
+
+function continueUpdateElapsedTimePages(totalTimeShift) {
+  const currentTime = Date.now();
+  console.log(currentTime);
+
+  const elapsedTime = currentTime - startTime1;
+  console.log(elapsedTime);
+
+  const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+  const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+
+  const formattedTime = `${String(hours).padStart(2, "0")}:${String(
+    minutes
+  ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  runningClock.innerHTML = formattedTime;
+  totalTimeShift = formattedTime;
+  console.log(totalTimeShift);
+  localStorage.setItem("totalTimeShift", formattedTime);
+  localStorage.setItem("intervalId", intervalId);
+}
+
+function updateClockPages() {
+  intervalId = setInterval(continueUpdateElapsedTimePages, 1000);
+}

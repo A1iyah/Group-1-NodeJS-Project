@@ -1,39 +1,35 @@
-.employees-page {
+.addButtons {
   position: relative;
-  height: 900px;
-  border: 3px solid green;
+  width: 100%;
 }
-.employees-page__main-header {
-  font-size: 50px;
-  text-align: center;
-  margin-top: 50px;
-  cursor: default;
-}
-.employees-page .open-add-btn {
+.addButtons__open-add-btn {
   position: absolute;
-  left: 30px;
+  top: 70px;
+  right: 35px;
+  z-index: 900;
   background-color: black;
   color: white;
-  padding: 10px;
-  padding-bottom: 4px;
+  padding: 5px;
+  padding-bottom: 0;
   border: none;
   border-radius: 50%;
   box-shadow: rgba(64, 64, 64, 0.724) 0px 5px 15px;
   transition: all 0.5s ease-in-out;
   cursor: pointer;
 }
-.employees-page .open-add-btn:hover {
-  background-color: #16e7e7;
+.addButtons__open-add-btn:hover {
+  background-color: #9ad8df;
   color: black;
   cursor: pointer;
 }
-.employees-page .add-buttons-container {
+.addButtons__add-buttons-container {
   display: none;
-  position: relative;
-  margin-top: 20px;
+  position: absolute;
+  top: 90px;
+  right: 80px;
+  z-index: 900;
 }
-.employees-page .add-employees-btn,
-.employees-page .add-managers-btn {
+.addButtons__add-employees-btn, .addButtons__add-managers-btn {
   background-color: black;
   color: white;
   padding: 5px 20px;
@@ -43,52 +39,75 @@
   transition: all 0.5s ease-in-out;
   cursor: pointer;
   width: 170px;
-  position: absolute;
-  top: 10px;
-  left: 80px;
+  z-index: 900;
 }
-.employees-page .add-employees-btn {
-  top: 50px;
+.addButtons__add-managers-btn {
+  margin-top: 10px;
 }
-.employees-page .add-employees-btn:hover,
-.employees-page .add-managers-btn:hover {
-  background-color: #16e7e7;
+.addButtons__add-employees-btn:hover, .addButtons__add-managers-btn:hover {
+  background-color: #9ad8df;
   color: black;
   cursor: pointer;
 }
-.employees-page__chart {
-  width: 80%;
+
+.employees-page {
+  position: relative;
+  height: 900px;
+}
+.employees-page__employees-section, .employees-page__managers-section {
+  position: relative;
+  width: 100%;
+  height: 500px;
+}
+.employees-page__employees-section__employees-header, .employees-page__employees-section__managers-header, .employees-page__managers-section__employees-header, .employees-page__managers-section__managers-header {
+  font-size: 50px;
+  margin: 50px;
+  cursor: default;
+}
+.employees-page__employees-section__employees-chart, .employees-page__employees-section__managers-chart, .employees-page__managers-section__employees-chart, .employees-page__managers-section__managers-chart {
+  width: 95%;
   position: absolute;
   top: 30%;
   left: 50%;
   transform: translate(-50%, -30%);
   cursor: default;
 }
-.employees-page__chart th {
-  width: 250px;
-  border: none;
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+.employees-page__employees-section__employees-chart th, .employees-page__employees-section__managers-chart th, .employees-page__managers-section__employees-chart th, .employees-page__managers-section__managers-chart th {
+  width: 100px;
 }
-.employees-page__get-all-employees {
-  width: 80%;
+.employees-page__employees-section__get-all-employees, .employees-page__employees-section__get-all-managers, .employees-page__managers-section__get-all-employees, .employees-page__managers-section__get-all-managers {
+  width: 95%;
   height: 50%;
   overflow-y: scroll;
   position: absolute;
-  top: 65%;
+  top: 90%;
   left: 50%;
-  transform: translate(-50%, -65%);
+  transform: translate(-50%, -90%);
   cursor: default;
 }
-.employees-page__get-all-employees::-webkit-scrollbar {
-  display: none;
+.employees-page__employees-section__get-all-employees::-webkit-scrollbar, .employees-page__employees-section__get-all-managers::-webkit-scrollbar, .employees-page__managers-section__get-all-employees::-webkit-scrollbar, .employees-page__managers-section__get-all-managers::-webkit-scrollbar {
+  width: 5px;
 }
-.employees-page__employeeCard {
+.employees-page__employees-section__get-all-employees::-webkit-scrollbar-track, .employees-page__employees-section__get-all-managers::-webkit-scrollbar-track, .employees-page__managers-section__get-all-employees::-webkit-scrollbar-track, .employees-page__managers-section__get-all-managers::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #cacaca;
+  border-radius: 5px;
+}
+.employees-page__employees-section__get-all-employees::-webkit-scrollbar-thumb, .employees-page__employees-section__get-all-managers::-webkit-scrollbar-thumb, .employees-page__managers-section__get-all-employees::-webkit-scrollbar-thumb, .employees-page__managers-section__get-all-managers::-webkit-scrollbar-thumb {
+  background: #9ad8df;
+  border-radius: 5px;
+}
+.employees-page__employees-section__get-all-employees::-webkit-scrollbar-thumb:hover, .employees-page__employees-section__get-all-managers::-webkit-scrollbar-thumb:hover, .employees-page__managers-section__get-all-employees::-webkit-scrollbar-thumb:hover, .employees-page__managers-section__get-all-managers::-webkit-scrollbar-thumb:hover {
+  background: #07c4c4;
+}
+.employees-page__employeeCard, .employees-page__managerCard {
   width: 100%;
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid #9ad8df;
 }
-.employees-page__employeeCard .employee-details {
+.employees-page__employeeCard .employee-details,
+.employees-page__employeeCard .manager-details, .employees-page__managerCard .employee-details,
+.employees-page__managerCard .manager-details {
   display: flex;
   justify-content: space-evenly;
   padding: 10px 0;
@@ -97,21 +116,86 @@
 .employees-page__employeeCard .employee-details .employee-birthday,
 .employees-page__employeeCard .employee-details .employee-email,
 .employees-page__employeeCard .employee-details .employee-phone,
-.employees-page__employeeCard .employee-details .employee-role {
+.employees-page__employeeCard .employee-details .employee-role,
+.employees-page__employeeCard .employee-details .manager-name,
+.employees-page__employeeCard .employee-details .manager-birthday,
+.employees-page__employeeCard .employee-details .manager-email,
+.employees-page__employeeCard .employee-details .manager-phone,
+.employees-page__employeeCard .employee-details .manager-role,
+.employees-page__employeeCard .manager-details .employee-name,
+.employees-page__employeeCard .manager-details .employee-birthday,
+.employees-page__employeeCard .manager-details .employee-email,
+.employees-page__employeeCard .manager-details .employee-phone,
+.employees-page__employeeCard .manager-details .employee-role,
+.employees-page__employeeCard .manager-details .manager-name,
+.employees-page__employeeCard .manager-details .manager-birthday,
+.employees-page__employeeCard .manager-details .manager-email,
+.employees-page__employeeCard .manager-details .manager-phone,
+.employees-page__employeeCard .manager-details .manager-role, .employees-page__managerCard .employee-details .employee-name,
+.employees-page__managerCard .employee-details .employee-birthday,
+.employees-page__managerCard .employee-details .employee-email,
+.employees-page__managerCard .employee-details .employee-phone,
+.employees-page__managerCard .employee-details .employee-role,
+.employees-page__managerCard .employee-details .manager-name,
+.employees-page__managerCard .employee-details .manager-birthday,
+.employees-page__managerCard .employee-details .manager-email,
+.employees-page__managerCard .employee-details .manager-phone,
+.employees-page__managerCard .employee-details .manager-role,
+.employees-page__managerCard .manager-details .employee-name,
+.employees-page__managerCard .manager-details .employee-birthday,
+.employees-page__managerCard .manager-details .employee-email,
+.employees-page__managerCard .manager-details .employee-phone,
+.employees-page__managerCard .manager-details .employee-role,
+.employees-page__managerCard .manager-details .manager-name,
+.employees-page__managerCard .manager-details .manager-birthday,
+.employees-page__managerCard .manager-details .manager-email,
+.employees-page__managerCard .manager-details .manager-phone,
+.employees-page__managerCard .manager-details .manager-role {
   text-align: center;
-  width: 250px;
+  width: 100%;
   padding: 5px;
   letter-spacing: 0.5px;
   overflow: scroll;
-  border: none;
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 .employees-page__employeeCard .employee-details .employee-name::-webkit-scrollbar,
 .employees-page__employeeCard .employee-details .employee-birthday::-webkit-scrollbar,
 .employees-page__employeeCard .employee-details .employee-email::-webkit-scrollbar,
 .employees-page__employeeCard .employee-details .employee-phone::-webkit-scrollbar,
-.employees-page__employeeCard .employee-details .employee-role::-webkit-scrollbar {
+.employees-page__employeeCard .employee-details .employee-role::-webkit-scrollbar,
+.employees-page__employeeCard .employee-details .manager-name::-webkit-scrollbar,
+.employees-page__employeeCard .employee-details .manager-birthday::-webkit-scrollbar,
+.employees-page__employeeCard .employee-details .manager-email::-webkit-scrollbar,
+.employees-page__employeeCard .employee-details .manager-phone::-webkit-scrollbar,
+.employees-page__employeeCard .employee-details .manager-role::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .employee-name::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .employee-birthday::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .employee-email::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .employee-phone::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .employee-role::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .manager-name::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .manager-birthday::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .manager-email::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .manager-phone::-webkit-scrollbar,
+.employees-page__employeeCard .manager-details .manager-role::-webkit-scrollbar, .employees-page__managerCard .employee-details .employee-name::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .employee-birthday::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .employee-email::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .employee-phone::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .employee-role::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .manager-name::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .manager-birthday::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .manager-email::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .manager-phone::-webkit-scrollbar,
+.employees-page__managerCard .employee-details .manager-role::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .employee-name::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .employee-birthday::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .employee-email::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .employee-phone::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .employee-role::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .manager-name::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .manager-birthday::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .manager-email::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .manager-phone::-webkit-scrollbar,
+.employees-page__managerCard .manager-details .manager-role::-webkit-scrollbar {
   display: none;
 }
 .employees-page__add-new-employees, .employees-page__add-new-managers {
@@ -124,7 +208,7 @@
 }
 .employees-page__add-new-employees fieldset, .employees-page__add-new-managers fieldset {
   width: 400px;
-  background-color: #16e7e7;
+  background-color: #9ad8df;
   text-align: center;
   border: none;
   border-radius: 10px;
@@ -142,7 +226,7 @@
   text-align: center;
   border: none;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, #9ad8df 0px 2px 4px -1px;
 }
 .employees-page__add-new-employees fieldset button, .employees-page__add-new-managers fieldset button {
   display: block;
@@ -157,7 +241,7 @@
   cursor: pointer;
 }
 .employees-page__add-new-employees fieldset button:hover, .employees-page__add-new-managers fieldset button:hover {
-  background-color: #16e7e7;
+  background-color: #9ad8df;
   color: black;
   cursor: pointer;
 }

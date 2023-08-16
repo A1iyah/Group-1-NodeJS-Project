@@ -16,7 +16,11 @@ var managerSchema = new mongoose_1.Schema({
             type: mongoose_1["default"].Schema.Types.ObjectId,
             ref: "Employee"
         },
-    ]
+    ],
+    role: {
+        type: mongoose_1["default"].Schema.Types.ObjectId,
+        ref: "Role"
+    }
 });
 exports.ManagerModel = mongoose_1["default"].model("Manager", managerSchema);
 exports["default"] = exports.ManagerModel;
