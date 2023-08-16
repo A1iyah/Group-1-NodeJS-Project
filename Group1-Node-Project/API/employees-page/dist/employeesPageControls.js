@@ -180,6 +180,22 @@ exports.getManagerEmployees = function (req, res) { return __awaiter(void 0, voi
         }
     });
 }); };
+// export const getEmployeesGroup = async (req: any, res: any) => {
+//   try {
+//     const { _id } = req.body;
+//     const managerID = await ManagerModel.find({}).populate({
+//       path: "employees",
+//       match: {
+//         _id: { _id },
+//       },
+//     });
+//     console.log(managerID);
+//     // if (employees) console.log(employees.employees);
+//     // res.send({ employees });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 exports.getMyTeam = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _id, employee, managerId, teamEmployees, error_5;
     return __generator(this, function (_a) {

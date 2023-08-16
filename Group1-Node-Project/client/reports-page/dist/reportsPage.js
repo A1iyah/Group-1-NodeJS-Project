@@ -106,13 +106,19 @@ function continueUpdateElapsedTime() {
 function updateClock() {
     intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
-function renderReportResult(employees) {
+function renderReportResult(managers, employees) {
     try {
         if (!employees)
             throw new Error("employees didn't found");
+        var totalHtml = "";
         var html = employees.map(function (employee) {
             return "\n            <div class=\"reportCard\">\n              <div class=\"reportCard__report-details\">\n                <div class=\"reportCard__report-details__name\">" + employee.name + "</div>\n                <div class=\"reportCard__report-details__birthday\">" + employee.birthday + "</div>\n                <div class=\"reportCard__report-details__email\">" + employee.email + "</div>\n                <div class=\"reportCard__report-details__phone\">" + employee.phone + "</div>\n                <div class=\"reportCard__report-details__salary\">" + employee.salaryPerHour + "</div>\n                <div class=\"reportCard__report-details__role\">" + employee.role.name + "</div>\n              </div>\n            </div>\n      ";
         });
+        totalHtml += html;
+        var html2 = managers.map(function (manager) {
+            return "\n            <div class=\"employees-page__employeeCard\">\n              <div class=\"employee-details\">\n                <div class=\"employee-name\">" + manager.name + "</div>\n                <div class=\"employee-birthday\">" + manager.birthday + "</div>\n                <div class=\"employee-email\">" + manager.email + "</div>\n                <div class=\"employee-phone\">" + manager.phone + "</div>\n                <div class=\"employee-salary\">" + manager.salaryPerHour + "</div>\n                <div class=\"employee-role\">" + manager.role.name + "</div>\n              </div>\n            </div>\n      ";
+        });
+        totalHtml += html2;
         // for (let i = 0; i < employees.length; i++) {
         //   // const employeeToShow = employees[i];
         //   const listItem = document.createElement("tr");
@@ -144,7 +150,7 @@ function renderReportResult(employees) {
         //   salaryReportResult?.appendChild(listItem);
         // }
         var employeeDetails = document.querySelector(".employeeDetails");
-        employeeDetails.innerHTML = html;
+        employeeDetails.innerHTML = totalHtml;
     }
     catch (error) {
         console.log(error);
@@ -155,16 +161,26 @@ function renderShiftResult(employees) {
         if (!employees)
             throw new Error("employee not found");
         attendanceReportTable.style.display = "block";
-        for (var i = 0; employees.attendance.length - 1 >= i; i++) {
-            var listItem = document.createElement("tr");
-            var tdDateHour = document.createElement("td");
-            var tdDuration = document.createElement("td");
-            tdDateHour.appendChild(document.createTextNode(employees.attendance[i].date));
-            listItem.appendChild(tdDateHour);
-            tdDuration.appendChild(document.createTextNode(employees.attendance[i].clock));
-            listItem.appendChild(tdDuration);
-            attendanceReport === null || attendanceReport === void 0 ? void 0 : attendanceReport.appendChild(listItem);
-        }
+        var attendanceArr = employees.attendance;
+        var html = attendanceArr.map(function (attendance) {
+            return "\n            <div class=\"employees-page__employeeCard\">\n              <div class=\"employee-details\">\n                <div class=\"employee-name\">" + attendance.date + "</div>\n                <div class=\"employee-birthday\">" + attendance.clock + "</div>\n              </div>\n            </div>\n      ";
+        });
+        var employeeAttendance = document.querySelector(".employeeAttendance");
+        employeeAttendance.innerHTML = html;
+        // for (let i = 0; employees.attendance.length - 1 >= i; i++) {
+        //   const listItem = document.createElement("tr");
+        //   const tdDateHour = document.createElement("td");
+        //   const tdDuration = document.createElement("td");
+        //   tdDateHour.appendChild(
+        //     document.createTextNode(employees.attendance[i].date)
+        //   );
+        //   listItem.appendChild(tdDateHour);
+        //   tdDuration.appendChild(
+        //     document.createTextNode(employees.attendance[i].clock)
+        //   );
+        //   listItem.appendChild(tdDuration);
+        //   attendanceReport?.appendChild(listItem);
+        // }
     }
     catch (error) {
         console.log(error);
@@ -198,8 +214,10 @@ function HandleSalaryUp(ev) {
                 .then(function (_a) {
                 var employees = _a.employees;
                 console.log(employees.managers);
-                renderReportResult(employees.managers);
-                renderReportResult(employees.employees);
+                console.log(employees.employees);
+                renderReportResult(employees.managers, employees.employees);
+                // renderReportResult(employees.managers, employees.employees);
+                // renderReportResult();
             });
         }
         else if (userType === UserType.Manager) {
@@ -245,8 +263,8 @@ function HandleSalaryDown(ev) {
                 .then(function (_a) {
                 var employees = _a.employees;
                 console.log(employees.managers);
-                renderReportResult(employees.managers);
-                renderReportResult(employees.employees);
+                renderReportResult(employees.managers, employees.employees);
+                // renderReportResult(employees.employees);
             });
         }
         else if (userType === UserType.Manager) {

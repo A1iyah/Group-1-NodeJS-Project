@@ -131,6 +131,27 @@ export const getManagerEmployees = async (req: any, res: any) => {
   }
 };
 
+// export const getEmployeesGroup = async (req: any, res: any) => {
+//   try {
+//     const { _id } = req.body;
+
+//     const managerID = await ManagerModel.find({}).populate({
+//       path: "employees",
+//       match: {
+//         _id: { _id },
+//       },
+//     });
+
+//     console.log(managerID);
+
+//     // if (employees) console.log(employees.employees);
+
+//     // res.send({ employees });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
 export const getMyTeam = async (req: any, res: any) => {
   try {
     const { _id } = req.body;
