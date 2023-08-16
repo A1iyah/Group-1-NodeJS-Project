@@ -488,9 +488,8 @@ const processEmployeeAllocation = (employeeId: string, employeeName: string) =>
     return;
   }
 
-  targetShift!.innerHTML = `<p>${employeeName}</p>`
+  targetShift!.innerHTML = `<p class="shifts-panel__role-row__allocation-name">${employeeName}</p>`
 
-  
   
   
 }
