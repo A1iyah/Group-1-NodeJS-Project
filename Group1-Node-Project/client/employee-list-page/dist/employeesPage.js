@@ -173,6 +173,8 @@ updateUIForUserType(userType);
 function handleCreateEmployee(evt) {
     try {
         evt.preventDefault();
+        console.log(user._id);
+        var managerID_1 = user._id;
         var name_1 = evt.target.elements.name.value;
         var email_1 = evt.target.elements.email.value;
         var password_1 = evt.target.elements.password.value;
@@ -224,12 +226,22 @@ function handleCreateEmployee(evt) {
                     Accept: "application/json",
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(newEmployee)
+                body: JSON.stringify({
+                    name: name_1,
+                    email: email_1,
+                    password: password_1,
+                    idNumber: idNumber_1,
+                    phone: phone_1,
+                    birthday: birthday_1,
+                    salaryPerHour: salaryPerHour_1,
+                    role: role_1,
+                    managerID: managerID_1
+                })
             })
                 .then(function (res) { return res.json(); })
                 .then(function (data) {
                 console.log(data);
-                // handleGetWorkers();
+                renderEmployeeList(data.managerDB.employees);
             })["catch"](function (error) {
                 console.error(error);
             });
@@ -377,6 +389,7 @@ var handleGetWorkers = function () {
 };
 var renderEmployeeList = function (employees) {
     try {
+        console.log(employees);
         var htmlStr = employees
             .map(function (employee) {
             return "<div class=\"employees-page__employeeCard\">\n        <div class=\"employee-details\">\n        <div class=\"employee-name\">" + employee.name + "</div>\n        <div class=\"employee-birthday\">" + employee.birthday + "</div>\n        <div class=\"employee-email\">" + employee.email + "</div>\n        <div class=\"employee-phone\">" + employee.phone + "</div>\n        <div class=\"employee-role\">" + employee.role.name + "</div>\n        </div>\n        </div>";

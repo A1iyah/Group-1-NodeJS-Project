@@ -51,6 +51,8 @@ var reportSalaryDown = document.querySelector(".salaryReports__salaryDown");
 var reportSalaryBetween = document.querySelector(".salaryReports__between");
 var attendanceReport = document.querySelector("#attendanceReport");
 var attendanceReportTable = document.querySelector(".attendanceReport");
+var employeeDetails = document.querySelector(".employeeDetails");
+var managerDetails = document.querySelector(".managerDetails");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         var totalTimeShift, startTimeString, currentTime;
@@ -106,19 +108,13 @@ function continueUpdateElapsedTime() {
 function updateClock() {
     intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
-function renderReportResult(managers, employees) {
+function renderReportResultManager(managers) {
     try {
-        if (!employees)
+        if (!managers)
             throw new Error("employees didn't found");
-        var totalHtml = "";
-        var html = employees.map(function (employee) {
-            return "\n            <div class=\"reportCard\">\n              <div class=\"reportCard__report-details\">\n                <div class=\"reportCard__report-details__name\">" + employee.name + "</div>\n                <div class=\"reportCard__report-details__birthday\">" + employee.birthday + "</div>\n                <div class=\"reportCard__report-details__email\">" + employee.email + "</div>\n                <div class=\"reportCard__report-details__phone\">" + employee.phone + "</div>\n                <div class=\"reportCard__report-details__salary\">" + employee.salaryPerHour + "</div>\n                <div class=\"reportCard__report-details__role\">" + employee.role.name + "</div>\n              </div>\n            </div>\n      ";
+        var html = managers.map(function (manager) {
+            return "\n            <div class=\"employees-page__employeeCard\">\n            <div class=\"employee-details\">\n              <div class=\"employee-name\">" + manager.name + "</div>\n              <div class=\"employee-birthday\">" + manager.birthday + "</div>\n              <div class=\"employee-email\">" + manager.email + "</div>\n              <div class=\"employee-phone\">" + manager.phone + "</div>\n              <div class=\"employee-salary\">" + manager.salaryPerHour + "</div>\n              <div class=\"employee-role\">" + manager.role.name + "</div>\n            </div>\n          </div>\n      ";
         });
-        totalHtml += html;
-        var html2 = managers.map(function (manager) {
-            return "\n            <div class=\"employees-page__employeeCard\">\n              <div class=\"employee-details\">\n                <div class=\"employee-name\">" + manager.name + "</div>\n                <div class=\"employee-birthday\">" + manager.birthday + "</div>\n                <div class=\"employee-email\">" + manager.email + "</div>\n                <div class=\"employee-phone\">" + manager.phone + "</div>\n                <div class=\"employee-salary\">" + manager.salaryPerHour + "</div>\n                <div class=\"employee-role\">" + manager.role.name + "</div>\n              </div>\n            </div>\n      ";
-        });
-        totalHtml += html2;
         // for (let i = 0; i < employees.length; i++) {
         //   // const employeeToShow = employees[i];
         //   const listItem = document.createElement("tr");
@@ -149,8 +145,20 @@ function renderReportResult(managers, employees) {
         //   }
         //   salaryReportResult?.appendChild(listItem);
         // }
-        var employeeDetails = document.querySelector(".employeeDetails");
-        employeeDetails.innerHTML = totalHtml;
+        managerDetails.innerHTML = html;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+function renderReportResultEmployees(employees) {
+    try {
+        if (!employees)
+            throw new Error("employees didn't found");
+        var html = employees.map(function (employee) {
+            return "\n            <div class=\"reportCard\">\n              <div class=\"reportCard__report-details\">\n                <div class=\"reportCard__report-details__name\">" + employee.name + "</div>\n                <div class=\"reportCard__report-details__birthday\">" + employee.birthday + "</div>\n                <div class=\"reportCard__report-details__email\">" + employee.email + "</div>\n                <div class=\"reportCard__report-details__phone\">" + employee.phone + "</div>\n                <div class=\"reportCard__report-details__salary\">" + employee.salaryPerHour + "</div>\n                <div class=\"reportCard__report-details__role\">" + employee.role.name + "</div>\n              </div>\n            </div>\n      ";
+        });
+        employeeDetails.innerHTML = html;
     }
     catch (error) {
         console.log(error);
@@ -215,9 +223,8 @@ function HandleSalaryUp(ev) {
                 var employees = _a.employees;
                 console.log(employees.managers);
                 console.log(employees.employees);
-                renderReportResult(employees.managers, employees.employees);
-                // renderReportResult(employees.managers, employees.employees);
-                // renderReportResult();
+                renderReportResultManager(employees.managers);
+                renderReportResultEmployees(employees.employees);
             });
         }
         else if (userType === UserType.Manager) {
@@ -403,11 +410,11 @@ function HandleEmployeeReport(ev) {
     try {
         ev.preventDefault();
         resetPage();
-        var employeeDetails = ev.target.elements.employees.value;
-        var _a = employeeDetails
+        var employeeDetails_1 = ev.target.elements.employees.value;
+        var _a = employeeDetails_1
             .match(/^(.*?)\s-\s(\d+)$/)
             .slice(1), name = _a[0], idNumber = _a[1];
-        if (!employeeDetails)
+        if (!employeeDetails_1)
             throw new Error("no employee selected");
         console.log(name);
         console.log(idNumber);
@@ -461,9 +468,9 @@ function HandleManagerReport(ev) {
     try {
         resetPage();
         ev.preventDefault();
-        var managerDetails = ev.target.elements.managers.value;
-        var _a = managerDetails.match(/^(.*?)\s-\s(\d+)$/).slice(1), name = _a[0], idNumber = _a[1];
-        if (!managerDetails)
+        var managerDetails_1 = ev.target.elements.managers.value;
+        var _a = managerDetails_1.match(/^(.*?)\s-\s(\d+)$/).slice(1), name = _a[0], idNumber = _a[1];
+        if (!managerDetails_1)
             throw new Error("no employee selected");
         console.log(name);
         console.log(idNumber);

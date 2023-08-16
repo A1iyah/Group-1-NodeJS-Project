@@ -163,6 +163,8 @@ updateUIForUserType(userType);
 function handleCreateEmployee(evt: any) {
   try {
     evt.preventDefault();
+    console.log(user._id);
+    const managerID = user._id;
     const name = evt.target.elements.name.value;
     const email = evt.target.elements.email.value;
     const password = evt.target.elements.password.value;
@@ -209,12 +211,22 @@ function handleCreateEmployee(evt: any) {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(newEmployee),
+          body: JSON.stringify({
+            name,
+            email,
+            password,
+            idNumber,
+            phone,
+            birthday,
+            salaryPerHour,
+            role,
+            managerID,
+          }),
         })
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
-            // handleGetWorkers();
+            renderEmployeeList(data.managerDB.employees);
           })
           .catch((error) => {
             console.error(error);
@@ -366,6 +378,8 @@ const handleGetWorkers = () => {
 
 const renderEmployeeList = (employees: any) => {
   try {
+    console.log(employees);
+
     const htmlStr: string = employees
       .map((employee: any) => {
         return `<div class="employees-page__employeeCard">

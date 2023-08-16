@@ -58,6 +58,14 @@ const attendanceReportTable = document.querySelector(
   ".attendanceReport"
 ) as HTMLTableElement;
 
+const employeeDetails = document.querySelector(
+  ".employeeDetails"
+) as HTMLDivElement;
+
+const managerDetails = document.querySelector(
+  ".managerDetails"
+) as HTMLDivElement;
+
 async function main() {
   await getActiveUser();
 
@@ -116,40 +124,24 @@ function updateClock() {
   intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
 
-function renderReportResult(managers, employees) {
+function renderReportResultManager(managers: any) {
   try {
-    if (!employees) throw new Error("employees didn't found");
-    let totalHtml: string = "";
-    const html: string = employees.map((employee) => {
-      return `
-            <div class="reportCard">
-              <div class="reportCard__report-details">
-                <div class="reportCard__report-details__name">${employee.name}</div>
-                <div class="reportCard__report-details__birthday">${employee.birthday}</div>
-                <div class="reportCard__report-details__email">${employee.email}</div>
-                <div class="reportCard__report-details__phone">${employee.phone}</div>
-                <div class="reportCard__report-details__salary">${employee.salaryPerHour}</div>
-                <div class="reportCard__report-details__role">${employee.role.name}</div>
-              </div>
-            </div>
-      `;
-    });
-    totalHtml += html;
-    const html2: string = managers.map((manager) => {
+    if (!managers) throw new Error("employees didn't found");
+    const html: string = managers.map((manager) => {
       return `
             <div class="employees-page__employeeCard">
-              <div class="employee-details">
-                <div class="employee-name">${manager.name}</div>
-                <div class="employee-birthday">${manager.birthday}</div>
-                <div class="employee-email">${manager.email}</div>
-                <div class="employee-phone">${manager.phone}</div>
-                <div class="employee-salary">${manager.salaryPerHour}</div>
-                <div class="employee-role">${manager.role.name}</div>
-              </div>
+            <div class="employee-details">
+              <div class="employee-name">${manager.name}</div>
+              <div class="employee-birthday">${manager.birthday}</div>
+              <div class="employee-email">${manager.email}</div>
+              <div class="employee-phone">${manager.phone}</div>
+              <div class="employee-salary">${manager.salaryPerHour}</div>
+              <div class="employee-role">${manager.role.name}</div>
             </div>
+          </div>
       `;
     });
-    totalHtml += html2;
+
     // for (let i = 0; i < employees.length; i++) {
     //   // const employeeToShow = employees[i];
     //   const listItem = document.createElement("tr");
@@ -182,10 +174,33 @@ function renderReportResult(managers, employees) {
     //   }
     //   salaryReportResult?.appendChild(listItem);
     // }
-    const employeeDetails = document.querySelector(
-      ".employeeDetails"
-    ) as HTMLDivElement;
-    employeeDetails.innerHTML = totalHtml;
+
+    managerDetails.innerHTML = html;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function renderReportResultEmployees(employees: any) {
+  try {
+    if (!employees) throw new Error("employees didn't found");
+
+    const html: string = employees.map((employee) => {
+      return `
+            <div class="reportCard">
+              <div class="reportCard__report-details">
+                <div class="reportCard__report-details__name">${employee.name}</div>
+                <div class="reportCard__report-details__birthday">${employee.birthday}</div>
+                <div class="reportCard__report-details__email">${employee.email}</div>
+                <div class="reportCard__report-details__phone">${employee.phone}</div>
+                <div class="reportCard__report-details__salary">${employee.salaryPerHour}</div>
+                <div class="reportCard__report-details__role">${employee.role.name}</div>
+              </div>
+            </div>
+      `;
+    });
+
+    employeeDetails.innerHTML = html;
   } catch (error) {
     console.log(error);
   }
@@ -262,9 +277,8 @@ function HandleSalaryUp(ev) {
           console.log(employees.managers);
           console.log(employees.employees);
 
-          renderReportResult(employees.managers, employees.employees);
-          // renderReportResult(employees.managers, employees.employees);
-          // renderReportResult();
+          renderReportResultManager(employees.managers);
+          renderReportResultEmployees(employees.employees);
         });
     } else if (userType === UserType.Manager) {
       const _id = user._id;
