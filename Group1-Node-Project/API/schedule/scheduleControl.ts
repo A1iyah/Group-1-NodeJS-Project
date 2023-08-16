@@ -83,15 +83,15 @@ export const addEmployeeToSchedule = async (req: any, res: any) =>
 
         //const targetSchedule = await WeekScheduleModel.findByIdAndUpdate(thisScheduleId, {weekdayName : {$push: {employeeId: employeeId}}});
 
-        const employeeIdObj = await EmployeeModel.findById(employeeId)[0]._id.toString();
+        //const employeeIdObj = await EmployeeModel.findById(employeeId)[0]._id.toString();
 
-        console.log(employeeIdObj);
+        // console.log(employeeIdObj);
         
     
-        const targetSchedule = await WeekScheduleModel.indByIdAndUpdate(
-            thisScheduleId,
-            {$push: {weekdayName: employeeIdObj}
-        });
+        // const targetSchedule = await WeekScheduleModel.findByIdAndUpdate(
+        //     thisScheduleId,
+        //     {$push: {weekdayName: employeeIdObj}
+        // });
 
         //const targetSchedule = WeekScheduleModel.findById(thisScheduleId).populate();
 
