@@ -1,0 +1,177 @@
+@import "../../styles/variety";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+}
+
+.salaryReports {
+  $self: &;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+
+  &__between__input {
+    width: 350px;
+  }
+}
+
+.employeeReports__byEmployee__List {
+  width: 300px;
+}
+
+//////////////////////////////////////////
+.reports-page__header {
+  @include headerCenter;
+}
+
+// Employee reports -
+.employeesSalaryReportSection {
+  position: relative;
+  display: inline;
+  cursor: default;
+
+  // Chart headers -
+  .salaryReportTable {
+    margin-top: 30px;
+    display: inline;
+
+    tr {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+
+      th {
+        display: flex;
+        justify-content: end;
+        width: 200px;
+        padding: 10px;
+        color: $mainBlue;
+
+        @include noTopShadow;
+      }
+    }
+  }
+
+  // Employee details from TS -
+  .employeeDetails {
+    margin-top: 30px;
+    display: inline-block;
+    width: 200px;
+  }
+
+  .reportCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    &__report-details__name,
+    &__report-details__birthday,
+    &__report-details__email,
+    &__report-details__phone,
+    &__report-details__salary,
+    &__report-details__role {
+      display: flex;
+      width: 100%;
+      padding: 10px;
+      overflow: scroll;
+      @include noTopShadow;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+}
+
+.attendanceReport {
+  margin-top: -300px;
+  margin-left: 80%;
+  transform: translate(-80%);
+  width: 550px;
+  text-align: center;
+  margin-bottom: 50px;
+  cursor: default;
+
+  tr {
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    width: 550px;
+    padding: 10px;
+
+    @include noTopShadow;
+  }
+
+  th {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+  &__date,
+  &__duration {
+    font-size: 25px;
+    color: $mainBlue;
+  }
+}
+
+// Media query -
+@media screen and (max-width: 768px) {
+  .reports-page__header {
+    text-align: center;
+  }
+
+  .employeesSalaryReportSection {
+    .salaryReportTable {
+      margin-top: 20px;
+
+      tr {
+        th {
+          width: 120px;
+          padding: 10px 5px;
+          font-size: 15px;
+        }
+      }
+    }
+
+    .employeeDetails {
+      margin-top: 20px;
+
+      width: 170px;
+    }
+
+    .reportCard {
+      &__report-details__name,
+      &__report-details__birthday,
+      &__report-details__email,
+      &__report-details__phone,
+      &__report-details__salary,
+      &__report-details__role {
+        font-size: 15px;
+        padding: 10px 5px;
+      }
+    }
+  }
+
+  .attendanceReport {
+    width: 290px;
+    margin-top: 50px;
+    text-align: center;
+    margin-bottom: 50px;
+    cursor: default;
+
+    tr {
+      width: 290px;
+      padding: 10px 5px;
+    }
+
+    &__date,
+    &__duration {
+      font-size: 20px;
+    }
+  }
+}

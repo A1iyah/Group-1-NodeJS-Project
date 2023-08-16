@@ -42,44 +42,39 @@ var managerModel_1 = require("../manager/managerModel");
 var employeeModel_1 = require("../employee/employeeModel");
 var roleModel_1 = require("../role/roleModel");
 exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, roleObj, employeeDB, error_1;
+    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, selectedRole, employeeDB, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 5, , 6]);
+                _b.trys.push([0, 3, , 4]);
                 _a = req.body, name = _a.name, email = _a.email, password = _a.password, idNumber = _a.idNumber, phone = _a.phone, birthday = _a.birthday, salaryPerHour = _a.salaryPerHour, role = _a.role;
-                return [4 /*yield*/, roleModel_1["default"].findOne({ name: role })];
+                return [4 /*yield*/, roleModel_1["default"].findOne({ name: role }).select("_id")];
             case 1:
-                roleObj = _b.sent();
-                if (!!roleObj) return [3 /*break*/, 3];
-                roleObj = new roleModel_1["default"]({
-                    name: role
-                });
-                return [4 /*yield*/, roleObj.save()];
+                selectedRole = _b.sent();
+                if (!selectedRole) {
+                    throw new Error("Role not found");
+                }
+                return [4 /*yield*/, employeeModel_1["default"].create({
+                        name: name,
+                        email: email,
+                        password: password,
+                        idNumber: idNumber,
+                        phone: phone,
+                        birthday: birthday,
+                        salaryPerHour: salaryPerHour,
+                        role: selectedRole._id
+                    })];
             case 2:
-                _b.sent();
-                _b.label = 3;
-            case 3: return [4 /*yield*/, employeeModel_1["default"].create({
-                    name: name,
-                    email: email,
-                    password: password,
-                    idNumber: idNumber,
-                    phone: phone,
-                    birthday: birthday,
-                    salaryPerHour: salaryPerHour,
-                    role: roleObj._id
-                })];
-            case 4:
                 employeeDB = _b.sent();
                 console.log(employeeDB);
                 res.status(200).send({ ok: true, employeeDB: employeeDB });
-                return [3 /*break*/, 6];
-            case 5:
+                return [3 /*break*/, 4];
+            case 3:
                 error_1 = _b.sent();
                 console.log(error_1);
                 res.status(500).send("did not get data");
-                return [3 /*break*/, 6];
-            case 6: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };

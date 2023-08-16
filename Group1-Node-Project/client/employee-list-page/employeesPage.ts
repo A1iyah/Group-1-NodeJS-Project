@@ -181,29 +181,44 @@ function handleCreateEmployee(evt: any) {
     if (!salaryPerHour) throw new Error("No salary");
     if (!role) throw new Error("No role");
 
-    const newEmployee: any = {
-      name,
-      email,
-      password,
-      idNumber,
-      phone,
-      birthday,
-      salaryPerHour,
-      role,
-    };
-
-    fetch("/api/employees-page/add-employee", {
+    fetch("/api/employees-page/get-role-id", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newEmployee),
+      body: JSON.stringify({ targetName: role }),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        // handleGetWorkers();
+        const selectedRoleId = data.roleId;
+        const newEmployee: any = {
+          name,
+          email,
+          password,
+          idNumber,
+          phone,
+          birthday,
+          salaryPerHour,
+          role,
+        };
+
+        fetch("/api/employees-page/add-employee", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newEmployee),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            // handleGetWorkers();
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       })
       .catch((error) => {
         console.error(error);

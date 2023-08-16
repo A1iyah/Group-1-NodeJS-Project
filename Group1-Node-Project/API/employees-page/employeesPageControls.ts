@@ -7,7 +7,7 @@ import CompanyModel from "../company/companyModel";
 
 export const addEmployee = async (req: any, res: any) => {
   try {
-    const {
+    let {
       name,
       email,
       password,
@@ -18,13 +18,10 @@ export const addEmployee = async (req: any, res: any) => {
       role,
     } = req.body;
 
-    let roleObj = await RoleModel.findOne({ name: role });
+    const selectedRole = await RoleModel.findOne({ name: role }).select("_id");
 
-    if (!roleObj) {
-      roleObj = new RoleModel({
-        name: role,
-      });
-      await roleObj.save();
+    if (!selectedRole) {
+      throw new Error("Role not found");
     }
 
     const employeeDB = await EmployeeModel.create({
@@ -35,8 +32,9 @@ export const addEmployee = async (req: any, res: any) => {
       phone,
       birthday,
       salaryPerHour,
-      role: roleObj._id,
+      role: selectedRole._id,
     });
+
     console.log(employeeDB);
 
     res.status(200).send({ ok: true, employeeDB });

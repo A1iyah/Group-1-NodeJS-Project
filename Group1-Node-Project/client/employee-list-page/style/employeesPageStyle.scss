@@ -1,12 +1,18 @@
 @import "../../styles/variety";
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+}
+
 // Employees page:
 // Buttons -
 .addButtons {
   position: relative;
   width: 100%;
-
-  // border: 1px solid pink;
 
   &__open-add-btn {
     position: absolute;
@@ -168,7 +174,7 @@
         width: 60%;
         margin: 10px auto;
         text-align: center;
-        @include inputShadow;
+        @include inputShadowBlue;
       }
 
       button {
@@ -178,6 +184,208 @@
 
         &:hover {
           @include buttonHover;
+        }
+      }
+    }
+  }
+}
+
+// Media query -
+@media screen and (max-width: 768px) {
+  .addButtons {
+    // position: relative;
+    // width: 100%;
+
+    &__open-add-btn {
+      // position: absolute;
+      top: 20px;
+      right: 20px;
+      // z-index: 900;
+      // background-color: black;
+      // color: white;
+      // padding: 5px;
+      // padding-bottom: 0;
+      // border: none;
+      // border-radius: 50%;
+      // box-shadow: rgba(64, 64, 64, 0.724) 0px 5px 15px;
+      // transition: all 0.5s ease-in-out;
+      // cursor: pointer;
+
+      // &:hover {
+      //   @include buttonHover;
+      // }
+    }
+
+    &__add-buttons-container {
+      // display: none;
+      // position: absolute;
+      top: 40px;
+      right: 60px;
+      // z-index: 900;
+    }
+
+    // &__add-employees-btn,
+    // &__add-managers-btn {
+    //   @include buttonDesign;
+    //   width: 170px;
+    //   z-index: 900;
+    // }
+
+    // &__add-managers-btn {
+    //   margin-top: 10px;
+    // }
+
+    // &__add-employees-btn:hover,
+    // &__add-managers-btn:hover {
+    //   @include buttonHover;
+    // }
+  }
+
+  // Page
+  .employees-page {
+    // position: relative;
+    // height: 900px;
+
+    &__employees-section,
+    &__managers-section {
+      // position: relative;
+      // width: 100%;
+      // height: 500px;
+      width: 300px;
+      // display: flex;
+      // justify-content: space-evenly;
+      // flex-direction: row;
+
+      overflow-x: scroll;
+
+      border: 1px solid green;
+
+      &__employees-header,
+      &__managers-header {
+        // @include headerCenter;
+        text-align: center;
+      }
+
+      &__employees-chart,
+      &__managers-chart {
+        // display: flex;
+        // flex-direction: row;
+        // justify-content: space-evenly;
+        width: 100%;
+        // @include flexibleCenter(absolute, 30%, 50%, -50%, -30%);
+
+        th {
+          border: 1px solid pink;
+
+          // display: flex;
+          // justify-content: space-evenly;
+
+          width: 100%;
+          // @include inputShadow;
+        }
+      }
+
+      &__get-all-employees,
+      &__get-all-managers {
+        // width: 95%;
+        // height: 50%;
+        // overflow-y: scroll;
+        // @include flexibleCenter(absolute, 90%, 50%, -50%, -90%);
+        font-size: 15px;
+        border: 1px solid blue;
+
+        &::-webkit-scrollbar {
+          width: 5px;
+        }
+
+        &::-webkit-scrollbar-track {
+          box-shadow: inset 0 0 5px rgb(202, 202, 202);
+          border-radius: 5px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: $mainBlue;
+          border-radius: 5px;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+          background: rgb(7, 196, 196);
+        }
+      }
+    }
+
+    // Cards -
+    &__employeeCard,
+    &__managerCard {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid $mainBlue;
+
+      .employee-details,
+      .manager-details {
+        display: flex;
+        justify-content: space-evenly;
+        padding: 10px 0;
+
+        .employee-name,
+        .employee-birthday,
+        .employee-email,
+        .employee-phone,
+        .employee-role,
+        .manager-name,
+        .manager-birthday,
+        .manager-email,
+        .manager-phone,
+        .manager-role {
+          text-align: center;
+          width: 100%;
+          padding: 5px;
+          letter-spacing: 0.5px;
+
+          font-size: 15px;
+          // overflow: scroll;
+
+          // &::-webkit-scrollbar {
+          //   display: none;
+          // }
+        }
+      }
+    }
+
+    // Add new -
+    &__add-new-employees,
+    &__add-new-managers {
+      @include flexibleCenter(fixed, 50%, 50%, -50%, -50%);
+      display: flex;
+
+      fieldset {
+        width: 400px;
+        background-color: $mainBlue;
+        text-align: center;
+        @include boxShadow;
+
+        legend {
+          text-align: center;
+          font-size: 30px;
+        }
+
+        input,
+        select {
+          width: 60%;
+          margin: 10px auto;
+          text-align: center;
+          @include inputShadowBlue;
+        }
+
+        button {
+          display: block;
+          margin: 20px auto 20px;
+          @include buttonDesign;
+
+          &:hover {
+            @include buttonHover;
+          }
         }
       }
     }
