@@ -36,8 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.createNewWeekForScheduling = exports.getAllWeekSchedules = exports.createNewWeekSchedule = void 0;
+exports.addEmployeeToSchedule = exports.createNewWeekForScheduling = exports.getAllWeekSchedules = exports.createNewWeekSchedule = void 0;
 var scheduleModel_1 = require("./scheduleModel");
+var employeeModel_1 = require("../employee/employeeModel");
 exports.createNewWeekSchedule = function () { return __awaiter(void 0, void 0, void 0, function () {
     var weekSchedule, result;
     return __generator(this, function (_a) {
@@ -120,4 +121,68 @@ var getNextSunday = function () {
     var todayDate = new Date();
     var date = new Date(todayDate.getFullYear(), todayDate.getMonth(), (todayDate.getDate() - todayDate.getDay()) + 7);
     return date;
+};
+exports.addEmployeeToSchedule = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, thisScheduleId, employeeId, weekdayIndex, weekdayName, employeeIdObj, targetSchedule, error_4;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 3, , 4]);
+                _a = req.body, thisScheduleId = _a.thisScheduleId, employeeId = _a.employeeId, weekdayIndex = _a.weekdayIndex;
+                if (!thisScheduleId || !employeeId || !weekdayIndex)
+                    throw new Error("did not receive all data from client");
+                weekdayName = convertWeekdayIndexToWeekdayName(weekdayIndex);
+                console.log("weekdayName: ", weekdayName);
+                return [4 /*yield*/, employeeModel_1["default"].findById(employeeId)[0]._id.toString()];
+            case 1:
+                employeeIdObj = _b.sent();
+                console.log(employeeIdObj);
+                return [4 /*yield*/, scheduleModel_1["default"].indByIdAndUpdate(thisScheduleId, { $push: { weekdayName: employeeIdObj }
+                    })];
+            case 2:
+                targetSchedule = _b.sent();
+                //const targetSchedule = WeekScheduleModel.findById(thisScheduleId).populate();
+                // const updatedSchedule = await WeekScheduleModel.findById(thisScheduleId).populate(
+                //     {
+                //         path: weekdayName,
+                //         populate: {path: 'EmployeeModel'}
+                //     }
+                // )
+                res.status(200).send({ ok: true });
+                return [3 /*break*/, 4];
+            case 3:
+                error_4 = _b.sent();
+                console.log(error_4);
+                res.status(500).send("Did not get data");
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+var convertWeekdayIndexToWeekdayName = function (weekdayIndex) {
+    switch (weekdayIndex) {
+        case "0":
+            return "sunday";
+            break;
+        case "1":
+            return "monday";
+            break;
+        case "2":
+            return "tuesday";
+            break;
+        case "3":
+            return "wednesday";
+            break;
+        case "4":
+            return "thursday";
+            break;
+        case "5":
+            return "friday";
+            break;
+        case "6":
+            return "saturday";
+            break;
+        default:
+            return "";
+    }
 };
