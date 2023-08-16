@@ -15,8 +15,7 @@
 
 @mixin headerCenter {
   font-size: 50px;
-  text-align: center;
-  margin-top: 50px;
+  margin: 50px;
   cursor: default;
 }
 
@@ -29,16 +28,20 @@
     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
-@mixin inputShadow {
+@mixin inputShadowBlue {
   border: none;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
-    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, $mainBlue 0px 2px 4px -1px;
 }
 
 @mixin chartShadow {
   border: none;
   border-radius: 10px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+@mixin noTopShadow {
+  border: none;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
@@ -60,4 +63,4 @@
   cursor: pointer;
 }
 
-$mainBlue: rgb(22, 231, 231);
+$mainBlue: #67d7e3;

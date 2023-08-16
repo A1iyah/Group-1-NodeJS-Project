@@ -36,52 +36,24 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getManagerEmployees = exports.getAdminWorkers = exports.addManager = exports.addEmployee = void 0;
+exports.getMyTeam = exports.getManagerEmployees = exports.getAdminWorkers = exports.addManager = exports.addEmployee = void 0;
 var adminModel_1 = require("../admin/adminModel");
 var managerModel_1 = require("../manager/managerModel");
 var employeeModel_1 = require("../employee/employeeModel");
 var roleModel_1 = require("../role/roleModel");
-// export const addEmployee = async (
-//   req: any,
-//   res: any,
-//   name: string,
-//   email: string,
-//   password: string,
-//   idNumber: number,
-//   phone: number,
-//   birthday: Date,
-//   salaryPerHour: number,
-//   roleName: string
-// ) => {
-//   try {
-//     const role = await RoleModel.findOne({ name: roleName });
-//     if (!roleName) {
-//       console.log(`Role ${roleName} not found`);
-//       return;
-//     }
-//     const employeeDB = await EmployeeModel.create({
-//       name,
-//       email,
-//       password,
-//       idNumber,
-//       phone,
-//       birthday,
-//       salaryPerHour,
-//       role: role?._id,
-//     });
-//     const result = await employeeDB.save();
-//     res.status(200).send({ ok: true, result });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, employeeDB, error_1;
+    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, selectedRole, employeeDB, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 2, , 3]);
+                _b.trys.push([0, 3, , 4]);
                 _a = req.body, name = _a.name, email = _a.email, password = _a.password, idNumber = _a.idNumber, phone = _a.phone, birthday = _a.birthday, salaryPerHour = _a.salaryPerHour, role = _a.role;
+                return [4 /*yield*/, roleModel_1["default"].findOne({ name: role }).select("_id")];
+            case 1:
+                selectedRole = _b.sent();
+                if (!selectedRole) {
+                    throw new Error("Role not found");
+                }
                 return [4 /*yield*/, employeeModel_1["default"].create({
                         name: name,
                         email: email,
@@ -90,20 +62,19 @@ exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, voi
                         phone: phone,
                         birthday: birthday,
                         salaryPerHour: salaryPerHour,
-                        role: role._id
+                        role: selectedRole._id
                     })];
-            case 1:
+            case 2:
                 employeeDB = _b.sent();
                 console.log(employeeDB);
-                console.log("Received role id:", role._id);
                 res.status(200).send({ ok: true, employeeDB: employeeDB });
-                return [3 /*break*/, 3];
-            case 2:
+                return [3 /*break*/, 4];
+            case 3:
                 error_1 = _b.sent();
                 console.log(error_1);
                 res.status(500).send("did not get data");
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
@@ -222,3 +193,36 @@ exports.getManagerEmployees = function (req, res) { return __awaiter(void 0, voi
 //     console.log(error);
 //   }
 // };
+exports.getMyTeam = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _id, employee, managerId, teamEmployees, error_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                _id = req.body._id;
+                return [4 /*yield*/, employeeModel_1["default"].findById(_id)];
+            case 1:
+                employee = _a.sent();
+                if (!employee) {
+                    throw new Error("Employee not found");
+                }
+                managerId = employee.manager;
+                if (!managerId) {
+                    throw new Error("Employee does not have a manager");
+                }
+                return [4 /*yield*/, employeeModel_1["default"].find({
+                        manager: managerId
+                    }).populate("role")];
+            case 2:
+                teamEmployees = _a.sent();
+                res.send({ employees: teamEmployees });
+                return [3 /*break*/, 4];
+            case 3:
+                error_5 = _a.sent();
+                console.log(error_5);
+                res.status(500).send({ error: "Internal Server Error" });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };

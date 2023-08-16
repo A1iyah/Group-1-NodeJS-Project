@@ -12,24 +12,23 @@
 }
 .availabilityForm h1 {
   font-size: 50px;
-  text-align: center;
-  margin-top: 50px;
+  margin: 50px;
   cursor: default;
 }
 .availabilityForm__date {
   position: absolute;
   top: 10%;
-  left: 50%;
-  transform: translate(-50%, -10%);
+  left: 75px;
+  transform: translate(0, -10%);
   cursor: default;
   font-size: 25px;
-  border-bottom: 2px solid rgb(22, 231, 231);
+  border-bottom: 2px solid #67d7e3;
 }
 .availabilityForm #comment {
   position: absolute;
-  top: 70%;
+  top: 60%;
   left: 50%;
-  transform: translate(-50%, -70%);
+  transform: translate(-50%, -60%);
   cursor: default;
   border: none;
   border-radius: 10px;
@@ -47,9 +46,9 @@
   transition: all 0.5s ease-in-out;
   cursor: pointer;
   position: absolute;
-  top: 80%;
+  top: 75%;
   left: 50%;
-  transform: translate(-50%, -80%);
+  transform: translate(-50%, -75%);
   cursor: default;
   position: absolute;
   display: flex;
@@ -58,20 +57,20 @@
   padding-left: 5px;
 }
 .availabilityForm .submit-btn:hover {
-  background-color: rgb(22, 231, 231);
+  background-color: #67d7e3;
   color: black;
   cursor: pointer;
 }
 .availabilityForm__table {
   width: 905px;
   position: absolute;
-  top: 35%;
+  top: 30%;
   left: 50%;
-  transform: translate(-50%, -35%);
+  transform: translate(-50%, -30%);
   cursor: default;
   border: none;
   border-radius: 10px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 .availabilityForm__table thead {
   display: flex;
@@ -84,9 +83,6 @@
 }
 .availabilityForm__table tbody {
   display: flex;
-  border: none;
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 .availabilityForm__table tbody td.availabilityForm__table__chartDatesContainer {
   display: flex;
@@ -106,6 +102,7 @@
 }
 .availabilityForm__table tbody td button {
   font-size: 15px;
+  padding: 10px;
   width: 35px;
   height: 35px;
   border-radius: 50%;
@@ -117,7 +114,7 @@
   cursor: pointer;
 }
 .availabilityForm__table tbody td button:hover {
-  background-color: rgb(22, 231, 231);
+  background-color: #67d7e3;
   color: black;
   cursor: pointer;
 }
@@ -170,7 +167,6 @@
     font-size: 20px;
     padding: 10px 0 22.2px 0;
     letter-spacing: 2px;
-    box-shadow: 0 2px 5px -2px rgba(165, 165, 165, 0.728);
   }
   .availabilityForm__table thead th:first-child {
     padding: 23px 0;
@@ -178,7 +174,6 @@
   }
   .availabilityForm__table thead th:last-child {
     box-shadow: none;
-    box-shadow: 2px 0 5px -2px rgba(165, 165, 165, 0.728);
   }
   .availabilityForm__table tbody {
     display: flex;
@@ -210,7 +205,6 @@
     flex-direction: column;
     width: 100px;
     text-align: center;
-    box-shadow: 0 2px 5px -2px rgba(165, 165, 165, 0.728);
   }
   .availabilityForm__table tbody td:last-child {
     box-shadow: none;

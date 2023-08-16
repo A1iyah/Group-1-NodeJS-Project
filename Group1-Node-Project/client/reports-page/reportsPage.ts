@@ -122,14 +122,14 @@ function renderReportResult(managers, employees) {
     let totalHtml: string = "";
     const html: string = employees.map((employee) => {
       return `
-            <div class="employees-page__employeeCard">
-              <div class="employee-details">
-                <div class="employee-name">${employee.name}</div>
-                <div class="employee-birthday">${employee.birthday}</div>
-                <div class="employee-email">${employee.email}</div>
-                <div class="employee-phone">${employee.phone}</div>
-                <div class="employee-salary">${employee.salaryPerHour}</div>
-                <div class="employee-role">${employee.role.name}</div>
+            <div class="reportCard">
+              <div class="reportCard__report-details">
+                <div class="reportCard__report-details__name">${employee.name}</div>
+                <div class="reportCard__report-details__birthday">${employee.birthday}</div>
+                <div class="reportCard__report-details__email">${employee.email}</div>
+                <div class="reportCard__report-details__phone">${employee.phone}</div>
+                <div class="reportCard__report-details__salary">${employee.salaryPerHour}</div>
+                <div class="reportCard__report-details__role">${employee.role.name}</div>
               </div>
             </div>
       `;

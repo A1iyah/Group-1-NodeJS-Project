@@ -25,8 +25,13 @@ async function main() {
   // Add employees buttons -
   if (userType === UserType.Employee) {
     openAddButton.style.display = "none";
+    managerSection.style.display = "none";
+  } else if (userType === UserType.Manager) {
+    openAddButton.style.display = "block";
+    managerSection.style.display = "none";
   } else {
     openAddButton.style.display = "block";
+    managerSection.style.display = "block";
   }
   handleGetWorkers();
 }
@@ -58,23 +63,23 @@ function updateClock() {
 
 // Admin / Manager button -
 const openAddButton = document.querySelector(
-  ".open-add-btn"
+  ".addButtons__open-add-btn"
 ) as HTMLButtonElement;
 
 const addButtonsContainer = document.querySelector(
-  ".add-buttons-container"
+  ".addButtons__add-buttons-container"
 ) as HTMLDivElement;
 
 const addEmployeeBtn = document.querySelector(
-  ".add-employees-btn"
+  ".addButtons__add-employees-btn"
 ) as HTMLButtonElement;
 
 const addManagersBtnContainer = document.querySelector(
-  ".add-managers-button-container"
+  ".addButtons__add-managers-button-container"
 ) as HTMLDivElement;
 
 const addManagerBtn = document.querySelector(
-  ".add-managers-btn"
+  ".addButtons__add-managers-btn"
 ) as HTMLButtonElement;
 
 const addNewEmployeesForm = document.querySelector(
@@ -85,9 +90,6 @@ const addNewManagersForm = document.querySelector(
   ".employees-page__add-new-managers"
 ) as HTMLDivElement;
 
-// const managerCard = document.querySelector(
-//   ".employees-page__managerCard"
-// ) as HTMLDivElement;
 const managerSection = document.querySelector(
   ".employees-page__managers-section"
 ) as HTMLDivElement;
@@ -99,20 +101,17 @@ function updateUIForUserType(userType: UserType) {
     openAddButton.style.display = "block";
     addButtonsContainer.style.display = "block";
     addManagersBtnContainer.style.display = "block";
-    // managerCard!.style.display = "block";
-    // managerSection.style.display = "block";
+    managerSection.style.display = "block";
   } else if (userType === UserType.Manager) {
     openAddButton.style.display = "block";
     addButtonsContainer.style.display = "block";
     addManagersBtnContainer.style.display = "none";
-    // managerCard!.style.display = "none";
-    // managerSection.style.display = "none";
+    managerSection.style.display = "none";
   } else {
     openAddButton.style.display = "none";
     addButtonsContainer.style.display = "none";
     addManagersBtnContainer.style.display = "none";
-    // managerCard!.style.display = "none";
-    // managerSection.style.display = "none";
+    managerSection.style.display = "none";
   }
 }
 
@@ -160,16 +159,6 @@ addManagerBtn.addEventListener("click", () => {
 });
 updateUIForUserType(userType);
 
-// Manager section -
-
-// if (userType === UserType.Admin) {
-//   managerCard!.style.display = "block";
-//   managerSection!.style.display = "block";
-// } else {
-//   managerCard!.style.display = "none";
-//   managerSection!.style.display = "none";
-// }
-
 // Add new employee -
 function handleCreateEmployee(evt: any) {
   try {
@@ -183,17 +172,6 @@ function handleCreateEmployee(evt: any) {
     const salaryPerHour = evt.target.elements.salaryPerHour.value;
     const role = evt.target.elements.role.value;
 
-    console.log(
-      name,
-      email,
-      password,
-      idNumber,
-      phone,
-      birthday,
-      salaryPerHour,
-      role
-    );
-
     if (!name) throw new Error("No name");
     if (!email) throw new Error("No email");
     if (!password) throw new Error("No password");
@@ -203,28 +181,44 @@ function handleCreateEmployee(evt: any) {
     if (!salaryPerHour) throw new Error("No salary");
     if (!role) throw new Error("No role");
 
-    const newEmployee: any = {
-      name,
-      email,
-      password,
-      idNumber,
-      phone,
-      birthday,
-      salaryPerHour,
-      role,
-    };
-
-    fetch("/api/employees-page/add-employee", {
+    fetch("/api/employees-page/get-role-id", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newEmployee),
+      body: JSON.stringify({ targetName: role }),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        const selectedRoleId = data.roleId;
+        const newEmployee: any = {
+          name,
+          email,
+          password,
+          idNumber,
+          phone,
+          birthday,
+          salaryPerHour,
+          role,
+        };
+
+        fetch("/api/employees-page/add-employee", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newEmployee),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            // handleGetWorkers();
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       })
       .catch((error) => {
         console.error(error);
@@ -341,6 +335,25 @@ const handleGetWorkers = () => {
             if (!employees) throw new Error("No employees data found");
 
             renderEmployeeList(employees.employees);
+          } catch (error) {
+            console.log(error);
+          }
+        });
+    } else if (userType === UserType.Employee) {
+      fetch("/api/employees-page/get-my-team", {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ _id }),
+      })
+        .then((res) => res.json())
+        .then(({ employees }) => {
+          try {
+            if (!employees) throw new Error("No employees data found");
+
+            renderEmployeeList(employees);
           } catch (error) {
             console.log(error);
           }

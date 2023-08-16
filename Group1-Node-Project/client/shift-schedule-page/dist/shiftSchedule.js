@@ -352,7 +352,7 @@ var processEmployeeAllocation = function (employeeId, employeeName) {
         console.log("target shift allocation slot not found in DOM");
         return;
     }
-    targetShift.innerHTML = "<p>" + employeeName + "</p>";
+    targetShift.innerHTML = "<p class=\"shifts-panel__role-row__allocation-name\">" + employeeName + "</p>";
 };
 // class="employees-panel__employee-box__allocations-count">2</p>
 //           <img src="./images/green-v.png" alt="green-v" class="employees-panel__employee-box__availability-img">

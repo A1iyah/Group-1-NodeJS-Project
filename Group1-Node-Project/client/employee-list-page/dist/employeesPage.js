@@ -59,9 +59,15 @@ function main() {
                     // Add employees buttons -
                     if (userType === UserType.Employee) {
                         openAddButton.style.display = "none";
+                        managerSection.style.display = "none";
+                    }
+                    else if (userType === UserType.Manager) {
+                        openAddButton.style.display = "block";
+                        managerSection.style.display = "none";
                     }
                     else {
                         openAddButton.style.display = "block";
+                        managerSection.style.display = "block";
                     }
                     handleGetWorkers();
                     return [2 /*return*/];
@@ -88,16 +94,13 @@ function updateClock() {
     intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
 // Admin / Manager button -
-var openAddButton = document.querySelector(".open-add-btn");
-var addButtonsContainer = document.querySelector(".add-buttons-container");
-var addEmployeeBtn = document.querySelector(".add-employees-btn");
-var addManagersBtnContainer = document.querySelector(".add-managers-button-container");
-var addManagerBtn = document.querySelector(".add-managers-btn");
+var openAddButton = document.querySelector(".addButtons__open-add-btn");
+var addButtonsContainer = document.querySelector(".addButtons__add-buttons-container");
+var addEmployeeBtn = document.querySelector(".addButtons__add-employees-btn");
+var addManagersBtnContainer = document.querySelector(".addButtons__add-managers-button-container");
+var addManagerBtn = document.querySelector(".addButtons__add-managers-btn");
 var addNewEmployeesForm = document.querySelector(".employees-page__add-new-employees");
 var addNewManagersForm = document.querySelector(".employees-page__add-new-managers");
-// const managerCard = document.querySelector(
-//   ".employees-page__managerCard"
-// ) as HTMLDivElement;
 var managerSection = document.querySelector(".employees-page__managers-section");
 var openDiv = null;
 function updateUIForUserType(userType) {
@@ -105,22 +108,19 @@ function updateUIForUserType(userType) {
         openAddButton.style.display = "block";
         addButtonsContainer.style.display = "block";
         addManagersBtnContainer.style.display = "block";
-        // managerCard!.style.display = "block";
-        // managerSection.style.display = "block";
+        managerSection.style.display = "block";
     }
     else if (userType === UserType.Manager) {
         openAddButton.style.display = "block";
         addButtonsContainer.style.display = "block";
         addManagersBtnContainer.style.display = "none";
-        // managerCard!.style.display = "none";
-        // managerSection.style.display = "none";
+        managerSection.style.display = "none";
     }
     else {
         openAddButton.style.display = "none";
         addButtonsContainer.style.display = "none";
         addManagersBtnContainer.style.display = "none";
-        // managerCard!.style.display = "none";
-        // managerSection.style.display = "none";
+        managerSection.style.display = "none";
     }
 }
 openAddButton.addEventListener("click", function () {
@@ -169,64 +169,70 @@ addManagerBtn.addEventListener("click", function () {
     }
 });
 updateUIForUserType(userType);
-// Manager section -
-// if (userType === UserType.Admin) {
-//   managerCard!.style.display = "block";
-//   managerSection!.style.display = "block";
-// } else {
-//   managerCard!.style.display = "none";
-//   managerSection!.style.display = "none";
-// }
 // Add new employee -
 function handleCreateEmployee(evt) {
     try {
         evt.preventDefault();
-        var name = evt.target.elements.name.value;
-        var email = evt.target.elements.email.value;
-        var password = evt.target.elements.password.value;
-        var idNumber = evt.target.elements.idNumber.value;
-        var phone = evt.target.elements.phone.value;
-        var birthday = evt.target.elements.birthday.value;
-        var salaryPerHour = evt.target.elements.salaryPerHour.value;
-        var role = evt.target.elements.role.value;
-        console.log(name, email, password, idNumber, phone, birthday, salaryPerHour, role);
-        if (!name)
+        var name_1 = evt.target.elements.name.value;
+        var email_1 = evt.target.elements.email.value;
+        var password_1 = evt.target.elements.password.value;
+        var idNumber_1 = evt.target.elements.idNumber.value;
+        var phone_1 = evt.target.elements.phone.value;
+        var birthday_1 = evt.target.elements.birthday.value;
+        var salaryPerHour_1 = evt.target.elements.salaryPerHour.value;
+        var role_1 = evt.target.elements.role.value;
+        if (!name_1)
             throw new Error("No name");
-        if (!email)
+        if (!email_1)
             throw new Error("No email");
-        if (!password)
+        if (!password_1)
             throw new Error("No password");
-        if (!idNumber)
+        if (!idNumber_1)
             throw new Error("No idNumber");
-        if (!phone)
+        if (!phone_1)
             throw new Error("No phone");
-        if (!birthday)
+        if (!birthday_1)
             throw new Error("No birthday");
-        if (!salaryPerHour)
+        if (!salaryPerHour_1)
             throw new Error("No salary");
-        if (!role)
+        if (!role_1)
             throw new Error("No role");
-        var newEmployee = {
-            name: name,
-            email: email,
-            password: password,
-            idNumber: idNumber,
-            phone: phone,
-            birthday: birthday,
-            salaryPerHour: salaryPerHour,
-            role: role
-        };
-        fetch("/api/employees-page/add-employee", {
+        fetch("/api/employees-page/get-role-id", {
             method: "POST",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(newEmployee)
+            body: JSON.stringify({ targetName: role_1 })
         })
             .then(function (res) { return res.json(); })
             .then(function (data) {
-            console.log(data);
+            var selectedRoleId = data.roleId;
+            var newEmployee = {
+                name: name_1,
+                email: email_1,
+                password: password_1,
+                idNumber: idNumber_1,
+                phone: phone_1,
+                birthday: birthday_1,
+                salaryPerHour: salaryPerHour_1,
+                role: role_1
+            };
+            fetch("/api/employees-page/add-employee", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newEmployee)
+            })
+                .then(function (res) { return res.json(); })
+                .then(function (data) {
+                console.log(data);
+                // handleGetWorkers();
+            })["catch"](function (error) {
+                console.error(error);
+            });
         })["catch"](function (error) {
             console.error(error);
         });
@@ -336,6 +342,28 @@ var handleGetWorkers = function () {
                     if (!employees)
                         throw new Error("No employees data found");
                     renderEmployeeList(employees.employees);
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            });
+        }
+        else if (userType === UserType.Employee) {
+            fetch("/api/employees-page/get-my-team", {
+                method: "PATCH",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ _id: _id })
+            })
+                .then(function (res) { return res.json(); })
+                .then(function (_a) {
+                var employees = _a.employees;
+                try {
+                    if (!employees)
+                        throw new Error("No employees data found");
+                    renderEmployeeList(employees);
                 }
                 catch (error) {
                     console.log(error);

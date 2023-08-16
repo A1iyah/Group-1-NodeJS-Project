@@ -15,15 +15,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  background-color: black;
-  color: white;
+  // box-shadow: 1px 1px 10px 1px #cccccc92;
+  @include inputShadowBlue;
 
   &__links-group {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 10px;
   }
 
   &__link {
@@ -36,20 +35,26 @@
 
     &:hover {
       color: $mainBlue;
+      border-bottom: 1.5px solid $mainBlue;
       cursor: pointer;
     }
   }
 
   &__user-name {
-    margin-right: 25px;
+    margin-right: 20px;
+    background-color: gray;
+    border-radius: 3px;
+    padding: 5px;
+    color: white;
   }
 }
 
-@media screen and (max-width: 750px) {
+// Media query -
+@media screen and (max-width: 768px) {
   .nav-bar {
     width: 100%;
     height: 100px;
-    padding: 5px;
+    padding: 10px;
     font-size: 17px;
     letter-spacing: 0.5px;
 
@@ -61,7 +66,7 @@
     }
 
     &__link {
-      margin-right: 15px;
+      margin-right: 10px;
       font-size: 12px;
     }
 
@@ -105,7 +110,9 @@
     &__user-name {
       position: absolute;
       top: 10px;
-      right: 20px;
+      right: 10px;
+      margin-right: 0;
+      font-size: 15px;
     }
   }
 }
@@ -134,7 +141,8 @@
     text-align: center;
     margin-bottom: 30px;
     width: 250px;
-    @include inputShadow;
+    background-color: #b9f5fb;
+    @include inputShadowBlue;
   }
 
   &__submit {
@@ -154,16 +162,17 @@
   }
 
   select {
-    @include inputShadow;
+    @include inputShadowBlue;
     @include flexibleCenter(absolute, 100%, 50%, -50%, 0);
-    background: $mainBlue;
+    background-color: #b9f5fb;
     color: black;
     cursor: pointer;
     border-radius: 3px;
   }
 }
 
-@media screen and (max-width: 750px) {
+// Media query -
+@media screen and (max-width: 768px) {
   .login {
     width: 90%;
     height: 400px;
@@ -178,7 +187,7 @@
 
 // Start / end shift page -
 .shift {
-  @include boxShadow;
+  @include chartShadow;
   @include centerDiv;
   width: 70%;
   height: 70%;
@@ -192,35 +201,57 @@
     span {
       font-size: 40px;
       color: $mainBlue;
-      text-shadow: 2px 2px 15px white;
+      // text-shadow: 2px 2px 15px white;
     }
   }
 
   &__date {
     font-size: 30px;
     width: 200px;
-    @include flexibleCenter(absolute, 38%, 50%, -50%, -38%);
-    @include inputShadow;
+    @include flexibleCenter(absolute, 32%, 50%, -50%, -32%);
   }
 
-  &__startEndShift__clock {
-    @include flexibleCenter(absolute, 65%, 50%, -50%, -65%);
-    font-size: 30px;
-  }
+  &__startEndShift {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translate(-50%);
 
-  &__startEndShift__start,
-  &__startEndShift__end {
-    @include flexibleCenter(absolute, 85%, 50%, -50%, -85%);
-    @include buttonDesign;
-    font-size: 25px;
-  }
+    border-radius: 50%;
+    border: 2px solid $mainBlue;
 
-  &__startEndShift__start:hover,
-  &__startEndShift__end:hover {
-    @include buttonHover;
+    height: 270px;
+    width: 270px;
+
+    &__clock {
+      @include flexibleCenter(absolute, 30%, 50%, -50%, -30%);
+      font-size: 30px;
+    }
+
+    &__start,
+    &__end {
+      @include flexibleCenter(absolute, 80%, 50%, -50%, -80%);
+      background-color: transparent;
+      border: none;
+      text-align: center;
+      font-size: 60px;
+      color: $mainBlue;
+      transition: all 0.5s ease-in-out;
+      cursor: pointer;
+    }
+
+    &__start:hover,
+    &__end:hover {
+      background-color: transparent;
+      border: none;
+      color: black;
+      font-size: 70px;
+      cursor: pointer;
+    }
   }
 }
 
+// Media query -
 @media screen and (max-width: 768px) {
   .shift {
     @include flexibleCenter(absolute, 70%, 50%, -50%, -70%);
@@ -240,14 +271,35 @@
     }
 
     &__date {
-      @include flexibleCenter(absolute, 40%, 50%, -50%, -40%);
-      font-size: 25px;
+      @include flexibleCenter(absolute, 50%, 50%, -50%, -50%);
+      font-size: 23px;
     }
 
-    &__startEndShift__start,
-    &__startEndShift__end {
-      font-size: 20px;
-      padding: 5px;
+    &__startEndShift {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%);
+      height: 150px;
+      width: 100%;
+      border: none;
+
+      &__clock {
+        @include flexibleCenter(absolute, 15%, 50%, -50%, -15%);
+        font-size: 25px;
+      }
+
+      &__start,
+      &__end {
+        @include buttonDesign;
+        font-size: 20px;
+        padding: 5px 10px;
+
+        &:hover {
+          font-size: 20px;
+          background-color: $mainBlue;
+        }
+      }
     }
   }
 }
@@ -360,144 +412,3 @@
   }
 }
 //
-
-// // Employees page -
-// .employees-page {
-//   position: relative;
-//   height: 900px;
-
-//   border: 3px solid green;
-
-//   &__main-header {
-//     @include headerCenter;
-//   }
-
-//   .open-add-btn {
-//     position: absolute;
-//     left: 30px;
-//     background-color: black;
-//     color: white;
-//     padding: 10px;
-//     padding-bottom: 4px;
-//     border: none;
-//     border-radius: 50%;
-//     box-shadow: rgba(64, 64, 64, 0.724) 0px 5px 15px;
-//     transition: all 0.5s ease-in-out;
-//     cursor: pointer;
-
-//     &:hover {
-//       @include buttonHover;
-//     }
-//   }
-
-//   .add-buttons-container {
-//     display: none;
-//     position: relative;
-//     margin-top: 20px;
-//   }
-
-//   .add-employees-btn,
-//   .add-managers-btn {
-//     @include buttonDesign;
-//     width: 170px;
-//     position: absolute;
-//     top: 10px;
-//     left: 80px;
-//   }
-
-//   .add-employees-btn {
-//     top: 50px;
-//   }
-
-//   .add-employees-btn:hover,
-//   .add-managers-btn:hover {
-//     @include buttonHover;
-//   }
-
-//   &__chart {
-//     width: 80%;
-//     @include flexibleCenter(absolute, 30%, 50%, -50%, -30%);
-
-//     th {
-//       width: 250px;
-//       @include inputShadow;
-//     }
-//   }
-
-//   &__get-all-employees {
-//     width: 80%;
-//     height: 50%;
-//     overflow-y: scroll;
-//     @include flexibleCenter(absolute, 65%, 50%, -50%, -65%);
-//   }
-
-//   &__get-all-employees::-webkit-scrollbar {
-//     display: none;
-//   }
-
-//   &__employeeCard {
-//     width: 100%;
-//     display: flex;
-//     flex-direction: column;
-
-//     .employee-details {
-//       display: flex;
-//       justify-content: space-evenly;
-//       padding: 10px 0;
-
-//       .employee-name,
-//       .employee-birthday,
-//       .employee-email,
-//       .employee-phone,
-//       .employee-role {
-//         text-align: center;
-//         width: 250px;
-//         padding: 5px;
-//         letter-spacing: 0.5px;
-//         overflow: scroll;
-
-//         @include inputShadow;
-
-//         &::-webkit-scrollbar {
-//           display: none;
-//         }
-//       }
-//     }
-//   }
-
-//   &__add-new-employees,
-//   &__add-new-managers {
-//     @include flexibleCenter(fixed, 50%, 50%, -50%, -50%);
-//     display: flex;
-
-//     fieldset {
-//       width: 400px;
-//       background-color: $mainBlue;
-//       text-align: center;
-//       @include boxShadow;
-
-//       legend {
-//         text-align: center;
-//         font-size: 30px;
-//       }
-
-//       input,
-//       select {
-//         width: 60%;
-//         margin: 10px auto;
-//         text-align: center;
-//         @include inputShadow;
-//       }
-
-//       button {
-//         display: block;
-//         margin: 20px auto 20px;
-//         @include buttonDesign;
-
-//         &:hover {
-//           @include buttonHover;
-//         }
-//       }
-//     }
-//   }
-// }
