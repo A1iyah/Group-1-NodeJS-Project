@@ -103,6 +103,7 @@ var addNewEmployeesForm = document.querySelector(".employees-page__add-new-emplo
 var addNewManagersForm = document.querySelector(".employees-page__add-new-managers");
 var managerSection = document.querySelector(".employees-page__managers-section");
 var openDiv = null;
+var isFormsOpen = false;
 function updateUIForUserType(userType) {
     if (userType === UserType.Admin) {
         openAddButton.style.display = "block";
@@ -127,18 +128,26 @@ openAddButton.addEventListener("click", function () {
     if (userType === UserType.Admin) {
         if (addButtonsContainer.style.display === "block") {
             addButtonsContainer.style.display = "none";
+            addNewEmployeesForm.style.display = "none";
+            addNewManagersForm.style.display = "none";
+            isFormsOpen = false;
         }
         else {
             addButtonsContainer.style.display = "block";
             addManagersBtnContainer.style.display = "block";
+            isFormsOpen = true;
         }
     }
     else if (userType === UserType.Manager) {
         if (addButtonsContainer.style.display === "block") {
             addButtonsContainer.style.display = "none";
+            addNewEmployeesForm.style.display = "none";
+            addNewManagersForm.style.display = "none";
+            isFormsOpen = false;
         }
         else {
             addButtonsContainer.style.display = "block";
+            isFormsOpen = true;
         }
     }
 });
@@ -146,6 +155,7 @@ addEmployeeBtn.addEventListener("click", function () {
     if (openDiv === addNewEmployeesForm) {
         addNewEmployeesForm.style.display = "none";
         openDiv = null;
+        isFormsOpen = false;
     }
     else {
         if (openDiv) {
@@ -153,12 +163,14 @@ addEmployeeBtn.addEventListener("click", function () {
         }
         addNewEmployeesForm.style.display = "block";
         openDiv = addNewEmployeesForm;
+        isFormsOpen = true;
     }
 });
 addManagerBtn.addEventListener("click", function () {
     if (openDiv === addNewManagersForm) {
         addNewManagersForm.style.display = "none";
         openDiv = null;
+        isFormsOpen = false;
     }
     else {
         if (openDiv) {
@@ -166,6 +178,7 @@ addManagerBtn.addEventListener("click", function () {
         }
         addNewManagersForm.style.display = "block";
         openDiv = addNewManagersForm;
+        isFormsOpen = true;
     }
 });
 updateUIForUserType(userType);
@@ -209,7 +222,6 @@ function handleCreateEmployee(evt) {
         })
             .then(function (res) { return res.json(); })
             .then(function (data) {
-            var selectedRoleId = data.roleId;
             var newEmployee = {
                 name: name_1,
                 email: email_1,

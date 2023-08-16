@@ -95,6 +95,7 @@ const managerSection = document.querySelector(
 ) as HTMLDivElement;
 
 let openDiv: HTMLDivElement | null = null;
+let isFormsOpen = false;
 
 function updateUIForUserType(userType: UserType) {
   if (userType === UserType.Admin) {
@@ -119,15 +120,23 @@ openAddButton.addEventListener("click", () => {
   if (userType === UserType.Admin) {
     if (addButtonsContainer.style.display === "block") {
       addButtonsContainer.style.display = "none";
+      addNewEmployeesForm.style.display = "none";
+      addNewManagersForm.style.display = "none";
+      isFormsOpen = false;
     } else {
       addButtonsContainer.style.display = "block";
       addManagersBtnContainer.style.display = "block";
+      isFormsOpen = true;
     }
   } else if (userType === UserType.Manager) {
     if (addButtonsContainer.style.display === "block") {
       addButtonsContainer.style.display = "none";
+      addNewEmployeesForm.style.display = "none";
+      addNewManagersForm.style.display = "none";
+      isFormsOpen = false;
     } else {
       addButtonsContainer.style.display = "block";
+      isFormsOpen = true;
     }
   }
 });
@@ -136,12 +145,14 @@ addEmployeeBtn.addEventListener("click", () => {
   if (openDiv === addNewEmployeesForm) {
     addNewEmployeesForm.style.display = "none";
     openDiv = null;
+    isFormsOpen = false;
   } else {
     if (openDiv) {
       openDiv.style.display = "none";
     }
     addNewEmployeesForm.style.display = "block";
     openDiv = addNewEmployeesForm;
+    isFormsOpen = true;
   }
 });
 
@@ -149,12 +160,14 @@ addManagerBtn.addEventListener("click", () => {
   if (openDiv === addNewManagersForm) {
     addNewManagersForm.style.display = "none";
     openDiv = null;
+    isFormsOpen = false;
   } else {
     if (openDiv) {
       openDiv.style.display = "none";
     }
     addNewManagersForm.style.display = "block";
     openDiv = addNewManagersForm;
+    isFormsOpen = true;
   }
 });
 updateUIForUserType(userType);
@@ -193,7 +206,6 @@ function handleCreateEmployee(evt: any) {
     })
       .then((res) => res.json())
       .then((data) => {
-        const selectedRoleId = data.roleId;
         const newEmployee: any = {
           name,
           email,
