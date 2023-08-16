@@ -90,7 +90,15 @@ export const getSelectedManager = async (req: any, res: any) => {
     const managerDB: any = await ManagerModel.find({
       idNumber: idNumber,
     })
-      .populate("employees")
+      .populate({
+        path: "employees",
+
+        populate: {
+          path: "role",
+          model: "Role",
+        },
+      })
+
       .exec();
     console.log(managerDB);
 

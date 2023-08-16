@@ -53,6 +53,7 @@ var attendanceReport = document.querySelector("#attendanceReport");
 var attendanceReportTable = document.querySelector(".attendanceReport");
 var employeeDetails = document.querySelector(".employeeDetails");
 var managerDetails = document.querySelector(".managerDetails");
+var employeeAttendance = document.querySelector(".employeeAttendance");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         var totalTimeShift, startTimeString, currentTime;
@@ -115,36 +116,6 @@ function renderReportResultManager(managers) {
         var html = managers.map(function (manager) {
             return "\n            <div class=\"employees-page__employeeCard\">\n            <div class=\"employee-details\">\n              <div class=\"employee-name\">" + manager.name + "</div>\n              <div class=\"employee-birthday\">" + manager.birthday + "</div>\n              <div class=\"employee-email\">" + manager.email + "</div>\n              <div class=\"employee-phone\">" + manager.phone + "</div>\n              <div class=\"employee-salary\">" + manager.salaryPerHour + "</div>\n              <div class=\"employee-role\">" + manager.role.name + "</div>\n            </div>\n          </div>\n      ";
         });
-        // for (let i = 0; i < employees.length; i++) {
-        //   // const employeeToShow = employees[i];
-        //   const listItem = document.createElement("tr");
-        //   const tdName = document.createElement("td");
-        //   const tdBirthday = document.createElement("td");
-        //   const tdEmail = document.createElement("td");
-        //   const tdPhone = document.createElement("td");
-        //   const tdSalaryPerHour = document.createElement("td");
-        //   const tdRole = document.createElement("td");
-        //   tdName.appendChild(document.createTextNode(employees[i].name));
-        //   listItem.appendChild(tdName);
-        //   tdBirthday.appendChild(document.createTextNode(employees[i].birthday));
-        //   listItem.appendChild(tdBirthday);
-        //   tdEmail.appendChild(document.createTextNode(employees[i].email));
-        //   listItem.appendChild(tdEmail);
-        //   tdPhone.appendChild(document.createTextNode(employees[i].phone));
-        //   listItem.appendChild(tdPhone);
-        //   tdSalaryPerHour.appendChild(
-        //     document.createTextNode(employees[i].salaryPerHour)
-        //   );
-        //   listItem.appendChild(tdSalaryPerHour);
-        //   if (employees[i].role) {
-        //     tdRole.appendChild(document.createTextNode(employees[i].role.name));
-        //     listItem.appendChild(tdRole);
-        //   } else {
-        //     tdRole.appendChild(document.createTextNode("manager"));
-        //     listItem.appendChild(tdRole);
-        //   }
-        //   salaryReportResult?.appendChild(listItem);
-        // }
         managerDetails.innerHTML = html;
     }
     catch (error) {
@@ -173,40 +144,25 @@ function renderShiftResult(employees) {
         var html = attendanceArr.map(function (attendance) {
             return "\n            <div class=\"employees-page__employeeCard\">\n              <div class=\"employee-details\">\n                <div class=\"employee-name\">" + attendance.date + "</div>\n                <div class=\"employee-birthday\">" + attendance.clock + "</div>\n              </div>\n            </div>\n      ";
         });
-        var employeeAttendance = document.querySelector(".employeeAttendance");
         employeeAttendance.innerHTML = html;
-        // for (let i = 0; employees.attendance.length - 1 >= i; i++) {
-        //   const listItem = document.createElement("tr");
-        //   const tdDateHour = document.createElement("td");
-        //   const tdDuration = document.createElement("td");
-        //   tdDateHour.appendChild(
-        //     document.createTextNode(employees.attendance[i].date)
-        //   );
-        //   listItem.appendChild(tdDateHour);
-        //   tdDuration.appendChild(
-        //     document.createTextNode(employees.attendance[i].clock)
-        //   );
-        //   listItem.appendChild(tdDuration);
-        //   attendanceReport?.appendChild(listItem);
-        // }
     }
     catch (error) {
         console.log(error);
     }
 }
 salaryButton.addEventListener("click", function (e) {
+    resetPage();
     reportsBySalary.style.display = "flex";
     reportsByEmployee.style.display = "none";
     reportsByManager.style.display = "none";
-    resetPage();
 });
 function HandleSalaryUp(ev) {
     try {
+        resetPage();
         ev.preventDefault();
         var salaryUp = ev.target.elements.salaryUp.value;
         if (!salaryUp)
             throw new Error("no salary entered");
-        resetPage();
         console.log(salaryUp);
         if (userType === UserType.Admin) {
             var _id = user._id;
@@ -240,7 +196,7 @@ function HandleSalaryUp(ev) {
                 .then(function (res) { return res.json(); })
                 .then(function (_a) {
                 var employees = _a.employees;
-                renderReportResult(employees.employees);
+                renderReportResultEmployees(employees.employees);
             });
         }
     }
@@ -270,8 +226,8 @@ function HandleSalaryDown(ev) {
                 .then(function (_a) {
                 var employees = _a.employees;
                 console.log(employees.managers);
-                renderReportResult(employees.managers, employees.employees);
-                // renderReportResult(employees.employees);
+                renderReportResultManager(employees.managers);
+                renderReportResultEmployees(employees.employees);
             });
         }
         else if (userType === UserType.Manager) {
@@ -288,7 +244,7 @@ function HandleSalaryDown(ev) {
                 .then(function (_a) {
                 var employees = _a.employees;
                 console.log(employees.employees);
-                renderReportResult(employees.employees);
+                renderReportResultEmployees(employees.employees);
             });
         }
     }
@@ -322,8 +278,8 @@ function HandleSalaryBetween(ev) {
                 var employees = _a.employees;
                 console.log(employees.employees);
                 console.log(employees.managers);
-                renderReportResult(employees.managers);
-                renderReportResult(employees.employees);
+                renderReportResultManager(employees.managers);
+                renderReportResultEmployees(employees.employees);
             });
         }
         else if (userType === UserType.Manager) {
@@ -339,7 +295,7 @@ function HandleSalaryBetween(ev) {
                 .then(function (res) { return res.json(); })
                 .then(function (_a) {
                 var employees = _a.employees;
-                renderReportResult(employees.employees);
+                renderReportResultEmployees(employees.employees);
             });
         }
     }
@@ -430,7 +386,7 @@ function HandleEmployeeReport(ev) {
             .then(function (_a) {
             var employeeDB = _a.employeeDB;
             console.log(employeeDB[0]);
-            renderReportResult(employeeDB);
+            renderReportResultEmployees(employeeDB);
             renderShiftResult(employeeDB[0]);
         });
     }
@@ -486,8 +442,8 @@ function HandleManagerReport(ev) {
             .then(function (_a) {
             var managerDB = _a.managerDB;
             console.log(managerDB[0].employees);
-            renderReportResult(managerDB);
-            renderReportResult(managerDB[0].employees);
+            renderReportResultManager(managerDB);
+            renderReportResultManager(managerDB[0].employees);
             renderShiftResult(managerDB[0]);
         });
     }
@@ -510,7 +466,7 @@ function employeeUsingReport() {
             .then(function (_a) {
             var employeeDB = _a.employeeDB;
             console.log(employeeDB);
-            renderReportResult(employeeDB);
+            renderReportResultEmployees(employeeDB);
             renderShiftResult(employeeDB[0]);
         });
     }
@@ -519,11 +475,8 @@ function employeeUsingReport() {
     }
 }
 function resetPage() {
-    for (var i = salaryReportResult.children.length - 1; i > 0; i--) {
-        salaryReportResult.removeChild(salaryReportResult.children[i]);
-    }
-    for (var i = attendanceReport.children.length - 1; i > 0; i--) {
-        attendanceReport.removeChild(attendanceReport.children[i]);
-    }
+    managerDetails.innerHTML = "";
+    employeeDetails.innerHTML = "";
     attendanceReportTable.style.display = "none";
+    employeeAttendance.innerHTML = "";
 }

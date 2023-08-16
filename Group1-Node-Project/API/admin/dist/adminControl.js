@@ -153,6 +153,10 @@ exports.getSelectedSalaryDown = function (req, res) { return __awaiter(void 0, v
                         path: "managers",
                         match: {
                             salaryPerHour: { $lt: salaryDown }
+                        },
+                        populate: {
+                            path: "role",
+                            model: "Role"
                         }
                     })
                         .populate({
@@ -192,6 +196,10 @@ exports.getSelectedSalaryBetween = function (req, res) { return __awaiter(void 0
                         path: "managers",
                         match: {
                             salaryPerHour: { $gte: minSalary, $lte: maxSalary }
+                        },
+                        populate: {
+                            path: "role",
+                            model: "Role"
                         }
                     })
                         .populate({
