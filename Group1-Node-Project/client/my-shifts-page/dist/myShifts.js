@@ -35,25 +35,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var navBarElement = document.querySelector(".nav-bar");
+var navBarElem = document.querySelector(".nav-bar");
 var runningClock = document.querySelector(".running-clock");
-var weekDays;
-var nextSunday;
-var nextSaturday;
-var startTime1;
-var intervalIdNew = null;
-var targetedDayIndex;
-var targetedRoleType;
-var targetedRoleCount;
-var thisScheduleId;
+var user;
+var userType;
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var totalTimeShift, startTimeString, currentTime;
+        var data, totalTimeShift, startTimeString, currentTime;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, getActiveUser()];
+                case 0: return [4 /*yield*/, loadActiveUser()];
                 case 1:
-                    _a.sent();
-                    renderNavBar(navBarElement);
+                    data = _a.sent();
+                    user = data.user;
+                    userType = data.userType;
+                    renderNavBar(navBarElem, userType, user);
                     totalTimeShift = localStorage.getItem("totalTimeShift");
                     if (totalTimeShift) {
                         runningClock.innerHTML = totalTimeShift;
@@ -62,10 +58,9 @@ function main() {
                         console.log(startTime1);
                         currentTime = Date.now();
                         console.log(currentTime);
-                        // const elapsedTime = currentTime - startTime1;
-                        updateClock();
+                        handleShiftsDisplay();
                     }
-                    renderAllAvailableEmployees();
+                    getShiftsData();
                     return [2 /*return*/];
             }
         });
@@ -89,3 +84,29 @@ function continueUpdateElapsedTime() {
 function updateClock() {
     intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
+var handleShiftsDisplay = function () {
+    try {
+        fetch("/api/schedule/get-employees-by-role-and-weekday", {
+            method: "SEARCH",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                role: roleType,
+                weekday: weekdayIndex
+            })
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+            processShiftSelection(data.employees, roleType, weekdayIndex);
+        });
+    }
+    catch (error) {
+        console.error(error);
+    }
+};
+var getShiftsData = function () {
+};
+var renderShifts = function () {
+};

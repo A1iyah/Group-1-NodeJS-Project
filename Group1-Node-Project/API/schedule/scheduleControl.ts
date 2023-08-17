@@ -133,3 +133,20 @@ const convertWeekdayIndexToWeekdayName = (weekdayIndex: string): string =>
             return "";
     }
 }
+
+export const getNextWeekSchedule = async (req: any, res: any) =>
+{
+    try {
+        
+        const nextSundayDate = getNextSunday();
+    
+        const nextWeekSchedule = await WeekScheduleModel.find({ startDate: nextSundayDate});
+    
+        console.log("nextWeekSchedule: ", nextWeekSchedule);
+        res.status(200).send({ok: true, nextWeekSchedule});
+    } catch (error) {
+        console.log("did not receive data from DB");
+        res.status(500).send("Did not get data");
+    }
+    
+}
