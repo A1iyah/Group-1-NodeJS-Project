@@ -37,15 +37,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var _this = this;
 var userDB;
 var runningClock = document.querySelector(".running-clock");
+var user;
+var userType;
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var totalTimeShift, startTimeString, currentTime;
+        var data, totalTimeShift, startTimeString, currentTime;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, getActiveUser()];
+                case 0: return [4 /*yield*/, loadActiveUser()];
                 case 1:
-                    _a.sent();
-                    renderNavBar(navBarElement);
+                    data = _a.sent();
+                    user = data.user;
+                    userType = data.userType;
+                    renderNavBar(navBarElem, userType, user);
                     totalTimeShift = localStorage.getItem("totalTimeShift");
                     if (totalTimeShift) {
                         runningClock.innerHTML = totalTimeShift;

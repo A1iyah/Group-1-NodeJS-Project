@@ -9,6 +9,7 @@ import managerRoute from "./API/manager/managerRoute";
 import roleRoute from "./API/role/roleRoute";
 import weekScheduleRouter from "./API/schedule/scheduleRoute";
 import employeesPageRoute from "./API/employees-page/employeesPageRoute";
+import cookieRoute from "./API/cookies/cookiesRoute";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -39,6 +40,7 @@ app.use("/api/role/", roleRoute);
 app.use("/api/availability/", availabilityRoute);
 app.use("/api/schedule/", weekScheduleRouter);
 app.use("/api/employees-page", employeesPageRoute);
+app.use("/api/cookies", cookieRoute);
 
 app.listen(3000, () => {
   console.log("server listen on port 3000");

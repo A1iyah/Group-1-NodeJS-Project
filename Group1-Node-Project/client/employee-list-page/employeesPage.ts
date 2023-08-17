@@ -1,11 +1,16 @@
-const navBarElement = document.querySelector(".nav-bar") as HTMLDivElement;
+const navBarElem = document.querySelector(".nav-bar") as HTMLDivElement;
 const runningClock2 = document.querySelector(
   ".running-clock"
 ) as HTMLDivElement;
 
+let user: any;
+let userType: number;
+
 async function main() {
-  await getActiveUser();
-  renderNavBar(navBarElement);
+  const data = await loadActiveUser();
+  user = data.user;
+  userType = data.userType;
+  renderNavBar(navBarElem, userType, user);
 
   const totalTimeShift = localStorage.getItem("totalTimeShift");
   if (totalTimeShift) {
@@ -35,6 +40,7 @@ async function main() {
   }
   handleGetWorkers();
 }
+
 main();
 
 function continueUpdateElapsedTime() {
@@ -323,6 +329,7 @@ function handleCreateManager(evt: any) {
 const handleGetWorkers = () => {
   try {
     const _id = user._id;
+    console.log(_id);
 
     if (userType === UserType.Admin) {
       fetch("/api/employees-page/get-admin-workers", {
@@ -373,11 +380,12 @@ const handleGetWorkers = () => {
         body: JSON.stringify({ _id }),
       })
         .then((res) => res.json())
-        .then(({ employees }) => {
+        .then(({ managerDB }) => {
           try {
-            if (!employees) throw new Error("No employees data found");
+            if (!managerDB) throw new Error("No employees data found");
+            console.log(managerDB);
 
-            renderEmployeeList(employees);
+            renderEmployeeList(managerDB.employees);
           } catch (error) {
             console.log(error);
           }

@@ -15,56 +15,75 @@ function handleLogin(ev) {
             throw new Error("password not found");
         if (!role)
             throw new Error("role not found");
+        var pageToOpen_1;
         if (role === "employee") {
-            fetch("/api/employee/login", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email: email, password: password })
-            })
-                .then(function (res) { return res.json(); })
-                .then(function (data) {
-                console.log(data.ok);
-                var check = data.ok;
-                openHP(check, "./employeeHP/employeeHP.html");
-            });
+            pageToOpen_1 = "./employeeHP/employeeHP.html";
         }
         else if (role === "manager") {
-            fetch("/api/manager/login", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email: email, password: password })
-            })
-                .then(function (res) { return res.json(); })
-                .then(function (data) {
-                console.log(data.ok);
-                var check = data.ok;
-                openHP(check, "./managerHP/managerHP.html");
-            });
+            pageToOpen_1 = "./managerHP/managerHP.html";
         }
         else if (role === "admin") {
-            fetch("/api/admin/login", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email: email, password: password })
-            })
-                .then(function (res) { return res.json(); })
-                .then(function (data) {
-                console.log(data.ok);
-                var check = data.ok;
-                openHP(check, "./shift-schedule-page/shiftSchedule.html");
-            });
+            pageToOpen_1 = "./shift-schedule-page/shiftSchedule.html";
         }
-        else
-            throw new Error("role not found");
+        fetch("/api/cookies/login", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email: email, password: password })
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+            console.log(data.ok);
+            var check = data.ok;
+            openHP(check, pageToOpen_1);
+        });
+        // if (role === "employee") {
+        //   fetch("/api/employee/login", {
+        //     method: "POST",
+        //     headers: {
+        //       Accept: "application/json",
+        //       "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({ email, password }),
+        //   })
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //       console.log(data.ok);
+        //       let check = data.ok;
+        //       openHP(check, "./employeeHP/employeeHP.html");
+        //     });
+        // } else if (role === "manager") {
+        //   fetch("/api/manager/login", {
+        //     method: "POST",
+        //     headers: {
+        //       Accept: "application/json",
+        //       "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({ email, password }),
+        //   })
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //       console.log(data.ok);
+        //       let check = data.ok;
+        //       openHP(check, "./managerHP/managerHP.html");
+        //     });
+        // } else if (role === "admin") {
+        //   fetch("/api/admin/login", {
+        //     method: "POST",
+        //     headers: {
+        //       Accept: "application/json",
+        //       "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({ email, password }),
+        //   })
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //       console.log(data.ok);
+        //       let check = data.ok;
+        //       openHP(check, "./shift-schedule-page/shiftSchedule.html");
+        //     });
     }
     catch (error) {
         console.log(error);

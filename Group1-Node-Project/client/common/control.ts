@@ -15,61 +15,87 @@ enum UserType {
 // }
 // main();
 
-async function getActiveUser() {
+async function loadActiveUser() {
   try {
-    const responseManager = await fetch("/api/manager/get-manager");
+    const response = await fetch("/api/cookies/get-user");
+    console.log(response);
 
-    const dataManager = await responseManager.json();
-    console.log("dataManager", dataManager);
+    const data = await response.json();
+    console.log("data", data);
+    const { user } = data;
 
-    const { manager } = dataManager;
+    const userType = data.userType;
+    console.log(userType);
+    if (!user) throw new Error("didn't get from DB");
 
-    if (dataManager.ok === true && manager._id !== null) {
-      userType = UserType.Manager;
-      user = manager;
-      return;
-    }
-  } catch (error) {
-    console.error("test");
-  }
-
-  try {
-    const responseAdmin = await fetch("/api/admin/get-admin");
-    const dataAdmin = await responseAdmin.json();
-    const { admin } = dataAdmin;
-    console.log("user: ", admin);
-
-    if (dataAdmin.ok === true && admin._id !== null) {
-      userType = UserType.Admin;
-      user = admin;
-      console.log("userType: ", userType);
-
-      return;
-    }
-  } catch (error) {
-    console.error(error);
-  }
-
-  try {
-    const responseEmployee = await fetch("/api/employee/get-employee");
-    const dataEmployee = await responseEmployee.json();
-    const { employee } = dataEmployee;
-    console.log("user: ", employee);
-
-    if (dataEmployee.ok === true && employee._id !== null) {
-      userType = UserType.Employee;
-      user = employee;
-      console.log("userType: ", userType);
-
-      return;
-    }
+    return data;
   } catch (error) {
     console.error(error);
   }
 }
 
-const renderNavBar = (navBarElem: HTMLDivElement) => {
+// async function getActiveUser() {
+//   try {
+//     const responseManager = await fetch("/api/manager/get-manager");
+
+//     const dataManager = await responseManager.json();
+//     console.log("dataManager", dataManager);
+
+//     const { manager } = dataManager;
+
+//     if (dataManager.ok === true && manager._id !== null) {
+//       userType = UserType.Manager;
+//       user = manager;
+//       return;
+//     }
+//   } catch (error) {
+//     console.error("test");
+//   }
+
+//   try {
+//     const responseAdmin = await fetch("/api/admin/get-admin");
+//     const dataAdmin = await responseAdmin.json();
+//     const { admin } = dataAdmin;
+//     console.log("user: ", admin);
+
+// if (dataAdmin.ok === true && admin._id !== null) {
+//   userType = UserType.Admin;
+//   user = admin;
+//   console.log("userType: ", userType);
+
+//       return;
+//     }
+//   } catch (error) {
+//     console.error(error);
+//   }
+
+//   try {
+//     const responseEmployee = await fetch("/api/employee/get-employee");
+//     const dataEmployee = await responseEmployee.json();
+//     const { employee } = dataEmployee;
+//     console.log("user: ", employee);
+
+//     if (dataEmployee.ok === true && employee._id !== null) {
+//       userType = UserType.Employee;
+//       user = employee;
+//       console.log("userType: ", userType);
+
+//       return;
+//     }
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
+
+const renderNavBar = (
+  navBarElem: HTMLDivElement,
+  userType: number,
+  user: any
+) => {
   let targetDivEle;
+  console.log(UserType.Admin);
+  console.log(UserType.Manager);
+  console.log(UserType.Employee);
 
   if (!navBarElem) console.error("no nav bar HTMLDivElement received");
 
@@ -144,47 +170,47 @@ const gotoPage = (targetPage: string) => {
   window.location.href = targetPage;
 };
 
-function runningClockPage(runningClock) {
-  let startTime1: number;
+// function runningClockPage(runningClock) {
+//   let startTime1: number;
 
-  const totalTimeShift = localStorage.getItem("totalTimeShift");
-  if (totalTimeShift) {
-    runningClock.innerHTML = totalTimeShift;
+//   const totalTimeShift = localStorage.getItem("totalTimeShift");
+//   if (totalTimeShift) {
+//     runningClock.innerHTML = totalTimeShift;
 
-    let intervalId = localStorage.getItem("intervalId");
-    const startTimeString = localStorage.getItem("startTime");
-    startTime1 = parseInt(startTimeString!);
-    console.log(startTime1);
+//     let intervalId = localStorage.getItem("intervalId");
+//     const startTimeString = localStorage.getItem("startTime");
+//     startTime1 = parseInt(startTimeString!);
+//     console.log(startTime1);
 
-    const currentTime = Date.now();
-    console.log(currentTime);
+//     const currentTime = Date.now();
+//     console.log(currentTime);
 
-    // const elapsedTime = currentTime - startTime1;
-    updateClockPages();
-  }
-}
+//     // const elapsedTime = currentTime - startTime1;
+//     updateClockPages();
+//   }
+// }
 
-function continueUpdateElapsedTimePages(totalTimeShift) {
-  const currentTime = Date.now();
-  console.log(currentTime);
+// function continueUpdateElapsedTimePages(totalTimeShift) {
+//   const currentTime = Date.now();
+//   console.log(currentTime);
 
-  const elapsedTime = currentTime - startTime1;
-  console.log(elapsedTime);
+//   const elapsedTime = currentTime - startTime1;
+//   console.log(elapsedTime);
 
-  const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
-  const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+//   const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+//   const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+//   const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
 
-  const formattedTime = `${String(hours).padStart(2, "0")}:${String(
-    minutes
-  ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-  runningClock.innerHTML = formattedTime;
-  totalTimeShift = formattedTime;
-  console.log(totalTimeShift);
-  localStorage.setItem("totalTimeShift", formattedTime);
-  localStorage.setItem("intervalId", intervalId);
-}
+//   const formattedTime = `${String(hours).padStart(2, "0")}:${String(
+//     minutes
+//   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+//   runningClock.innerHTML = formattedTime;
+//   totalTimeShift = formattedTime;
+//   console.log(totalTimeShift);
+//   localStorage.setItem("totalTimeShift", formattedTime);
+//   localStorage.setItem("intervalId", intervalId);
+// }
 
-function updateClockPages() {
-  intervalId = setInterval(continueUpdateElapsedTimePages, 1000);
-}
+// function updateClockPages() {
+//   intervalId = setInterval(continueUpdateElapsedTimePages, 1000);
+// }

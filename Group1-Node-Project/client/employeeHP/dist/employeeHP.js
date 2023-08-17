@@ -39,15 +39,26 @@ var currentTime = null;
 var intervalId = null;
 var totalTimeShift = null;
 var formattedTime = null;
+var user;
+var userType;
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var startTimeString, currentTime_1;
+        var data, userName, startTimeString, currentTime_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, getActiveUser()];
+                case 0: return [4 /*yield*/, loadActiveUser()];
                 case 1:
-                    _a.sent();
-                    renderNavBar(navBarElement);
+                    data = _a.sent();
+                    user = data.user;
+                    userType = data.userType;
+                    console.log(user);
+                    console.log(userType);
+                    dateToday.innerHTML = new Date().toLocaleString();
+                    userName = document.querySelector("#userName");
+                    if (!userName)
+                        throw new Error("No user element on DOM");
+                    userName.innerText = user.name;
+                    renderNavBar(navBarElem, userType, user);
                     totalTimeShift = localStorage.getItem("totalTimeShift");
                     if (totalTimeShift) {
                         startEndClock.innerHTML = totalTimeShift;
@@ -58,7 +69,6 @@ function main() {
                         console.log(currentTime_1);
                         startEndButtonS.style.display = "none";
                         startEndButtonE.style.display = "block";
-                        // const elapsedTime = currentTime - startTime1;
                         startClock();
                     }
                     return [2 /*return*/];
@@ -74,40 +84,21 @@ var startEndButtonE = document.querySelector(".shift__startEndShift__end");
 var startEndClock = document.querySelector(".shift__startEndShift__clock");
 var moveToShiftSchedule = document.querySelector(".moveToShiftSchedule");
 var userDB = null;
-function handleLoadEmployee() {
-    return __awaiter(this, void 0, void 0, function () {
-        var response, data, employee, userName, error_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, fetch("/api/employee/get-employee")];
-                case 1:
-                    response = _a.sent();
-                    return [4 /*yield*/, response.json()];
-                case 2:
-                    data = _a.sent();
-                    console.log("data", data);
-                    employee = data.employee;
-                    userName = document.querySelector("#userName");
-                    if (!employee)
-                        throw new Error("didn't get admin from DB");
-                    userDB = employee;
-                    if (!userName)
-                        throw new Error("No user element on DOM");
-                    userName.innerText = employee.name;
-                    return [3 /*break*/, 4];
-                case 3:
-                    error_1 = _a.sent();
-                    console.error(error_1);
-                    return [3 /*break*/, 4];
-                case 4:
-                    dateToday.innerHTML = new Date().toLocaleString();
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
+// async function handleLoadEmployee() {
+//   try {
+//     const response = await fetch("/api/employee/get-employee");
+//     const data = await response.json();
+//     console.log("data", data);
+//     const { employee } = data;
+//     const userName: HTMLDivElement | null = document.querySelector("#userName");
+//     if (!employee) throw new Error("didn't get admin from DB");
+//     userDB = employee;
+//     if (!userName) throw new Error("No user element on DOM");
+//     userName.innerText = employee.name;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
 startEndButtonS.addEventListener("click", function (e) {
     clearInterval(intervalId);
     startEndClock.innerHTML = "00:00:00";

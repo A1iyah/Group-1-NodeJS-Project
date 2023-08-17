@@ -48,80 +48,84 @@ var UserType;
 //   renderNavBar(navBarElement);
 // }
 // main();
-function getActiveUser() {
+function loadActiveUser() {
     return __awaiter(this, void 0, void 0, function () {
-        var responseManager, dataManager, manager, error_1, responseAdmin, dataAdmin, admin, error_2, responseEmployee, dataEmployee, employee, error_3;
+        var response, data, user_1, userType_1, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, fetch("/api/manager/get-manager")];
+                    return [4 /*yield*/, fetch("/api/cookies/get-user")];
                 case 1:
-                    responseManager = _a.sent();
-                    return [4 /*yield*/, responseManager.json()];
+                    response = _a.sent();
+                    console.log(response);
+                    return [4 /*yield*/, response.json()];
                 case 2:
-                    dataManager = _a.sent();
-                    console.log("dataManager", dataManager);
-                    manager = dataManager.manager;
-                    if (dataManager.ok === true && manager._id !== null) {
-                        userType = UserType.Manager;
-                        user = manager;
-                        return [2 /*return*/];
-                    }
-                    return [3 /*break*/, 4];
+                    data = _a.sent();
+                    console.log("data", data);
+                    user_1 = data.user;
+                    userType_1 = data.userType;
+                    console.log(userType_1);
+                    if (!user_1)
+                        throw new Error("didn't get from DB");
+                    return [2 /*return*/, data];
                 case 3:
                     error_1 = _a.sent();
-                    console.error("test");
+                    console.error(error_1);
                     return [3 /*break*/, 4];
-                case 4:
-                    _a.trys.push([4, 7, , 8]);
-                    return [4 /*yield*/, fetch("/api/admin/get-admin")];
-                case 5:
-                    responseAdmin = _a.sent();
-                    return [4 /*yield*/, responseAdmin.json()];
-                case 6:
-                    dataAdmin = _a.sent();
-                    admin = dataAdmin.admin;
-                    console.log("user: ", admin);
-                    if (dataAdmin.ok === true && admin._id !== null) {
-                        userType = UserType.Admin;
-                        user = admin;
-                        console.log("userType: ", userType);
-                        return [2 /*return*/];
-                    }
-                    return [3 /*break*/, 8];
-                case 7:
-                    error_2 = _a.sent();
-                    console.error(error_2);
-                    return [3 /*break*/, 8];
-                case 8:
-                    _a.trys.push([8, 11, , 12]);
-                    return [4 /*yield*/, fetch("/api/employee/get-employee")];
-                case 9:
-                    responseEmployee = _a.sent();
-                    return [4 /*yield*/, responseEmployee.json()];
-                case 10:
-                    dataEmployee = _a.sent();
-                    employee = dataEmployee.employee;
-                    console.log("user: ", employee);
-                    if (dataEmployee.ok === true && employee._id !== null) {
-                        userType = UserType.Employee;
-                        user = employee;
-                        console.log("userType: ", userType);
-                        return [2 /*return*/];
-                    }
-                    return [3 /*break*/, 12];
-                case 11:
-                    error_3 = _a.sent();
-                    console.error(error_3);
-                    return [3 /*break*/, 12];
-                case 12: return [2 /*return*/];
+                case 4: return [2 /*return*/];
             }
         });
     });
 }
-var renderNavBar = function (navBarElem) {
+// async function getActiveUser() {
+//   try {
+//     const responseManager = await fetch("/api/manager/get-manager");
+//     const dataManager = await responseManager.json();
+//     console.log("dataManager", dataManager);
+//     const { manager } = dataManager;
+//     if (dataManager.ok === true && manager._id !== null) {
+//       userType = UserType.Manager;
+//       user = manager;
+//       return;
+//     }
+//   } catch (error) {
+//     console.error("test");
+//   }
+//   try {
+//     const responseAdmin = await fetch("/api/admin/get-admin");
+//     const dataAdmin = await responseAdmin.json();
+//     const { admin } = dataAdmin;
+//     console.log("user: ", admin);
+// if (dataAdmin.ok === true && admin._id !== null) {
+//   userType = UserType.Admin;
+//   user = admin;
+//   console.log("userType: ", userType);
+//       return;
+//     }
+//   } catch (error) {
+//     console.error(error);
+//   }
+//   try {
+//     const responseEmployee = await fetch("/api/employee/get-employee");
+//     const dataEmployee = await responseEmployee.json();
+//     const { employee } = dataEmployee;
+//     console.log("user: ", employee);
+//     if (dataEmployee.ok === true && employee._id !== null) {
+//       userType = UserType.Employee;
+//       user = employee;
+//       console.log("userType: ", userType);
+//       return;
+//     }
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
+var renderNavBar = function (navBarElem, userType, user) {
     var targetDivEle;
+    console.log(UserType.Admin);
+    console.log(UserType.Manager);
+    console.log(UserType.Employee);
     if (!navBarElem)
         console.error("no nav bar HTMLDivElement received");
     switch (userType) {
@@ -164,36 +168,38 @@ var renderNavBar = function (navBarElem) {
 var gotoPage = function (targetPage) {
     window.location.href = targetPage;
 };
-function runningClockPage(runningClock) {
-    var startTime1;
-    var totalTimeShift = localStorage.getItem("totalTimeShift");
-    if (totalTimeShift) {
-        runningClock.innerHTML = totalTimeShift;
-        var intervalId = localStorage.getItem("intervalId");
-        var startTimeString = localStorage.getItem("startTime");
-        startTime1 = parseInt(startTimeString);
-        console.log(startTime1);
-        var currentTime = Date.now();
-        console.log(currentTime);
-        // const elapsedTime = currentTime - startTime1;
-        updateClockPages();
-    }
-}
-function continueUpdateElapsedTimePages(totalTimeShift) {
-    var currentTime = Date.now();
-    console.log(currentTime);
-    var elapsedTime = currentTime - startTime1;
-    console.log(elapsedTime);
-    var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
-    var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
-    var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
-    runningClock.innerHTML = formattedTime;
-    totalTimeShift = formattedTime;
-    console.log(totalTimeShift);
-    localStorage.setItem("totalTimeShift", formattedTime);
-    localStorage.setItem("intervalId", intervalId);
-}
-function updateClockPages() {
-    intervalId = setInterval(continueUpdateElapsedTimePages, 1000);
-}
+// function runningClockPage(runningClock) {
+//   let startTime1: number;
+//   const totalTimeShift = localStorage.getItem("totalTimeShift");
+//   if (totalTimeShift) {
+//     runningClock.innerHTML = totalTimeShift;
+//     let intervalId = localStorage.getItem("intervalId");
+//     const startTimeString = localStorage.getItem("startTime");
+//     startTime1 = parseInt(startTimeString!);
+//     console.log(startTime1);
+//     const currentTime = Date.now();
+//     console.log(currentTime);
+//     // const elapsedTime = currentTime - startTime1;
+//     updateClockPages();
+//   }
+// }
+// function continueUpdateElapsedTimePages(totalTimeShift) {
+//   const currentTime = Date.now();
+//   console.log(currentTime);
+//   const elapsedTime = currentTime - startTime1;
+//   console.log(elapsedTime);
+//   const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+//   const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+//   const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+//   const formattedTime = `${String(hours).padStart(2, "0")}:${String(
+//     minutes
+//   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+//   runningClock.innerHTML = formattedTime;
+//   totalTimeShift = formattedTime;
+//   console.log(totalTimeShift);
+//   localStorage.setItem("totalTimeShift", formattedTime);
+//   localStorage.setItem("intervalId", intervalId);
+// }
+// function updateClockPages() {
+//   intervalId = setInterval(continueUpdateElapsedTimePages, 1000);
+// }

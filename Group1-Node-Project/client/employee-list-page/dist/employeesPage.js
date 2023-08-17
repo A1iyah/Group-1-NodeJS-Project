@@ -34,17 +34,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var navBarElement = document.querySelector(".nav-bar");
+var navBarElem = document.querySelector(".nav-bar");
 var runningClock2 = document.querySelector(".running-clock");
+var user;
+var userType;
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var totalTimeShift, startTimeString, currentTime;
+        var data, totalTimeShift, startTimeString, currentTime;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, getActiveUser()];
+                case 0: return [4 /*yield*/, loadActiveUser()];
                 case 1:
-                    _a.sent();
-                    renderNavBar(navBarElement);
+                    data = _a.sent();
+                    user = data.user;
+                    userType = data.userType;
+                    renderNavBar(navBarElem, userType, user);
                     totalTimeShift = localStorage.getItem("totalTimeShift");
                     if (totalTimeShift) {
                         runningClock2.innerHTML = totalTimeShift;
@@ -327,6 +331,7 @@ function handleCreateManager(evt) {
 var handleGetWorkers = function () {
     try {
         var _id = user._id;
+        console.log(_id);
         if (userType === UserType.Admin) {
             fetch("/api/employees-page/get-admin-workers", {
                 method: "PATCH",
@@ -383,11 +388,12 @@ var handleGetWorkers = function () {
             })
                 .then(function (res) { return res.json(); })
                 .then(function (_a) {
-                var employees = _a.employees;
+                var managerDB = _a.managerDB;
                 try {
-                    if (!employees)
+                    if (!managerDB)
                         throw new Error("No employees data found");
-                    renderEmployeeList(employees);
+                    console.log(managerDB);
+                    renderEmployeeList(managerDB.employees);
                 }
                 catch (error) {
                     console.log(error);

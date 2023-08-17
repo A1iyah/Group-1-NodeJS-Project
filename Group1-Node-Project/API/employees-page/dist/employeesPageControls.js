@@ -201,26 +201,20 @@ exports.getManagerEmployees = function (req, res) { return __awaiter(void 0, voi
     });
 }); };
 exports.getMyTeam = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, manager, managerDetails, error_5;
+    var _id, stringID, manager, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 _id = req.body._id;
-                return [4 /*yield*/, managerModel_1["default"].findOne({ employees: _id })
-                        .populate("employees")
-                        .exec()];
+                console.log(_id);
+                stringID = _id.toString();
+                return [4 /*yield*/, managerModel_1["default"].findOne({
+                        employees: { $eq: [stringID] }
+                    }).populate("employees")];
             case 1:
                 manager = _a.sent();
                 console.log(manager);
-                if (manager) {
-                    managerDetails = manager.toJSON();
-                    console.log("Manager:", managerDetails);
-                    console.log("Employee:", managerDetails.employees);
-                }
-                else {
-                    console.log("No manager found for the employee.");
-                }
                 return [3 /*break*/, 3];
             case 2:
                 error_5 = _a.sent();
@@ -230,23 +224,3 @@ exports.getMyTeam = function (req, res) { return __awaiter(void 0, void 0, void 
         }
     });
 }); };
-// export const getMyTeam = async (req: any, res: any) => {
-//   try {
-//     const { _id } = req.body;
-//     const employee = await EmployeeModel.findById(_id);
-//     if (!employee) {
-//       throw new Error("Employee not found");
-//     }
-//     const managerId = employee.manager;
-//     if (!managerId) {
-//       throw new Error("Employee does not have a manager");
-//     }
-//     const teamEmployees = await EmployeeModel.find({
-//       manager: managerId,
-//     }).populate("role");
-//     res.send({ employees: teamEmployees });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send({ error: "Internal Server Error" });
-//   }
-// };

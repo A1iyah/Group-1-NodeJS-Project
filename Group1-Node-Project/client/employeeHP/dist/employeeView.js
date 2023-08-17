@@ -1,1 +1,1 @@
-var navBarElement = document.querySelector(".nav-bar");
+var navBarElem = document.querySelector(".nav-bar");
