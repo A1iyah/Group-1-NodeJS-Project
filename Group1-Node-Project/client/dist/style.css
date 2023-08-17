@@ -113,6 +113,10 @@
   font-size: 40px;
   cursor: default;
 }
+.login__error-message {
+  text-align: center;
+  color: red;
+}
 .login__inputs {
   position: absolute;
   top: 50%;
@@ -392,4 +396,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.my-shift-page {
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  text-align: center;
+  letter-spacing: 1px;
 }

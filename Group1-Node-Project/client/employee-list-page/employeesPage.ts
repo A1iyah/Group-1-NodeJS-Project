@@ -100,6 +100,10 @@ const managerSection = document.querySelector(
   ".employees-page__managers-section"
 ) as HTMLDivElement;
 
+const emailError = document.querySelector(
+  ".email-error-message"
+) as HTMLDivElement;
+
 let openDiv: HTMLDivElement | null = null;
 let isFormsOpen = false;
 
@@ -193,8 +197,14 @@ function handleCreateEmployee(evt: any) {
     const salaryPerHour = evt.target.elements.salaryPerHour.value;
     const role = evt.target.elements.role.value;
 
+    if (!email || !email.includes("@")) {
+      emailError.style.display = "block";
+      return;
+    } else {
+      emailError.style.display = "none";
+    }
+
     if (!name) throw new Error("No name");
-    if (!email) throw new Error("No email");
     if (!password) throw new Error("No password");
     if (!idNumber) throw new Error("No idNumber");
     if (!phone) throw new Error("No phone");
@@ -255,6 +265,15 @@ function handleCreateEmployee(evt: any) {
       });
 
     addNewEmployeesForm.style.display = "none";
+
+    evt.target.elements.name.value = "";
+    evt.target.elements.email.value = "";
+    evt.target.elements.password.value = "";
+    evt.target.elements.idNumber.value = "";
+    evt.target.elements.phone.value = "";
+    evt.target.elements.birthday.value = "";
+    evt.target.elements.salaryPerHour.value = "";
+    evt.target.elements.role.value = "";
   } catch (error) {
     console.log(error);
   }
@@ -283,8 +302,14 @@ function handleCreateManager(evt: any) {
       salaryPerHour
     );
 
+    if (!email || !email.includes("@")) {
+      emailError.style.display = "block";
+      return;
+    } else {
+      emailError.style.display = "none";
+    }
+
     if (!name) throw new Error("No name");
-    if (!email) throw new Error("No email");
     if (!password) throw new Error("No password");
     if (!idNumber) throw new Error("No idNumber");
     if (!phone) throw new Error("No phone");
@@ -322,6 +347,14 @@ function handleCreateManager(evt: any) {
       });
 
     addNewManagersForm.style.display = "none";
+
+    evt.target.elements.name.value = "";
+    evt.target.elements.email.value = "";
+    evt.target.elements.password.value = "";
+    evt.target.elements.idNumber.value = "";
+    evt.target.elements.phone.value = "";
+    evt.target.elements.salaryPerHour.value = "";
+    evt.target.elements.birthday.value = "";
   } catch (error) {
     console.log(error);
   }

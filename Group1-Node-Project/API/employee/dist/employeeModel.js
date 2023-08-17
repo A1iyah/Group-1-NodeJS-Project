@@ -14,10 +14,10 @@ var employeeSchema = new mongoose_1.Schema({
         type: mongoose_1["default"].Schema.Types.ObjectId,
         ref: "Role"
     },
-    manager: {
-        type: mongoose_1["default"].Schema.Types.ObjectId,
-        ref: "Manager"
-    },
+    // manager: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Manager",
+    // },
     attendance: [],
     shift: []
 });

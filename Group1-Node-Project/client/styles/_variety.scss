@@ -19,6 +19,15 @@
   cursor: default;
 }
 
+@mixin responsiveHeader {
+  font-size: 40px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  cursor: default;
+}
+
 // SHADOWS -
 @mixin boxShadow {
   border: none;
