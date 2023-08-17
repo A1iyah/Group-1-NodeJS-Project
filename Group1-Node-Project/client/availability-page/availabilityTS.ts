@@ -51,44 +51,44 @@ function updateClock() {
   intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
 
-const getActiveEmployee = async () => {
-  try {
-    const response = await fetch("/api/employee/get-employee");
-    const data = await response.json();
-    console.log("data", data);
-    const { employee } = data;
+// const getActiveEmployee = async () => {
+//   try {
+//     const response = await fetch("/api/employee/get-employee");
+//     const data = await response.json();
+//     console.log("data", data);
+//     const { employee } = data;
 
-    //if(!data) throw new Error("no data received from DB");
-    if (employee) {
-      userDB = employee;
-      console.log("userDB: ", userDB);
+//     //if(!data) throw new Error("no data received from DB");
+//     if (employee) {
+//       userDB = employee;
+//       console.log("userDB: ", userDB);
 
-      return;
-    }
+//       return;
+//     }
 
-    getActiveManager();
-  } catch (error) {
-    console.log(error);
-  }
-};
+//     getActiveManager();
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
-const getActiveManager = async () => {
-  try {
-    const response = await fetch("/api/manager/get-manager");
-    const data = await response.json();
-    console.log("data", data);
-    const { manager } = data;
+// const getActiveManager = async () => {
+//   try {
+//     const response = await fetch("/api/manager/get-manager");
+//     const data = await response.json();
+//     console.log("data", data);
+//     const { manager } = data;
 
-    if (!manager) throw new Error("didn't get employee or manager from DB");
-    userDB = manager;
+//     if (!manager) throw new Error("didn't get employee or manager from DB");
+//     userDB = manager;
 
-    console.log("userDB: ", userDB);
-  } catch (error) {
-    console.error(error);
-  }
-};
+//     console.log("userDB: ", userDB);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
-getActiveEmployee();
+// getActiveEmployee();
 
 //
 const buttons: NodeListOf<HTMLDivElement> = document.querySelectorAll(

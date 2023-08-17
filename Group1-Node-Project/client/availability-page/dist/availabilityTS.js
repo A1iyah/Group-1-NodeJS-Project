@@ -34,7 +34,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
 var userDB;
 var runningClock = document.querySelector(".running-clock");
 var user;
@@ -83,64 +82,37 @@ function continueUpdateElapsedTime() {
 function updateClock() {
     intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
-var getActiveEmployee = function () { return __awaiter(_this, void 0, void 0, function () {
-    var response, data, employee, error_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 3, , 4]);
-                return [4 /*yield*/, fetch("/api/employee/get-employee")];
-            case 1:
-                response = _a.sent();
-                return [4 /*yield*/, response.json()];
-            case 2:
-                data = _a.sent();
-                console.log("data", data);
-                employee = data.employee;
-                //if(!data) throw new Error("no data received from DB");
-                if (employee) {
-                    userDB = employee;
-                    console.log("userDB: ", userDB);
-                    return [2 /*return*/];
-                }
-                getActiveManager();
-                return [3 /*break*/, 4];
-            case 3:
-                error_1 = _a.sent();
-                console.log(error_1);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
-        }
-    });
-}); };
-var getActiveManager = function () { return __awaiter(_this, void 0, void 0, function () {
-    var response, data, manager, error_2;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 3, , 4]);
-                return [4 /*yield*/, fetch("/api/manager/get-manager")];
-            case 1:
-                response = _a.sent();
-                return [4 /*yield*/, response.json()];
-            case 2:
-                data = _a.sent();
-                console.log("data", data);
-                manager = data.manager;
-                if (!manager)
-                    throw new Error("didn't get employee or manager from DB");
-                userDB = manager;
-                console.log("userDB: ", userDB);
-                return [3 /*break*/, 4];
-            case 3:
-                error_2 = _a.sent();
-                console.error(error_2);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
-        }
-    });
-}); };
-getActiveEmployee();
+// const getActiveEmployee = async () => {
+//   try {
+//     const response = await fetch("/api/employee/get-employee");
+//     const data = await response.json();
+//     console.log("data", data);
+//     const { employee } = data;
+//     //if(!data) throw new Error("no data received from DB");
+//     if (employee) {
+//       userDB = employee;
+//       console.log("userDB: ", userDB);
+//       return;
+//     }
+//     getActiveManager();
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+// const getActiveManager = async () => {
+//   try {
+//     const response = await fetch("/api/manager/get-manager");
+//     const data = await response.json();
+//     console.log("data", data);
+//     const { manager } = data;
+//     if (!manager) throw new Error("didn't get employee or manager from DB");
+//     userDB = manager;
+//     console.log("userDB: ", userDB);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+// getActiveEmployee();
 //
 var buttons = document.querySelectorAll(".availability-button");
 var clickButton = document.querySelector(".availability-button");
@@ -200,7 +172,7 @@ function toggleButton(event) {
 // Handle form submit -
 function handleFormSubmit(event) {
     return __awaiter(this, void 0, void 0, function () {
-        var commentValue, availabilityData, userRole, response, error_3;
+        var commentValue, availabilityData, userRole, response, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -242,8 +214,8 @@ function handleFormSubmit(event) {
                     }
                     return [3 /*break*/, 4];
                 case 3:
-                    error_3 = _a.sent();
-                    console.error("Error:", error_3);
+                    error_1 = _a.sent();
+                    console.error("Error:", error_1);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
