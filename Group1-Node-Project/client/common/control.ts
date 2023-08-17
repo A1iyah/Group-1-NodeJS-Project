@@ -161,10 +161,10 @@ const renderNavBar = (
       targetDivEle = document.querySelector(".nav-bar__link__reports");
       break;
 
-    default:
-      console.error("No location.pathname found.");
+    // default:
+    //   console.error("No location.pathname found.");
 
-      break;
+    //   break;
   }
 
   if (targetDivEle) {

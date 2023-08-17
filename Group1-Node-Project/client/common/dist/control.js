@@ -160,9 +160,9 @@ var renderNavBar = function (navBarElem, userType, user) {
         case "/reports-page/reportsPage.html":
             targetDivEle = document.querySelector(".nav-bar__link__reports");
             break;
-        default:
-            console.error("No location.pathname found.");
-            break;
+        // default:
+        //   console.error("No location.pathname found.");
+        //   break;
     }
     if (targetDivEle) {
         targetDivEle.classList.add("nav-bar__link--bold");

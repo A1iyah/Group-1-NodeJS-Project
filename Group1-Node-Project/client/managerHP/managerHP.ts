@@ -59,22 +59,6 @@ const startEndClock = document.querySelector(
 
 let userDB = null;
 
-// async function handleLoadUser() {
-//   try {
-//     const response = await fetch("/api/manager/get-manager");
-//     const data = await response.json();
-//     console.log("data", data);
-//     const { manager } = data;
-//     const userName: HTMLDivElement | null = document.querySelector("#userName");
-//     if (!manager) throw new Error("didn't get admin from DB");
-//     userDB = manager;
-//     if (!userName) throw new Error("No user element on DOM");
-//     userName.innerText = manager.name;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-
 startEndButtonS.addEventListener("click", (e) => {
   clearInterval(intervalId);
   startEndClock.innerHTML = `00:00:00`;
