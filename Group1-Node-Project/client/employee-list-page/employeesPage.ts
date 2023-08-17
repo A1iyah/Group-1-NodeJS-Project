@@ -383,12 +383,12 @@ const handleGetWorkers = () => {
         body: JSON.stringify({ _id }),
       })
         .then((res) => res.json())
-        .then(({ managerDB }) => {
+        .then(({ myTeamEmployees }) => {
           try {
-            if (!managerDB) throw new Error("No employees data found");
-            console.log(managerDB);
+            if (!myTeamEmployees) throw new Error("No employees data found");
+            console.log(myTeamEmployees);
 
-            renderEmployeeList(managerDB.employees);
+            renderEmployeeList(myTeamEmployees);
           } catch (error) {
             console.log(error);
           }

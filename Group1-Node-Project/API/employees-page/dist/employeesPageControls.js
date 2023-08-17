@@ -227,7 +227,7 @@ exports.getManagerEmployees = function (req, res) { return __awaiter(void 0, voi
     });
 }); };
 exports.getMyTeam = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, stringID, manager, error_5;
+    var _id, stringID, manager, myTeamEmployees, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -236,11 +236,22 @@ exports.getMyTeam = function (req, res) { return __awaiter(void 0, void 0, void 
                 console.log(_id);
                 stringID = _id.toString();
                 return [4 /*yield*/, managerModel_1["default"].findOne({
-                        employees: { $eq: [stringID] }
-                    }).populate("employees")];
+                        employees: _id
+                    })
+                        .populate({
+                        path: "employees",
+                        populate: {
+                            path: "role",
+                            model: "Role"
+                        }
+                    })
+                        .exec()];
             case 1:
                 manager = _a.sent();
                 console.log(manager);
+                myTeamEmployees = manager === null || manager === void 0 ? void 0 : manager.employees;
+                console.log(myTeamEmployees);
+                res.send({ myTeamEmployees: myTeamEmployees });
                 return [3 /*break*/, 3];
             case 2:
                 error_5 = _a.sent();

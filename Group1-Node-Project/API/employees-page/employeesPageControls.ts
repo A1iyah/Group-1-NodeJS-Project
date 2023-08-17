@@ -201,27 +201,24 @@ export const getMyTeam = async (req: any, res: any) => {
     // });
 
     const manager = await ManagerModel.findOne({
-      employees: { $eq: [stringID] },
-    }).populate("employees");
+      employees: _id,
+    })
+      .populate({
+        path: "employees",
+        populate: {
+          path: "role",
+          model: "Role",
+        },
+      })
+      .exec();
+
     console.log(manager);
 
-    // if (manager) console.log(manager._id);
-    // const managerID = manager?._id;
+    const myTeamEmployees = manager?.employees;
 
-    // const managerDB = await ManagerModel.findById(managerID)
-    //   .populate({
-    //     path: "employees",
+    console.log(myTeamEmployees);
 
-    //     populate: {
-    //       path: "role",
-    //       model: "Role",
-    //     },
-    //   })
-    //   .exec();
-
-    // console.log(managerDB);
-
-    // res.send({ managerDB });
+    res.send({ myTeamEmployees });
   } catch (error) {
     console.log(error);
   }

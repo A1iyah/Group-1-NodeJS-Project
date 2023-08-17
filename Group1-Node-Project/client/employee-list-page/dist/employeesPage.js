@@ -391,12 +391,12 @@ var handleGetWorkers = function () {
             })
                 .then(function (res) { return res.json(); })
                 .then(function (_a) {
-                var managerDB = _a.managerDB;
+                var myTeamEmployees = _a.myTeamEmployees;
                 try {
-                    if (!managerDB)
+                    if (!myTeamEmployees)
                         throw new Error("No employees data found");
-                    console.log(managerDB);
-                    renderEmployeeList(managerDB.employees);
+                    console.log(myTeamEmployees);
+                    renderEmployeeList(myTeamEmployees);
                 }
                 catch (error) {
                     console.log(error);
