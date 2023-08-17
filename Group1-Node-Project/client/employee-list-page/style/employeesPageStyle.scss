@@ -78,20 +78,23 @@
     &__employees-chart,
     &__managers-chart {
       width: 95%;
-      @include flexibleCenter(absolute, 30%, 50%, -50%, -30%);
+      position: relative;
+      margin: 0 auto;
 
       th {
         width: 100px;
-        // @include inputShadow;
       }
     }
 
     &__get-all-employees,
     &__get-all-managers {
+      position: relative;
+      margin: 0 auto;
+      margin-top: 30px;
+      margin-bottom: 50px;
       width: 95%;
       height: 50%;
       overflow-y: scroll;
-      @include flexibleCenter(absolute, 90%, 50%, -50%, -90%);
 
       &::-webkit-scrollbar {
         width: 5px;
@@ -143,8 +146,6 @@
         letter-spacing: 0.5px;
         overflow: scroll;
 
-        // @include inputShadow;
-
         &::-webkit-scrollbar {
           display: none;
         }
@@ -193,52 +194,15 @@
 // Media query -
 @media screen and (max-width: 768px) {
   .addButtons {
-    // position: relative;
-    // width: 100%;
-
     &__open-add-btn {
-      // position: absolute;
       top: 20px;
       right: 20px;
-      // z-index: 900;
-      // background-color: black;
-      // color: white;
-      // padding: 5px;
-      // padding-bottom: 0;
-      // border: none;
-      // border-radius: 50%;
-      // box-shadow: rgba(64, 64, 64, 0.724) 0px 5px 15px;
-      // transition: all 0.5s ease-in-out;
-      // cursor: pointer;
-
-      // &:hover {
-      //   @include buttonHover;
-      // }
     }
 
     &__add-buttons-container {
-      // display: none;
-      // position: absolute;
       top: 40px;
       right: 60px;
-      // z-index: 900;
     }
-
-    // &__add-employees-btn,
-    // &__add-managers-btn {
-    //   @include buttonDesign;
-    //   width: 170px;
-    //   z-index: 900;
-    // }
-
-    // &__add-managers-btn {
-    //   margin-top: 10px;
-    // }
-
-    // &__add-employees-btn:hover,
-    // &__add-managers-btn:hover {
-    //   @include buttonHover;
-    // }
   }
 
   // Page
@@ -248,54 +212,29 @@
 
     &__employees-section,
     &__managers-section {
-      // position: relative;
-      // width: 100%;
-      // height: 500px;
-      width: 300px;
-      // display: flex;
-      // justify-content: space-evenly;
-      // flex-direction: row;
-
-      overflow-x: scroll;
-
-      border: 1px solid green;
+      height: 500px;
+      padding-bottom: 50px;
 
       &__employees-header,
       &__managers-header {
-        // @include headerCenter;
+        margin: 0 auto;
+        margin-top: 50px;
         text-align: center;
       }
 
       &__employees-chart,
       &__managers-chart {
-        // display: flex;
-        // flex-direction: row;
-        // justify-content: space-evenly;
-        width: 100%;
-        // @include flexibleCenter(absolute, 30%, 50%, -50%, -30%);
-
-        th {
-          border: 1px solid pink;
-
-          // display: flex;
-          // justify-content: space-evenly;
-
-          width: 100%;
-          // @include inputShadow;
-        }
+        display: none;
       }
 
       &__get-all-employees,
       &__get-all-managers {
-        // width: 95%;
-        // height: 50%;
-        // overflow-y: scroll;
-        // @include flexibleCenter(absolute, 90%, 50%, -50%, -90%);
-        font-size: 15px;
-        border: 1px solid blue;
+        height: 65%;
+        overflow: scroll;
 
         &::-webkit-scrollbar {
           width: 5px;
+          height: 5px;
         }
 
         &::-webkit-scrollbar-track {
@@ -317,76 +256,17 @@
     // Cards -
     &__employeeCard,
     &__managerCard {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      border-bottom: 1px solid $mainBlue;
-
-      .employee-details,
-      .manager-details {
-        display: flex;
-        justify-content: space-evenly;
-        padding: 10px 0;
-
-        .employee-name,
-        .employee-birthday,
-        .employee-email,
-        .employee-phone,
-        .employee-role,
-        .manager-name,
-        .manager-birthday,
-        .manager-email,
-        .manager-phone,
-        .manager-role {
-          text-align: center;
-          width: 100%;
-          padding: 5px;
-          letter-spacing: 0.5px;
-
-          font-size: 15px;
-          // overflow: scroll;
-
-          // &::-webkit-scrollbar {
-          //   display: none;
-          // }
-        }
-      }
+      width: 1000px;
     }
 
     // Add new -
     &__add-new-employees,
     &__add-new-managers {
-      @include flexibleCenter(fixed, 50%, 50%, -50%, -50%);
-      display: flex;
+      @include flexibleCenter(absolute, 40%, 50%, -50%, -40%);
+      width: 95%;
 
       fieldset {
-        width: 400px;
-        background-color: $mainBlue;
-        text-align: center;
-        @include boxShadow;
-
-        legend {
-          text-align: center;
-          font-size: 30px;
-        }
-
-        input,
-        select {
-          width: 60%;
-          margin: 10px auto;
-          text-align: center;
-          @include inputShadowBlue;
-        }
-
-        button {
-          display: block;
-          margin: 20px auto 20px;
-          @include buttonDesign;
-
-          &:hover {
-            @include buttonHover;
-          }
-        }
+        width: 100%;
       }
     }
   }

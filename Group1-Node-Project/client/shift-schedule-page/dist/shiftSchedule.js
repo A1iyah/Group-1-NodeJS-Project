@@ -47,6 +47,7 @@ var targetedRoleType;
 var targetedRoleCount;
 var user;
 var userType;
+var thisScheduleId;
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         var data, totalTimeShift, startTimeString, currentTime;
@@ -124,6 +125,7 @@ var createNewWeekSchedule = function (eve) {
             if (!data)
                 throw new Error("no schedule data received from DB.");
             var weekDaysArr = getWeekDaysDatesArr(new Date(data.weekSchedule.startDate));
+            thisScheduleId = data["weekSchedule"]._id;
             renderEmployeesPanel(weekDaysArr);
             renderAllocationsPanel(weekDaysArr, data.weekSchedule.scheduleRequirements);
         });
@@ -290,7 +292,7 @@ var renderEmployeesPanelByRole = function (roleId, employees, weekdayIndex) {
         if (employees[i]["role"] !== roleId)
             continue;
         var comment = employees[i]["comment"];
-        employeesNamesList.innerHTML += "<div class=\"employees-panel__employee-box\" onmouseover=\"renderEmployeeComment('" + employees[i]["employeeId"] + "', '" + weekdayIndex + "')\" onclick=\"processEmployeeAllocation('" + employees[i]["employeeId"] + "', '" + employees[i]["name"] + "')\">\n            <p class=\"employees-panel__employee-name\">" + employees[i]["name"] + "</p>\n            <div class=\"employees-panel__employee-box__markings-container\">\n            </div>\n          </div>";
+        employeesNamesList.innerHTML += "<div class=\"employees-panel__employee-box\" onmouseover=\"renderEmployeeComment('" + employees[i]["employeeId"] + "', '" + weekdayIndex + "')\" onclick=\"processEmployeeAllocation('" + employees[i]["employeeId"] + "', '" + employees[i]["name"] + "', '" + weekdayIndex + "')\">\n            <p class=\"employees-panel__employee-name\">" + employees[i]["name"] + "</p>\n            <div class=\"employees-panel__employee-box__markings-container\">\n            </div>\n          </div>";
     }
 };
 var renderEmployeeComment = function (targetEmployeeId, weekdayIndex) {
@@ -353,11 +355,29 @@ var convertWeekIndexToDayString = function (weekdayIndex) {
 };
 var processEmployeeAllocation = function (employeeId, employeeName) {
     var targetShift = document.querySelector(".shifts-panel__role-row__" + targetedRoleType + "-num" + targetedRoleCount + "-weekday" + targetedDayIndex);
-    if (!targetShift) {
-        console.log("target shift allocation slot not found in DOM");
-        return;
-    }
-    targetShift.innerHTML = "<p class=\"shifts-panel__role-row__allocation-name\">" + employeeName + "</p>";
+    var processEmployeeAllocation = function (employeeId, employeeName, weekdayIndex) {
+        var targetShift = document.querySelector(".shifts-panel__role-row__" + targetedRoleType + "-num" + targetedRoleCount + "-weekday" + targetedDayIndex);
+        if (!targetShift) {
+            console.log("target shift allocation slot not found in DOM");
+            return;
+        }
+        targetShift.innerHTML = "<p class=\"shifts-panel__role-row__allocation-name\">" + employeeName + "</p>";
+        try {
+            fetch("/api/schedule/add-employee-to-schedule", {
+                method: "PATCH",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    thisScheduleId: thisScheduleId,
+                    employeeId: employeeId,
+                    weekdayIndex: weekdayIndex
+                })
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
 };
-// class="employees-panel__employee-box__allocations-count">2</p>
-//           <img src="./images/green-v.png" alt="green-v" class="employees-panel__employee-box__availability-img">

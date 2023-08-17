@@ -36,8 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.createNewWeekForScheduling = exports.getAllWeekSchedules = exports.createNewWeekSchedule = void 0;
+exports.addEmployeeToSchedule = exports.createNewWeekForScheduling = exports.getAllWeekSchedules = exports.createNewWeekSchedule = void 0;
 var scheduleModel_1 = require("./scheduleModel");
+var employeeModel_1 = require("../employee/employeeModel");
 exports.createNewWeekSchedule = function () { return __awaiter(void 0, void 0, void 0, function () {
     var weekSchedule, result;
     return __generator(this, function (_a) {
@@ -120,4 +121,64 @@ var getNextSunday = function () {
     var todayDate = new Date();
     var date = new Date(todayDate.getFullYear(), todayDate.getMonth(), (todayDate.getDate() - todayDate.getDay()) + 7);
     return date;
+};
+exports.addEmployeeToSchedule = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, thisScheduleId, employeeId, weekdayIndex, weekdayName, employeeIdObj, updateObject, targetSchedule, error_4;
+    var _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0:
+                _c.trys.push([0, 3, , 4]);
+                _a = req.body, thisScheduleId = _a.thisScheduleId, employeeId = _a.employeeId, weekdayIndex = _a.weekdayIndex;
+                if (!thisScheduleId || !employeeId || !weekdayIndex)
+                    throw new Error("did not receive all data from client");
+                weekdayName = convertWeekdayIndexToWeekdayName(weekdayIndex);
+                return [4 /*yield*/, employeeModel_1["default"].findById(employeeId)];
+            case 1:
+                employeeIdObj = _c.sent();
+                updateObject = {
+                    $push: (_b = {},
+                        _b[weekdayName] = employeeIdObj === null || employeeIdObj === void 0 ? void 0 : employeeIdObj._id,
+                        _b)
+                };
+                return [4 /*yield*/, scheduleModel_1["default"].findByIdAndUpdate(thisScheduleId, updateObject, { "new": true })];
+            case 2:
+                targetSchedule = _c.sent();
+                res.status(200).send({ ok: true });
+                return [3 /*break*/, 4];
+            case 3:
+                error_4 = _c.sent();
+                console.log(error_4);
+                res.status(500).send("Did not get data");
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+var convertWeekdayIndexToWeekdayName = function (weekdayIndex) {
+    switch (weekdayIndex) {
+        case "0":
+            return "sunday";
+            break;
+        case "1":
+            return "monday";
+            break;
+        case "2":
+            return "tuesday";
+            break;
+        case "3":
+            return "wednesday";
+            break;
+        case "4":
+            return "thursday";
+            break;
+        case "5":
+            return "friday";
+            break;
+        case "6":
+            return "saturday";
+            break;
+        default:
+            return "";
+    }
 };

@@ -12,6 +12,7 @@ let targetedRoleCount: number;
 
 let user: any;
 let userType: number;
+let thisScheduleId: number;
 
 async function main() {
   const data = await loadActiveUser();
@@ -117,6 +118,8 @@ const createNewWeekSchedule = (eve) => {
         const weekDaysArr: Array<Date> = getWeekDaysDatesArr(
           new Date(data.weekSchedule.startDate)
         );
+
+        thisScheduleId = data["weekSchedule"]._id;
 
         renderEmployeesPanel(weekDaysArr);
         renderAllocationsPanel(
@@ -414,7 +417,7 @@ const renderEmployeesPanelByRole = (
 
     const comment: string = employees[i]["comment"];
 
-    employeesNamesList.innerHTML += `<div class="employees-panel__employee-box" onmouseover="renderEmployeeComment('${employees[i]["employeeId"]}', '${weekdayIndex}')" onclick="processEmployeeAllocation('${employees[i]["employeeId"]}', '${employees[i]["name"]}')">
+    employeesNamesList.innerHTML += `<div class="employees-panel__employee-box" onmouseover="renderEmployeeComment('${employees[i]["employeeId"]}', '${weekdayIndex}')" onclick="processEmployeeAllocation('${employees[i]["employeeId"]}', '${employees[i]["name"]}', '${weekdayIndex}')">
             <p class="employees-panel__employee-name">${employees[i]["name"]}</p>
             <div class="employees-panel__employee-box__markings-container">
             </div>
@@ -497,13 +500,37 @@ const processEmployeeAllocation = (
     `.shifts-panel__role-row__${targetedRoleType}-num${targetedRoleCount}-weekday${targetedDayIndex}`
   );
 
-  if (!targetShift) {
-    console.log("target shift allocation slot not found in DOM");
-    return;
-  }
+  const processEmployeeAllocation = (
+    employeeId: string,
+    employeeName: string,
+    weekdayIndex: string
+  ) => {
+    const targetShift = document.querySelector(
+      `.shifts-panel__role-row__${targetedRoleType}-num${targetedRoleCount}-weekday${targetedDayIndex}`
+    );
 
-  targetShift!.innerHTML = `<p class="shifts-panel__role-row__allocation-name">${employeeName}</p>`;
+    if (!targetShift) {
+      console.log("target shift allocation slot not found in DOM");
+      return;
+    }
+
+    targetShift!.innerHTML = `<p class="shifts-panel__role-row__allocation-name">${employeeName}</p>`;
+
+    try {
+      fetch("/api/schedule/add-employee-to-schedule", {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          thisScheduleId,
+          employeeId,
+          weekdayIndex,
+        }),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };
-
-// class="employees-panel__employee-box__allocations-count">2</p>
-//           <img src="./images/green-v.png" alt="green-v" class="employees-panel__employee-box__availability-img">
