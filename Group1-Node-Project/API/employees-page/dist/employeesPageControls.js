@@ -42,11 +42,11 @@ var managerModel_1 = require("../manager/managerModel");
 var employeeModel_1 = require("../employee/employeeModel");
 var roleModel_1 = require("../role/roleModel");
 exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, managerID, selectedRole, employeeDB, newUserId, newUserIdString, managerIdString, updateManager, managerDB, error_1;
+    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, managerID, selectedRole, employeeDB, newUserId, newUserIdString, managerIdString, updateManager, updateAdmin, managerDB, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 6, , 7]);
+                _b.trys.push([0, 7, , 8]);
                 _a = req.body, name = _a.name, email = _a.email, password = _a.password, idNumber = _a.idNumber, phone = _a.phone, birthday = _a.birthday, salaryPerHour = _a.salaryPerHour, role = _a.role, managerID = _a.managerID;
                 console.log(managerID);
                 return [4 /*yield*/, roleModel_1["default"].findOne({ name: role }).select("_id")];
@@ -75,9 +75,14 @@ exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, voi
                 newUserId = _b.sent();
                 newUserIdString = managerID.toString();
                 managerIdString = newUserId[0]._id.toString();
+                console.log(newUserId[0]._id);
+                console.log(newUserIdString);
                 return [4 /*yield*/, managerModel_1["default"].findByIdAndUpdate(managerID, { $push: { employees: newUserId[0]._id } }, { "new": true })];
             case 4:
                 updateManager = _b.sent();
+                return [4 /*yield*/, adminModel_1["default"].findByIdAndUpdate("64d50e911e5749a59f1f4a6f", { $push: { employees: newUserId[0]._id } }, { "new": true })];
+            case 5:
+                updateAdmin = _b.sent();
                 return [4 /*yield*/, managerModel_1["default"].findById(managerID)
                         .populate({
                         path: "employees",
@@ -87,26 +92,26 @@ exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, voi
                         }
                     })
                         .exec()];
-            case 5:
+            case 6:
                 managerDB = _b.sent();
                 console.log(managerDB);
                 res.status(200).send({ ok: true, managerDB: managerDB });
-                return [3 /*break*/, 7];
-            case 6:
+                return [3 /*break*/, 8];
+            case 7:
                 error_1 = _b.sent();
                 console.log(error_1);
                 res.status(500).send("did not get data");
-                return [3 /*break*/, 7];
-            case 7: return [2 /*return*/];
+                return [3 /*break*/, 8];
+            case 8: return [2 /*return*/];
         }
     });
 }); };
 exports.addManager = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, roleID, managerDB, error_2;
+    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, roleID, managerDB, updateAdmin, adminDB, error_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 4, , 5]);
+                _b.trys.push([0, 6, , 7]);
                 _a = req.body, name = _a.name, email = _a.email, password = _a.password, idNumber = _a.idNumber, phone = _a.phone, birthday = _a.birthday, salaryPerHour = _a.salaryPerHour, role = _a.role;
                 if (!role) return [3 /*break*/, 2];
                 return [4 /*yield*/, roleModel_1["default"].find({ name: role }).select({ _id: 1 })];
@@ -127,14 +132,35 @@ exports.addManager = function (req, res) { return __awaiter(void 0, void 0, void
             case 3:
                 managerDB = _b.sent();
                 console.log(managerDB);
-                res.status(200).send({ ok: true, managerDB: managerDB });
-                return [3 /*break*/, 5];
+                return [4 /*yield*/, adminModel_1["default"].findByIdAndUpdate("64d50e911e5749a59f1f4a6f", { $push: { managers: managerDB._id } }, { "new": true })];
             case 4:
+                updateAdmin = _b.sent();
+                return [4 /*yield*/, adminModel_1["default"].findById("64d50e911e5749a59f1f4a6f")
+                        .populate({
+                        path: "employees",
+                        populate: {
+                            path: "role",
+                            model: "Role"
+                        }
+                    })
+                        .populate({
+                        path: "managers",
+                        populate: {
+                            path: "role",
+                            model: "Role"
+                        }
+                    })
+                        .exec()];
+            case 5:
+                adminDB = _b.sent();
+                res.status(200).send({ ok: true, adminDB: adminDB });
+                return [3 /*break*/, 7];
+            case 6:
                 error_2 = _b.sent();
                 console.log(error_2);
                 res.status(500).send("did not get data");
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
+                return [3 /*break*/, 7];
+            case 7: return [2 /*return*/];
         }
     });
 }); };
@@ -201,26 +227,31 @@ exports.getManagerEmployees = function (req, res) { return __awaiter(void 0, voi
     });
 }); };
 exports.getMyTeam = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, manager, managerDetails, error_5;
+    var _id, stringID, manager, myTeamEmployees, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 _id = req.body._id;
-                return [4 /*yield*/, managerModel_1["default"].findOne({ employees: _id })
-                        .populate("employees")
+                console.log(_id);
+                stringID = _id.toString();
+                return [4 /*yield*/, managerModel_1["default"].findOne({
+                        employees: _id
+                    })
+                        .populate({
+                        path: "employees",
+                        populate: {
+                            path: "role",
+                            model: "Role"
+                        }
+                    })
                         .exec()];
             case 1:
                 manager = _a.sent();
                 console.log(manager);
-                if (manager) {
-                    managerDetails = manager.toJSON();
-                    console.log("Manager:", managerDetails);
-                    console.log("Employee:", managerDetails.employees);
-                }
-                else {
-                    console.log("No manager found for the employee.");
-                }
+                myTeamEmployees = manager === null || manager === void 0 ? void 0 : manager.employees;
+                console.log(myTeamEmployees);
+                res.send({ myTeamEmployees: myTeamEmployees });
                 return [3 /*break*/, 3];
             case 2:
                 error_5 = _a.sent();
@@ -230,23 +261,3 @@ exports.getMyTeam = function (req, res) { return __awaiter(void 0, void 0, void 
         }
     });
 }); };
-// export const getMyTeam = async (req: any, res: any) => {
-//   try {
-//     const { _id } = req.body;
-//     const employee = await EmployeeModel.findById(_id);
-//     if (!employee) {
-//       throw new Error("Employee not found");
-//     }
-//     const managerId = employee.manager;
-//     if (!managerId) {
-//       throw new Error("Employee does not have a manager");
-//     }
-//     const teamEmployees = await EmployeeModel.find({
-//       manager: managerId,
-//     }).populate("role");
-//     res.send({ employees: teamEmployees });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send({ error: "Internal Server Error" });
-//   }
-// };

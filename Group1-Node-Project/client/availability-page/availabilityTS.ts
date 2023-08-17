@@ -1,10 +1,15 @@
 let userDB;
 const runningClock = document.querySelector(".running-clock") as HTMLDivElement;
 
-async function main() {
-  await getActiveUser();
+let user: any;
+let userType: number;
 
-  renderNavBar(navBarElement);
+async function main() {
+  const data = await loadActiveUser();
+  user = data.user;
+  userType = data.userType;
+  renderNavBar(navBarElem, userType, user);
+
   // runningClockPage();
   const totalTimeShift = localStorage.getItem("totalTimeShift");
   if (totalTimeShift) {
