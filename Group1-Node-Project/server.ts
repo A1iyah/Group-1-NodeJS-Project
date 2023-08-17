@@ -790,46 +790,46 @@ app.listen(3000, () => {
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
 
-import AdminModel from "./API/admin/adminModel";
+// import AdminModel from "./API/admin/adminModel";
 
-const createAdmin = async (
-  idNumber: number,
-  name: string,
-  birthday: string,
-  email: string,
-  password: string,
-  phone: number,
-  salaryPerHour: number,
-  employees: [],
-  managers: []
-) => {
-  const admin = new AdminModel({
-    idNumber,
-    name,
-    birthday,
-    email,
-    password,
-    phone,
-    salaryPerHour,
-    employees,
-    managers,
-  });
+// const createAdmin = async (
+//   idNumber: number,
+//   name: string,
+//   birthday: string,
+//   email: string,
+//   password: string,
+//   phone: number,
+//   salaryPerHour: number,
+//   employees: [],
+//   managers: []
+// ) => {
+//   const admin = new AdminModel({
+//     idNumber,
+//     name,
+//     birthday,
+//     email,
+//     password,
+//     phone,
+//     salaryPerHour,
+//     employees,
+//     managers,
+//   });
 
-  const result = await admin.save();
-  console.log(result);
-};
+//   const result = await admin.save();
+//   console.log(result);
+// };
 
-createAdmin(
-  207586263,
-  "Admin",
-  "1965-03-10",
-  "admin@gmail.com",
-  "5050",
-  508557231,
-  100,
-  [],
-  []
-);
+// createAdmin(
+//   207586263,
+//   "Admin",
+//   "1965-03-10",
+//   "admin@gmail.com",
+//   "5050",
+//   508557231,
+//   100,
+//   [],
+//   []
+// );
 
 // [
 //   "64ddf242d210794525ac5d16",

@@ -20,7 +20,7 @@
     <script src="./dist/employeesPage.js" defer></script>
     <title>Employees</title>
   </head>
-  <!-- onload="getRole(event); getManager(event)" -->
+
   <body>
     <div class="nav-bar"></div>
     <div class="running-clock"></div>
@@ -91,6 +91,7 @@
               type="text"
               name="name"
               placeholder="Full Name"
+              minlength="4"
               required
             />
             <br />
@@ -109,6 +110,7 @@
               type="password"
               name="password"
               placeholder="Password"
+              minlength="5"
               required
             />
             <br />
@@ -118,6 +120,8 @@
               type="text"
               name="idNumber"
               placeholder="ID Number"
+              minlength="9"
+              maxlength="9"
               required
             />
             <br />
@@ -127,6 +131,8 @@
               type="number"
               name="phone"
               placeholder="Phone Number"
+              minlength="9"
+              maxlength="10"
               required
             />
             <br />
@@ -157,13 +163,13 @@
             </select>
             <br />
 
-            <!-- <div class="create_Employee_Role"></div> -->
-
-            <!-- <label for="employees_manager">Select Manager:</label>
-        <br />
-        <div class="create_Employee_Manager"></div> -->
-            <!-- <br />
-        <br /> -->
+            <div
+              class="email-error-message"
+              id="email-error"
+              style="display: none; color: red"
+            >
+              Invalid email address
+            </div>
 
             <button type="submit" class="create-employee-button">Submit</button>
           </form>
@@ -183,6 +189,7 @@
               type="text"
               name="name"
               placeholder="Full Name"
+              minlength="4"
               required
             />
             <br />
@@ -201,6 +208,7 @@
               type="password"
               name="password"
               placeholder="Password"
+              minlength="5"
               required
             />
             <br />
@@ -210,6 +218,8 @@
               type="text"
               name="idNumber"
               placeholder="ID Number"
+              minlength="9"
+              maxlength="9"
               required
             />
             <br />
@@ -219,6 +229,8 @@
               type="text"
               name="phone"
               placeholder="Phone Number"
+              minlength="9"
+              maxlength="10"
               required
             />
             <br />
@@ -241,11 +253,13 @@
             />
             <br />
 
-            <!-- <label for="role">Select Role:</label>
-        <br />
-        <div class="create_Manager_Role"></div>
-        <br />
-        <br /> -->
+            <div
+              class="email-error-message"
+              id="email-error"
+              style="display: none; color: red"
+            >
+              Invalid email address
+            </div>
 
             <button type="submit" class="create-manager-button">Submit</button>
           </form>

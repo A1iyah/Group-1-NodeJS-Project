@@ -8,7 +8,7 @@
 
 .availabilityForm {
   position: relative;
-  height: 800px;
+  height: 600px;
 }
 .availabilityForm h1 {
   font-size: 50px;
@@ -26,9 +26,9 @@
 }
 .availabilityForm #comment {
   position: absolute;
-  top: 60%;
+  top: 80%;
   left: 50%;
-  transform: translate(-50%, -60%);
+  transform: translate(-50%, -80%);
   cursor: default;
   border: none;
   border-radius: 10px;
@@ -46,9 +46,9 @@
   transition: all 0.5s ease-in-out;
   cursor: pointer;
   position: absolute;
-  top: 75%;
+  top: 95%;
   left: 50%;
-  transform: translate(-50%, -75%);
+  transform: translate(-50%, -95%);
   cursor: default;
   position: absolute;
   display: flex;

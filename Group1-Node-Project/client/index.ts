@@ -1,7 +1,15 @@
+const errorMessage = document.querySelector(
+  ".login__error-message"
+) as HTMLDivElement;
+
 function openHP(check: string, string: string) {
-  const url = new URL(string, window.location.href);
-  console.log("new URL:", url.href);
-  window.location.href = url.href;
+  if (check) {
+    const url = new URL(string, window.location.href);
+    console.log("new URL:", url.href);
+    window.location.href = url.href;
+  } else {
+    errorMessage.style.display = "block";
+  }
 }
 
 function handleLogin(ev) {

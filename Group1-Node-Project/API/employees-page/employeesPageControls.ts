@@ -143,7 +143,7 @@ export const addManager = async (req: any, res: any) => {
 };
 
 // Display all workers -
-export const getAdminWorkers = async (req: any, res: any) => {
+export const getAdminEmployees = async (req: any, res: any) => {
   try {
     const { _id } = req.body;
 

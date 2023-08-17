@@ -113,6 +113,10 @@
   font-size: 40px;
   cursor: default;
 }
+.login__error-message {
+  text-align: center;
+  color: red;
+}
 .login__inputs {
   position: absolute;
   top: 50%;
