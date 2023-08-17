@@ -60,12 +60,11 @@
 
 .employees-page {
   position: relative;
-  height: 900px;
 }
 .employees-page__employees-section, .employees-page__managers-section {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 600px;
 }
 .employees-page__employees-section__employees-header, .employees-page__employees-section__managers-header, .employees-page__managers-section__employees-header, .employees-page__managers-section__managers-header {
   font-size: 50px;

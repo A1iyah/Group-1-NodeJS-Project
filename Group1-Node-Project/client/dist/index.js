@@ -1,7 +1,13 @@
+var errorMessage = document.querySelector(".login__error-message");
 function openHP(check, string) {
-    var url = new URL(string, window.location.href);
-    console.log("new URL:", url.href);
-    window.location.href = url.href;
+    if (check) {
+        var url = new URL(string, window.location.href);
+        console.log("new URL:", url.href);
+        window.location.href = url.href;
+    }
+    else {
+        errorMessage.style.display = "block";
+    }
 }
 function handleLogin(ev) {
     try {

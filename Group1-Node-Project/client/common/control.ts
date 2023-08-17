@@ -102,7 +102,7 @@ const renderNavBar = (
   switch (userType) {
     case UserType.Admin:
       let navBarHtml: string = `<div class="nav-bar__links-group">
-                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Shift Schedule</p>
+                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Schedule</p>
                 <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
                 <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employee-list-page/employeesPage.html')">Employees</p>
                 <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
@@ -114,7 +114,7 @@ const renderNavBar = (
       navBarHtml = `<div class="nav-bar__links-group">
                 <p class="nav-bar__link nav-bar__link__employee-manager" onclick="gotoPage('../managerHP/managerHP.html')">Start/End Shift</p>
                 <p class="nav-bar__link nav-bar__link__my-shifts" onclick="gotoPage('../my-shifts-page/myShifts.html')">My Shifts</p>
-                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Shift Schedule</p>
+                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Schedule</p>
                 <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
                 <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employee-list-page/employeesPage.html')">Employees</p>
                 <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
@@ -127,7 +127,7 @@ const renderNavBar = (
       navBarHtml = `<div class="nav-bar__links-group">
                 <p class="nav-bar__link nav-bar__link__employee-manager" onclick="gotoPage('../employeeHP/employeeHP.html')">Start/End Shift</p>
                 <p class="nav-bar__link nav-bar__link__my-shifts" onclick="gotoPage('../my-shifts-page/myShifts.html')">My Shifts</p>
-                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Shift Schedule</p>
+                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Schedule</p>
                 <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
                 <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employee-list-page/employeesPage.html')">Employees</p>
                 <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
@@ -142,8 +142,8 @@ const renderNavBar = (
       break;
 
     case "/my-shifts-page/myShifts.html":
-    targetDivEle = document.querySelector(".nav-bar__link__my-shifts");
-    break;
+      targetDivEle = document.querySelector(".nav-bar__link__my-shifts");
+      break;
 
     case "/shift-schedule-page/shiftSchedule.html":
       targetDivEle = document.querySelector(".nav-bar__link__shift-schedule");
@@ -161,10 +161,10 @@ const renderNavBar = (
       targetDivEle = document.querySelector(".nav-bar__link__reports");
       break;
 
-    default:
-      console.error("No location.pathname found.");
+    // default:
+    //   console.error("No location.pathname found.");
 
-      break;
+    //   break;
   }
 
   if (targetDivEle) {

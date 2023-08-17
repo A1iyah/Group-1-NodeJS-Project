@@ -62,13 +62,13 @@
 // Page
 .employees-page {
   position: relative;
-  height: 900px;
+  // height: 800px;
 
   &__employees-section,
   &__managers-section {
     position: relative;
     width: 100%;
-    height: 500px;
+    height: 600px;
 
     &__employees-header,
     &__managers-header {

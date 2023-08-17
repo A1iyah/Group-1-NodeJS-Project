@@ -36,70 +36,44 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getManagersList = exports.getEmployeesList = exports.getSelectedSalaryBetween = exports.getSelectedSalaryDown = exports.getSelectedSalaryUp = exports.getAdmin = exports.login = void 0;
+exports.getManagersList = exports.getEmployeesList = exports.getSelectedSalaryBetween = exports.getSelectedSalaryDown = exports.getSelectedSalaryUp = void 0;
 var adminModel_1 = require("./adminModel");
-var jwt_simple_1 = require("jwt-simple");
 var dotenv = require("dotenv");
 dotenv.config();
 var secret = process.env.JWT_SECRET;
 // const secret: string = "secret";
-exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, password, adminDB, token, error_1;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _b.trys.push([0, 2, , 3]);
-                _a = req.body, email = _a.email, password = _a.password;
-                console.log(email, password);
-                return [4 /*yield*/, adminModel_1["default"].findOne({ email: email, password: password })];
-            case 1:
-                adminDB = _b.sent();
-                if (!adminDB)
-                    throw new Error("Username or password are incorrect");
-                if (!secret)
-                    throw new Error("no token");
-                token = jwt_simple_1["default"].encode({ adminId: adminDB._id, role: "admin" }, secret);
-                console.log(token);
-                res.cookie("admin", token, { maxAge: 500000000, httpOnly: true });
-                res.status(201).send({ ok: true });
-                return [3 /*break*/, 3];
-            case 2:
-                error_1 = _b.sent();
-                console.error(error_1);
-                res.status(500).send({ error: error_1.message });
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-exports.getAdmin = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var admin, decoded, adminId, role, adminDB, error_2;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                admin = req.cookies.admin;
-                if (!secret)
-                    throw new Error("no token");
-                decoded = jwt_simple_1["default"].decode(admin, secret);
-                console.log(decoded);
-                adminId = decoded.adminId, role = decoded.role;
-                return [4 /*yield*/, adminModel_1["default"].findById(adminId)];
-            case 1:
-                adminDB = _a.sent();
-                res.send({ ok: true, admin: adminDB });
-                return [3 /*break*/, 3];
-            case 2:
-                error_2 = _a.sent();
-                console.error(error_2);
-                res.status(500).send({ error: error_2.message });
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
+// export const login = async (req: any, res: any) => {
+//   try {
+//     const { email, password } = req.body;
+//     console.log(email, password);
+//     const adminDB = await AdminModel.findOne({ email, password });
+//     if (!adminDB) throw new Error("Username or password are incorrect");
+//     if (!secret) throw new Error("no token");
+//     const token = jwt.encode({ adminId: adminDB._id, role: "admin" }, secret);
+//     console.log(token);
+//     res.cookie("admin", token, { maxAge: 500000000, httpOnly: true });
+//     res.status(201).send({ ok: true });
+//   } catch (error: any) {
+//     console.error(error);
+//     res.status(500).send({ error: error.message });
+//   }
+// };
+// export const getAdmin = async (req: any, res: any) => {
+//   try {
+//     const { admin } = req.cookies;
+//     if (!secret) throw new Error("no token");
+//     const decoded = jwt.decode(admin, secret);
+//     console.log(decoded);
+//     const { adminId, role } = decoded;
+//     const adminDB: any = await AdminModel.findById(adminId);
+//     res.send({ ok: true, admin: adminDB });
+//   } catch (error: any) {
+//     console.error(error);
+//     res.status(500).send({ error: error.message });
+//   }
+// };
 exports.getSelectedSalaryUp = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, salaryUp, _id, employees, error_3;
+    var _a, salaryUp, _id, employees, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -133,15 +107,15 @@ exports.getSelectedSalaryUp = function (req, res) { return __awaiter(void 0, voi
                 res.send({ employees: employees });
                 return [3 /*break*/, 3];
             case 2:
-                error_3 = _b.sent();
-                console.log(error_3);
+                error_1 = _b.sent();
+                console.log(error_1);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getSelectedSalaryDown = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, salaryDown, _id, employees, error_4;
+    var _a, salaryDown, _id, employees, error_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -176,15 +150,15 @@ exports.getSelectedSalaryDown = function (req, res) { return __awaiter(void 0, v
                 res.send({ employees: employees });
                 return [3 /*break*/, 3];
             case 2:
-                error_4 = _b.sent();
-                console.log(error_4);
+                error_2 = _b.sent();
+                console.log(error_2);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getSelectedSalaryBetween = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, minSalary, maxSalary, _id, employees, error_5;
+    var _a, minSalary, maxSalary, _id, employees, error_3;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -219,15 +193,15 @@ exports.getSelectedSalaryBetween = function (req, res) { return __awaiter(void 0
                 res.send({ employees: employees });
                 return [3 /*break*/, 3];
             case 2:
-                error_5 = _b.sent();
-                console.log(error_5);
+                error_3 = _b.sent();
+                console.log(error_3);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getEmployeesList = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var employees, error_6;
+    var employees, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -241,16 +215,16 @@ exports.getEmployeesList = function (req, res) { return __awaiter(void 0, void 0
                 res.send({ employees: employees });
                 return [3 /*break*/, 3];
             case 2:
-                error_6 = _a.sent();
-                console.error(error_6);
-                res.status(500).send({ error: error_6.message });
+                error_4 = _a.sent();
+                console.error(error_4);
+                res.status(500).send({ error: error_4.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getManagersList = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var managers, error_7;
+    var managers, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -264,9 +238,9 @@ exports.getManagersList = function (req, res) { return __awaiter(void 0, void 0,
                 res.send({ managers: managers });
                 return [3 /*break*/, 3];
             case 2:
-                error_7 = _a.sent();
-                console.error(error_7);
-                res.status(500).send({ error: error_7.message });
+                error_5 = _a.sent();
+                console.error(error_5);
+                res.status(500).send({ error: error_5.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

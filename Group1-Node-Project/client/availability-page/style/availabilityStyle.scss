@@ -11,7 +11,7 @@
 // Availability page -
 .availabilityForm {
   position: relative;
-  height: 800px;
+  height: 600px;
 
   h1 {
     @include headerCenter;
@@ -28,7 +28,7 @@
   }
 
   #comment {
-    @include flexibleCenter(absolute, 60%, 50%, -50%, -60%);
+    @include flexibleCenter(absolute, 80%, 50%, -50%, -80%);
     @include boxShadow;
     padding: 10px;
     cursor: text;
@@ -36,7 +36,7 @@
 
   .submit-btn {
     @include buttonDesign;
-    @include flexibleCenter(absolute, 75%, 50%, -50%, -75%);
+    @include flexibleCenter(absolute, 95%, 50%, -50%, -95%);
     position: absolute;
     display: flex;
 

@@ -132,6 +132,11 @@
     cursor: default;
   }
 
+  &__error-message {
+    text-align: center;
+    color: red;
+  }
+
   &__inputs {
     @include centerDiv;
   }

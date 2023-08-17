@@ -66,7 +66,7 @@ exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 userDB = _b.sent();
                 console.log(userDB);
                 if (!userDB)
-                    throw new Error("name or password are incorrect");
+                    throw new Error("email or password are incorrect");
                 if (!secret)
                     throw new Error("no token");
                 roleUser = void 0;

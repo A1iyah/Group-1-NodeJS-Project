@@ -106,6 +106,7 @@ var addManagerBtn = document.querySelector(".addButtons__add-managers-btn");
 var addNewEmployeesForm = document.querySelector(".employees-page__add-new-employees");
 var addNewManagersForm = document.querySelector(".employees-page__add-new-managers");
 var managerSection = document.querySelector(".employees-page__managers-section");
+var emailError = document.querySelector(".email-error-message");
 var openDiv = null;
 var isFormsOpen = false;
 function updateUIForUserType(userType) {
@@ -200,10 +201,15 @@ function handleCreateEmployee(evt) {
         var birthday_1 = evt.target.elements.birthday.value;
         var salaryPerHour_1 = evt.target.elements.salaryPerHour.value;
         var role_1 = evt.target.elements.role.value;
+        if (!email_1 || !email_1.includes("@")) {
+            emailError.style.display = "block";
+            return;
+        }
+        else {
+            emailError.style.display = "none";
+        }
         if (!name_1)
             throw new Error("No name");
-        if (!email_1)
-            throw new Error("No email");
         if (!password_1)
             throw new Error("No password");
         if (!idNumber_1)
@@ -291,10 +297,15 @@ function handleCreateManager(evt) {
         var birthday = evt.target.elements.birthday.value;
         // const role = e.target.elements.role.value;
         console.log(name, email, password, idNumber, phone, birthday, salaryPerHour);
+        if (!email || !email.includes("@")) {
+            emailError.style.display = "block";
+            return;
+        }
+        else {
+            emailError.style.display = "none";
+        }
         if (!name)
             throw new Error("No name");
-        if (!email)
-            throw new Error("No email");
         if (!password)
             throw new Error("No password");
         if (!idNumber)

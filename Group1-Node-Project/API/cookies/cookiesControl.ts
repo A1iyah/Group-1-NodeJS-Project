@@ -26,7 +26,7 @@ export const login = async (req: any, res: any) => {
     const userDB = await CompanyModel.findOne({ email, password });
     console.log(userDB);
 
-    if (!userDB) throw new Error("name or password are incorrect");
+    if (!userDB) throw new Error("email or password are incorrect");
     if (!secret) throw new Error("no token");
 
     let roleUser: string;

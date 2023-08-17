@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getMyTeam = exports.getManagerEmployees = exports.getAdminWorkers = exports.addManager = exports.addEmployee = void 0;
+exports.getMyTeam = exports.getManagerEmployees = exports.getAdminEmployees = exports.addManager = exports.addEmployee = void 0;
 var adminModel_1 = require("../admin/adminModel");
 var managerModel_1 = require("../manager/managerModel");
 var employeeModel_1 = require("../employee/employeeModel");
@@ -165,7 +165,7 @@ exports.addManager = function (req, res) { return __awaiter(void 0, void 0, void
     });
 }); };
 // Display all workers -
-exports.getAdminWorkers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.getAdminEmployees = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _id, allWorkers, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {

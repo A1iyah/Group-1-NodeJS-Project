@@ -11,43 +11,43 @@ dotenv.config();
 const secret: string | undefined = process.env.JWT_SECRET as string;
 // const secret: string = "secret";
 
-export const login = async (req: any, res: any) => {
-  try {
-    const { email, password } = req.body;
-    console.log(email, password);
+// export const login = async (req: any, res: any) => {
+//   try {
+//     const { email, password } = req.body;
+//     console.log(email, password);
 
-    const adminDB = await AdminModel.findOne({ email, password });
+//     const adminDB = await AdminModel.findOne({ email, password });
 
-    if (!adminDB) throw new Error("Username or password are incorrect");
-    if (!secret) throw new Error("no token");
-    const token = jwt.encode({ adminId: adminDB._id, role: "admin" }, secret);
-    console.log(token);
+//     if (!adminDB) throw new Error("Username or password are incorrect");
+//     if (!secret) throw new Error("no token");
+//     const token = jwt.encode({ adminId: adminDB._id, role: "admin" }, secret);
+//     console.log(token);
 
-    res.cookie("admin", token, { maxAge: 500000000, httpOnly: true });
+//     res.cookie("admin", token, { maxAge: 500000000, httpOnly: true });
 
-    res.status(201).send({ ok: true });
-  } catch (error: any) {
-    console.error(error);
-    res.status(500).send({ error: error.message });
-  }
-};
+//     res.status(201).send({ ok: true });
+//   } catch (error: any) {
+//     console.error(error);
+//     res.status(500).send({ error: error.message });
+//   }
+// };
 
-export const getAdmin = async (req: any, res: any) => {
-  try {
-    const { admin } = req.cookies;
-    if (!secret) throw new Error("no token");
-    const decoded = jwt.decode(admin, secret);
-    console.log(decoded);
-    const { adminId, role } = decoded;
+// export const getAdmin = async (req: any, res: any) => {
+//   try {
+//     const { admin } = req.cookies;
+//     if (!secret) throw new Error("no token");
+//     const decoded = jwt.decode(admin, secret);
+//     console.log(decoded);
+//     const { adminId, role } = decoded;
 
-    const adminDB: any = await AdminModel.findById(adminId);
+//     const adminDB: any = await AdminModel.findById(adminId);
 
-    res.send({ ok: true, admin: adminDB });
-  } catch (error: any) {
-    console.error(error);
-    res.status(500).send({ error: error.message });
-  }
-};
+//     res.send({ ok: true, admin: adminDB });
+//   } catch (error: any) {
+//     console.error(error);
+//     res.status(500).send({ error: error.message });
+//   }
+// };
 
 export const getSelectedSalaryUp = async (req: any, res: any) => {
   try {
