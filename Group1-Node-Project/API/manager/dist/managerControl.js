@@ -36,69 +36,46 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getEmployeesList = exports.getSelectedSalaryBetween = exports.getSelectedSalaryDown = exports.getSelectedSalaryUp = exports.getSelectedManager = exports.addAttendance = exports.getManager = exports.login = void 0;
+exports.getEmployeesList = exports.getSelectedSalaryBetween = exports.getSelectedSalaryDown = exports.getSelectedSalaryUp = exports.getSelectedManager = exports.addAttendance = void 0;
 var managerModel_1 = require("./managerModel");
 var dotenv = require("dotenv");
 dotenv.config();
-var jwt_simple_1 = require("jwt-simple");
 var secret = process.env.JWT_SECRET;
 // const secret: string = "secret";
-exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, password, managerDB, token, error_1;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _b.trys.push([0, 2, , 3]);
-                _a = req.body, email = _a.email, password = _a.password;
-                console.log(email, password);
-                return [4 /*yield*/, managerModel_1["default"].findOne({ email: email, password: password })];
-            case 1:
-                managerDB = _b.sent();
-                if (!managerDB)
-                    throw new Error("name or password are incorrect");
-                if (!secret)
-                    throw new Error("no token");
-                token = jwt_simple_1["default"].encode({ managerId: managerDB._id, role: "manager" }, secret);
-                console.log(token);
-                res.cookie("manager", token, { maxAge: 500000000, httpOnly: true });
-                res.status(201).send({ ok: true });
-                return [3 /*break*/, 3];
-            case 2:
-                error_1 = _b.sent();
-                console.error(error_1);
-                res.status(500).send({ error: error_1.message });
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-exports.getManager = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var manager, decoded, managerId, role, managerDB, error_2;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                manager = req.cookies.manager;
-                if (!secret)
-                    throw new Error("no token");
-                decoded = jwt_simple_1["default"].decode(manager, secret);
-                managerId = decoded.managerId, role = decoded.role;
-                return [4 /*yield*/, managerModel_1["default"].findById(managerId)];
-            case 1:
-                managerDB = _a.sent();
-                res.send({ ok: true, manager: managerDB });
-                return [3 /*break*/, 3];
-            case 2:
-                error_2 = _a.sent();
-                console.error(error_2);
-                res.status(500).send({ error: error_2.message });
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
+// export const login = async (req: any, res: any) => {
+//   try {
+//     const { email, password } = req.body;
+//     console.log(email, password);
+//     const managerDB = await ManagerModel.findOne({ email, password });
+//     if (!managerDB) throw new Error("name or password are incorrect");
+//     if (!secret) throw new Error("no token");
+//     const token = jwt.encode(
+//       { managerId: managerDB._id, role: "manager" },
+//       secret
+//     );
+//     console.log(token);
+//     res.cookie("manager", token, { maxAge: 500000000, httpOnly: true });
+//     res.status(201).send({ ok: true });
+//   } catch (error: any) {
+//     console.error(error);
+//     res.status(500).send({ error: error.message });
+//   }
+// };
+// export const getManager = async (req: any, res: any) => {
+//   try {
+//     const { manager } = req.cookies;
+//     if (!secret) throw new Error("no token");
+//     const decoded = jwt.decode(manager, secret);
+//     const { managerId, role } = decoded;
+//     const managerDB: any = await ManagerModel.findById(managerId);
+//     res.send({ ok: true, manager: managerDB });
+//   } catch (error: any) {
+//     console.error(error);
+//     res.status(500).send({ error: error.message });
+//   }
+// };
 exports.addAttendance = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, userDB, totalTimeShift, updateUser, error_3;
+    var _a, userDB, totalTimeShift, updateUser, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -122,16 +99,16 @@ exports.addAttendance = function (req, res) { return __awaiter(void 0, void 0, v
                 res.send({ ok: true });
                 return [3 /*break*/, 3];
             case 2:
-                error_3 = _b.sent();
-                console.error(error_3);
-                res.status(500).send({ error: error_3.message });
+                error_1 = _b.sent();
+                console.error(error_1);
+                res.status(500).send({ error: error_1.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getSelectedManager = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var idNumber, managerDB, error_4;
+    var idNumber, managerDB, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -157,16 +134,16 @@ exports.getSelectedManager = function (req, res) { return __awaiter(void 0, void
                 res.send({ managerDB: managerDB });
                 return [3 /*break*/, 3];
             case 2:
-                error_4 = _a.sent();
-                console.error(error_4);
-                res.status(500).send({ error: error_4.message });
+                error_2 = _a.sent();
+                console.error(error_2);
+                res.status(500).send({ error: error_2.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getSelectedSalaryUp = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, salaryUp, _id, employees, error_5;
+    var _a, salaryUp, _id, employees, error_3;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -191,15 +168,15 @@ exports.getSelectedSalaryUp = function (req, res) { return __awaiter(void 0, voi
                 res.send({ employees: employees });
                 return [3 /*break*/, 3];
             case 2:
-                error_5 = _b.sent();
-                console.log(error_5);
+                error_3 = _b.sent();
+                console.log(error_3);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getSelectedSalaryDown = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, salaryDown, _id, employees, error_6;
+    var _a, salaryDown, _id, employees, error_4;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -224,15 +201,15 @@ exports.getSelectedSalaryDown = function (req, res) { return __awaiter(void 0, v
                 res.send({ employees: employees });
                 return [3 /*break*/, 3];
             case 2:
-                error_6 = _b.sent();
-                console.log(error_6);
+                error_4 = _b.sent();
+                console.log(error_4);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getSelectedSalaryBetween = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, minSalary, maxSalary, _id, employees, error_7;
+    var _a, minSalary, maxSalary, _id, employees, error_5;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -257,15 +234,15 @@ exports.getSelectedSalaryBetween = function (req, res) { return __awaiter(void 0
                 res.send({ employees: employees });
                 return [3 /*break*/, 3];
             case 2:
-                error_7 = _b.sent();
-                console.log(error_7);
+                error_5 = _b.sent();
+                console.log(error_5);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getEmployeesList = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, employees, error_8;
+    var _id, employees, error_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -287,9 +264,9 @@ exports.getEmployeesList = function (req, res) { return __awaiter(void 0, void 0
                 res.send({ employees: employees });
                 return [3 /*break*/, 3];
             case 2:
-                error_8 = _a.sent();
-                console.error(error_8);
-                res.status(500).send({ error: error_8.message });
+                error_6 = _a.sent();
+                console.error(error_6);
+                res.status(500).send({ error: error_6.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
