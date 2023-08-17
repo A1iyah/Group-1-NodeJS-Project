@@ -265,14 +265,19 @@
     padding-bottom: 50px;
   }
   .employees-page__employees-section__employees-header, .employees-page__employees-section__managers-header, .employees-page__managers-section__employees-header, .employees-page__managers-section__managers-header {
+    font-size: 40px;
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     text-align: center;
+    cursor: default;
+    margin-top: 50px;
   }
   .employees-page__employees-section__employees-chart, .employees-page__employees-section__managers-chart, .employees-page__managers-section__employees-chart, .employees-page__managers-section__managers-chart {
     display: none;
   }
   .employees-page__employees-section__get-all-employees, .employees-page__employees-section__get-all-managers, .employees-page__managers-section__get-all-employees, .employees-page__managers-section__get-all-managers {
+    margin-top: 50px;
     height: 65%;
     overflow: scroll;
   }
@@ -296,9 +301,9 @@
   }
   .employees-page__add-new-employees, .employees-page__add-new-managers {
     position: absolute;
-    top: 40%;
+    top: 25%;
     left: 50%;
-    transform: translate(-50%, -40%);
+    transform: translate(-50%, -25%);
     cursor: default;
     width: 95%;
   }
