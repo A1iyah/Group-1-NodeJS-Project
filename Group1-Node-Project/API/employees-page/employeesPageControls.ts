@@ -48,8 +48,17 @@ export const addEmployee = async (req: any, res: any) => {
     const newUserIdString = managerID.toString();
     const managerIdString = newUserId[0]._id.toString();
 
+    console.log(newUserId[0]._id);
+    console.log(newUserIdString);
+
     const updateManager = await ManagerModel.findByIdAndUpdate(
       managerID,
+      { $push: { employees: newUserId[0]._id } },
+      { new: true }
+    );
+
+    const updateAdmin = await AdminModel.findByIdAndUpdate(
+      "64d50e911e5749a59f1f4a6f",
       { $push: { employees: newUserId[0]._id } },
       { new: true }
     );
@@ -103,7 +112,30 @@ export const addManager = async (req: any, res: any) => {
     });
     console.log(managerDB);
 
-    res.status(200).send({ ok: true, managerDB });
+    const updateAdmin = await AdminModel.findByIdAndUpdate(
+      "64d50e911e5749a59f1f4a6f",
+      { $push: { managers: managerDB._id } },
+      { new: true }
+    );
+
+    const adminDB = await AdminModel.findById("64d50e911e5749a59f1f4a6f")
+      .populate({
+        path: "employees",
+        populate: {
+          path: "role",
+          model: "Role",
+        },
+      })
+      .populate({
+        path: "managers",
+        populate: {
+          path: "role",
+          model: "Role",
+        },
+      })
+      .exec();
+
+    res.status(200).send({ ok: true, adminDB });
   } catch (error) {
     console.log(error);
     res.status(500).send("did not get data");

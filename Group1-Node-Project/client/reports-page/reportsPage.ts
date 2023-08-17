@@ -78,6 +78,7 @@ async function main() {
   user = data.user;
   userType = data.userType;
   renderNavBar(navBarElem, userType, user);
+
   // runningClockPage(runningClock);
   const totalTimeShift = localStorage.getItem("totalTimeShift");
   if (totalTimeShift) {

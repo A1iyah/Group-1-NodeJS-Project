@@ -318,6 +318,8 @@ function handleCreateManager(evt) {
             .then(function (res) { return res.json(); })
             .then(function (data) {
             console.log(data);
+            renderEmployeeList(data.adminDB.employees);
+            renderManagersList(data.adminDB.managers);
         })["catch"](function (error) {
             console.error(error);
         });
@@ -347,6 +349,7 @@ var handleGetWorkers = function () {
                 try {
                     if (!allWorkers)
                         throw new Error("No workers data found");
+                    console.log(allWorkers);
                     renderEmployeeList(allWorkers.employees);
                     renderManagersList(allWorkers.managers);
                 }
