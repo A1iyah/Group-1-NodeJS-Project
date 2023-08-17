@@ -4,6 +4,8 @@ import ManagerModel from "../manager/managerModel";
 import EmployeeModel from "../employee/employeeModel";
 import RoleModel from "../role/roleModel";
 import CompanyModel from "../company/companyModel";
+import mongoose from "mongoose";
+import { ObjectId } from "mongoose";
 
 export const addEmployee = async (req: any, res: any) => {
   try {
@@ -46,8 +48,17 @@ export const addEmployee = async (req: any, res: any) => {
     const newUserIdString = managerID.toString();
     const managerIdString = newUserId[0]._id.toString();
 
+    console.log(newUserId[0]._id);
+    console.log(newUserIdString);
+
     const updateManager = await ManagerModel.findByIdAndUpdate(
       managerID,
+      { $push: { employees: newUserId[0]._id } },
+      { new: true }
+    );
+
+    const updateAdmin = await AdminModel.findByIdAndUpdate(
+      "64d50e911e5749a59f1f4a6f",
       { $push: { employees: newUserId[0]._id } },
       { new: true }
     );
@@ -101,7 +112,30 @@ export const addManager = async (req: any, res: any) => {
     });
     console.log(managerDB);
 
-    res.status(200).send({ ok: true, managerDB });
+    const updateAdmin = await AdminModel.findByIdAndUpdate(
+      "64d50e911e5749a59f1f4a6f",
+      { $push: { managers: managerDB._id } },
+      { new: true }
+    );
+
+    const adminDB = await AdminModel.findById("64d50e911e5749a59f1f4a6f")
+      .populate({
+        path: "employees",
+        populate: {
+          path: "role",
+          model: "Role",
+        },
+      })
+      .populate({
+        path: "managers",
+        populate: {
+          path: "role",
+          model: "Role",
+        },
+      })
+      .exec();
+
+    res.status(200).send({ ok: true, adminDB });
   } catch (error) {
     console.log(error);
     res.status(500).send("did not get data");
@@ -160,55 +194,32 @@ export const getMyTeam = async (req: any, res: any) => {
   try {
     const { _id } = req.body;
 
-    // const managerID = await ManagerModel.findOne({
-    //   employee: { _id },
+    console.log(_id);
+    const stringID = _id.toString();
+    // const manager = await ManagerModel.findOne({
+    //   employees: { $eq: stringID },
     // });
 
-    const manager = await ManagerModel.findOne({ employees: _id })
-      .populate("employees")
+    const manager = await ManagerModel.findOne({
+      employees: _id,
+    })
+      .populate({
+        path: "employees",
+        populate: {
+          path: "role",
+          model: "Role",
+        },
+      })
       .exec();
 
     console.log(manager);
 
-    if (manager) {
-      const managerDetails = manager.toJSON();
-      console.log("Manager:", managerDetails);
-      console.log("Employee:", managerDetails.employees);
-    } else {
-      console.log("No manager found for the employee.");
-    }
+    const myTeamEmployees = manager?.employees;
 
-    // if (employees) console.log(employees.employees);
+    console.log(myTeamEmployees);
 
-    // res.send({ employees });
+    res.send({ myTeamEmployees });
   } catch (error) {
     console.log(error);
   }
 };
-
-// export const getMyTeam = async (req: any, res: any) => {
-//   try {
-//     const { _id } = req.body;
-
-//     const employee = await EmployeeModel.findById(_id);
-
-//     if (!employee) {
-//       throw new Error("Employee not found");
-//     }
-
-//     const managerId = employee.manager;
-
-//     if (!managerId) {
-//       throw new Error("Employee does not have a manager");
-//     }
-
-//     const teamEmployees = await EmployeeModel.find({
-//       manager: managerId,
-//     }).populate("role");
-
-//     res.send({ employees: teamEmployees });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send({ error: "Internal Server Error" });
-//   }
-// };

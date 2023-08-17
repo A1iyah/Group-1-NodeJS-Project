@@ -34,7 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var navBarElement = document.querySelector(".nav-bar");
+var navBarElem = document.querySelector(".nav-bar");
 var userName = document.querySelector("#userName");
 var runningClock = document.querySelector(".running-clock");
 var salaryButton = document.querySelector(".reportButtons__salary");
@@ -54,15 +54,19 @@ var attendanceReportTable = document.querySelector(".attendanceReport");
 var employeeDetails = document.querySelector(".employeeDetails");
 var managerDetails = document.querySelector(".managerDetails");
 var employeeAttendance = document.querySelector(".employeeAttendance");
+var user;
+var userType;
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var totalTimeShift, startTimeString, currentTime;
+        var data, totalTimeShift, startTimeString, currentTime;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, getActiveUser()];
+                case 0: return [4 /*yield*/, loadActiveUser()];
                 case 1:
-                    _a.sent();
-                    renderNavBar(navBarElement);
+                    data = _a.sent();
+                    user = data.user;
+                    userType = data.userType;
+                    renderNavBar(navBarElem, userType, user);
                     totalTimeShift = localStorage.getItem("totalTimeShift");
                     if (totalTimeShift) {
                         runningClock.innerHTML = totalTimeShift;
@@ -442,8 +446,9 @@ function HandleManagerReport(ev) {
             .then(function (_a) {
             var managerDB = _a.managerDB;
             console.log(managerDB[0].employees);
+            console.log(managerDB);
             renderReportResultManager(managerDB);
-            renderReportResultManager(managerDB[0].employees);
+            renderReportResultEmployees(managerDB[0].employees);
             renderShiftResult(managerDB[0]);
         });
     }

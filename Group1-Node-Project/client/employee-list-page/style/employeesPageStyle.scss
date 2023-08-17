@@ -207,9 +207,6 @@
 
   // Page
   .employees-page {
-    // position: relative;
-    // height: 900px;
-
     &__employees-section,
     &__managers-section {
       height: 500px;
@@ -217,9 +214,8 @@
 
       &__employees-header,
       &__managers-header {
-        margin: 0 auto;
+        @include responsiveHeader;
         margin-top: 50px;
-        text-align: center;
       }
 
       &__employees-chart,
@@ -229,6 +225,7 @@
 
       &__get-all-employees,
       &__get-all-managers {
+        margin-top: 50px;
         height: 65%;
         overflow: scroll;
 
@@ -262,7 +259,7 @@
     // Add new -
     &__add-new-employees,
     &__add-new-managers {
-      @include flexibleCenter(absolute, 40%, 50%, -50%, -40%);
+      @include flexibleCenter(absolute, 25%, 50%, -50%, -25%);
       width: 95%;
 
       fieldset {

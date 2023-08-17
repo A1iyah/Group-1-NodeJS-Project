@@ -1,4 +1,4 @@
-const navBarElement = document.querySelector(".nav-bar") as HTMLDivElement;
+const navBarElem = document.querySelector(".nav-bar") as HTMLDivElement;
 const runningClock = document.querySelector(".running-clock") as HTMLDivElement;
 
 let weekDays;
@@ -9,12 +9,19 @@ let intervalIdNew = null;
 let targetedDayIndex: number;
 let targetedRoleType: string;
 let targetedRoleCount: number;
+
+let user: any;
+let userType: number;
 let thisScheduleId: number;
 
 async function main() {
-  await getActiveUser();
-  renderNavBar(navBarElement);
+  const data = await loadActiveUser();
+  user = data.user;
+  userType = data.userType;
+  console.log(user);
+  console.log(userType);
 
+  renderNavBar(navBarElem, userType, user);
   const totalTimeShift = localStorage.getItem("totalTimeShift");
   if (totalTimeShift) {
     runningClock.innerHTML = totalTimeShift;
@@ -26,10 +33,8 @@ async function main() {
     const currentTime = Date.now();
     console.log(currentTime);
 
-    // const elapsedTime = currentTime - startTime1;
     updateClock();
   }
-
   renderAllAvailableEmployees();
 }
 
@@ -293,8 +298,11 @@ const renderAllAvailableEmployees = async () => {
   // })
 };
 
-const onShiftSelect = (roleType: string, weekdayIndex: number, roleCount: number) =>
-{
+const onShiftSelect = (
+  roleType: string,
+  weekdayIndex: number,
+  roleCount: number
+) => {
   targetedDayIndex = weekdayIndex;
   targetedRoleType = roleType;
   targetedRoleCount = roleCount;
@@ -311,205 +319,218 @@ const onShiftSelect = (roleType: string, weekdayIndex: number, roleCount: number
         weekday: weekdayIndex,
       }),
     })
-    .then( (res) => res.json())
-    .then( (data) => {
-      processShiftSelection(data.employees, roleType, weekdayIndex);
-      
-    });
+      .then((res) => res.json())
+      .then((data) => {
+        processShiftSelection(data.employees, roleType, weekdayIndex);
+      });
   } catch (error) {
     console.error(error);
   }
-}
- 
-const processShiftSelection = (allAvailableEmployees: Array<Object> ,roleType: string, weekdayIndex: number) =>
-{
+};
 
+const processShiftSelection = (
+  allAvailableEmployees: Array<Object>,
+  roleType: string,
+  weekdayIndex: number
+) => {
   let allAvailableEmployeesOnDay: Array<string> = [];
 
   switch (String(weekdayIndex)) {
     case "0":
       allAvailableEmployeesOnDay = allAvailableEmployees[0]["sundayMorning"];
-    break;
+      break;
 
     case "1":
       allAvailableEmployeesOnDay = allAvailableEmployees[0]["mondayMorning"];
-    break;
+      break;
 
     case "2":
       allAvailableEmployeesOnDay = allAvailableEmployees[0]["tuesdayMorning"];
-    break;
+      break;
 
     case "3":
       allAvailableEmployeesOnDay = allAvailableEmployees[0]["wednesdayMorning"];
-    break;
-    
+      break;
+
     case "4":
       allAvailableEmployeesOnDay = allAvailableEmployees[0]["thursdayMorning"];
-    break;
+      break;
 
     case "5":
       allAvailableEmployeesOnDay = allAvailableEmployees[0]["fridayMorning"];
-    break;
+      break;
 
     case "6":
       allAvailableEmployeesOnDay = allAvailableEmployees[0]["saturdayMorning"];
-    break;
+      break;
   }
 
   try {
-    fetch("/api/role/get-role-id-by-name" , {
-      method:"SEARCH",
-      headers:{
+    fetch("/api/role/get-role-id-by-name", {
+      method: "SEARCH",
+      headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify( {targetName: roleType}),
+      body: JSON.stringify({ targetName: roleType }),
     })
-    .then( (res) => res.json())
-    .then( (data) => {
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data) throw new Error("no name of Id found on DB");
 
-      if (!data) throw new Error("no name of Id found on DB");
-
-      renderEmployeesPanelByRole(data.roleId[0]._id, allAvailableEmployeesOnDay, weekdayIndex);
-    });
-
+        renderEmployeesPanelByRole(
+          data.roleId[0]._id,
+          allAvailableEmployeesOnDay,
+          weekdayIndex
+        );
+      });
   } catch (error) {
-      console.error(error);
+    console.error(error);
   }
-}
+};
 
-const renderEmployeesPanelByRole = (roleId: string, employees: Array<string>, weekdayIndex:number) => {
-
+const renderEmployeesPanelByRole = (
+  roleId: string,
+  employees: Array<string>,
+  weekdayIndex: number
+) => {
   const commentsPanel = document.querySelector(".comments-panel");
-  if (commentsPanel){
+  if (commentsPanel) {
     commentsPanel.innerHTML = "";
   }
-  
-  const employeeslengh: number = employees.length;
-  
-  const employeesNamesList = document.querySelector(".employees-panel__employees-list-container");
 
-  if (!employeesNamesList) throw new Error("did not find employees-panel__employees-list-container on DOM.");
+  const employeeslengh: number = employees.length;
+
+  const employeesNamesList = document.querySelector(
+    ".employees-panel__employees-list-container"
+  );
+
+  if (!employeesNamesList)
+    throw new Error(
+      "did not find employees-panel__employees-list-container on DOM."
+    );
 
   employeesNamesList.innerHTML = " ";
 
-  for (let i = 0 ; i < employeeslengh ; i++)
-  {
+  for (let i = 0; i < employeeslengh; i++) {
     if (employees[i]["role"] !== roleId) continue;
 
-    const comment:string = employees[i]["comment"];
+    const comment: string = employees[i]["comment"];
 
     employeesNamesList.innerHTML += `<div class="employees-panel__employee-box" onmouseover="renderEmployeeComment('${employees[i]["employeeId"]}', '${weekdayIndex}')" onclick="processEmployeeAllocation('${employees[i]["employeeId"]}', '${employees[i]["name"]}', '${weekdayIndex}')">
             <p class="employees-panel__employee-name">${employees[i]["name"]}</p>
             <div class="employees-panel__employee-box__markings-container">
             </div>
-          </div>`
+          </div>`;
   }
-}
-  
-const renderEmployeeComment = (targetEmployeeId: string, weekdayIndex: number) =>
-{
+};
+
+const renderEmployeeComment = (
+  targetEmployeeId: string,
+  weekdayIndex: number
+) => {
   const commentsPanel = document.querySelector(".comments-panel");
 
   try {
-    fetch("/api/availability/get-comment-by-employee-id-and-weekday" , {
-      method:"SEARCH",
-      headers:{
+    fetch("/api/availability/get-comment-by-employee-id-and-weekday", {
+      method: "SEARCH",
+      headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify( {employeeId: targetEmployeeId, weekdayIndex}),
+      body: JSON.stringify({ employeeId: targetEmployeeId, weekdayIndex }),
     })
-    .then( (res) => res.json())
-    .then( (data) => {
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data) throw new Error("no comment of Id found on DB");
 
-      if (!data) throw new Error("no comment of Id found on DB");
-      
-      const weekDayString = convertWeekIndexToDayString(String(weekdayIndex));
-      const dayDBLenght = data.dayDB[weekDayString].length;
-      
-      for (let i = 0 ; i < dayDBLenght ; i++)
-      {
-        if (data.dayDB[weekDayString][i]["employeeId"] === targetEmployeeId)
-        {
-          commentsPanel!.innerHTML = `<p>${data.dayDB[weekDayString][i]["comment"]}</p> 
+        const weekDayString = convertWeekIndexToDayString(String(weekdayIndex));
+        const dayDBLenght = data.dayDB[weekDayString].length;
+
+        for (let i = 0; i < dayDBLenght; i++) {
+          if (data.dayDB[weekDayString][i]["employeeId"] === targetEmployeeId) {
+            commentsPanel!.innerHTML = `<p>${data.dayDB[weekDayString][i]["comment"]}</p> 
           `;
-          break;
+            break;
+          }
         }
-      }
-      
-    });
-
+      });
   } catch (error) {
-      console.error(error);
+    console.error(error);
   }
-}
+};
 
-const convertWeekIndexToDayString = (weekdayIndex: string):string =>
-{
+const convertWeekIndexToDayString = (weekdayIndex: string): string => {
   switch (weekdayIndex) {
     case "0":
       return "sundayMorning";
       break;
-      case "1":
-        return "mondayMorning";
+    case "1":
+      return "mondayMorning";
       break;
-      case "2":
-        return "tuesdayMorning";
+    case "2":
+      return "tuesdayMorning";
       break;
-      case "3":
-        return "wednesdayMorning";
+    case "3":
+      return "wednesdayMorning";
       break;
-      case "4":
-        return "thursdayMorning";
+    case "4":
+      return "thursdayMorning";
       break;
-      case "5":
-        return "fridayMorning";
+    case "5":
+      return "fridayMorning";
       break;
-      case "6":
-        return "saturdayMorning";
+    case "6":
+      return "saturdayMorning";
       break;
-  
+
     default:
-    console.log("no day shift index received");
-      
-    return "null";  
-    break;
+      console.log("no day shift index received");
+
+      return "null";
+      break;
   }
+};
 
-}
+const processEmployeeAllocation = (
+  employeeId: string,
+  employeeName: string
+) => {
+  const targetShift = document.querySelector(
+    `.shifts-panel__role-row__${targetedRoleType}-num${targetedRoleCount}-weekday${targetedDayIndex}`
+  );
 
-const processEmployeeAllocation = (employeeId: string, employeeName: string, weekdayIndex: string) =>
-{
-  const targetShift = document.querySelector(`.shifts-panel__role-row__${targetedRoleType}-num${targetedRoleCount}-weekday${targetedDayIndex}`);
+  const processEmployeeAllocation = (
+    employeeId: string,
+    employeeName: string,
+    weekdayIndex: string
+  ) => {
+    const targetShift = document.querySelector(
+      `.shifts-panel__role-row__${targetedRoleType}-num${targetedRoleCount}-weekday${targetedDayIndex}`
+    );
 
-  if (!targetShift) 
-  {
-    console.log("target shift allocation slot not found in DOM");
-    return;
-  }
+    if (!targetShift) {
+      console.log("target shift allocation slot not found in DOM");
+      return;
+    }
 
-  targetShift!.innerHTML = `<p class="shifts-panel__role-row__allocation-name">${employeeName}</p>`
+    targetShift!.innerHTML = `<p class="shifts-panel__role-row__allocation-name">${employeeName}</p>`;
 
-  try {
-    fetch("/api/schedule/add-employee-to-schedule",
-    {
-      method: "PATCH",
-      headers:{
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      }
-    ,
-    body: JSON.stringify(
-      {
-        thisScheduleId,
-        employeeId,
-        weekdayIndex
-      }
-    )
-    });
-  } catch (error) {
-    console.log(error);
-  }
-}
-
+    try {
+      fetch("/api/schedule/add-employee-to-schedule", {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          thisScheduleId,
+          employeeId,
+          weekdayIndex,
+        }),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};

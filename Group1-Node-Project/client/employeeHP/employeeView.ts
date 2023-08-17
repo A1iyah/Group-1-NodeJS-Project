@@ -1,1 +1,1 @@
-const navBarElement = document.querySelector(".nav-bar") as HTMLDivElement;
+const navBarElem = document.querySelector(".nav-bar") as HTMLDivElement;

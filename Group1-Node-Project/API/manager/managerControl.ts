@@ -38,10 +38,6 @@ export const login = async (req: any, res: any) => {
 export const getManager = async (req: any, res: any) => {
   try {
     const { manager } = req.cookies;
-    // if (!manager) {
-    //   res.status(500).send({message: "you are not a manager"});
-    //   return;
-    // }
     if (!secret) throw new Error("no token");
     const decoded = jwt.decode(manager, secret);
     const { managerId, role } = decoded;
@@ -90,6 +86,7 @@ export const getSelectedManager = async (req: any, res: any) => {
     const managerDB: any = await ManagerModel.find({
       idNumber: idNumber,
     })
+      .populate("role")
       .populate({
         path: "employees",
 
@@ -200,14 +197,6 @@ export const getEmployeesList = async (req: any, res: any) => {
         },
       })
       .exec();
-
-    // .populate({
-    //   path: "employees",
-    //   populate: {
-    //     path: "role",
-    //     model: "Role",
-    //   },
-    // })
     if (employees) console.log(employees);
 
     res.send({ employees });

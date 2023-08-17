@@ -1,4 +1,4 @@
-const navBarElement = document.querySelector(".nav-bar") as HTMLDivElement;
+const navBarElem = document.querySelector(".nav-bar") as HTMLDivElement;
 const userName = document.querySelector("#userName") as HTMLDivElement;
 const runningClock = document.querySelector(".running-clock") as HTMLDivElement;
 
@@ -70,10 +70,15 @@ const employeeAttendance = document.querySelector(
   ".employeeAttendance"
 ) as HTMLDivElement;
 
-async function main() {
-  await getActiveUser();
+let user: any;
+let userType: number;
 
-  renderNavBar(navBarElement);
+async function main() {
+  const data = await loadActiveUser();
+  user = data.user;
+  userType = data.userType;
+  renderNavBar(navBarElem, userType, user);
+
   // runningClockPage(runningClock);
   const totalTimeShift = localStorage.getItem("totalTimeShift");
   if (totalTimeShift) {
@@ -502,9 +507,10 @@ function HandleManagerReport(ev) {
       .then((res) => res.json())
       .then(({ managerDB }) => {
         console.log(managerDB[0].employees);
+        console.log(managerDB);
 
         renderReportResultManager(managerDB);
-        renderReportResultManager(managerDB[0].employees);
+        renderReportResultEmployees(managerDB[0].employees);
         renderShiftResult(managerDB[0]);
       });
   } catch (error) {

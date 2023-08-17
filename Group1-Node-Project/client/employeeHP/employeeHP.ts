@@ -4,9 +4,21 @@ let intervalId: number | null | any = null;
 let totalTimeShift: any = null;
 let formattedTime: any = null;
 
+let user: any;
+let userType: number;
+
 async function main() {
-  await getActiveUser();
-  renderNavBar(navBarElement);
+  const data = await loadActiveUser();
+  user = data.user;
+  userType = data.userType;
+  console.log(user);
+  console.log(userType);
+
+  dateToday.innerHTML = new Date().toLocaleString();
+  const userName: HTMLDivElement | null = document.querySelector("#userName");
+  if (!userName) throw new Error("No user element on DOM");
+  userName.innerText = user.name;
+  renderNavBar(navBarElem, userType, user);
 
   totalTimeShift = localStorage.getItem("totalTimeShift");
   if (totalTimeShift) {
@@ -22,7 +34,6 @@ async function main() {
     startEndButtonS.style.display = "none";
     startEndButtonE.style.display = "block";
 
-    // const elapsedTime = currentTime - startTime1;
     startClock();
   }
 }
@@ -52,24 +63,23 @@ const moveToShiftSchedule = document.querySelector(
 
 let userDB = null;
 
-async function handleLoadEmployee() {
-  try {
-    const response = await fetch("/api/employee/get-employee");
-    const data = await response.json();
-    console.log("data", data);
-    const { employee } = data;
-    const userName: HTMLDivElement | null = document.querySelector("#userName");
+// async function handleLoadEmployee() {
+//   try {
+//     const response = await fetch("/api/employee/get-employee");
+//     const data = await response.json();
+//     console.log("data", data);
+//     const { employee } = data;
+//     const userName: HTMLDivElement | null = document.querySelector("#userName");
 
-    if (!employee) throw new Error("didn't get admin from DB");
-    userDB = employee;
-    if (!userName) throw new Error("No user element on DOM");
-    userName.innerText = employee.name;
-  } catch (error) {
-    console.error(error);
-  }
+//     if (!employee) throw new Error("didn't get admin from DB");
+//     userDB = employee;
+//     if (!userName) throw new Error("No user element on DOM");
+//     userName.innerText = employee.name;
+//   } catch (error) {
+//     console.error(error);
+//   }
 
-  dateToday.innerHTML = new Date().toLocaleString();
-}
+// }
 
 startEndButtonS.addEventListener("click", (e) => {
   clearInterval(intervalId);

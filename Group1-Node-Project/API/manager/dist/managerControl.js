@@ -79,10 +79,6 @@ exports.getManager = function (req, res) { return __awaiter(void 0, void 0, void
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 manager = req.cookies.manager;
-                // if (!manager) {
-                //   res.status(500).send({message: "you are not a manager"});
-                //   return;
-                // }
                 if (!secret)
                     throw new Error("no token");
                 decoded = jwt_simple_1["default"].decode(manager, secret);
@@ -146,6 +142,7 @@ exports.getSelectedManager = function (req, res) { return __awaiter(void 0, void
                 return [4 /*yield*/, managerModel_1["default"].find({
                         idNumber: idNumber
                     })
+                        .populate("role")
                         .populate({
                         path: "employees",
                         populate: {
@@ -285,13 +282,6 @@ exports.getEmployeesList = function (req, res) { return __awaiter(void 0, void 0
                         .exec()];
             case 1:
                 employees = _a.sent();
-                // .populate({
-                //   path: "employees",
-                //   populate: {
-                //     path: "role",
-                //     model: "Role",
-                //   },
-                // })
                 if (employees)
                     console.log(employees);
                 res.send({ employees: employees });

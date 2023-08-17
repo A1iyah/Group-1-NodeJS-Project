@@ -1,11 +1,16 @@
-const navBarElement = document.querySelector(".nav-bar") as HTMLDivElement;
+const navBarElem = document.querySelector(".nav-bar") as HTMLDivElement;
 const runningClock2 = document.querySelector(
   ".running-clock"
 ) as HTMLDivElement;
 
+let user: any;
+let userType: number;
+
 async function main() {
-  await getActiveUser();
-  renderNavBar(navBarElement);
+  const data = await loadActiveUser();
+  user = data.user;
+  userType = data.userType;
+  renderNavBar(navBarElem, userType, user);
 
   const totalTimeShift = localStorage.getItem("totalTimeShift");
   if (totalTimeShift) {
@@ -35,6 +40,7 @@ async function main() {
   }
   handleGetWorkers();
 }
+
 main();
 
 function continueUpdateElapsedTime() {
@@ -249,6 +255,15 @@ function handleCreateEmployee(evt: any) {
       });
 
     addNewEmployeesForm.style.display = "none";
+
+    evt.target.elements.name.value = "";
+    evt.target.elements.email.value = "";
+    evt.target.elements.password.value = "";
+    evt.target.elements.idNumber.value = "";
+    evt.target.elements.phone.value = "";
+    evt.target.elements.birthday.value = "";
+    evt.target.elements.salaryPerHour.value = "";
+    evt.target.elements.role.value = "";
   } catch (error) {
     console.log(error);
   }
@@ -308,12 +323,22 @@ function handleCreateManager(evt: any) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        renderEmployeeList(data.adminDB.employees);
+        renderManagersList(data.adminDB.managers);
       })
       .catch((error) => {
         console.error(error);
       });
 
     addNewManagersForm.style.display = "none";
+
+    evt.target.elements.name.value = "";
+    evt.target.elements.email.value = "";
+    evt.target.elements.password.value = "";
+    evt.target.elements.idNumber.value = "";
+    evt.target.elements.phone.value = "";
+    evt.target.elements.salaryPerHour.value = "";
+    evt.target.elements.birthday.value = "";
   } catch (error) {
     console.log(error);
   }
@@ -323,6 +348,7 @@ function handleCreateManager(evt: any) {
 const handleGetWorkers = () => {
   try {
     const _id = user._id;
+    console.log(_id);
 
     if (userType === UserType.Admin) {
       fetch("/api/employees-page/get-admin-workers", {
@@ -337,6 +363,7 @@ const handleGetWorkers = () => {
         .then(({ allWorkers }) => {
           try {
             if (!allWorkers) throw new Error("No workers data found");
+            console.log(allWorkers);
 
             renderEmployeeList(allWorkers.employees);
             renderManagersList(allWorkers.managers);
@@ -373,11 +400,12 @@ const handleGetWorkers = () => {
         body: JSON.stringify({ _id }),
       })
         .then((res) => res.json())
-        .then(({ employees }) => {
+        .then(({ myTeamEmployees }) => {
           try {
-            if (!employees) throw new Error("No employees data found");
+            if (!myTeamEmployees) throw new Error("No employees data found");
+            console.log(myTeamEmployees);
 
-            renderEmployeeList(employees);
+            renderEmployeeList(myTeamEmployees);
           } catch (error) {
             console.log(error);
           }

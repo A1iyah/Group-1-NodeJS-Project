@@ -4,10 +4,22 @@ let intervalId: number | null | any = null;
 let totalTimeShift: any = null;
 let formattedTime: any = null;
 
-async function main() {
-  await getActiveUser();
-  renderNavBar(navBarElement);
+let user: any;
+let userType: number;
 
+async function main() {
+  const data = await loadActiveUser();
+  user = data.user;
+  userType = data.userType;
+  console.log(user);
+  console.log(userType);
+
+  dateToday.innerHTML = new Date().toLocaleString();
+  const userName: HTMLDivElement | null = document.querySelector("#userName");
+  if (!userName) throw new Error("No user element on DOM");
+  userName.innerText = user.name;
+
+  renderNavBar(navBarElem, userType, user);
   totalTimeShift = localStorage.getItem("totalTimeShift");
   if (totalTimeShift) {
     startEndClock.innerHTML = totalTimeShift;
@@ -22,7 +34,6 @@ async function main() {
     startEndButtonS.style.display = "none";
     startEndButtonE.style.display = "block";
 
-    // const elapsedTime = currentTime - startTime1;
     startClock();
   }
 }
@@ -48,24 +59,21 @@ const startEndClock = document.querySelector(
 
 let userDB = null;
 
-async function handleLoadUser() {
-  try {
-    const response = await fetch("/api/manager/get-manager");
-    const data = await response.json();
-    console.log("data", data);
-    const { manager } = data;
-    const userName: HTMLDivElement | null = document.querySelector("#userName");
-
-    if (!manager) throw new Error("didn't get admin from DB");
-    userDB = manager;
-    if (!userName) throw new Error("No user element on DOM");
-    userName.innerText = manager.name;
-  } catch (error) {
-    console.error(error);
-  }
-
-  dateToday.innerHTML = new Date().toLocaleString();
-}
+// async function handleLoadUser() {
+//   try {
+//     const response = await fetch("/api/manager/get-manager");
+//     const data = await response.json();
+//     console.log("data", data);
+//     const { manager } = data;
+//     const userName: HTMLDivElement | null = document.querySelector("#userName");
+//     if (!manager) throw new Error("didn't get admin from DB");
+//     userDB = manager;
+//     if (!userName) throw new Error("No user element on DOM");
+//     userName.innerText = manager.name;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
 
 startEndButtonS.addEventListener("click", (e) => {
   clearInterval(intervalId);
