@@ -1,20 +1,17 @@
 const navBarElement = document.querySelector(".nav-bar") as HTMLDivElement;
+const navBarElem = document.querySelector(".nav-bar") as HTMLDivElement;
 const runningClock = document.querySelector(".running-clock") as HTMLDivElement;
 
-let weekDays;
-let nextSunday: Date;
-let nextSaturday: Date;
-let startTime1: number;
-let intervalIdNew = null;
-let targetedDayIndex: number;
-let targetedRoleType: string;
-let targetedRoleCount: number;
-let thisScheduleId: number;
+let user: any;
+let userType: number;
 
 async function main() {
-  await getActiveUser();
-  renderNavBar(navBarElement);
+  const data = await loadActiveUser();
+  user = data.user;
+  userType = data.userType;
+  renderNavBar(navBarElem, userType, user);
 
+  // runningClockPage();
   const totalTimeShift = localStorage.getItem("totalTimeShift");
   if (totalTimeShift) {
     runningClock.innerHTML = totalTimeShift;
@@ -26,13 +23,11 @@ async function main() {
     const currentTime = Date.now();
     console.log(currentTime);
 
-    // const elapsedTime = currentTime - startTime1;
-    updateClock();
+    handleShiftsDisplay();
   }
 
-  renderAllAvailableEmployees();
+  getShiftsData();
 }
-
 main();
 
 function continueUpdateElapsedTime() {
@@ -57,4 +52,37 @@ function continueUpdateElapsedTime() {
 
 function updateClock() {
   intervalId = setInterval(continueUpdateElapsedTime, 1000);
+}
+
+const handleShiftsDisplay = () =>
+{
+  try {
+    fetch("/api/schedule/get-employees-by-role-and-weekday", {
+      method: "SEARCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        role: roleType,
+        weekday: weekdayIndex,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        processShiftSelection(data.employees, roleType, weekdayIndex);
+      });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+const getShiftsData = () =>
+{
+
+}
+
+const renderShifts = () =>
+{
+
 }
