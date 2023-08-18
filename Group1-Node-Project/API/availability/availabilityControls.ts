@@ -41,13 +41,6 @@ export const updateAvailability = async (req: any, res: any) => {
               },
             },
           }
-          "64dfb738d323ba64e4bd030e", 
-          { $push: { [day] : {
-            employeeId: userId,
-            name: name,
-            role: role.userRole,
-            comment: commentValue}} },
-          
         );
       }
     }
