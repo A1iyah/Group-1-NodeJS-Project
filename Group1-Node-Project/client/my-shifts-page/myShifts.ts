@@ -5,6 +5,7 @@ const runningClock = document.querySelector(".running-clock") as HTMLDivElement;
 
 let user: any;
 let userType: number;
+let allCompanyEmployeesInRole: object[] = [];
 
 async function main() {
   const data = await loadActiveUser();
@@ -136,6 +137,7 @@ const rolesAndAllocationHtml = (nextWeekSchedule: Object):string =>
   let htmlArr: string[] = []; 
   let resultHtml: string = "";
   
+  // Loops on each role type requirement to render it
   for (let i = 0 ; i < scheduleRequirementsArrLenght ; i++)
   {
     const tableRowStartHtml = `<tr class="shift-table__roles-row">
@@ -147,41 +149,40 @@ const rolesAndAllocationHtml = (nextWeekSchedule: Object):string =>
     
     const roleCountRequirement = nextWeekSchedule["scheduleRequirements"][i]["numEmployeesRequired"];
 
+    // Performs rendering of the role row if employees of that role are required in the schedule
     if (roleCountRequirement > 0)
-    
     {
       try {
-        fetch("/api/schedule/get-next-week-schedule", {
-          method: "GET",
+        fetch("/api/employee/get-employees-by-role-type", {
+          method: "SEARCH",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({
+            roleType: nextWeekSchedule["scheduleRequirements"][i].roleType
+          }),
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log("data: ", data.nextWeekSchedule[0]);
-            renderShiftsTable(data.nextWeekSchedule[0]);
-            
-    
-            
+            //let allCompanyEmployeesInRole = data["employees"];
+            allCompanyEmployeesInRole = data["employees"];
+
+            for (let roleCount = 0 ; roleCount < roleCountRequirement ; roleCount++)
+            {
+              const html:string = singleRoleColumnHtml(nextWeekSchedule["scheduleRequirements"][i].roleType, roleCount, nextWeekSchedule);
+              htmlArr.push(html);
+            }
+
+            htmlArr.push(tableRowCloseHtml);
           });
-      } catch (error) {
-        console.error(error);
-      }
-
-
-
-      for (let roleCount = 0 ; roleCount < roleCountRequirement ; roleCount++)
-      {
-      const html:string = singleRoleColumnHtml(nextWeekSchedule["scheduleRequirements"][i].roleType, roleCount, nextWeekSchedule);
-      htmlArr.push(html);
-      }
+        } catch (error) {
+          console.error(error);
+        }
     }
-    
-    
-
-    htmlArr.push(tableRowCloseHtml);
+    else{
+      htmlArr.push(tableRowCloseHtml);
+    }
   }
   
   return resultHtml.concat(...htmlArr);
@@ -189,7 +190,65 @@ const rolesAndAllocationHtml = (nextWeekSchedule: Object):string =>
 
 const singleRoleColumnHtml = (roleType: string, roleCount: number, nextWeekSchedule: Object):string =>
 {
+  let rowHtmlArr: string[] = [];
+  let resultHtml: string = "";
 
+  rowHtmlArr.push(`<td class="shift-table__role-row__role">${roleType}</td>`);
 
-  return "";
+  console.log("allCompanyEmployeesInRole: ", allCompanyEmployeesInRole);
+
+  console.log("nextWeekSchedule: ", nextWeekSchedule);
+  
+  for (let dayIndex = 0 ; dayIndex < 7 ; dayIndex++)
+  {
+    //console.log(convertWeekdayIndexToWeekdayName(String(dayIndex)));
+    
+    //console.log("test: ", nextWeekSchedule[convertWeekdayIndexToWeekdayName(dayIndex)]);
+    
+      const html = (nextWeekSchedule[`${convertWeekdayIndexToWeekdayName(String(dayIndex))}`] as Array<object>).map( (dayScheduleEmployees) => {
+        console.log("dayScheduleEmployees: ", dayScheduleEmployees);
+      })
+  }
+  
+  rowHtmlArr.push(`</tr>`);
+  
+
+  return resultHtml.concat(...rowHtmlArr);
+}
+
+/** Receives an index number from 0 to 6 and returns the name of the week day as string */
+const convertWeekdayIndexToWeekdayName = (weekdayIndex: string): string =>
+{
+    switch (weekdayIndex) {
+        case "0":
+            return "sunday";
+        break;
+
+        case "1":
+            return "monday";
+        break;
+        
+        case "2":
+            return "tuesday";
+        break;
+
+        case "3":
+            return "wednesday";
+        break;
+
+        case "4":
+            return "thursday";
+        break;
+
+        case "5":
+            return "friday";
+        break;
+
+        case "6":
+            return "saturday";    
+        break;
+
+        default:
+            return "";
+    }
 }

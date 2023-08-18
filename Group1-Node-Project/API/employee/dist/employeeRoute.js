@@ -8,6 +8,7 @@ router
     // .get("/get-employee", getEmployee)
     // .post("/login", login)
     .post("/add-attendance", employeeControl_1.addAttendance)
-    .patch("/get-selected-employee", employeeControl_1.getSelectedEmployee);
+    .patch("/get-selected-employee", employeeControl_1.getSelectedEmployee)
+    .search("/get-employees-by-role-type", employeeControl_1.getEmployeesByRoleType);
 // .post("/add-employee", addEmployee);
 exports["default"] = router;

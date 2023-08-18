@@ -36,8 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getSelectedEmployee = exports.addAttendance = void 0;
+exports.getEmployeesByRoleType = exports.getSelectedEmployee = exports.addAttendance = void 0;
 var employeeModel_1 = require("./employeeModel");
+var roleModel_1 = require("../role/roleModel");
 var dotenv = require("dotenv");
 dotenv.config();
 var secret = process.env.JWT_SECRET;
@@ -100,6 +101,34 @@ exports.getSelectedEmployee = function (req, res) { return __awaiter(void 0, voi
                 res.status(500).send({ error: error_2.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
+        }
+    });
+}); };
+/** Receives a string of role type from client and returns data of the employees in that role. */
+exports.getEmployeesByRoleType = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var roleType, roleTypeId, employees, error_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                roleType = req.body.roleType;
+                if (!roleType)
+                    throw new Error("no role type received from client.");
+                return [4 /*yield*/, roleModel_1["default"].find({ name: roleType }).select("_id")];
+            case 1:
+                roleTypeId = _a.sent();
+                return [4 /*yield*/, employeeModel_1["default"].find({ role: roleTypeId })];
+            case 2:
+                employees = _a.sent();
+                console.log(employees);
+                res.status(200).send({ ok: true, employees: employees });
+                return [3 /*break*/, 4];
+            case 3:
+                error_3 = _a.sent();
+                console.log(error_3);
+                res.status(500).send("did not receive data from DB.");
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
