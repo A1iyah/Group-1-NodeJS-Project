@@ -1,3 +1,6 @@
+//import { DateUnit } from "mongoose";
+//import moment from "moment";
+
 const navBarElement = document.querySelector(".nav-bar") as HTMLDivElement;
 const navBarElem = document.querySelector(".nav-bar") as HTMLDivElement;
 const runningClock = document.querySelector(".running-clock") as HTMLDivElement;
@@ -23,10 +26,9 @@ async function main() {
     const currentTime = Date.now();
     console.log(currentTime);
 
-    handleShiftsDisplay();
   }
-
-  getShiftsData();
+  
+  handleShiftsDisplay();
 }
 main();
 
@@ -56,33 +58,85 @@ function updateClock() {
 
 const handleShiftsDisplay = () =>
 {
+  console.log("handling shift dis");
+  
+
   try {
-    fetch("/api/schedule/get-employees-by-role-and-weekday", {
-      method: "SEARCH",
+    fetch("/api/schedule/get-next-week-schedule", {
+      method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        role: roleType,
-        weekday: weekdayIndex,
-      }),
     })
       .then((res) => res.json())
       .then((data) => {
-        processShiftSelection(data.employees, roleType, weekdayIndex);
+        console.log("data: ", data.nextWeekSchedule[0]);
+        renderShiftsTable(data.nextWeekSchedule[0]);
+        
+
+        
       });
   } catch (error) {
     console.error(error);
   }
 }
 
-const getShiftsData = () =>
+const renderShiftsTable = (nextWeekSchedule: Object) =>
 {
+  const shiftsTable = document.querySelector(".shift-table") as HTMLDivElement;
 
+  const weekDatesArr = getScheduleDates(nextWeekSchedule["startDate"]);
+
+
+  shiftsTable.innerHTML = `<thead class="shift-table__header-container">
+  <tr class="shift-table__header-container">
+      <th></th>
+      <th><p>Sun.</p>
+          <p>13.8</p>
+      </th>
+      <th><p>Mon.</p>
+          <p>14.8</p>
+      </th>
+      <th><p>Tue.</p>
+          <p>15.8</p>
+      </th>
+      <th><p>Wed.</p>
+          <p>16.8</p>
+      </th>
+      <th><p>Thu.</p>
+          <p>17.8</p>
+      </th>
+      <th><p>Fri.</p>
+          <p>17.8</p>
+      </th>
+      <th><p>Sat.</p>
+          <p>19.8</p>
+      </th>
+  </tr>
+</thead>`
+  
 }
 
-const renderShifts = () =>
+const getScheduleDates = (startDate: Date):Array<Date> =>
 {
+  let weekDatesArr: Array<Date> = [];
+  const today = new Date();
 
+  //const todayMoment = moment();
+  // ד
+
+  console.log("startDate: ", startDate);
+  console.log("get date: ", (startDate as Date).getDate());
+  //console.log("get date: ", startDate.getDate() + 1);
+  
+  
+
+  for (let i = 0 ; i < 7 ; i++)
+  {
+    let start: Date = startDate;
+    //weekDatesArr.push(start.setDate(startDate.getDate() + i));
+  }
+
+  return weekDatesArr;
 }

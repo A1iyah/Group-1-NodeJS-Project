@@ -58,14 +58,11 @@ function loadActiveUser() {
                     return [4 /*yield*/, fetch("/api/cookies/get-user")];
                 case 1:
                     response = _a.sent();
-                    console.log(response);
                     return [4 /*yield*/, response.json()];
                 case 2:
                     data = _a.sent();
-                    console.log("data", data);
                     user_1 = data.user;
                     userType_1 = data.userType;
-                    console.log(userType_1);
                     if (!user_1)
                         throw new Error("didn't get from DB");
                     return [2 /*return*/, data];
@@ -123,9 +120,6 @@ function loadActiveUser() {
 // }
 var renderNavBar = function (navBarElem, userType, user) {
     var targetDivEle;
-    console.log(UserType.Admin);
-    console.log(UserType.Manager);
-    console.log(UserType.Employee);
     if (!navBarElem)
         console.error("no nav bar HTMLDivElement received");
     switch (userType) {

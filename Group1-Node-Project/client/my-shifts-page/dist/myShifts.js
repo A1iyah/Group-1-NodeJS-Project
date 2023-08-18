@@ -1,3 +1,5 @@
+//import { DateUnit } from "mongoose";
+//import moment from "moment";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -58,9 +60,8 @@ function main() {
                         console.log(startTime1);
                         currentTime = Date.now();
                         console.log(currentTime);
-                        handleShiftsDisplay();
                     }
-                    getShiftsData();
+                    handleShiftsDisplay();
                     return [2 /*return*/];
             }
         });
@@ -85,28 +86,41 @@ function updateClock() {
     intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
 var handleShiftsDisplay = function () {
+    console.log("handling shift dis");
     try {
-        fetch("/api/schedule/get-employees-by-role-and-weekday", {
-            method: "SEARCH",
+        fetch("/api/schedule/get-next-week-schedule", {
+            method: "GET",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                role: roleType,
-                weekday: weekdayIndex
-            })
+            }
         })
             .then(function (res) { return res.json(); })
             .then(function (data) {
-            processShiftSelection(data.employees, roleType, weekdayIndex);
+            console.log("data: ", data.nextWeekSchedule[0]);
+            renderShiftsTable(data.nextWeekSchedule[0]);
         });
     }
     catch (error) {
         console.error(error);
     }
 };
-var getShiftsData = function () {
+var renderShiftsTable = function (nextWeekSchedule) {
+    var shiftsTable = document.querySelector(".shift-table");
+    var weekDatesArr = getScheduleDates(nextWeekSchedule["startDate"]);
+    shiftsTable.innerHTML = "<thead class=\"shift-table__header-container\">\n  <tr class=\"shift-table__header-container\">\n      <th></th>\n      <th><p>Sun.</p>\n          <p>13.8</p>\n      </th>\n      <th><p>Mon.</p>\n          <p>14.8</p>\n      </th>\n      <th><p>Tue.</p>\n          <p>15.8</p>\n      </th>\n      <th><p>Wed.</p>\n          <p>16.8</p>\n      </th>\n      <th><p>Thu.</p>\n          <p>17.8</p>\n      </th>\n      <th><p>Fri.</p>\n          <p>17.8</p>\n      </th>\n      <th><p>Sat.</p>\n          <p>19.8</p>\n      </th>\n  </tr>\n</thead>";
 };
-var renderShifts = function () {
+var getScheduleDates = function (startDate) {
+    var weekDatesArr = [];
+    var today = new Date();
+    //const todayMoment = moment();
+    // ד
+    console.log("startDate: ", startDate);
+    console.log("get date: ", startDate.getDate());
+    //console.log("get date: ", startDate.getDate() + 1);
+    for (var i = 0; i < 7; i++) {
+        var start = startDate;
+        //weekDatesArr.push(start.setDate(startDate.getDate() + i));
+    }
+    return weekDatesArr;
 };

@@ -189,10 +189,9 @@ exports.getNextWeekSchedule = function (req, res) { return __awaiter(void 0, voi
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 nextSundayDate = getNextSunday();
-                return [4 /*yield*/, scheduleModel_1["default"].find({ startDate: nextSundayDate })];
+                return [4 /*yield*/, scheduleModel_1["default"].find({ startDate: nextSundayDate }).sort({ _id: -1 }).limit(1)];
             case 1:
                 nextWeekSchedule = _a.sent();
-                console.log("nextWeekSchedule: ", nextWeekSchedule);
                 res.status(200).send({ ok: true, nextWeekSchedule: nextWeekSchedule });
                 return [3 /*break*/, 3];
             case 2:

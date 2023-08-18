@@ -18,14 +18,11 @@ enum UserType {
 async function loadActiveUser() {
   try {
     const response = await fetch("/api/cookies/get-user");
-    console.log(response);
 
     const data = await response.json();
-    console.log("data", data);
     const { user } = data;
 
     const userType = data.userType;
-    console.log(userType);
     if (!user) throw new Error("didn't get from DB");
 
     return data;
@@ -93,9 +90,6 @@ const renderNavBar = (
   user: any
 ) => {
   let targetDivEle;
-  console.log(UserType.Admin);
-  console.log(UserType.Manager);
-  console.log(UserType.Employee);
 
   if (!navBarElem) console.error("no nav bar HTMLDivElement received");
 
