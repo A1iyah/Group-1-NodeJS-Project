@@ -53,6 +53,7 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                 if (!weekData)
                     throw new Error("no week found in DB");
                 _a = req.body, availabilityData = _a.availabilityData, commentValue = _a.commentValue, userId = _a.userId, role = _a.role, name = _a.name;
+                console.log(availabilityData, commentValue, userId, role, name);
                 updateObject = {};
                 _b = [];
                 for (_c in availabilityData)

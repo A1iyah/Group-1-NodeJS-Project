@@ -10,6 +10,7 @@ export const updateAvailability = async (req: any, res: any) => {
     if (!weekData) throw new Error("no week found in DB");
 
     const { availabilityData, commentValue, userId, role, name } = req.body;
+    console.log(availabilityData, commentValue, userId, role, name);
 
     // switch (role) {
     //   case 0:
@@ -28,7 +29,6 @@ export const updateAvailability = async (req: any, res: any) => {
     //Loop through each day in availabilityData
     for (const day in availabilityData) {
       if (availabilityData[day]) {
-
         const update = await WeekModel.findByIdAndUpdate(
           "64dfb738d323ba64e4bd030e", 
           { $push: { [day] : {
@@ -79,8 +79,6 @@ export const getAllAvailableEmployees = async (req: any, res: any) => {
 
 export const getAllAvailableWeeks = async (req: any, res: any) => {
   try {
-
-    
   } catch (error) {
     console.log(error);
     res.status(500).send("Did not get data.");
@@ -116,10 +114,9 @@ export const getEmployeesByRoleAndWeekday = async (req: any, res: any) => {
   }
 };
 
-export const getCommentByEmployeeIdAndWeekday = async (req:any, res:any) =>
-{
+export const getCommentByEmployeeIdAndWeekday = async (req: any, res: any) => {
   let day: string = "";
-  
+
   try {
     const { employeeId, weekdayIndex } = req.body;
 
@@ -133,9 +130,8 @@ export const getCommentByEmployeeIdAndWeekday = async (req:any, res:any) =>
 
     try {
       //const comment = await WeekModel.find({}).select(day).findById(employeeId).select("comment");
-      
-      
-      const dayDB = await WeekModel.findOne({ }).select(day);
+
+      const dayDB = await WeekModel.findOne({}).select(day);
 
       if (!dayDB) throw new Error("no day found on DB");
 
@@ -146,4 +142,4 @@ export const getCommentByEmployeeIdAndWeekday = async (req:any, res:any) =>
   } catch (error) {
     res.status(500).send("Did not find data");
   }
-}
+};

@@ -193,8 +193,7 @@ async function handleFormSubmit(event: Event) {
     }
   });
 
-  const userRole =
-    userDB.role === (null || undefined) ? "Manager" : userDB.role;
+  const userRole = user.role === (null || undefined) ? "Manager" : user.role;
 
   console.log("userRole: ", userRole);
 
@@ -207,9 +206,9 @@ async function handleFormSubmit(event: Event) {
       body: JSON.stringify({
         availabilityData,
         commentValue,
-        userId: userDB._id,
+        userId: user._id,
         role: { userRole },
-        name: userDB.name,
+        name: user.name,
       }),
     });
 

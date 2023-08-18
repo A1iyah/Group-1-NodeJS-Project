@@ -110,7 +110,6 @@ function updateElapsedTime() {
   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   startEndClock.innerHTML = formattedTime;
   totalTimeShift = formattedTime;
-  console.log(totalTimeShift);
 
   localStorage.setItem("totalTimeShift", formattedTime);
   localStorage.setItem("intervalId", intervalId);
@@ -124,7 +123,7 @@ function startClock() {
 startEndButtonE.addEventListener("click", (e) => {
   startEndButtonS.style.display = "block";
   startEndButtonE.style.display = "none";
-  console.log(intervalId);
+  console.log(intervalId);''''''''''''''''KGSGSG'
 
   stopClock();
 
@@ -142,9 +141,9 @@ function stopClock() {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
+        "Content-Type": "appliGKKKKKKKKKKKKKKKKKKKKKKKKKKKKKcation/json",
       },
-      body: JSON.stringify({ userDB, totalTimeShift }),
+      body: JSON.stringify({ user, totalTimeShift }),
     });
   }
 }

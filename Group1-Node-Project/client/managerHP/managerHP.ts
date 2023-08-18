@@ -113,7 +113,7 @@ function stopClock() {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userDB, totalTimeShift }),
+      body: JSON.stringify({ user, totalTimeShift }),
     });
   }
 }
