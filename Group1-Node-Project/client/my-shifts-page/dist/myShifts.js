@@ -1,5 +1,3 @@
-//import { DateUnit } from "mongoose";
-//import moment from "moment";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,6 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+//import { DateUnit } from "mongoose";
 var navBarElement = document.querySelector(".nav-bar");
 var navBarElem = document.querySelector(".nav-bar");
 var runningClock = document.querySelector(".running-clock");
@@ -107,20 +106,67 @@ var handleShiftsDisplay = function () {
 };
 var renderShiftsTable = function (nextWeekSchedule) {
     var shiftsTable = document.querySelector(".shift-table");
-    var weekDatesArr = getScheduleDates(nextWeekSchedule["startDate"]);
-    shiftsTable.innerHTML = "<thead class=\"shift-table__header-container\">\n  <tr class=\"shift-table__header-container\">\n      <th></th>\n      <th><p>Sun.</p>\n          <p>13.8</p>\n      </th>\n      <th><p>Mon.</p>\n          <p>14.8</p>\n      </th>\n      <th><p>Tue.</p>\n          <p>15.8</p>\n      </th>\n      <th><p>Wed.</p>\n          <p>16.8</p>\n      </th>\n      <th><p>Thu.</p>\n          <p>17.8</p>\n      </th>\n      <th><p>Fri.</p>\n          <p>17.8</p>\n      </th>\n      <th><p>Sat.</p>\n          <p>19.8</p>\n      </th>\n  </tr>\n</thead>";
+    shiftsTable.innerHTML = "<thead class=\"shift-table__header-container\">\n  <tr class=\"shift-table__header-container\">\n      <th></th>\n      " + weekHeadersHtml(nextWeekSchedule["startDate"]) + "\n  </tr>\n  </thead>\n  <tbody class=\"shift-table__body-container\">\n  " + rolesAndAllocationHtml(nextWeekSchedule) + "\n  </tbody>\n  ";
 };
+/** Returns the html for the table weekdays headers */
+var weekHeadersHtml = function (startDate) {
+    var weekDatesArr = getScheduleDates(startDate);
+    var html = weekDatesArr.map(function (day) {
+        return "<th><p>" + day.toLocaleDateString('en-Us', { weekday: 'short' }) + ".</p>\n            <p>" + day.getDate() + "." + day.getMonth() + "</p>\n            </th>";
+    }).join("");
+    return html;
+};
+/** Returns an array of dates of the a whole week.
+ * @receives a date
+ * @returns an array of Date of a week, starting from the date received
+ */
 var getScheduleDates = function (startDate) {
     var weekDatesArr = [];
+    var nextSunday = new Date(startDate);
     var today = new Date();
-    //const todayMoment = moment();
-    // ד
-    console.log("startDate: ", startDate);
-    console.log("get date: ", startDate.getDate());
-    //console.log("get date: ", startDate.getDate() + 1);
     for (var i = 0; i < 7; i++) {
-        var start = startDate;
-        //weekDatesArr.push(start.setDate(startDate.getDate() + i));
+        var newDate = new Date(today.setDate(nextSunday.getDate() + i));
+        weekDatesArr.push(newDate);
     }
     return weekDatesArr;
+};
+/** Returns the html of the roles and allocation of employees during the week */
+var rolesAndAllocationHtml = function (nextWeekSchedule) {
+    var scheduleRequirementsArrLenght = nextWeekSchedule["scheduleRequirements"].length;
+    var htmlArr = [];
+    var resultHtml = "";
+    for (var i = 0; i < scheduleRequirementsArrLenght; i++) {
+        var tableRowStartHtml = "<tr class=\"shift-table__roles-row\">\n    <td class=\"shift-table__role-row__role\">Shift Manager</td>";
+        var tableRowCloseHtml = "</tbody>";
+        htmlArr.push(tableRowStartHtml);
+        var roleCountRequirement = nextWeekSchedule["scheduleRequirements"][i]["numEmployeesRequired"];
+        if (roleCountRequirement > 0) {
+            try {
+                fetch("/api/schedule/get-next-week-schedule", {
+                    method: "GET",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json"
+                    }
+                })
+                    .then(function (res) { return res.json(); })
+                    .then(function (data) {
+                    console.log("data: ", data.nextWeekSchedule[0]);
+                    renderShiftsTable(data.nextWeekSchedule[0]);
+                });
+            }
+            catch (error) {
+                console.error(error);
+            }
+            for (var roleCount = 0; roleCount < roleCountRequirement; roleCount++) {
+                var html = singleRoleColumnHtml(nextWeekSchedule["scheduleRequirements"][i].roleType, roleCount, nextWeekSchedule);
+                htmlArr.push(html);
+            }
+        }
+        htmlArr.push(tableRowCloseHtml);
+    }
+    return resultHtml.concat.apply(resultHtml, htmlArr);
+};
+var singleRoleColumnHtml = function (roleType, roleCount, nextWeekSchedule) {
+    return "";
 };

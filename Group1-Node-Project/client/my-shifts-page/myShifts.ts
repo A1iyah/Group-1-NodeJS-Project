@@ -1,6 +1,4 @@
 //import { DateUnit } from "mongoose";
-//import moment from "moment";
-
 const navBarElement = document.querySelector(".nav-bar") as HTMLDivElement;
 const navBarElem = document.querySelector(".nav-bar") as HTMLDivElement;
 const runningClock = document.querySelector(".running-clock") as HTMLDivElement;
@@ -86,57 +84,112 @@ const renderShiftsTable = (nextWeekSchedule: Object) =>
 {
   const shiftsTable = document.querySelector(".shift-table") as HTMLDivElement;
 
-  const weekDatesArr = getScheduleDates(nextWeekSchedule["startDate"]);
-
-
   shiftsTable.innerHTML = `<thead class="shift-table__header-container">
   <tr class="shift-table__header-container">
       <th></th>
-      <th><p>Sun.</p>
-          <p>13.8</p>
-      </th>
-      <th><p>Mon.</p>
-          <p>14.8</p>
-      </th>
-      <th><p>Tue.</p>
-          <p>15.8</p>
-      </th>
-      <th><p>Wed.</p>
-          <p>16.8</p>
-      </th>
-      <th><p>Thu.</p>
-          <p>17.8</p>
-      </th>
-      <th><p>Fri.</p>
-          <p>17.8</p>
-      </th>
-      <th><p>Sat.</p>
-          <p>19.8</p>
-      </th>
+      ${weekHeadersHtml(nextWeekSchedule["startDate"])}
   </tr>
-</thead>`
+  </thead>
+  <tbody class="shift-table__body-container">
+  ${rolesAndAllocationHtml(nextWeekSchedule)}
+  </tbody>
+  `
   
 }
 
-const getScheduleDates = (startDate: Date):Array<Date> =>
+/** Returns the html for the table weekdays headers */
+const weekHeadersHtml = (startDate: Date):string => {
+  const weekDatesArr: Date[] = getScheduleDates(startDate);
+  
+  const html:string = weekDatesArr.map( (day) => {
+    return `<th><p>${day.toLocaleDateString('en-Us', {weekday: 'short'})}.</p>
+            <p>${day.getDate()}.${day.getMonth()}</p>
+            </th>`;
+  }).join("");
+
+  return html;
+}
+
+/** Returns an array of dates of the a whole week.
+ * @receives a date
+ * @returns an array of Date of a week, starting from the date received
+ */ 
+const getScheduleDates = (startDate: Date): Date[] =>
 {
-  let weekDatesArr: Array<Date> = [];
-  const today = new Date();
-
-  //const todayMoment = moment();
-  // ד
-
-  console.log("startDate: ", startDate);
-  console.log("get date: ", (startDate as Date).getDate());
-  //console.log("get date: ", startDate.getDate() + 1);
-  
-  
+  let weekDatesArr: Date[] = [];
+  const nextSunday = new Date(startDate);
+  let today = new Date();
 
   for (let i = 0 ; i < 7 ; i++)
   {
-    let start: Date = startDate;
-    //weekDatesArr.push(start.setDate(startDate.getDate() + i));
+    let newDate = new Date(today.setDate(nextSunday.getDate() + i));
+    weekDatesArr.push(newDate)
   }
 
   return weekDatesArr;
+}
+
+/** Returns the html of the roles and allocation of employees during the week */
+const rolesAndAllocationHtml = (nextWeekSchedule: Object):string =>
+{
+  const scheduleRequirementsArrLenght: number = nextWeekSchedule["scheduleRequirements"].length;
+  let htmlArr: string[] = []; 
+  let resultHtml: string = "";
+  
+  for (let i = 0 ; i < scheduleRequirementsArrLenght ; i++)
+  {
+    const tableRowStartHtml = `<tr class="shift-table__roles-row">
+    <td class="shift-table__role-row__role">Shift Manager</td>`;
+
+    const tableRowCloseHtml = `</tbody>`;
+
+    htmlArr.push(tableRowStartHtml);
+    
+    const roleCountRequirement = nextWeekSchedule["scheduleRequirements"][i]["numEmployeesRequired"];
+
+    if (roleCountRequirement > 0)
+    
+    {
+      try {
+        fetch("/api/schedule/get-next-week-schedule", {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("data: ", data.nextWeekSchedule[0]);
+            renderShiftsTable(data.nextWeekSchedule[0]);
+            
+    
+            
+          });
+      } catch (error) {
+        console.error(error);
+      }
+
+
+
+      for (let roleCount = 0 ; roleCount < roleCountRequirement ; roleCount++)
+      {
+      const html:string = singleRoleColumnHtml(nextWeekSchedule["scheduleRequirements"][i].roleType, roleCount, nextWeekSchedule);
+      htmlArr.push(html);
+      }
+    }
+    
+    
+
+    htmlArr.push(tableRowCloseHtml);
+  }
+  
+  return resultHtml.concat(...htmlArr);
+}
+
+const singleRoleColumnHtml = (roleType: string, roleCount: number, nextWeekSchedule: Object):string =>
+{
+
+
+  return "";
 }
