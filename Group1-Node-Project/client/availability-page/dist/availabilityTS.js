@@ -185,7 +185,7 @@ function handleFormSubmit(event) {
                             availabilityData[day] = isAvailable;
                         }
                     });
-                    userRole = userDB.role === (null || undefined) ? "Manager" : userDB.role;
+                    userRole = user.role === (null || undefined) ? "Manager" : user.role;
                     console.log("userRole: ", userRole);
                     _a.label = 1;
                 case 1:
@@ -198,9 +198,9 @@ function handleFormSubmit(event) {
                             body: JSON.stringify({
                                 availabilityData: availabilityData,
                                 commentValue: commentValue,
-                                userId: userDB._id,
+                                userId: user._id,
                                 role: { userRole: userRole },
-                                name: userDB.name
+                                name: user.name
                             })
                         })];
                 case 2:

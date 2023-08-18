@@ -42,50 +42,18 @@ var dotenv = require("dotenv");
 dotenv.config();
 var secret = process.env.JWT_SECRET;
 // const secret: string = "secret";
-// export const login = async (req: any, res: any) => {
-//   try {
-//     const { email, password } = req.body;
-//     console.log(email, password);
-//     const managerDB = await ManagerModel.findOne({ email, password });
-//     if (!managerDB) throw new Error("name or password are incorrect");
-//     if (!secret) throw new Error("no token");
-//     const token = jwt.encode(
-//       { managerId: managerDB._id, role: "manager" },
-//       secret
-//     );
-//     console.log(token);
-//     res.cookie("manager", token, { maxAge: 500000000, httpOnly: true });
-//     res.status(201).send({ ok: true });
-//   } catch (error: any) {
-//     console.error(error);
-//     res.status(500).send({ error: error.message });
-//   }
-// };
-// export const getManager = async (req: any, res: any) => {
-//   try {
-//     const { manager } = req.cookies;
-//     if (!secret) throw new Error("no token");
-//     const decoded = jwt.decode(manager, secret);
-//     const { managerId, role } = decoded;
-//     const managerDB: any = await ManagerModel.findById(managerId);
-//     res.send({ ok: true, manager: managerDB });
-//   } catch (error: any) {
-//     console.error(error);
-//     res.status(500).send({ error: error.message });
-//   }
-// };
 exports.addAttendance = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, userDB, totalTimeShift, updateUser, error_1;
+    var _a, user, totalTimeShift, updateUser, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
-                _a = req.body, userDB = _a.userDB, totalTimeShift = _a.totalTimeShift;
+                _a = req.body, user = _a.user, totalTimeShift = _a.totalTimeShift;
                 if (!totalTimeShift)
                     throw new Error("no shift time");
-                if (!userDB)
+                if (!user)
                     throw new Error("no user");
-                return [4 /*yield*/, managerModel_1["default"].findByIdAndUpdate(userDB._id, {
+                return [4 /*yield*/, managerModel_1["default"].findByIdAndUpdate(user._id, {
                         $push: {
                             attendance: {
                                 date: new Date().toLocaleString(),
@@ -95,7 +63,7 @@ exports.addAttendance = function (req, res) { return __awaiter(void 0, void 0, v
                     }, { "new": true })];
             case 1:
                 updateUser = _b.sent();
-                console.log(userDB);
+                console.log(user);
                 res.send({ ok: true });
                 return [3 /*break*/, 3];
             case 2:

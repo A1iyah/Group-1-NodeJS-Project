@@ -110,7 +110,6 @@ function updateElapsedTime() {
   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   startEndClock.innerHTML = formattedTime;
   totalTimeShift = formattedTime;
-  console.log(totalTimeShift);
 
   localStorage.setItem("totalTimeShift", formattedTime);
   localStorage.setItem("intervalId", intervalId);
@@ -144,7 +143,7 @@ function stopClock() {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userDB, totalTimeShift }),
+      body: JSON.stringify({ user, totalTimeShift }),
     });
   }
 }

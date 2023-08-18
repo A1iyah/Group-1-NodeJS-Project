@@ -53,6 +53,7 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                 if (!weekData)
                     throw new Error("no week found in DB");
                 _a = req.body, availabilityData = _a.availabilityData, commentValue = _a.commentValue, userId = _a.userId, role = _a.role, name = _a.name;
+                console.log(availabilityData, commentValue, userId, role, name);
                 updateObject = {};
                 _b = [];
                 for (_c in availabilityData)
@@ -63,12 +64,16 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                 if (!(_i < _b.length)) return [3 /*break*/, 5];
                 day = _b[_i];
                 if (!availabilityData[day]) return [3 /*break*/, 4];
-                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d9b40583ec1ae61b9c5db9", { $push: (_e = {}, _e[day] = {
-                            employeeId: userId,
-                            name: name,
-                            role: role.userRole,
-                            comment: commentValue
-                        }, _e) })];
+                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64d9b40583ec1ae61b9c5db9", {
+                        $push: (_e = {},
+                            _e[day] = {
+                                employeeId: userId,
+                                name: name,
+                                role: role.userRole,
+                                comment: commentValue
+                            },
+                            _e)
+                    })];
             case 3:
                 update = _f.sent();
                 _f.label = 4;
