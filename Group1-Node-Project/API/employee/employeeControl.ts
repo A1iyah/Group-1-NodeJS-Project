@@ -15,12 +15,12 @@ console.log("secret:", secret);
 
 export const addAttendance = async (req: any, res: any) => {
   try {
-    const { userDB, totalTimeShift } = req.body;
+    const { user, totalTimeShift } = req.body;
     if (!totalTimeShift) throw new Error("no shift time");
-    if (!userDB) throw new Error("no user");
+    if (!user) throw new Error("no user");
 
     const updateUser = await EmployeeModel.findByIdAndUpdate(
-      userDB._id,
+      user._id,
       {
         $push: {
           attendance: {
@@ -31,7 +31,7 @@ export const addAttendance = async (req: any, res: any) => {
       },
       { new: true }
     );
-    console.log(userDB);
+    console.log(user);
 
     res.send({ ok: true });
   } catch (error: any) {

@@ -123,7 +123,7 @@ function startClock() {
 startEndButtonE.addEventListener("click", (e) => {
   startEndButtonS.style.display = "block";
   startEndButtonE.style.display = "none";
-  console.log(intervalId);
+  console.log(intervalId);''''''''''''''''KGSGSG'
 
   stopClock();
 
@@ -141,7 +141,7 @@ function stopClock() {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
+        "Content-Type": "appliGKKKKKKKKKKKKKKKKKKKKKKKKKKKKKcation/json",
       },
       body: JSON.stringify({ user, totalTimeShift }),
     });
