@@ -6,6 +6,7 @@ import {
   getAdminEmployees,
   getManagerEmployees,
   getMyTeam,
+  deleteEmployee,
 } from "./employeesPageControls";
 import { getRoleIdByName } from "../role/roleControl";
 
@@ -15,6 +16,7 @@ router
   .patch("/get-admin-workers", getAdminEmployees)
   .patch("/get-manager-employees", getManagerEmployees)
   .patch("/get-my-team", getMyTeam)
-  .post("/get-role-id", getRoleIdByName);
+  .post("/get-role-id", getRoleIdByName)
+  .delete("/delete-employee", deleteEmployee);
 
 export default router;

@@ -140,9 +140,10 @@ export const getNextWeekSchedule = async (req: any, res: any) =>
         
         const nextSundayDate = getNextSunday();
     
-        const nextWeekSchedule = await WeekScheduleModel.find({ startDate: nextSundayDate});
+        const nextWeekSchedule = await WeekScheduleModel.find({ startDate: nextSundayDate}).sort({_id: -1}).limit(1);
+
+
     
-        console.log("nextWeekSchedule: ", nextWeekSchedule);
         res.status(200).send({ok: true, nextWeekSchedule});
     } catch (error) {
         console.log("did not receive data from DB");
@@ -150,3 +151,4 @@ export const getNextWeekSchedule = async (req: any, res: any) =>
     }
     
 }
+

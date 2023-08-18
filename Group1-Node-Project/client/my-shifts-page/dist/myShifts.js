@@ -34,6 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+//import { DateUnit } from "mongoose";
 var navBarElement = document.querySelector(".nav-bar");
 var navBarElem = document.querySelector(".nav-bar");
 var runningClock = document.querySelector(".running-clock");
@@ -58,9 +59,8 @@ function main() {
                         console.log(startTime1);
                         currentTime = Date.now();
                         console.log(currentTime);
-                        handleShiftsDisplay();
                     }
-                    getShiftsData();
+                    handleShiftsDisplay();
                     return [2 /*return*/];
             }
         });
@@ -85,28 +85,88 @@ function updateClock() {
     intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
 var handleShiftsDisplay = function () {
+    console.log("handling shift dis");
     try {
-        fetch("/api/schedule/get-employees-by-role-and-weekday", {
-            method: "SEARCH",
+        fetch("/api/schedule/get-next-week-schedule", {
+            method: "GET",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                role: roleType,
-                weekday: weekdayIndex
-            })
+            }
         })
             .then(function (res) { return res.json(); })
             .then(function (data) {
-            processShiftSelection(data.employees, roleType, weekdayIndex);
+            console.log("data: ", data.nextWeekSchedule[0]);
+            renderShiftsTable(data.nextWeekSchedule[0]);
         });
     }
     catch (error) {
         console.error(error);
     }
 };
-var getShiftsData = function () {
+var renderShiftsTable = function (nextWeekSchedule) {
+    var shiftsTable = document.querySelector(".shift-table");
+    shiftsTable.innerHTML = "<thead class=\"shift-table__header-container\">\n  <tr class=\"shift-table__header-container\">\n      <th></th>\n      " + weekHeadersHtml(nextWeekSchedule["startDate"]) + "\n  </tr>\n  </thead>\n  <tbody class=\"shift-table__body-container\">\n  " + rolesAndAllocationHtml(nextWeekSchedule) + "\n  </tbody>\n  ";
 };
-var renderShifts = function () {
+/** Returns the html for the table weekdays headers */
+var weekHeadersHtml = function (startDate) {
+    var weekDatesArr = getScheduleDates(startDate);
+    var html = weekDatesArr.map(function (day) {
+        return "<th><p>" + day.toLocaleDateString('en-Us', { weekday: 'short' }) + ".</p>\n            <p>" + day.getDate() + "." + day.getMonth() + "</p>\n            </th>";
+    }).join("");
+    return html;
+};
+/** Returns an array of dates of the a whole week.
+ * @receives a date
+ * @returns an array of Date of a week, starting from the date received
+ */
+var getScheduleDates = function (startDate) {
+    var weekDatesArr = [];
+    var nextSunday = new Date(startDate);
+    var today = new Date();
+    for (var i = 0; i < 7; i++) {
+        var newDate = new Date(today.setDate(nextSunday.getDate() + i));
+        weekDatesArr.push(newDate);
+    }
+    return weekDatesArr;
+};
+/** Returns the html of the roles and allocation of employees during the week */
+var rolesAndAllocationHtml = function (nextWeekSchedule) {
+    var scheduleRequirementsArrLenght = nextWeekSchedule["scheduleRequirements"].length;
+    var htmlArr = [];
+    var resultHtml = "";
+    for (var i = 0; i < scheduleRequirementsArrLenght; i++) {
+        var tableRowStartHtml = "<tr class=\"shift-table__roles-row\">\n    <td class=\"shift-table__role-row__role\">Shift Manager</td>";
+        var tableRowCloseHtml = "</tbody>";
+        htmlArr.push(tableRowStartHtml);
+        var roleCountRequirement = nextWeekSchedule["scheduleRequirements"][i]["numEmployeesRequired"];
+        if (roleCountRequirement > 0) {
+            try {
+                fetch("/api/schedule/get-next-week-schedule", {
+                    method: "GET",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json"
+                    }
+                })
+                    .then(function (res) { return res.json(); })
+                    .then(function (data) {
+                    console.log("data: ", data.nextWeekSchedule[0]);
+                    renderShiftsTable(data.nextWeekSchedule[0]);
+                });
+            }
+            catch (error) {
+                console.error(error);
+            }
+            for (var roleCount = 0; roleCount < roleCountRequirement; roleCount++) {
+                var html = singleRoleColumnHtml(nextWeekSchedule["scheduleRequirements"][i].roleType, roleCount, nextWeekSchedule);
+                htmlArr.push(html);
+            }
+        }
+        htmlArr.push(tableRowCloseHtml);
+    }
+    return resultHtml.concat.apply(resultHtml, htmlArr);
+};
+var singleRoleColumnHtml = function (roleType, roleCount, nextWeekSchedule) {
+    return "";
 };
