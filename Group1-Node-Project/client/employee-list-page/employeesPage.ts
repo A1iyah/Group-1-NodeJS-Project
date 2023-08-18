@@ -249,14 +249,14 @@ function handleCreateEmployee(evt: any) {
 
     addNewEmployeesForm.style.display = "none";
 
-    // evt.target.elements.name.value = "";
-    // evt.target.elements.email.value = "";
-    // evt.target.elements.password.value = "";
-    // evt.target.elements.idNumber.value = "";
-    // evt.target.elements.phone.value = "";
-    // evt.target.elements.birthday.value = "";
-    // evt.target.elements.salaryPerHour.value = "";
-    // evt.target.elements.role.value = "";
+    evt.target.elements.name.value = "";
+    evt.target.elements.email.value = "";
+    evt.target.elements.password.value = "";
+    evt.target.elements.idNumber.value = "";
+    evt.target.elements.phone.value = "";
+    evt.target.elements.birthday.value = "";
+    evt.target.elements.salaryPerHour.value = "";
+    evt.target.elements.role.value = "";
   } catch (error) {
     console.log(error);
   }
@@ -333,13 +333,13 @@ function handleCreateManager(evt: any) {
 
     addNewManagersForm.style.display = "none";
 
-    // evt.target.elements.name.value = "";
-    // evt.target.elements.email.value = "";
-    // evt.target.elements.password.value = "";
-    // evt.target.elements.idNumber.value = "";
-    // evt.target.elements.phone.value = "";
-    // evt.target.elements.salaryPerHour.value = "";
-    // evt.target.elements.birthday.value = "";
+    evt.target.elements.name.value = "";
+    evt.target.elements.email.value = "";
+    evt.target.elements.password.value = "";
+    evt.target.elements.idNumber.value = "";
+    evt.target.elements.phone.value = "";
+    evt.target.elements.salaryPerHour.value = "";
+    evt.target.elements.birthday.value = "";
   } catch (error) {
     console.log(error);
   }
