@@ -54,14 +54,14 @@ var UserType;
     UserType[UserType["Employee"] = 2] = "Employee";
 })(UserType || (UserType = {}));
 exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, password, userDB, roleUser, token, error_1;
+    var _a, email, password, systemRole, userDB, roleUser, token, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
-                _a = req.body, email = _a.email, password = _a.password;
-                console.log(email, password);
-                return [4 /*yield*/, companyModel_1["default"].findOne({ email: email, password: password })];
+                _a = req.body, email = _a.email, password = _a.password, systemRole = _a.systemRole;
+                console.log(email, password, systemRole);
+                return [4 /*yield*/, companyModel_1["default"].findOne({ email: email, password: password, systemRole: systemRole })];
             case 1:
                 userDB = _b.sent();
                 console.log(userDB);

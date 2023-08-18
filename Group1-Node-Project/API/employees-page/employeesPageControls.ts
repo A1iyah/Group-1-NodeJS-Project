@@ -45,8 +45,8 @@ export const addEmployee = async (req: any, res: any) => {
       _id: 1,
     });
 
-    const newUserIdString = managerID.toString();
-    const managerIdString = newUserId[0]._id.toString();
+    const managerIdString = managerID.toString();
+    const newUserIdString = newUserId[0]._id.toString();
 
     console.log(newUserId[0]._id);
     console.log(newUserIdString);
@@ -58,7 +58,7 @@ export const addEmployee = async (req: any, res: any) => {
     );
 
     const updateAdmin = await AdminModel.findByIdAndUpdate(
-      "64d50e911e5749a59f1f4a6f",
+      "64de1def9cd3eed4fd4903e0",
       { $push: { employees: newUserId[0]._id } },
       { new: true }
     );
@@ -74,6 +74,13 @@ export const addEmployee = async (req: any, res: any) => {
       .exec();
 
     console.log(managerDB);
+
+    const companyDB = await CompanyModel.create({
+      originalID: newUserId[0]._id,
+      systemRole: "Employee",
+      email: email,
+      password: password,
+    });
 
     res.status(200).send({ ok: true, managerDB });
   } catch (error) {
@@ -92,12 +99,20 @@ export const addManager = async (req: any, res: any) => {
       phone,
       birthday,
       salaryPerHour,
-      role,
+      // role,
     } = req.body;
 
-    if (role) {
-      const roleID = await RoleModel.find({ name: role }).select({ _id: 1 });
-      role = roleID[0]._id.toString();
+    // if (role) {
+    //   const roleID = await RoleModel.find({ name: role }).select({ _id: 1 });
+    //   role = roleID[0]._id.toString();
+    // }
+
+    const managerRole = await RoleModel.findOne({ name: "Manager" }).select(
+      "_id"
+    );
+
+    if (!managerRole) {
+      throw new Error("Role not found");
     }
 
     const managerDB = await ManagerModel.create({
@@ -108,17 +123,17 @@ export const addManager = async (req: any, res: any) => {
       phone,
       birthday,
       salaryPerHour,
-      role,
+      role: managerRole._id,
     });
     console.log(managerDB);
 
     const updateAdmin = await AdminModel.findByIdAndUpdate(
-      "64d50e911e5749a59f1f4a6f",
+      "64de1def9cd3eed4fd4903e0",
       { $push: { managers: managerDB._id } },
       { new: true }
     );
 
-    const adminDB = await AdminModel.findById("64d50e911e5749a59f1f4a6f")
+    const adminDB = await AdminModel.findById("64de1def9cd3eed4fd4903e0")
       .populate({
         path: "employees",
         populate: {
@@ -134,6 +149,13 @@ export const addManager = async (req: any, res: any) => {
         },
       })
       .exec();
+
+    const companyDB = await CompanyModel.create({
+      originalID: managerDB._id,
+      systemRole: "Manager",
+      email: email,
+      password: password,
+    });
 
     res.status(200).send({ ok: true, adminDB });
   } catch (error) {

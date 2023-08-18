@@ -24,11 +24,11 @@ function handleLogin(ev) {
 
     let pageToOpen: string;
 
-    if (role === "employee") {
+    if (role === "Employee") {
       pageToOpen = "./employeeHP/employeeHP.html";
-    } else if (role === "manager") {
+    } else if (role === "Manager") {
       pageToOpen = "./managerHP/managerHP.html";
-    } else if (role === "admin") {
+    } else if (role === "Admin") {
       pageToOpen = "./shift-schedule-page/shiftSchedule.html";
     }
 
@@ -38,7 +38,11 @@ function handleLogin(ev) {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        systemRole: role,
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -46,52 +50,6 @@ function handleLogin(ev) {
         let check = data.ok;
         openHP(check, pageToOpen);
       });
-
-    // if (role === "employee") {
-    //   fetch("/api/employee/login", {
-    //     method: "POST",
-    //     headers: {
-    //       Accept: "application/json",
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ email, password }),
-    //   })
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       console.log(data.ok);
-    //       let check = data.ok;
-    //       openHP(check, "./employeeHP/employeeHP.html");
-    //     });
-    // } else if (role === "manager") {
-    //   fetch("/api/manager/login", {
-    //     method: "POST",
-    //     headers: {
-    //       Accept: "application/json",
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ email, password }),
-    //   })
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       console.log(data.ok);
-    //       let check = data.ok;
-    //       openHP(check, "./managerHP/managerHP.html");
-    //     });
-    // } else if (role === "admin") {
-    //   fetch("/api/admin/login", {
-    //     method: "POST",
-    //     headers: {
-    //       Accept: "application/json",
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ email, password }),
-    //   })
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       console.log(data.ok);
-    //       let check = data.ok;
-    //       openHP(check, "./shift-schedule-page/shiftSchedule.html");
-    //     });
   } catch (error) {
     console.log(error);
   }

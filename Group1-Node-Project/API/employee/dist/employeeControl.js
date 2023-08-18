@@ -43,39 +43,6 @@ dotenv.config();
 var secret = process.env.JWT_SECRET;
 console.log("secret:", secret);
 // const secret: string = "secret";
-// export const login = async (req: any, res: any) => {
-//   try {
-//     const { email, password } = req.body;
-//     console.log(email, password);
-//     const employeeDB = await EmployeeModel.findOne({ email, password });
-//     if (!employeeDB) throw new Error("Username or password are incorrect");
-//     if (!secret) throw new Error("no token");
-//     const token = jwt.encode(
-//       { employeeId: employeeDB._id, role: "employee" },
-//       secret
-//     );
-//     console.log(token);
-//     res.cookie("employee", token, { maxAge: 500000000, httpOnly: true });
-//     res.status(201).send({ ok: true });
-//   } catch (error: any) {
-//     console.error(error);
-//     res.status(500).send({ error: error.message });
-//   }
-// };
-// export const getEmployee = async (req: any, res: any) => {
-//   try {
-//     const { employee } = req.cookies;
-//     if (!secret) throw new Error("no token");
-//     const decoded = jwt.decode(employee, secret);
-//     console.log(decoded);
-//     const { employeeId, role } = decoded;
-//     const employeeDB: any = await EmployeeModel.findById(employeeId);
-//     res.send({ ok: true, employee: employeeDB });
-//   } catch (error: any) {
-//     console.error(error);
-//     res.status(500).send({ error: error.message });
-//   }
-// };
 exports.addAttendance = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, userDB, totalTimeShift, updateUser, error_1;
     return __generator(this, function (_b) {

@@ -41,12 +41,13 @@ var adminModel_1 = require("../admin/adminModel");
 var managerModel_1 = require("../manager/managerModel");
 var employeeModel_1 = require("../employee/employeeModel");
 var roleModel_1 = require("../role/roleModel");
+var companyModel_1 = require("../company/companyModel");
 exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, managerID, selectedRole, employeeDB, newUserId, newUserIdString, managerIdString, updateManager, updateAdmin, managerDB, error_1;
+    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, managerID, selectedRole, employeeDB, newUserId, managerIdString, newUserIdString, updateManager, updateAdmin, managerDB, companyDB, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 7, , 8]);
+                _b.trys.push([0, 8, , 9]);
                 _a = req.body, name = _a.name, email = _a.email, password = _a.password, idNumber = _a.idNumber, phone = _a.phone, birthday = _a.birthday, salaryPerHour = _a.salaryPerHour, role = _a.role, managerID = _a.managerID;
                 console.log(managerID);
                 return [4 /*yield*/, roleModel_1["default"].findOne({ name: role }).select("_id")];
@@ -73,14 +74,14 @@ exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, voi
                     })];
             case 3:
                 newUserId = _b.sent();
-                newUserIdString = managerID.toString();
-                managerIdString = newUserId[0]._id.toString();
+                managerIdString = managerID.toString();
+                newUserIdString = newUserId[0]._id.toString();
                 console.log(newUserId[0]._id);
                 console.log(newUserIdString);
                 return [4 /*yield*/, managerModel_1["default"].findByIdAndUpdate(managerID, { $push: { employees: newUserId[0]._id } }, { "new": true })];
             case 4:
                 updateManager = _b.sent();
-                return [4 /*yield*/, adminModel_1["default"].findByIdAndUpdate("64d50e911e5749a59f1f4a6f", { $push: { employees: newUserId[0]._id } }, { "new": true })];
+                return [4 /*yield*/, adminModel_1["default"].findByIdAndUpdate("64de1def9cd3eed4fd4903e0", { $push: { employees: newUserId[0]._id } }, { "new": true })];
             case 5:
                 updateAdmin = _b.sent();
                 return [4 /*yield*/, managerModel_1["default"].findById(managerID)
@@ -95,47 +96,55 @@ exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, voi
             case 6:
                 managerDB = _b.sent();
                 console.log(managerDB);
-                res.status(200).send({ ok: true, managerDB: managerDB });
-                return [3 /*break*/, 8];
+                return [4 /*yield*/, companyModel_1["default"].create({
+                        originalID: newUserId[0]._id,
+                        systemRole: "Employee",
+                        email: email,
+                        password: password
+                    })];
             case 7:
+                companyDB = _b.sent();
+                res.status(200).send({ ok: true, managerDB: managerDB });
+                return [3 /*break*/, 9];
+            case 8:
                 error_1 = _b.sent();
                 console.log(error_1);
                 res.status(500).send("did not get data");
-                return [3 /*break*/, 8];
-            case 8: return [2 /*return*/];
+                return [3 /*break*/, 9];
+            case 9: return [2 /*return*/];
         }
     });
 }); };
 exports.addManager = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, role, roleID, managerDB, updateAdmin, adminDB, error_2;
+    var _a, name, email, password, idNumber, phone, birthday, salaryPerHour, managerRole, managerDB, updateAdmin, adminDB, companyDB, error_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 6, , 7]);
-                _a = req.body, name = _a.name, email = _a.email, password = _a.password, idNumber = _a.idNumber, phone = _a.phone, birthday = _a.birthday, salaryPerHour = _a.salaryPerHour, role = _a.role;
-                if (!role) return [3 /*break*/, 2];
-                return [4 /*yield*/, roleModel_1["default"].find({ name: role }).select({ _id: 1 })];
+                _a = req.body, name = _a.name, email = _a.email, password = _a.password, idNumber = _a.idNumber, phone = _a.phone, birthday = _a.birthday, salaryPerHour = _a.salaryPerHour;
+                return [4 /*yield*/, roleModel_1["default"].findOne({ name: "Manager" }).select("_id")];
             case 1:
-                roleID = _b.sent();
-                role = roleID[0]._id.toString();
-                _b.label = 2;
-            case 2: return [4 /*yield*/, managerModel_1["default"].create({
-                    name: name,
-                    email: email,
-                    password: password,
-                    idNumber: idNumber,
-                    phone: phone,
-                    birthday: birthday,
-                    salaryPerHour: salaryPerHour,
-                    role: role
-                })];
-            case 3:
+                managerRole = _b.sent();
+                if (!managerRole) {
+                    throw new Error("Role not found");
+                }
+                return [4 /*yield*/, managerModel_1["default"].create({
+                        name: name,
+                        email: email,
+                        password: password,
+                        idNumber: idNumber,
+                        phone: phone,
+                        birthday: birthday,
+                        salaryPerHour: salaryPerHour,
+                        role: managerRole._id
+                    })];
+            case 2:
                 managerDB = _b.sent();
                 console.log(managerDB);
-                return [4 /*yield*/, adminModel_1["default"].findByIdAndUpdate("64d50e911e5749a59f1f4a6f", { $push: { managers: managerDB._id } }, { "new": true })];
-            case 4:
+                return [4 /*yield*/, adminModel_1["default"].findByIdAndUpdate("64de1def9cd3eed4fd4903e0", { $push: { managers: managerDB._id } }, { "new": true })];
+            case 3:
                 updateAdmin = _b.sent();
-                return [4 /*yield*/, adminModel_1["default"].findById("64d50e911e5749a59f1f4a6f")
+                return [4 /*yield*/, adminModel_1["default"].findById("64de1def9cd3eed4fd4903e0")
                         .populate({
                         path: "employees",
                         populate: {
@@ -151,8 +160,16 @@ exports.addManager = function (req, res) { return __awaiter(void 0, void 0, void
                         }
                     })
                         .exec()];
-            case 5:
+            case 4:
                 adminDB = _b.sent();
+                return [4 /*yield*/, companyModel_1["default"].create({
+                        originalID: managerDB._id,
+                        systemRole: "Manager",
+                        email: email,
+                        password: password
+                    })];
+            case 5:
+                companyDB = _b.sent();
                 res.status(200).send({ ok: true, adminDB: adminDB });
                 return [3 /*break*/, 7];
             case 6:

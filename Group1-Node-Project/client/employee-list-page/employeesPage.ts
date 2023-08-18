@@ -339,6 +339,8 @@ function handleCreateManager(evt: any) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        console.log(data.adminDB.employees);
+        console.log(data.adminDB.managers);
         renderEmployeeList(data.adminDB.employees);
         renderManagersList(data.adminDB.managers);
       })
@@ -380,6 +382,8 @@ const handleGetWorkers = () => {
           try {
             if (!allWorkers) throw new Error("No workers data found");
             console.log(allWorkers);
+            console.log(allWorkers.employees);
+            console.log(allWorkers.managers);
 
             renderEmployeeList(allWorkers.employees);
             renderManagersList(allWorkers.managers);
