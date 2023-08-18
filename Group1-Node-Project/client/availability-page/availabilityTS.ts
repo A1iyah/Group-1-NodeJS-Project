@@ -166,14 +166,13 @@ updateChartDates();
 // Toggle function -
 function toggleButton(event: Event) {
   const clickedButton = event.target as HTMLButtonElement;
-  // const day = clickedButton.getAttribute("data-day");
   const currentImage = window.getComputedStyle(clickedButton).backgroundImage;
   console.log(currentImage);
 
   if (currentImage.includes("can.png")) {
-    clickedButton.style.backgroundImage = `url("../cant.png")`;
+    clickedButton.style.backgroundImage = `url(./cant.png)`;
   } else {
-    clickedButton.style.backgroundImage = `url("../can.png")`;
+    clickedButton.style.backgroundImage = `url(./can.png)`;
   }
 }
 
