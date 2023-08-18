@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getMyTeam = exports.getManagerEmployees = exports.getAdminEmployees = exports.addManager = exports.addEmployee = void 0;
+exports.getMyTeam = exports.getManagerEmployees = exports.getAdminEmployees = exports.deleteEmployee = exports.addManager = exports.addEmployee = void 0;
 var adminModel_1 = require("../admin/adminModel");
 var managerModel_1 = require("../manager/managerModel");
 var employeeModel_1 = require("../employee/employeeModel");
@@ -181,9 +181,44 @@ exports.addManager = function (req, res) { return __awaiter(void 0, void 0, void
         }
     });
 }); };
+// Delete employee -
+exports.deleteEmployee = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _id, manager, admin, error_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 5, , 6]);
+                _id = req.body._id;
+                if (!_id)
+                    throw new Error("No employee ID found.");
+                // Delete from EmployeeModel
+                return [4 /*yield*/, employeeModel_1["default"].findByIdAndDelete(_id)];
+            case 1:
+                // Delete from EmployeeModel
+                _a.sent();
+                return [4 /*yield*/, managerModel_1["default"].findOneAndUpdate({ employees: _id }, { $pull: { employees: _id } }, { "new": true })];
+            case 2:
+                manager = _a.sent();
+                return [4 /*yield*/, adminModel_1["default"].findOneAndUpdate({ employees: _id }, { $pull: { employees: _id } }, { "new": true })];
+            case 3:
+                admin = _a.sent();
+                return [4 /*yield*/, companyModel_1["default"].findOneAndDelete({ originalID: _id })];
+            case 4:
+                _a.sent();
+                res.send({ ok: true });
+                return [3 /*break*/, 6];
+            case 5:
+                error_3 = _a.sent();
+                console.log(error_3);
+                res.status(500).json("Server delete employee error");
+                return [3 /*break*/, 6];
+            case 6: return [2 /*return*/];
+        }
+    });
+}); };
 // Display all workers -
 exports.getAdminEmployees = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, allWorkers, error_3;
+    var _id, allWorkers, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -211,15 +246,15 @@ exports.getAdminEmployees = function (req, res) { return __awaiter(void 0, void 
                 res.send({ allWorkers: allWorkers });
                 return [3 /*break*/, 3];
             case 2:
-                error_3 = _a.sent();
-                console.log(error_3);
+                error_4 = _a.sent();
+                console.log(error_4);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getManagerEmployees = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, employees, error_4;
+    var _id, employees, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -236,15 +271,15 @@ exports.getManagerEmployees = function (req, res) { return __awaiter(void 0, voi
                 res.send({ employees: employees });
                 return [3 /*break*/, 3];
             case 2:
-                error_4 = _a.sent();
-                console.log(error_4);
+                error_5 = _a.sent();
+                console.log(error_5);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getMyTeam = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, stringID, manager, myTeamEmployees, error_5;
+    var _id, stringID, manager, myTeamEmployees, error_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -271,8 +306,8 @@ exports.getMyTeam = function (req, res) { return __awaiter(void 0, void 0, void 
                 res.send({ myTeamEmployees: myTeamEmployees });
                 return [3 /*break*/, 3];
             case 2:
-                error_5 = _a.sent();
-                console.log(error_5);
+                error_6 = _a.sent();
+                console.log(error_6);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

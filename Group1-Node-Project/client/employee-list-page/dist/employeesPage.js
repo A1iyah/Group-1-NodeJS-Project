@@ -67,10 +67,12 @@ function main() {
                     }
                     else if (userType === UserType.Manager) {
                         openAddButton.style.display = "block";
+                        addManagerBtn.style.display = "none";
                         managerSection.style.display = "none";
                     }
                     else {
                         openAddButton.style.display = "block";
+                        addEmployeeBtn.style.display = "none";
                         managerSection.style.display = "block";
                     }
                     handleGetWorkers();
@@ -109,26 +111,6 @@ var managerSection = document.querySelector(".employees-page__managers-section")
 var emailError = document.querySelector(".email-error-message");
 var openDiv = null;
 var isFormsOpen = false;
-function updateUIForUserType(userType) {
-    if (userType === UserType.Admin) {
-        openAddButton.style.display = "block";
-        addButtonsContainer.style.display = "block";
-        addManagersBtnContainer.style.display = "block";
-        managerSection.style.display = "block";
-    }
-    else if (userType === UserType.Manager) {
-        openAddButton.style.display = "block";
-        addButtonsContainer.style.display = "block";
-        addManagersBtnContainer.style.display = "none";
-        managerSection.style.display = "none";
-    }
-    else {
-        openAddButton.style.display = "none";
-        addButtonsContainer.style.display = "none";
-        addManagersBtnContainer.style.display = "none";
-        managerSection.style.display = "none";
-    }
-}
 openAddButton.addEventListener("click", function () {
     if (userType === UserType.Admin) {
         if (addButtonsContainer.style.display === "block") {
@@ -152,6 +134,7 @@ openAddButton.addEventListener("click", function () {
         }
         else {
             addButtonsContainer.style.display = "block";
+            addManagersBtnContainer.style.display = "none";
             isFormsOpen = true;
         }
     }
@@ -186,7 +169,6 @@ addManagerBtn.addEventListener("click", function () {
         isFormsOpen = true;
     }
 });
-updateUIForUserType(userType);
 // Add new employee -
 function handleCreateEmployee(evt) {
     try {
@@ -271,14 +253,14 @@ function handleCreateEmployee(evt) {
             console.error(error);
         });
         addNewEmployeesForm.style.display = "none";
-        evt.target.elements.name.value = "";
-        evt.target.elements.email.value = "";
-        evt.target.elements.password.value = "";
-        evt.target.elements.idNumber.value = "";
-        evt.target.elements.phone.value = "";
-        evt.target.elements.birthday.value = "";
-        evt.target.elements.salaryPerHour.value = "";
-        evt.target.elements.role.value = "";
+        // evt.target.elements.name.value = "";
+        // evt.target.elements.email.value = "";
+        // evt.target.elements.password.value = "";
+        // evt.target.elements.idNumber.value = "";
+        // evt.target.elements.phone.value = "";
+        // evt.target.elements.birthday.value = "";
+        // evt.target.elements.salaryPerHour.value = "";
+        // evt.target.elements.role.value = "";
     }
     catch (error) {
         console.log(error);
@@ -345,13 +327,13 @@ function handleCreateManager(evt) {
             console.error(error);
         });
         addNewManagersForm.style.display = "none";
-        evt.target.elements.name.value = "";
-        evt.target.elements.email.value = "";
-        evt.target.elements.password.value = "";
-        evt.target.elements.idNumber.value = "";
-        evt.target.elements.phone.value = "";
-        evt.target.elements.salaryPerHour.value = "";
-        evt.target.elements.birthday.value = "";
+        // evt.target.elements.name.value = "";
+        // evt.target.elements.email.value = "";
+        // evt.target.elements.password.value = "";
+        // evt.target.elements.idNumber.value = "";
+        // evt.target.elements.phone.value = "";
+        // evt.target.elements.salaryPerHour.value = "";
+        // evt.target.elements.birthday.value = "";
     }
     catch (error) {
         console.log(error);
@@ -441,9 +423,13 @@ var handleGetWorkers = function () {
 var renderEmployeeList = function (employees) {
     try {
         console.log(employees);
+        if (!employees) {
+            console.log("No employees data available.");
+            return;
+        }
         var htmlStr = employees
             .map(function (employee) {
-            return "<div class=\"employees-page__employeeCard\">\n        <div class=\"employee-details\">\n        <div class=\"employee-name\">" + employee.name + "</div>\n        <div class=\"employee-birthday\">" + employee.birthday + "</div>\n        <div class=\"employee-email\">" + employee.email + "</div>\n        <div class=\"employee-phone\">" + employee.phone + "</div>\n        <div class=\"employee-role\">" + employee.role.name + "</div>\n        </div>\n        </div>";
+            return "<div class=\"employees-page__employeeCard\">\n        <div class=\"employee-details\">\n        <button class=\"delete-btn\" onclick=\"handleDeleteEmployee('" + employee._id + "')\">\n        <span class=\"material-symbols-outlined\">\n        backspace\n        </span>\n        </button>\n        <div class=\"employee-name\">" + employee.name + "</div>\n        <div class=\"employee-birthday\">" + employee.birthday + "</div>\n        <div class=\"employee-email\">" + employee.email + "</div>\n        <div class=\"employee-phone\">" + employee.phone + "</div>\n        <div class=\"employee-role\">" + employee.role.name + "</div>\n        </div>\n        </div>";
         })
             .join(" ");
         var getAllEmployees = document.querySelector(".employees-page__employees-section__get-all-employees");
@@ -466,6 +452,30 @@ var renderManagersList = function (managers) {
         if (!getAllManagers)
             throw new Error("Can't find employees to display.");
         getAllManagers.innerHTML = htmlStr;
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
+// Delete employee -
+var handleDeleteEmployee = function (_id) {
+    try {
+        console.log("employee id is:", _id);
+        fetch("/api/employees-page/delete-employee", {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ _id: _id })
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+            renderEmployeeList(data.employees);
+            handleGetWorkers();
+        })["catch"](function (error) {
+            console.log(error);
+        });
     }
     catch (error) {
         console.log(error);
