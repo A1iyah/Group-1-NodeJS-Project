@@ -44,17 +44,17 @@ var secret = process.env.JWT_SECRET;
 console.log("secret:", secret);
 // const secret: string = "secret";
 exports.addAttendance = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, userDB, totalTimeShift, updateUser, error_1;
+    var _a, user, totalTimeShift, updateUser, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
-                _a = req.body, userDB = _a.userDB, totalTimeShift = _a.totalTimeShift;
+                _a = req.body, user = _a.user, totalTimeShift = _a.totalTimeShift;
                 if (!totalTimeShift)
                     throw new Error("no shift time");
-                if (!userDB)
+                if (!user)
                     throw new Error("no user");
-                return [4 /*yield*/, employeeModel_1["default"].findByIdAndUpdate(userDB._id, {
+                return [4 /*yield*/, employeeModel_1["default"].findByIdAndUpdate(user._id, {
                         $push: {
                             attendance: {
                                 date: new Date().toLocaleString(),
@@ -64,7 +64,7 @@ exports.addAttendance = function (req, res) { return __awaiter(void 0, void 0, v
                     }, { "new": true })];
             case 1:
                 updateUser = _b.sent();
-                console.log(userDB);
+                console.log(user);
                 res.send({ ok: true });
                 return [3 /*break*/, 3];
             case 2:

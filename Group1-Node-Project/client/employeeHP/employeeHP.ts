@@ -61,8 +61,6 @@ const moveToShiftSchedule = document.querySelector(
   ".moveToShiftSchedule"
 ) as HTMLButtonElement;
 
-let userDB = null;
-
 // async function handleLoadEmployee() {
 //   try {
 //     const response = await fetch("/api/employee/get-employee");
@@ -123,7 +121,7 @@ function startClock() {
 startEndButtonE.addEventListener("click", (e) => {
   startEndButtonS.style.display = "block";
   startEndButtonE.style.display = "none";
-  console.log(intervalId);''''''''''''''''KGSGSG'
+  console.log(intervalId);
 
   stopClock();
 
@@ -141,7 +139,7 @@ function stopClock() {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-Type": "appliGKKKKKKKKKKKKKKKKKKKKKKKKKKKKKcation/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ user, totalTimeShift }),
     });

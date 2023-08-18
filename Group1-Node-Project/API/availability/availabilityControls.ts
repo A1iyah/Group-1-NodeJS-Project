@@ -30,7 +30,7 @@ export const updateAvailability = async (req: any, res: any) => {
     for (const day in availabilityData) {
       if (availabilityData[day]) {
         const update = await WeekModel.findByIdAndUpdate(
-          "64d9b40583ec1ae61b9c5db9",
+          "64dfb738d323ba64e4bd030e",
           {
             $push: {
               [day]: {

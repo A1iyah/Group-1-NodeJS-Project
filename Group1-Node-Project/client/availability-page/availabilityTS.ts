@@ -186,7 +186,11 @@ async function handleFormSubmit(event: Event) {
 
   buttons.forEach((button) => {
     const day = button.getAttribute("data-day");
-    const isAvailable = button.textContent === "can";
+    const currentImage = window.getComputedStyle(button).backgroundImage;
+    const isAvailable = currentImage.includes("can.png");
+
+    // const day = button.getAttribute("data-day");
+    // const isAvailable = button.textContent === "can";
 
     if (day) {
       availabilityData[day] = isAvailable;

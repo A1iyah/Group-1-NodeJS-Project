@@ -180,7 +180,10 @@ function handleFormSubmit(event) {
                     availabilityData = {};
                     buttons.forEach(function (button) {
                         var day = button.getAttribute("data-day");
-                        var isAvailable = button.textContent === "can";
+                        var currentImage = window.getComputedStyle(button).backgroundImage;
+                        var isAvailable = currentImage.includes("can.png");
+                        // const day = button.getAttribute("data-day");
+                        // const isAvailable = button.textContent === "can";
                         if (day) {
                             availabilityData[day] = isAvailable;
                         }

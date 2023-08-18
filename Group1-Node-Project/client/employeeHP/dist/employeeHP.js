@@ -83,7 +83,6 @@ var startEndButtonS = document.querySelector(".shift__startEndShift__start");
 var startEndButtonE = document.querySelector(".shift__startEndShift__end");
 var startEndClock = document.querySelector(".shift__startEndShift__clock");
 var moveToShiftSchedule = document.querySelector(".moveToShiftSchedule");
-var userDB = null;
 // async function handleLoadEmployee() {
 //   try {
 //     const response = await fetch("/api/employee/get-employee");
