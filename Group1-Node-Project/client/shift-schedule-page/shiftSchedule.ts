@@ -228,12 +228,15 @@ const renderRoleAllocationsPlaces = (
     const numEmployeesRequiredForRole =
       scheduleRequirements[i]["numEmployeesRequired"];
     if (numEmployeesRequiredForRole === 0) continue;
+    
+    let oneStringRoleTypeName = (scheduleRequirements[i]["roleType"] === "Shift Manager") ? "ShiftManager" : (scheduleRequirements[i]["roleType"]);
 
     for (let j = 0; j < numEmployeesRequiredForRole; j++) {
       rolesHtml += `<div class="shifts-panel__role-row"><p class="shifts-panel__role-row__title">${scheduleRequirements[i]["roleType"]}</p>`;
 
+
       for (let weekdayIndex = 0; weekdayIndex < 7; weekdayIndex++) {
-        rolesHtml += `<div class="shifts-panel__role-row__${scheduleRequirements[i]["roleType"]}-num${j}-weekday${weekdayIndex}">
+        rolesHtml += `<div class="shifts-panel__role-row__${oneStringRoleTypeName}-num${j}-weekday${weekdayIndex}">
         <img src="./images/add-employee-to-shift.png" alt="add-employee-to-shift" class="shifts-panel__role-row__icon" onclick="onShiftSelect('${scheduleRequirements[i]["roleType"]}', '${weekdayIndex}', '${j}')"></div>`;
       }
       rolesHtml += "</div>";
@@ -492,19 +495,27 @@ const convertWeekIndexToDayString = (weekdayIndex: string): string => {
   }
 };
 
-const processEmployeeAllocation = (
-  employeeId: string,
-  employeeName: string
-) => {
-  const targetShift = document.querySelector(
-    `.shifts-panel__role-row__${targetedRoleType}-num${targetedRoleCount}-weekday${targetedDayIndex}`
-  );
+// const processEmployeeAllocation = (
+//   employeeId: string,
+//   employeeName: string
+// ) => {
+
+//   targetedRoleType = (targetedRoleType === "Shift Manager") ? "ShiftManager" : targetedRoleType;
+
+//   const targetShift = document.querySelector(
+//     `.shifts-panel__role-row__${targetedRoleType}-num${targetedRoleCount}-weekday${targetedDayIndex}`
+//   );
+
+//   console.log(targetShift);
+
 
   const processEmployeeAllocation = (
     employeeId: string,
     employeeName: string,
     weekdayIndex: string
   ) => {
+    targetedRoleType = (targetedRoleType === "Shift Manager") ? "ShiftManager" : targetedRoleType;
+
     const targetShift = document.querySelector(
       `.shifts-panel__role-row__${targetedRoleType}-num${targetedRoleCount}-weekday${targetedDayIndex}`
     );
@@ -533,4 +544,4 @@ const processEmployeeAllocation = (
       console.log(error);
     }
   };
-};
+

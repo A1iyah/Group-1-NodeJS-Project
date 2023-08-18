@@ -178,10 +178,11 @@ var renderRoleAllocationsPlaces = function (weekDaysArr, scheduleRequirements) {
         var numEmployeesRequiredForRole = scheduleRequirements[i]["numEmployeesRequired"];
         if (numEmployeesRequiredForRole === 0)
             continue;
+        var oneStringRoleTypeName = (scheduleRequirements[i]["roleType"] === "Shift Manager") ? "ShiftManager" : (scheduleRequirements[i]["roleType"]);
         for (var j = 0; j < numEmployeesRequiredForRole; j++) {
             rolesHtml += "<div class=\"shifts-panel__role-row\"><p class=\"shifts-panel__role-row__title\">" + scheduleRequirements[i]["roleType"] + "</p>";
             for (var weekdayIndex = 0; weekdayIndex < 7; weekdayIndex++) {
-                rolesHtml += "<div class=\"shifts-panel__role-row__" + scheduleRequirements[i]["roleType"] + "-num" + j + "-weekday" + weekdayIndex + "\">\n        <img src=\"./images/add-employee-to-shift.png\" alt=\"add-employee-to-shift\" class=\"shifts-panel__role-row__icon\" onclick=\"onShiftSelect('" + scheduleRequirements[i]["roleType"] + "', '" + weekdayIndex + "', '" + j + "')\"></div>";
+                rolesHtml += "<div class=\"shifts-panel__role-row__" + oneStringRoleTypeName + "-num" + j + "-weekday" + weekdayIndex + "\">\n        <img src=\"./images/add-employee-to-shift.png\" alt=\"add-employee-to-shift\" class=\"shifts-panel__role-row__icon\" onclick=\"onShiftSelect('" + scheduleRequirements[i]["roleType"] + "', '" + weekdayIndex + "', '" + j + "')\"></div>";
             }
             rolesHtml += "</div>";
         }
@@ -353,31 +354,38 @@ var convertWeekIndexToDayString = function (weekdayIndex) {
             break;
     }
 };
-var processEmployeeAllocation = function (employeeId, employeeName) {
+// const processEmployeeAllocation = (
+//   employeeId: string,
+//   employeeName: string
+// ) => {
+//   targetedRoleType = (targetedRoleType === "Shift Manager") ? "ShiftManager" : targetedRoleType;
+//   const targetShift = document.querySelector(
+//     `.shifts-panel__role-row__${targetedRoleType}-num${targetedRoleCount}-weekday${targetedDayIndex}`
+//   );
+//   console.log(targetShift);
+var processEmployeeAllocation = function (employeeId, employeeName, weekdayIndex) {
+    targetedRoleType = (targetedRoleType === "Shift Manager") ? "ShiftManager" : targetedRoleType;
     var targetShift = document.querySelector(".shifts-panel__role-row__" + targetedRoleType + "-num" + targetedRoleCount + "-weekday" + targetedDayIndex);
-    var processEmployeeAllocation = function (employeeId, employeeName, weekdayIndex) {
-        var targetShift = document.querySelector(".shifts-panel__role-row__" + targetedRoleType + "-num" + targetedRoleCount + "-weekday" + targetedDayIndex);
-        if (!targetShift) {
-            console.log("target shift allocation slot not found in DOM");
-            return;
-        }
-        targetShift.innerHTML = "<p class=\"shifts-panel__role-row__allocation-name\">" + employeeName + "</p>";
-        try {
-            fetch("/api/schedule/add-employee-to-schedule", {
-                method: "PATCH",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    thisScheduleId: thisScheduleId,
-                    employeeId: employeeId,
-                    weekdayIndex: weekdayIndex
-                })
-            });
-        }
-        catch (error) {
-            console.log(error);
-        }
-    };
+    if (!targetShift) {
+        console.log("target shift allocation slot not found in DOM");
+        return;
+    }
+    targetShift.innerHTML = "<p class=\"shifts-panel__role-row__allocation-name\">" + employeeName + "</p>";
+    try {
+        fetch("/api/schedule/add-employee-to-schedule", {
+            method: "PATCH",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                thisScheduleId: thisScheduleId,
+                employeeId: employeeId,
+                weekdayIndex: weekdayIndex
+            })
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
 };

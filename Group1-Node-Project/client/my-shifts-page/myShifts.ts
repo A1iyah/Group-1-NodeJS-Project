@@ -195,18 +195,23 @@ const singleRoleColumnHtml = (roleType: string, roleCount: number, nextWeekSched
 
   rowHtmlArr.push(`<td class="shift-table__role-row__role">${roleType}</td>`);
 
-  console.log("allCompanyEmployeesInRole: ", allCompanyEmployeesInRole);
+  //console.log("allCompanyEmployeesInRole: ", allCompanyEmployeesInRole);
 
-  console.log("nextWeekSchedule: ", nextWeekSchedule);
+  //console.log("nextWeekSchedule: ", nextWeekSchedule);
   
   for (let dayIndex = 0 ; dayIndex < 7 ; dayIndex++)
   {
     //console.log(convertWeekdayIndexToWeekdayName(String(dayIndex)));
     
     //console.log("test: ", nextWeekSchedule[convertWeekdayIndexToWeekdayName(dayIndex)]);
+
+    console.log(nextWeekSchedule);
+    
+    //console.log(nextWeekSchedule[${convertWeekdayIndexToWeekdayName(String(dayIndex))}`]);
+    
     
       const html = (nextWeekSchedule[`${convertWeekdayIndexToWeekdayName(String(dayIndex))}`] as Array<object>).map( (dayScheduleEmployees) => {
-        console.log("dayScheduleEmployees: ", dayScheduleEmployees);
+        //console.log("dayScheduleEmployees: ", dayScheduleEmployees);
       })
   }
   

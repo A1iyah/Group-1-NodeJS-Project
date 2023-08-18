@@ -183,13 +183,15 @@ var singleRoleColumnHtml = function (roleType, roleCount, nextWeekSchedule) {
     var rowHtmlArr = [];
     var resultHtml = "";
     rowHtmlArr.push("<td class=\"shift-table__role-row__role\">" + roleType + "</td>");
-    console.log("allCompanyEmployeesInRole: ", allCompanyEmployeesInRole);
-    console.log("nextWeekSchedule: ", nextWeekSchedule);
+    //console.log("allCompanyEmployeesInRole: ", allCompanyEmployeesInRole);
+    //console.log("nextWeekSchedule: ", nextWeekSchedule);
     for (var dayIndex = 0; dayIndex < 7; dayIndex++) {
         //console.log(convertWeekdayIndexToWeekdayName(String(dayIndex)));
         //console.log("test: ", nextWeekSchedule[convertWeekdayIndexToWeekdayName(dayIndex)]);
+        console.log(nextWeekSchedule);
+        //console.log(nextWeekSchedule[${convertWeekdayIndexToWeekdayName(String(dayIndex))}`]);
         var html = nextWeekSchedule["" + convertWeekdayIndexToWeekdayName(String(dayIndex))].map(function (dayScheduleEmployees) {
-            console.log("dayScheduleEmployees: ", dayScheduleEmployees);
+            //console.log("dayScheduleEmployees: ", dayScheduleEmployees);
         });
     }
     rowHtmlArr.push("</tr>");
