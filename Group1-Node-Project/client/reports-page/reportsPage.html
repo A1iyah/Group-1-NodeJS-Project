@@ -23,7 +23,7 @@
 
     <div class="reportButtons">
       <button class="reportButtons__salary" style="display: none">
-        Reports by salary
+        Report by salary
       </button>
       <button class="reportButtons__manager" style="display: none">
         Reports by manager
@@ -33,116 +33,112 @@
       </button>
     </div>
 
-    <div class="allReportOptions">
-      <div class="salaryReports" style="display: none">
-        <form class="salaryReports__salaryUp" onsubmit="HandleSalaryUp(event)">
-          <label for="salaryUp">Find salary More Than:</label>
-          <br />
-          <input
-            class="salaryReports__salaryUp__input"
-            type="number"
-            name="salaryUp"
-            placeholder="More Than"
-            required
-          />
-          <button
-            class="salaryReports__salaryUp__submit"
-            type="submit"
-            value="SalaryUp"
-          >
-            Search
-          </button>
-        </form>
+    <div class="salaryReports" style="display: none">
+      <form class="salaryReports__salaryUp" onsubmit="HandleSalaryUp(event)">
+        <label for="salaryUp">Find Salary More Than:</label>
         <br />
-
-        <form
-          class="salaryReports__salaryDown"
-          onsubmit="HandleSalaryDown(event)"
+        <input
+          class="salaryReports__salaryUp__input"
+          type="number"
+          name="salaryUp"
+          placeholder="More Than"
+          required
+        />
+        <button
+          class="salaryReports__salaryUp__submit"
+          type="submit"
+          value="SalaryUp"
         >
-          <label for="salaryDown">Find salary less Than:</label>
-          <br />
-          <input
-            class="salaryReports__salaryDown__input"
-            type="number"
-            name="salaryDown"
-            placeholder="Less Than"
-            required
-          />
-          <button
-            class="salaryReports__salaryDown__submit"
-            type="submit"
-            value="salaryDown"
-          >
-            Search
-          </button>
-        </form>
+          Enter
+        </button>
+      </form>
+
+      <form
+        class="salaryReports__salaryDown"
+        onsubmit="HandleSalaryDown(event)"
+      >
+        <label for="salaryDown">Find Salary Less Than:</label>
         <br />
-
-        <form
-          class="salaryReports__between"
-          onsubmit="HandleSalaryBetween(event)"
+        <input
+          class="salaryReports__salaryDown__input"
+          type="number"
+          name="salaryDown"
+          placeholder="Less Than"
+          required
+        />
+        <button
+          class="salaryReports__salaryDown__submit"
+          type="submit"
+          value="salaryDown"
         >
-          <label for="minSalary">Find salary between / equal to:</label>
-          <br />
-          <input
-            class="salaryReports__between__input"
-            type="number"
-            name="minSalary"
-            placeholder="Between /"
-            required
-          />
+          Enter
+        </button>
+      </form>
 
-          <input
-            class="salaryReports__between__input2"
-            type="number"
-            name="maxSalary"
-            placeholder="Equals To :"
-            required
-          />
-          <button
-            class="salaryReports__between__submit"
-            type="submit"
-            value="SalaryBetween"
-          >
-            Search
-          </button>
-        </form>
-      </div>
-
-      <div class="employeeReports" style="display: none">
-        <form
-          class="employeeReports__byEmployee"
-          onsubmit="HandleEmployeeReport(event)"
+      <form
+        class="salaryReports__between"
+        onsubmit="HandleSalaryBetween(event)"
+      >
+        <label for="minSalary">Find Salary Between / Equal To: </label>
+        <br />
+        <input
+          class="salaryReports__between__input"
+          type="number"
+          name="minSalary"
+          placeholder="Between "
+          required
+        />
+        <span>/</span>
+        <!-- <label for="maxSalary">To:</label> -->
+        <input
+          class="salaryReports__between__input2"
+          type="number"
+          name="maxSalary"
+          placeholder="Equal To:"
+          required
+        />
+        <button
+          class="salaryReports__between__submit"
+          type="submit"
+          value="SalaryBetween"
         >
-          <label for="employees">Select Employee:</label>
-          <br />
-          <div class="employeeReports__byEmployee__List"></div>
-          <button
-            class="employeeReports__byEmployee__submit"
-            type="submit"
-            value="Enter"
-          >
-            Search
-          </button>
-        </form>
-      </div>
+          Enter
+        </button>
+      </form>
+    </div>
 
-      <div class="managerReports" style="display: none">
-        <form
-          class="managerReports__byManager"
-          onsubmit="HandleManagerReport(event)"
+    <div class="employeeReports" style="display: none">
+      <form
+        class="employeeReports__byEmployee"
+        onsubmit="HandleEmployeeReport(event)"
+      >
+        <label for="employees">Select Employee:</label>
+        <div class="employeeReports__byEmployee__List"></div>
+        <button
+          class="employeeReports__byEmployee__submit"
+          type="submit"
+          value="Enter"
         >
-          <label for="managers">Select Manager:</label>
-          <div class="managerReports__byManager__List"></div>
-          <button
-            class="managerReports__byManager__submit"
-            type="submit"
-            value="Enter"
-          >
-            Search
-          </button>
-        </form>
-      </div>
+          Enter
+        </button>
+      </form>
+    </div>
+
+    <div class="managerReports" style="display: none">
+      <form
+        class="managerReports__byManager"
+        onsubmit="HandleManagerReport(event)"
+      >
+        <label for="managers">Select Manager:</label>
+        <div class="managerReports__byManager__List"></div>
+        <button
+          class="managerReports__byManager__submit"
+          type="submit"
+          value="Enter"
+        >
+          Enter
+        </button>
+      </form>
     </div>
 
     <div class="employeesSalaryReportSection">
@@ -156,15 +152,13 @@
           <th>Role</th>
         </tr>
       </table>
-
       <div class="employeeDetails"></div>
-
       <div class="managerDetails"></div>
     </div>
 
     <table class="attendanceReport" id="attendanceReport" style="display: none">
       <tr>
-        <th class="attendanceReport__date">Date&hour</th>
+        <th class="attendanceReport__date">Date&Hour</th>
         <th class="attendanceReport__duration">Duration</th>
       </tr>
     </table>

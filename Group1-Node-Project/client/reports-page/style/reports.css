@@ -15,10 +15,7 @@
 .employeesSalaryReportSection {
   position: relative;
   width: 100%;
-<<<<<<< Updated upstream
-=======
-  border: 1px solid pink;
->>>>>>> Stashed changes
+  margin-top: 50px;
 }
 .employeesSalaryReportSection .salaryReportTable {
   position: relative;
@@ -26,7 +23,6 @@
   margin: 0 auto;
 }
 .employeesSalaryReportSection .salaryReportTable th {
-<<<<<<< Updated upstream
   width: 100px;
 }
 .employeesSalaryReportSection .employeeDetails,
@@ -68,6 +64,7 @@
 }
 .attendanceReport th {
   width: 250px;
+  letter-spacing: 5px;
   text-align: center;
 }
 
@@ -117,37 +114,28 @@
   cursor: pointer;
 }
 
-.allReportOptions {
-  position: relative;
-  top: -20px;
-  right: 10px;
-  float: right;
-  width: 95%;
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: space-evenly;
-}
-.allReportOptions .salaryReports,
-.allReportOptions .employeeReports,
-.allReportOptions .managerReports {
+.salaryReports,
+.employeeReports,
+.managerReports {
   display: flex;
   justify-content: space-evenly;
   width: 100%;
   margin: 0 auto;
+  letter-spacing: 1px;
   text-align: center;
 }
-.allReportOptions .salaryReports input,
-.allReportOptions .employeeReports input,
-.allReportOptions .managerReports input {
+.salaryReports input,
+.employeeReports input,
+.managerReports input {
   border: none;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, #67d7e3 0px 2px 4px -1px;
   padding: 5px;
   width: 150px;
 }
-.allReportOptions .salaryReports button,
-.allReportOptions .employeeReports button,
-.allReportOptions .managerReports button {
+.salaryReports button,
+.employeeReports button,
+.managerReports button {
   background-color: black;
   color: white;
   padding: 5px 20px;
@@ -157,10 +145,20 @@
   transition: all 0.5s ease-in-out;
   cursor: pointer;
 }
+.salaryReports button:hover,
+.employeeReports button:hover,
+.managerReports button:hover {
+  background-color: #67d7e3;
+  color: black;
+  cursor: pointer;
+}
 
 .employeeReports__byEmployee__List,
 .managerReports__byEmployee__List {
   margin-top: 5px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, #67d7e3 0px 2px 4px -1px;
 }
 .employeeReports__byEmployee__submit,
 .managerReports__byEmployee__submit {
@@ -169,47 +167,11 @@
 .employeeReports__byManager__List,
 .managerReports__byManager__List {
   margin-top: 5px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, #67d7e3 0px 2px 4px -1px;
 }
 .employeeReports__byManager__submit,
 .managerReports__byManager__submit {
   margin-top: 10px;
-=======
-  border: 1px solid pink;
-  width: 100px;
-}
-@media screen and (max-width: 768px) {
-  .reports-page__header {
-    text-align: center;
-  }
-  .employeesSalaryReportSection .salaryReportTable {
-    margin-top: 20px;
-  }
-  .employeesSalaryReportSection .salaryReportTable tr th {
-    width: 120px;
-    padding: 10px 5px;
-    font-size: 15px;
-  }
-  .employeesSalaryReportSection .employeeDetails {
-    margin-top: 20px;
-    width: 170px;
-  }
-  .employeesSalaryReportSection .reportCard__report-details__name, .employeesSalaryReportSection .reportCard__report-details__birthday, .employeesSalaryReportSection .reportCard__report-details__email, .employeesSalaryReportSection .reportCard__report-details__phone, .employeesSalaryReportSection .reportCard__report-details__salary, .employeesSalaryReportSection .reportCard__report-details__role {
-    font-size: 15px;
-    padding: 10px 5px;
-  }
-  .attendanceReport {
-    width: 290px;
-    margin-top: 50px;
-    text-align: center;
-    margin-bottom: 50px;
-    cursor: default;
-  }
-  .attendanceReport tr {
-    width: 290px;
-    padding: 10px 5px;
-  }
-  .attendanceReport__date, .attendanceReport__duration {
-    font-size: 20px;
-  }
->>>>>>> Stashed changes
 }/*# sourceMappingURL=reports.css.map */
