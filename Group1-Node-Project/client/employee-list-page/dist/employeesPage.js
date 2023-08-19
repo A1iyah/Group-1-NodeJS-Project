@@ -412,7 +412,10 @@ var renderEmployeeList = function (employees) {
         }
         var htmlStr = employees
             .map(function (employee) {
-            return "<div class=\"employees-page__employeeCard\">\n        <div class=\"employee-details\">\n        <button class=\"delete-btn\" onclick=\"handleDeleteEmployee('" + employee._id + "')\">\n        <span class=\"material-symbols-outlined\">\n        backspace\n        </span>\n        </button>\n        <div class=\"employee-name\">" + employee.name + "</div>\n        <div class=\"employee-birthday\">" + employee.birthday + "</div>\n        <div class=\"employee-email\">" + employee.email + "</div>\n        <div class=\"employee-phone\">" + employee.phone + "</div>\n        <div class=\"employee-role\">" + employee.role.name + "</div>\n        </div>\n        </div>";
+            var deleteButton = userType === UserType.Admin || userType === UserType.Manager
+                ? "<button class=\"delete-btn\" onclick=\"handleDeleteEmployee('" + employee._id + "')\">\n             <span class=\"material-symbols-outlined\">\n               backspace\n             </span>\n           </button>"
+                : "";
+            return "<div class=\"employees-page__employeeCard\">\n        <div class=\"employee-details\">\n        " + deleteButton + "\n        <div class=\"employee-name\">" + employee.name + "</div>\n        <div class=\"employee-birthday\">" + employee.birthday + "</div>\n        <div class=\"employee-email\">" + employee.email + "</div>\n        <div class=\"employee-phone\">" + employee.phone + "</div>\n        <div class=\"employee-role\">" + employee.role.name + "</div>\n        </div>\n        </div>";
         })
             .join(" ");
         var getAllEmployees = document.querySelector(".employees-page__employees-section__get-all-employees");
@@ -428,7 +431,10 @@ var renderManagersList = function (managers) {
     try {
         var htmlStr = managers
             .map(function (manager) {
-            return "<div class=\"employees-page__managerCard\" \">\n        <div class=\"manager-details\">\n        <div class=\"manager-name\">" + manager.name + "</div>\n        <div class=\"manager-birthday\">" + manager.birthday + "</div>\n        <div class=\"manager-email\">" + manager.email + "</div>\n        <div class=\"manager-phone\">" + manager.phone + "</div>\n        <div class=\"manager-role\">" + manager.role.name + "</div>\n        </div>\n        </div>";
+            var deleteButton = userType === UserType.Admin || userType === UserType.Manager
+                ? "<button class=\"delete-btn\" onclick=\"handleDeleteManager('" + manager._id + "')\">\n           <span class=\"material-symbols-outlined\">\n             backspace\n           </span>\n         </button>"
+                : "";
+            return "<div class=\"employees-page__managerCard\" \">\n      <div class=\"manager-details\">\n      " + deleteButton + "\n      <div class=\"manager-name\">" + manager.name + "</div>\n      <div class=\"manager-birthday\">" + manager.birthday + "</div>\n      <div class=\"manager-email\">" + manager.email + "</div>\n      <div class=\"manager-phone\">" + manager.phone + "</div>\n      <div class=\"manager-role\">" + manager.role.name + "</div>\n      </div>\n      </div>";
         })
             .join(" ");
         var getAllManagers = document.querySelector(".employees-page__managers-section__get-all-managers");
@@ -463,53 +469,27 @@ var handleDeleteEmployee = function (_id) {
         console.log(error);
     }
 };
-// const create_Employee_tab = document.querySelector(
-//   ".create_Employee_Role"
-// ) as HTMLDivElement;
-// const create_Manager_tab = document.querySelector(
-//   ".create_Manager_Role"
-// ) as HTMLDivElement;
-// function getRole() {
-//   try {
-//     fetch("/api/get-roles")
-//       .then((res) => res.json())
-//       .then((data) => {
-//         console.log(data);
-//         if (!data) throw new Error("didn't get any data");
-//         const role = data.roles;
-//         const html: string = role
-//           .map((role) => {
-//             return `<option> ${role.name}</option>`;
-//           })
-//           .join(" ");
-//         console.log(create_Manager_tab);
-//         console.log(create_Employee_tab);
-//         create_Employee_tab.innerHTML = `<select class="create_Employee_Role_Select" name="role">${html} </select><br><br>`;
-//         create_Manager_tab.innerHTML = `<select class="create_Employee_Role_Select" name="role">${html} </select><br><br>`;
-//       });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-// const create_Employee_Manager = document.querySelector(
-//   ".create_Employee_Manager"
-// ) as HTMLElement;
-// function getManager() {
-//   try {
-//     fetch("/api/manager/get-managers")
-//       .then((res) => res.json())
-//       .then((data) => {
-//         console.log(data);
-//         if (!data) throw new Error("didn't get any data");
-//         const manager = data.managers;
-//         const html: string = manager
-//           .map((manager) => {
-//             return `<option>${manager.name}</option>`;
-//           })
-//           .join(" ");
-//         create_Employee_Manager.innerHTML = `<select class="create_Employee_Manager_Select" name="manager">${html} </select><br><br>`;
-//       });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+// Delete manager -
+var handleDeleteManager = function (_id) {
+    try {
+        console.log("employee id is:", _id);
+        fetch("/api/employees-page/delete-manager", {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ _id: _id })
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+            renderManagersList(data.managers);
+            handleGetWorkers();
+        })["catch"](function (error) {
+            console.log(error);
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+};

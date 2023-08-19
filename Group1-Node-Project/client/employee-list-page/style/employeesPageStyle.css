@@ -49,9 +49,6 @@
   width: 170px;
   z-index: 900;
 }
-.addButtons__add-managers-btn {
-  margin-top: 10px;
-}
 .addButtons__add-employees-btn:hover, .addButtons__add-managers-btn:hover {
   background-color: #67d7e3;
   color: black;
@@ -114,6 +111,22 @@
   display: flex;
   justify-content: space-evenly;
   padding: 10px 0;
+}
+.employees-page__employeeCard .employee-details .delete-btn,
+.employees-page__employeeCard .manager-details .delete-btn, .employees-page__managerCard .employee-details .delete-btn,
+.employees-page__managerCard .manager-details .delete-btn {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  line-height: 100%;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+}
+.employees-page__employeeCard .employee-details .delete-btn:hover,
+.employees-page__employeeCard .manager-details .delete-btn:hover, .employees-page__managerCard .employee-details .delete-btn:hover,
+.employees-page__managerCard .manager-details .delete-btn:hover {
+  color: red;
+  transform: scale(110%);
 }
 .employees-page__employeeCard .employee-details .employee-name,
 .employees-page__employeeCard .employee-details .employee-birthday,

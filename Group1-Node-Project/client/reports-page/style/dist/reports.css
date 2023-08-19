@@ -15,6 +15,10 @@
 .employeesSalaryReportSection {
   position: relative;
   width: 100%;
+<<<<<<< Updated upstream
+=======
+  border: 1px solid pink;
+>>>>>>> Stashed changes
 }
 .employeesSalaryReportSection .salaryReportTable {
   position: relative;
@@ -22,6 +26,7 @@
   margin: 0 auto;
 }
 .employeesSalaryReportSection .salaryReportTable th {
+<<<<<<< Updated upstream
   width: 100px;
 }
 .employeesSalaryReportSection .employeeDetails,
@@ -85,6 +90,15 @@
   width: 250px;
   text-align: center;
 }
+=======
+  border: 1px solid pink;
+  width: 100px;
+}
+@media screen and (max-width: 768px) {
+  .reports-page__header {
+    text-align: center;
+  }
+>>>>>>> Stashed changes
 
 .reportButtons {
   position: absolute;

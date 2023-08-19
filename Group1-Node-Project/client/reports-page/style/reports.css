@@ -15,6 +15,10 @@
 .employeesSalaryReportSection {
   position: relative;
   width: 100%;
+<<<<<<< Updated upstream
+=======
+  border: 1px solid pink;
+>>>>>>> Stashed changes
 }
 .employeesSalaryReportSection .salaryReportTable {
   position: relative;
@@ -22,6 +26,7 @@
   margin: 0 auto;
 }
 .employeesSalaryReportSection .salaryReportTable th {
+<<<<<<< Updated upstream
   width: 100px;
 }
 .employeesSalaryReportSection .employeeDetails,
@@ -168,4 +173,43 @@
 .employeeReports__byManager__submit,
 .managerReports__byManager__submit {
   margin-top: 10px;
+=======
+  border: 1px solid pink;
+  width: 100px;
+}
+@media screen and (max-width: 768px) {
+  .reports-page__header {
+    text-align: center;
+  }
+  .employeesSalaryReportSection .salaryReportTable {
+    margin-top: 20px;
+  }
+  .employeesSalaryReportSection .salaryReportTable tr th {
+    width: 120px;
+    padding: 10px 5px;
+    font-size: 15px;
+  }
+  .employeesSalaryReportSection .employeeDetails {
+    margin-top: 20px;
+    width: 170px;
+  }
+  .employeesSalaryReportSection .reportCard__report-details__name, .employeesSalaryReportSection .reportCard__report-details__birthday, .employeesSalaryReportSection .reportCard__report-details__email, .employeesSalaryReportSection .reportCard__report-details__phone, .employeesSalaryReportSection .reportCard__report-details__salary, .employeesSalaryReportSection .reportCard__report-details__role {
+    font-size: 15px;
+    padding: 10px 5px;
+  }
+  .attendanceReport {
+    width: 290px;
+    margin-top: 50px;
+    text-align: center;
+    margin-bottom: 50px;
+    cursor: default;
+  }
+  .attendanceReport tr {
+    width: 290px;
+    padding: 10px 5px;
+  }
+  .attendanceReport__date, .attendanceReport__duration {
+    font-size: 20px;
+  }
+>>>>>>> Stashed changes
 }/*# sourceMappingURL=reports.css.map */

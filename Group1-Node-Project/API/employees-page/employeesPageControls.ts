@@ -161,20 +161,40 @@ export const deleteEmployee = async (req: any, res: any) => {
     const { _id } = req.body;
     if (!_id) throw new Error("No employee ID found.");
 
-    // Delete from EmployeeModel
     await EmployeeModel.findByIdAndDelete(_id);
 
-    // Delete from ManagerModel
     const manager = await ManagerModel.findOneAndUpdate(
       { employees: _id },
       { $pull: { employees: _id } },
       { new: true }
     );
 
-    // Delete from AdminModel
     const admin = await AdminModel.findOneAndUpdate(
       { employees: _id },
       { $pull: { employees: _id } },
+      { new: true }
+    );
+
+    await CompanyModel.findOneAndDelete({ originalID: _id });
+
+    res.send({ ok: true });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Server delete employee error");
+  }
+};
+
+// DeleteManager
+export const deleteManager = async (req: any, res: any) => {
+  try {
+    const { _id } = req.body;
+    if (!_id) throw new Error("No employee ID found.");
+
+    await ManagerModel.findByIdAndDelete(_id);
+
+    const admin = await AdminModel.findOneAndUpdate(
+      { managers: _id },
+      { $pull: { managers: _id } },
       { new: true }
     );
 

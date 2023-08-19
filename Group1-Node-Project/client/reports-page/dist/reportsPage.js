@@ -144,11 +144,17 @@ function renderShiftResult(employees) {
             throw new Error("employee not found");
         attendanceReportTable.style.display = "block";
         var attendanceArr = employees.attendance;
+<<<<<<< Updated upstream
         var html = attendanceArr
             .map(function (attendance) {
             return "\n            <div class=\"reportsPageDates\">\n              <div class=\"reportsPageDates__details\">\n                <div class=\"reportsPageDates__details__date\">" + attendance.date + "</div>\n                <div class=\"reportsPageDates__details__clock\">" + attendance.clock + "</div>\n              </div>\n            </div>\n      ";
         })
             .join(" ");
+=======
+        var html = attendanceArr.map(function (attendance) {
+            return "\n            <div class=\"reportCardDates\">\n              <div class=\"reportCardDates__employee-details\">\n                <div class=\"reportCardDates__employee-details__name\">" + attendance.date + "</div>\n                <div class=\"reportCardDates__employee-details__birthday\">" + attendance.clock + "</div>\n              </div>\n            </div>\n      ";
+        });
+>>>>>>> Stashed changes
         employeeAttendance.innerHTML = html;
     }
     catch (error) {

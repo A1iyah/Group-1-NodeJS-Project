@@ -119,6 +119,7 @@ var form = document.querySelector(".availabilityForm");
 var submitBtn = document.querySelector(".submit-btn");
 var availabilityDate = document.querySelector(".availabilityForm__date");
 var chartDates = document.querySelector(".availabilityForm__chartDates");
+var successMessage = document.querySelector(".success-message");
 // DATES -
 // Set up week dates -
 function updateWeekDates() {
@@ -206,6 +207,7 @@ function handleFormSubmit(event) {
                     response = _a.sent();
                     if (response.ok) {
                         console.log("Availability updated successfully");
+                        successMessage.style.display = "block";
                     }
                     else {
                         console.error("Error updating availability");

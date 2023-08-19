@@ -96,14 +96,23 @@ const buttons: NodeListOf<HTMLDivElement> = document.querySelectorAll(
 const clickButton = document.querySelector(
   ".availability-button"
 ) as HTMLButtonElement;
+
 const comment = document.getElementById("comment") as HTMLTextAreaElement;
+
 const form = document.querySelector(".availabilityForm") as HTMLFormElement;
+
 const submitBtn = document.querySelector(".submit-btn") as HTMLButtonElement;
+
 const availabilityDate: any = document.querySelector(
   ".availabilityForm__date"
 ) as HTMLDivElement;
+
 const chartDates: any = document.querySelector(
   ".availabilityForm__chartDates"
+) as HTMLDivElement;
+
+const successMessage = document.querySelector(
+  ".success-message"
 ) as HTMLDivElement;
 
 // DATES -
@@ -213,6 +222,8 @@ async function handleFormSubmit(event: Event) {
 
     if (response.ok) {
       console.log("Availability updated successfully");
+
+      successMessage.style.display = "block";
     } else {
       console.error("Error updating availability");
     }

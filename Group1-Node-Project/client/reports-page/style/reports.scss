@@ -8,14 +8,41 @@
   font-size: 18px;
 }
 
+<<<<<<< Updated upstream
+=======
+.salaryReports {
+  $self: &;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+
+  &__between__input {
+    width: 350px;
+  }
+}
+
+.employeeReports__byEmployee__List {
+  width: 300px;
+}
+
+//////////////////////////////////////////
+//////////////////////////////////////////
+//////////////////////////////////////////
+//////////////////////////////////////////
+
+>>>>>>> Stashed changes
 .reports-page__header {
   @include headerCenter;
 }
 
-// Employee reports -
 .employeesSalaryReportSection {
   position: relative;
   width: 100%;
+<<<<<<< Updated upstream
+=======
+
+  border: 1px solid pink;
+>>>>>>> Stashed changes
 
   .salaryReportTable {
     position: relative;
@@ -23,10 +50,15 @@
     margin: 0 auto;
 
     th {
+<<<<<<< Updated upstream
+=======
+      border: 1px solid pink;
+>>>>>>> Stashed changes
       width: 100px;
     }
   }
 
+<<<<<<< Updated upstream
   .employeeDetails,
   .managerDetails {
     position: relative;
@@ -61,6 +93,27 @@
 
         &::-webkit-scrollbar {
           display: none;
+=======
+  .employeeDetails {
+  }
+}
+
+// Media query -
+@media screen and (max-width: 768px) {
+  .reports-page__header {
+    text-align: center;
+  }
+
+  .employeesSalaryReportSection {
+    .salaryReportTable {
+      margin-top: 20px;
+
+      tr {
+        th {
+          width: 120px;
+          padding: 10px 5px;
+          font-size: 15px;
+>>>>>>> Stashed changes
         }
       }
     }

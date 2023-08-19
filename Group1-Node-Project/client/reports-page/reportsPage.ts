@@ -187,6 +187,7 @@ function renderShiftResult(employees) {
     attendanceReportTable.style.display = "block";
     let attendanceArr = employees.attendance;
 
+<<<<<<< Updated upstream
     const html: string = attendanceArr
       .map((attendance) => {
         return `
@@ -194,6 +195,14 @@ function renderShiftResult(employees) {
               <div class="reportsPageDates__details">
                 <div class="reportsPageDates__details__date">${attendance.date}</div>
                 <div class="reportsPageDates__details__clock">${attendance.clock}</div>
+=======
+    const html: string = attendanceArr.map((attendance) => {
+      return `
+            <div class="reportCardDates">
+              <div class="reportCardDates__employee-details">
+                <div class="reportCardDates__employee-details__name">${attendance.date}</div>
+                <div class="reportCardDates__employee-details__birthday">${attendance.clock}</div>
+>>>>>>> Stashed changes
               </div>
             </div>
       `;

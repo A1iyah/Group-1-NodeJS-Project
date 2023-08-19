@@ -10,5 +10,5 @@ router
     .patch("/get-admin-workers", employeesPageControls_1.getAdminEmployees)
     .patch("/get-manager-employees", employeesPageControls_1.getManagerEmployees)
     .patch("/get-my-team", employeesPageControls_1.getMyTeam)
-    .post("/get-role-id", roleControl_1.getRoleIdByName)["delete"]("/delete-employee", employeesPageControls_1.deleteEmployee);
+    .post("/get-role-id", roleControl_1.getRoleIdByName)["delete"]("/delete-employee", employeesPageControls_1.deleteEmployee)["delete"]("/delete-manager", employeesPageControls_1.deleteManager);
 exports["default"] = router;
