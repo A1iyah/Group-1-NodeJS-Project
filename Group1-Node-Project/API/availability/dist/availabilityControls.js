@@ -42,14 +42,14 @@ var availabilityModel_1 = require("./availabilityModel");
 var roleString;
 exports.updateAvailability = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var weekData, _a, availabilityData, commentValue, userId, role, name, updateObject, _b, _c, _i, day, update, _d, sunday, saturday, error_1;
-    var _e;
-    return __generator(this, function (_f) {
-        switch (_f.label) {
+    var _e, _f;
+    return __generator(this, function (_g) {
+        switch (_g.label) {
             case 0:
-                _f.trys.push([0, 6, , 7]);
+                _g.trys.push([0, 6, , 7]);
                 return [4 /*yield*/, availabilityModel_1.WeekModel.find({})];
             case 1:
-                weekData = _f.sent();
+                weekData = _g.sent();
                 if (!weekData)
                     throw new Error("no week found in DB");
                 _a = req.body, availabilityData = _a.availabilityData, commentValue = _a.commentValue, userId = _a.userId, role = _a.role, name = _a.name;
@@ -59,7 +59,7 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                 for (_c in availabilityData)
                     _b.push(_c);
                 _i = 0;
-                _f.label = 2;
+                _g.label = 2;
             case 2:
                 if (!(_i < _b.length)) return [3 /*break*/, 5];
                 day = _b[_i];
@@ -73,10 +73,15 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                                 comment: commentValue
                             },
                             _e)
-                    })];
+                    }, "64dfb738d323ba64e4bd030e", { $push: (_f = {}, _f[day] = {
+                            employeeId: userId,
+                            name: name,
+                            role: role.userRole,
+                            comment: commentValue
+                        }, _f) })];
             case 3:
-                update = _f.sent();
-                _f.label = 4;
+                update = _g.sent();
+                _g.label = 4;
             case 4:
                 _i++;
                 return [3 /*break*/, 2];
@@ -91,7 +96,7 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                 });
                 return [3 /*break*/, 7];
             case 6:
-                error_1 = _f.sent();
+                error_1 = _g.sent();
                 console.error(error_1);
                 res.status(500).send("Error updating availability");
                 return [3 /*break*/, 7];
