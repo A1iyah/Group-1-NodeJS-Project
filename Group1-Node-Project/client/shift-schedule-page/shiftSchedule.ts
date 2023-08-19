@@ -18,8 +18,6 @@ async function main() {
   const data = await loadActiveUser();
   user = data.user;
   userType = data.userType;
-  console.log(user);
-  console.log(userType);
 
   renderNavBar(navBarElem, userType, user);
   const totalTimeShift = localStorage.getItem("totalTimeShift");
@@ -28,10 +26,8 @@ async function main() {
 
     const startTimeString = localStorage.getItem("startTime");
     startTime1 = parseInt(startTimeString!);
-    console.log(startTime1);
 
     const currentTime = Date.now();
-    console.log(currentTime);
 
     updateClock();
   }
@@ -42,10 +38,8 @@ main();
 
 function continueUpdateElapsedTime() {
   const currentTime = Date.now();
-  console.log(currentTime);
 
   const elapsedTime = currentTime - startTime1;
-  console.log(elapsedTime);
 
   const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
   const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
@@ -56,7 +50,6 @@ function continueUpdateElapsedTime() {
   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   runningClock.innerHTML = formattedTime;
   totalTimeShift = formattedTime;
-  console.log(totalTimeShift);
   localStorage.setItem("totalTimeShift", formattedTime);
 }
 
@@ -131,13 +124,6 @@ const createNewWeekSchedule = (eve) => {
     console.log(error);
   }
 };
-
-function testt(eve) {
-  eve.preventDefault();
-  console.log(eve.target.elements.name.value);
-
-  console.log("works");
-}
 
 /** Calc. start and the end of dates of next week and renders them */
 const renderEmployeesPanel = (weekDaysArr: Array<Date>) => {

@@ -10,8 +10,6 @@ export const getRoleIdByName = async (req: any, res: any) =>
     try {
         const { targetName } = req.body;
 
-        console.log("server target: ", targetName);
-
         try {
             if (!targetName) throw new Error("no id of role received from client");
             

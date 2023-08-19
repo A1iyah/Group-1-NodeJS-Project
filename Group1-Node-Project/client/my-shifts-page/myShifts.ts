@@ -20,11 +20,8 @@ async function main() {
 
     const startTimeString = localStorage.getItem("startTime");
     startTime1 = parseInt(startTimeString!);
-    console.log(startTime1);
 
     const currentTime = Date.now();
-    console.log(currentTime);
-
   }
   
   handleShiftsDisplay();
@@ -33,10 +30,8 @@ main();
 
 function continueUpdateElapsedTime() {
   const currentTime = Date.now();
-  console.log(currentTime);
 
   const elapsedTime = currentTime - startTime1;
-  console.log(elapsedTime);
 
   const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
   const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
@@ -47,7 +42,6 @@ function continueUpdateElapsedTime() {
   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   runningClock.innerHTML = formattedTime;
   totalTimeShift = formattedTime;
-  console.log(totalTimeShift);
   localStorage.setItem("totalTimeShift", formattedTime);
 }
 
@@ -57,9 +51,6 @@ function updateClock() {
 
 const handleShiftsDisplay = () =>
 {
-  console.log("handling shift dis");
-  
-
   try {
     fetch("/api/schedule/get-next-week-schedule", {
       method: "GET",
@@ -70,7 +61,6 @@ const handleShiftsDisplay = () =>
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("data: ", data.nextWeekSchedule[0]);
         renderShiftsTable(data.nextWeekSchedule[0]);
         
 
@@ -205,8 +195,6 @@ const singleRoleColumnHtml = (roleType: string, roleCount: number, nextWeekSched
     
     //console.log("test: ", nextWeekSchedule[convertWeekdayIndexToWeekdayName(dayIndex)]);
 
-    console.log(nextWeekSchedule);
-    
     //console.log(nextWeekSchedule[${convertWeekdayIndexToWeekdayName(String(dayIndex))}`]);
     
     

@@ -69,14 +69,12 @@ function continueUpdateElapsedTime() {
     var currentTime = Date.now();
     console.log(currentTime);
     var elapsedTime = currentTime - startTime1;
-    console.log(elapsedTime);
     var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
     var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
     var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
     runningClock.innerHTML = formattedTime;
     totalTimeShift = formattedTime;
-    console.log(totalTimeShift);
     localStorage.setItem("totalTimeShift", formattedTime);
 }
 function updateClock() {
@@ -160,7 +158,6 @@ updateChartDates();
 function toggleButton(event) {
     var clickedButton = event.target;
     var currentImage = window.getComputedStyle(clickedButton).backgroundImage;
-    console.log(currentImage);
     if (currentImage.includes("can.png")) {
         clickedButton.style.backgroundImage = "url(./cant.png)";
     }
@@ -189,7 +186,6 @@ function handleFormSubmit(event) {
                         }
                     });
                     userRole = user.role === (null || undefined) ? "Manager" : user.role;
-                    console.log("userRole: ", userRole);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);

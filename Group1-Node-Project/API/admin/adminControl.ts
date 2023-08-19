@@ -52,7 +52,6 @@ const secret: string | undefined = process.env.JWT_SECRET as string;
 export const getSelectedSalaryUp = async (req: any, res: any) => {
   try {
     const { salaryUp, _id } = req.body;
-    console.log(salaryUp);
 
     const employees = await AdminModel.findById(_id)
       .populate({
@@ -77,8 +76,6 @@ export const getSelectedSalaryUp = async (req: any, res: any) => {
         },
       });
 
-    console.log(employees);
-
     res.send({ employees });
   } catch (error) {
     console.log(error);
@@ -88,7 +85,6 @@ export const getSelectedSalaryUp = async (req: any, res: any) => {
 export const getSelectedSalaryDown = async (req: any, res: any) => {
   try {
     const { salaryDown, _id } = req.body;
-    console.log(salaryDown);
 
     const employees = await AdminModel.findById(_id)
       .populate({
@@ -113,8 +109,6 @@ export const getSelectedSalaryDown = async (req: any, res: any) => {
         },
       })
       .exec();
-
-    console.log(employees);
 
     res.send({ employees });
   } catch (error) {
@@ -125,7 +119,6 @@ export const getSelectedSalaryDown = async (req: any, res: any) => {
 export const getSelectedSalaryBetween = async (req: any, res: any) => {
   try {
     const { minSalary, maxSalary, _id } = req.body;
-    console.log(minSalary, maxSalary);
 
     const employees = await AdminModel.findById(_id)
       .populate({
@@ -150,8 +143,6 @@ export const getSelectedSalaryBetween = async (req: any, res: any) => {
         },
       })
       .exec();
-
-    console.log(employees);
 
     res.send({ employees });
   } catch (error) {
@@ -165,8 +156,6 @@ export const getEmployeesList = async (req: any, res: any) => {
       .populate("employees")
       .exec();
 
-    console.log(employees);
-
     res.send({ employees });
   } catch (error: any) {
     console.error(error);
@@ -179,8 +168,6 @@ export const getManagersList = async (req: any, res: any) => {
     const managers = await AdminModel.findById("64d50e911e5749a59f1f4a6f")
       .populate("managers")
       .exec();
-
-    console.log(managers);
 
     res.send({ managers });
   } catch (error: any) {

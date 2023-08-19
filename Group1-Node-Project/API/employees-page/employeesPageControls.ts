@@ -21,7 +21,6 @@ export const addEmployee = async (req: any, res: any) => {
       managerID,
     } = req.body;
 
-    console.log(managerID);
     const selectedRole = await RoleModel.findOne({ name: role }).select("_id");
 
     if (!selectedRole) {
@@ -39,17 +38,12 @@ export const addEmployee = async (req: any, res: any) => {
       role: selectedRole._id,
     });
 
-    console.log(employeeDB);
-
     const newUserId = await EmployeeModel.find({ idNumber: idNumber }).select({
       _id: 1,
     });
 
     const managerIdString = managerID.toString();
     const newUserIdString = newUserId[0]._id.toString();
-
-    console.log(newUserId[0]._id);
-    console.log(newUserIdString);
 
     const updateManager = await ManagerModel.findByIdAndUpdate(
       managerID,
@@ -72,8 +66,6 @@ export const addEmployee = async (req: any, res: any) => {
         },
       })
       .exec();
-
-    console.log(managerDB);
 
     const companyDB = await CompanyModel.create({
       originalID: newUserId[0]._id,
@@ -125,7 +117,6 @@ export const addManager = async (req: any, res: any) => {
       salaryPerHour,
       role: managerRole._id,
     });
-    console.log(managerDB);
 
     const updateAdmin = await AdminModel.findByIdAndUpdate(
       "64de1def9cd3eed4fd4903e0",
@@ -219,8 +210,6 @@ export const getAdminEmployees = async (req: any, res: any) => {
       })
       .exec();
 
-    console.log(allWorkers);
-
     res.send({ allWorkers });
   } catch (error) {
     console.log(error);
@@ -236,8 +225,6 @@ export const getManagerEmployees = async (req: any, res: any) => {
       populate: { path: "role", model: "Role" },
     });
 
-    if (employees) console.log(employees.employees);
-
     res.send({ employees });
   } catch (error) {
     console.log(error);
@@ -248,7 +235,6 @@ export const getMyTeam = async (req: any, res: any) => {
   try {
     const { _id } = req.body;
 
-    console.log(_id);
     const stringID = _id.toString();
     // const manager = await ManagerModel.findOne({
     //   employees: { $eq: stringID },
@@ -266,11 +252,7 @@ export const getMyTeam = async (req: any, res: any) => {
       })
       .exec();
 
-    console.log(manager);
-
     const myTeamEmployees = manager?.employees;
-
-    console.log(myTeamEmployees);
 
     res.send({ myTeamEmployees });
   } catch (error) {

@@ -10,7 +10,6 @@ export const updateAvailability = async (req: any, res: any) => {
     if (!weekData) throw new Error("no week found in DB");
 
     const { availabilityData, commentValue, userId, role, name } = req.body;
-    console.log(availabilityData, commentValue, userId, role, name);
 
     // switch (role) {
     //   case 0:

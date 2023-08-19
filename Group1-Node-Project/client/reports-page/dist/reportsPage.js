@@ -72,9 +72,7 @@ function main() {
                         runningClock.innerHTML = totalTimeShift;
                         startTimeString = localStorage.getItem("startTime");
                         startTime1 = parseInt(startTimeString);
-                        console.log(startTime1);
                         currentTime = Date.now();
-                        console.log(currentTime);
                         updateClock();
                     }
                     if (userType === UserType.Employee) {
@@ -98,16 +96,13 @@ function main() {
 main();
 function continueUpdateElapsedTime() {
     var currentTime = Date.now();
-    console.log(currentTime);
     var elapsedTime = currentTime - startTime1;
-    console.log(elapsedTime);
     var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
     var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
     var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
     runningClock.innerHTML = formattedTime;
     totalTimeShift = formattedTime;
-    console.log(totalTimeShift);
     localStorage.setItem("totalTimeShift", formattedTime);
 }
 function updateClock() {
@@ -167,7 +162,6 @@ function HandleSalaryUp(ev) {
         var salaryUp = ev.target.elements.salaryUp.value;
         if (!salaryUp)
             throw new Error("no salary entered");
-        console.log(salaryUp);
         if (userType === UserType.Admin) {
             var _id = user._id;
             fetch("/api/admin/get-selected-salaryUp", {
@@ -181,8 +175,6 @@ function HandleSalaryUp(ev) {
                 .then(function (res) { return res.json(); })
                 .then(function (_a) {
                 var employees = _a.employees;
-                console.log(employees.managers);
-                console.log(employees.employees);
                 renderReportResultManager(employees.managers);
                 renderReportResultEmployees(employees.employees);
             });
@@ -215,7 +207,6 @@ function HandleSalaryDown(ev) {
         if (!salaryDown)
             throw new Error("no salary entered");
         resetPage();
-        console.log(salaryDown);
         if (userType === UserType.Admin) {
             var _id = user._id;
             fetch("/api/admin/get-selected-salaryDown", {
@@ -229,7 +220,6 @@ function HandleSalaryDown(ev) {
                 .then(function (res) { return res.json(); })
                 .then(function (_a) {
                 var employees = _a.employees;
-                console.log(employees.managers);
                 renderReportResultManager(employees.managers);
                 renderReportResultEmployees(employees.employees);
             });
@@ -247,7 +237,6 @@ function HandleSalaryDown(ev) {
                 .then(function (res) { return res.json(); })
                 .then(function (_a) {
                 var employees = _a.employees;
-                console.log(employees.employees);
                 renderReportResultEmployees(employees.employees);
             });
         }
@@ -266,7 +255,6 @@ function HandleSalaryBetween(ev) {
         if (!maxSalary)
             throw new Error("no maxSalary entered");
         resetPage();
-        console.log(minSalary, maxSalary);
         if (userType === UserType.Admin) {
             var _id = user._id;
             fetch("/api/admin/get-selected-salaryBetween", {
@@ -280,8 +268,6 @@ function HandleSalaryBetween(ev) {
                 .then(function (res) { return res.json(); })
                 .then(function (_a) {
                 var employees = _a.employees;
-                console.log(employees.employees);
-                console.log(employees.managers);
                 renderReportResultManager(employees.managers);
                 renderReportResultEmployees(employees.employees);
             });
@@ -319,9 +305,7 @@ employeeButton.addEventListener("click", function (e) {
             try {
                 if (!employees)
                     throw new Error("didn't get any data");
-                console.log(employees);
                 var employeesToShow = employees.employees.employees;
-                console.log(employeesToShow);
                 var html1 = employeesToShow
                     .map(function (employee) {
                     return "<option> " + employee.name + " - " + employee.idNumber + "</option>";
@@ -347,12 +331,10 @@ employeeButton.addEventListener("click", function (e) {
             .then(function (res) { return res.json(); })
             .then(function (_a) {
             var employees = _a.employees;
-            console.log(employees);
             try {
                 if (!employees)
                     throw new Error("didn't get any data");
                 var employeesToShow = employees.employees;
-                console.log(employeesToShow);
                 var html1 = employeesToShow
                     .map(function (employee) {
                     return "<option> " + employee.name + " - " + employee.idNumber + "</option>";
@@ -376,8 +358,6 @@ function HandleEmployeeReport(ev) {
             .slice(1), name = _a[0], idNumber = _a[1];
         if (!employeeDetails_1)
             throw new Error("no employee selected");
-        console.log(name);
-        console.log(idNumber);
         fetch("/api/employee/get-selected-employee", {
             method: "PATCH",
             headers: {
@@ -389,7 +369,6 @@ function HandleEmployeeReport(ev) {
             .then(function (res) { return res.json(); })
             .then(function (_a) {
             var employeeDB = _a.employeeDB;
-            console.log(employeeDB[0]);
             renderReportResultEmployees(employeeDB);
             renderShiftResult(employeeDB[0]);
         });
@@ -409,9 +388,7 @@ managerButton.addEventListener("click", function (e) {
         try {
             if (!data)
                 throw new Error("didn't get any data");
-            console.log(data);
             var managers = data.managers.managers;
-            console.log(managers);
             var html1 = managers
                 .map(function (manager) {
                 return "<option> " + manager.name + " - " + manager.idNumber + "</option>";
@@ -432,8 +409,6 @@ function HandleManagerReport(ev) {
         var _a = managerDetails_1.match(/^(.*?)\s-\s(\d+)$/).slice(1), name = _a[0], idNumber = _a[1];
         if (!managerDetails_1)
             throw new Error("no employee selected");
-        console.log(name);
-        console.log(idNumber);
         fetch("/api/manager/get-selected-manager", {
             method: "PATCH",
             headers: {
@@ -445,8 +420,6 @@ function HandleManagerReport(ev) {
             .then(function (res) { return res.json(); })
             .then(function (_a) {
             var managerDB = _a.managerDB;
-            console.log(managerDB[0].employees);
-            console.log(managerDB);
             renderReportResultManager(managerDB);
             renderReportResultEmployees(managerDB[0].employees);
             renderShiftResult(managerDB[0]);
@@ -470,7 +443,6 @@ function employeeUsingReport() {
             .then(function (res) { return res.json(); })
             .then(function (_a) {
             var employeeDB = _a.employeeDB;
-            console.log(employeeDB);
             renderReportResultEmployees(employeeDB);
             renderShiftResult(employeeDB[0]);
         });

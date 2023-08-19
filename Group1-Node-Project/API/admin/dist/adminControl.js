@@ -79,7 +79,6 @@ exports.getSelectedSalaryUp = function (req, res) { return __awaiter(void 0, voi
             case 0:
                 _b.trys.push([0, 2, , 3]);
                 _a = req.body, salaryUp = _a.salaryUp, _id = _a._id;
-                console.log(salaryUp);
                 return [4 /*yield*/, adminModel_1["default"].findById(_id)
                         .populate({
                         path: "managers",
@@ -103,7 +102,6 @@ exports.getSelectedSalaryUp = function (req, res) { return __awaiter(void 0, voi
                     })];
             case 1:
                 employees = _b.sent();
-                console.log(employees);
                 res.send({ employees: employees });
                 return [3 /*break*/, 3];
             case 2:
@@ -121,7 +119,6 @@ exports.getSelectedSalaryDown = function (req, res) { return __awaiter(void 0, v
             case 0:
                 _b.trys.push([0, 2, , 3]);
                 _a = req.body, salaryDown = _a.salaryDown, _id = _a._id;
-                console.log(salaryDown);
                 return [4 /*yield*/, adminModel_1["default"].findById(_id)
                         .populate({
                         path: "managers",
@@ -146,7 +143,6 @@ exports.getSelectedSalaryDown = function (req, res) { return __awaiter(void 0, v
                         .exec()];
             case 1:
                 employees = _b.sent();
-                console.log(employees);
                 res.send({ employees: employees });
                 return [3 /*break*/, 3];
             case 2:
@@ -164,7 +160,6 @@ exports.getSelectedSalaryBetween = function (req, res) { return __awaiter(void 0
             case 0:
                 _b.trys.push([0, 2, , 3]);
                 _a = req.body, minSalary = _a.minSalary, maxSalary = _a.maxSalary, _id = _a._id;
-                console.log(minSalary, maxSalary);
                 return [4 /*yield*/, adminModel_1["default"].findById(_id)
                         .populate({
                         path: "managers",
@@ -189,7 +184,6 @@ exports.getSelectedSalaryBetween = function (req, res) { return __awaiter(void 0
                         .exec()];
             case 1:
                 employees = _b.sent();
-                console.log(employees);
                 res.send({ employees: employees });
                 return [3 /*break*/, 3];
             case 2:
@@ -211,7 +205,6 @@ exports.getEmployeesList = function (req, res) { return __awaiter(void 0, void 0
                         .exec()];
             case 1:
                 employees = _a.sent();
-                console.log(employees);
                 res.send({ employees: employees });
                 return [3 /*break*/, 3];
             case 2:
@@ -234,7 +227,6 @@ exports.getManagersList = function (req, res) { return __awaiter(void 0, void 0,
                         .exec()];
             case 1:
                 managers = _a.sent();
-                console.log(managers);
                 res.send({ managers: managers });
                 return [3 /*break*/, 3];
             case 2:

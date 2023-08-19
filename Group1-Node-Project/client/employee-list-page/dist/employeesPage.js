@@ -54,9 +54,7 @@ function main() {
                         runningClock2.innerHTML = totalTimeShift;
                         startTimeString = localStorage.getItem("startTime");
                         startTime1 = parseInt(startTimeString);
-                        console.log(startTime1);
                         currentTime = Date.now();
-                        console.log(currentTime);
                         // const elapsedTime = currentTime - startTime1;
                         updateClock();
                     }
@@ -84,16 +82,13 @@ function main() {
 main();
 function continueUpdateElapsedTime() {
     var currentTime = Date.now();
-    console.log(currentTime);
     var elapsedTime = currentTime - startTime1;
-    console.log(elapsedTime);
     var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
     var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
     var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
     runningClock2.innerHTML = formattedTime;
     totalTimeShift = formattedTime;
-    console.log(totalTimeShift);
     localStorage.setItem("totalTimeShift", formattedTime);
 }
 function updateClock() {
@@ -173,7 +168,6 @@ addManagerBtn.addEventListener("click", function () {
 function handleCreateEmployee(evt) {
     try {
         evt.preventDefault();
-        console.log(user._id);
         var managerID_1 = user._id;
         var name_1 = evt.target.elements.name.value;
         var email_1 = evt.target.elements.email.value;
@@ -244,7 +238,6 @@ function handleCreateEmployee(evt) {
             })
                 .then(function (res) { return res.json(); })
                 .then(function (data) {
-                console.log(data);
                 renderEmployeeList(data.managerDB.employees);
             })["catch"](function (error) {
                 console.error(error);
@@ -278,7 +271,6 @@ function handleCreateManager(evt) {
         var salaryPerHour = evt.target.elements.salaryPerHour.value;
         var birthday = evt.target.elements.birthday.value;
         // const role = e.target.elements.role.value;
-        console.log(name, email, password, idNumber, phone, birthday, salaryPerHour);
         if (!email || !email.includes("@")) {
             emailError.style.display = "block";
             return;
@@ -318,9 +310,6 @@ function handleCreateManager(evt) {
         })
             .then(function (res) { return res.json(); })
             .then(function (data) {
-            console.log(data);
-            console.log(data.adminDB.employees);
-            console.log(data.adminDB.managers);
             renderEmployeeList(data.adminDB.employees);
             renderManagersList(data.adminDB.managers);
         })["catch"](function (error) {
@@ -343,7 +332,6 @@ function handleCreateManager(evt) {
 var handleGetWorkers = function () {
     try {
         var _id = user._id;
-        console.log(_id);
         if (userType === UserType.Admin) {
             fetch("/api/employees-page/get-admin-workers", {
                 method: "PATCH",
@@ -359,9 +347,6 @@ var handleGetWorkers = function () {
                 try {
                     if (!allWorkers)
                         throw new Error("No workers data found");
-                    console.log(allWorkers);
-                    console.log(allWorkers.employees);
-                    console.log(allWorkers.managers);
                     renderEmployeeList(allWorkers.employees);
                     renderManagersList(allWorkers.managers);
                 }
@@ -407,7 +392,6 @@ var handleGetWorkers = function () {
                 try {
                     if (!myTeamEmployees)
                         throw new Error("No employees data found");
-                    console.log(myTeamEmployees);
                     renderEmployeeList(myTeamEmployees);
                 }
                 catch (error) {
@@ -422,7 +406,6 @@ var handleGetWorkers = function () {
 };
 var renderEmployeeList = function (employees) {
     try {
-        console.log(employees);
         if (!employees) {
             console.log("No employees data available.");
             return;
@@ -460,7 +443,6 @@ var renderManagersList = function (managers) {
 // Delete employee -
 var handleDeleteEmployee = function (_id) {
     try {
-        console.log("employee id is:", _id);
         fetch("/api/employees-page/delete-employee", {
             method: "DELETE",
             headers: {

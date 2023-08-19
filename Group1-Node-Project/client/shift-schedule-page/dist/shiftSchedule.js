@@ -58,17 +58,13 @@ function main() {
                     data = _a.sent();
                     user = data.user;
                     userType = data.userType;
-                    console.log(user);
-                    console.log(userType);
                     renderNavBar(navBarElem, userType, user);
                     totalTimeShift = localStorage.getItem("totalTimeShift");
                     if (totalTimeShift) {
                         runningClock.innerHTML = totalTimeShift;
                         startTimeString = localStorage.getItem("startTime");
                         startTime1 = parseInt(startTimeString);
-                        console.log(startTime1);
                         currentTime = Date.now();
-                        console.log(currentTime);
                         updateClock();
                     }
                     renderAllAvailableEmployees();
@@ -80,16 +76,13 @@ function main() {
 main();
 function continueUpdateElapsedTime() {
     var currentTime = Date.now();
-    console.log(currentTime);
     var elapsedTime = currentTime - startTime1;
-    console.log(elapsedTime);
     var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
     var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
     var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
     runningClock.innerHTML = formattedTime;
     totalTimeShift = formattedTime;
-    console.log(totalTimeShift);
     localStorage.setItem("totalTimeShift", formattedTime);
 }
 function updateClock() {
@@ -134,11 +127,6 @@ var createNewWeekSchedule = function (eve) {
         console.log(error);
     }
 };
-function testt(eve) {
-    eve.preventDefault();
-    console.log(eve.target.elements.name.value);
-    console.log("works");
-}
 /** Calc. start and the end of dates of next week and renders them */
 var renderEmployeesPanel = function (weekDaysArr) {
     var employeesPanelElem = document.querySelector(".employees-panel");

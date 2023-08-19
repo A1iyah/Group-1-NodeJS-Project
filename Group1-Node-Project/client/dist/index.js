@@ -2,7 +2,6 @@ var errorMessage = document.querySelector(".login__error-message");
 function openHP(check, string) {
     if (check) {
         var url = new URL(string, window.location.href);
-        console.log("new URL:", url.href);
         window.location.href = url.href;
     }
     else {
@@ -45,7 +44,6 @@ function handleLogin(ev) {
         })
             .then(function (res) { return res.json(); })
             .then(function (data) {
-            console.log(data.ok);
             var check = data.ok;
             openHP(check, pageToOpen_1);
         });

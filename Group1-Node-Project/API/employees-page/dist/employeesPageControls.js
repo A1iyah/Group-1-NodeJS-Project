@@ -49,7 +49,6 @@ exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, voi
             case 0:
                 _b.trys.push([0, 8, , 9]);
                 _a = req.body, name = _a.name, email = _a.email, password = _a.password, idNumber = _a.idNumber, phone = _a.phone, birthday = _a.birthday, salaryPerHour = _a.salaryPerHour, role = _a.role, managerID = _a.managerID;
-                console.log(managerID);
                 return [4 /*yield*/, roleModel_1["default"].findOne({ name: role }).select("_id")];
             case 1:
                 selectedRole = _b.sent();
@@ -68,7 +67,6 @@ exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, voi
                     })];
             case 2:
                 employeeDB = _b.sent();
-                console.log(employeeDB);
                 return [4 /*yield*/, employeeModel_1["default"].find({ idNumber: idNumber }).select({
                         _id: 1
                     })];
@@ -76,8 +74,6 @@ exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, voi
                 newUserId = _b.sent();
                 managerIdString = managerID.toString();
                 newUserIdString = newUserId[0]._id.toString();
-                console.log(newUserId[0]._id);
-                console.log(newUserIdString);
                 return [4 /*yield*/, managerModel_1["default"].findByIdAndUpdate(managerID, { $push: { employees: newUserId[0]._id } }, { "new": true })];
             case 4:
                 updateManager = _b.sent();
@@ -95,7 +91,6 @@ exports.addEmployee = function (req, res) { return __awaiter(void 0, void 0, voi
                         .exec()];
             case 6:
                 managerDB = _b.sent();
-                console.log(managerDB);
                 return [4 /*yield*/, companyModel_1["default"].create({
                         originalID: newUserId[0]._id,
                         systemRole: "Employee",
@@ -140,7 +135,6 @@ exports.addManager = function (req, res) { return __awaiter(void 0, void 0, void
                     })];
             case 2:
                 managerDB = _b.sent();
-                console.log(managerDB);
                 return [4 /*yield*/, adminModel_1["default"].findByIdAndUpdate("64de1def9cd3eed4fd4903e0", { $push: { managers: managerDB._id } }, { "new": true })];
             case 3:
                 updateAdmin = _b.sent();
@@ -242,7 +236,6 @@ exports.getAdminEmployees = function (req, res) { return __awaiter(void 0, void 
                         .exec()];
             case 1:
                 allWorkers = _a.sent();
-                console.log(allWorkers);
                 res.send({ allWorkers: allWorkers });
                 return [3 /*break*/, 3];
             case 2:
@@ -266,8 +259,6 @@ exports.getManagerEmployees = function (req, res) { return __awaiter(void 0, voi
                     })];
             case 1:
                 employees = _a.sent();
-                if (employees)
-                    console.log(employees.employees);
                 res.send({ employees: employees });
                 return [3 /*break*/, 3];
             case 2:
@@ -285,7 +276,6 @@ exports.getMyTeam = function (req, res) { return __awaiter(void 0, void 0, void 
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 _id = req.body._id;
-                console.log(_id);
                 stringID = _id.toString();
                 return [4 /*yield*/, managerModel_1["default"].findOne({
                         employees: _id
@@ -300,9 +290,7 @@ exports.getMyTeam = function (req, res) { return __awaiter(void 0, void 0, void 
                         .exec()];
             case 1:
                 manager = _a.sent();
-                console.log(manager);
                 myTeamEmployees = manager === null || manager === void 0 ? void 0 : manager.employees;
-                console.log(myTeamEmployees);
                 res.send({ myTeamEmployees: myTeamEmployees });
                 return [3 /*break*/, 3];
             case 2:

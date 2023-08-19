@@ -29,7 +29,6 @@ export const addAttendance = async (req: any, res: any) => {
       },
       { new: true }
     );
-    console.log(user);
 
     res.send({ ok: true });
   } catch (error: any) {
@@ -57,7 +56,6 @@ export const getSelectedManager = async (req: any, res: any) => {
       })
 
       .exec();
-    console.log(managerDB);
 
     res.send({ managerDB });
   } catch (error: any) {
@@ -69,7 +67,6 @@ export const getSelectedManager = async (req: any, res: any) => {
 export const getSelectedSalaryUp = async (req: any, res: any) => {
   try {
     const { salaryUp, _id } = req.body;
-    console.log(salaryUp);
 
     const employees = await ManagerModel.findById(_id)
       .populate({
@@ -84,8 +81,6 @@ export const getSelectedSalaryUp = async (req: any, res: any) => {
       })
       .exec();
 
-    console.log(employees);
-
     res.send({ employees });
   } catch (error) {
     console.log(error);
@@ -95,7 +90,6 @@ export const getSelectedSalaryUp = async (req: any, res: any) => {
 export const getSelectedSalaryDown = async (req: any, res: any) => {
   try {
     const { salaryDown, _id } = req.body;
-    console.log(salaryDown);
 
     const employees = await ManagerModel.findById(_id)
       .populate({
@@ -110,8 +104,6 @@ export const getSelectedSalaryDown = async (req: any, res: any) => {
       })
       .exec();
 
-    console.log(employees);
-
     res.send({ employees });
   } catch (error) {
     console.log(error);
@@ -121,7 +113,6 @@ export const getSelectedSalaryDown = async (req: any, res: any) => {
 export const getSelectedSalaryBetween = async (req: any, res: any) => {
   try {
     const { minSalary, maxSalary, _id } = req.body;
-    console.log(minSalary, maxSalary);
 
     const employees = await ManagerModel.findById(_id)
       .populate({
@@ -135,7 +126,6 @@ export const getSelectedSalaryBetween = async (req: any, res: any) => {
         },
       })
       .exec();
-    console.log(employees);
 
     res.send({ employees });
   } catch (error) {
@@ -157,7 +147,6 @@ export const getEmployeesList = async (req: any, res: any) => {
         },
       })
       .exec();
-    if (employees) console.log(employees);
 
     res.send({ employees });
   } catch (error: any) {

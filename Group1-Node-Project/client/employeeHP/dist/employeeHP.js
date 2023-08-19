@@ -51,8 +51,6 @@ function main() {
                     data = _a.sent();
                     user = data.user;
                     userType = data.userType;
-                    console.log(user);
-                    console.log(userType);
                     dateToday.innerHTML = new Date().toLocaleString();
                     userName = document.querySelector("#userName");
                     if (!userName)
@@ -64,9 +62,7 @@ function main() {
                         startEndClock.innerHTML = totalTimeShift;
                         startTimeString = localStorage.getItem("startTime");
                         startTime = parseInt(startTimeString);
-                        console.log(startTime);
                         currentTime_1 = Date.now();
-                        console.log(currentTime_1);
                         startEndButtonS.style.display = "none";
                         startEndButtonE.style.display = "block";
                         startClock();
@@ -102,9 +98,7 @@ startEndButtonS.addEventListener("click", function (e) {
     clearInterval(intervalId);
     startEndClock.innerHTML = "00:00:00";
     startTime = Date.now();
-    console.log(startTime);
     currentTime = null;
-    console.log(formattedTime);
     intervalId = null;
     startEndButtonS.style.display = "none";
     startEndButtonE.style.display = "block";
@@ -125,19 +119,16 @@ function updateElapsedTime() {
 }
 function startClock() {
     intervalId = setInterval(updateElapsedTime, 1000);
-    console.log(intervalId);
 }
 startEndButtonE.addEventListener("click", function (e) {
     startEndButtonS.style.display = "block";
     startEndButtonE.style.display = "none";
-    console.log(intervalId);
     stopClock();
     localStorage.removeItem("startTime");
     localStorage.removeItem("totalTimeShift");
 });
 function stopClock() {
     if (intervalId) {
-        console.log(totalTimeShift);
         clearInterval(intervalId);
         intervalId = null;
         startTime = Date.now();

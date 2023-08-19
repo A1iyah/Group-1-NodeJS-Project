@@ -32,7 +32,6 @@ function continueUpdateElapsedTime() {
   console.log(currentTime);
 
   const elapsedTime = currentTime - startTime1;
-  console.log(elapsedTime);
 
   const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
   const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
@@ -43,7 +42,6 @@ function continueUpdateElapsedTime() {
   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   runningClock.innerHTML = formattedTime;
   totalTimeShift = formattedTime;
-  console.log(totalTimeShift);
   localStorage.setItem("totalTimeShift", formattedTime);
 }
 
@@ -167,7 +165,6 @@ updateChartDates();
 function toggleButton(event: Event) {
   const clickedButton = event.target as HTMLButtonElement;
   const currentImage = window.getComputedStyle(clickedButton).backgroundImage;
-  console.log(currentImage);
 
   if (currentImage.includes("can.png")) {
     clickedButton.style.backgroundImage = `url(./cant.png)`;
@@ -198,8 +195,6 @@ async function handleFormSubmit(event: Event) {
   });
 
   const userRole = user.role === (null || undefined) ? "Manager" : user.role;
-
-  console.log("userRole: ", userRole);
 
   try {
     const response = await fetch(`/api/availability/update`, {

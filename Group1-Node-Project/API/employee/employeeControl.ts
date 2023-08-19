@@ -10,7 +10,6 @@ dotenv.config();
 
 import jwt from "jwt-simple";
 const secret: string | undefined = process.env.JWT_SECRET;
-console.log("secret:", secret);
 
 // const secret: string = "secret";
 
@@ -32,7 +31,6 @@ export const addAttendance = async (req: any, res: any) => {
       },
       { new: true }
     );
-    console.log(user);
 
     res.send({ ok: true });
   } catch (error: any) {
@@ -69,7 +67,6 @@ export const getEmployeesByRoleType = async (req: any, res: any) => {
 
     const employees = await EmployeeModel.find({ role: roleTypeId});
 
-    console.log(employees);
     res.status(200).send({ok: true, employees})
   } catch (error) {
     console.log(error);

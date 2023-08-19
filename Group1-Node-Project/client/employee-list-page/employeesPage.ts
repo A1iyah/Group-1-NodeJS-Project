@@ -18,10 +18,8 @@ async function main() {
 
     const startTimeString = localStorage.getItem("startTime");
     startTime1 = parseInt(startTimeString!);
-    console.log(startTime1);
 
     const currentTime = Date.now();
-    console.log(currentTime);
 
     // const elapsedTime = currentTime - startTime1;
     updateClock();
@@ -47,10 +45,8 @@ main();
 
 function continueUpdateElapsedTime() {
   const currentTime = Date.now();
-  console.log(currentTime);
 
   const elapsedTime = currentTime - startTime1;
-  console.log(elapsedTime);
 
   const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
   const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
@@ -61,7 +57,6 @@ function continueUpdateElapsedTime() {
   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   runningClock2.innerHTML = formattedTime;
   totalTimeShift = formattedTime;
-  console.log(totalTimeShift);
   localStorage.setItem("totalTimeShift", formattedTime);
 }
 
@@ -169,7 +164,6 @@ addManagerBtn.addEventListener("click", () => {
 function handleCreateEmployee(evt: any) {
   try {
     evt.preventDefault();
-    console.log(user._id);
     const managerID = user._id;
     const name = evt.target.elements.name.value;
     const email = evt.target.elements.email.value;
@@ -236,7 +230,6 @@ function handleCreateEmployee(evt: any) {
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log(data);
             renderEmployeeList(data.managerDB.employees);
           })
           .catch((error) => {
@@ -275,16 +268,6 @@ function handleCreateManager(evt: any) {
     const birthday = evt.target.elements.birthday.value;
     // const role = e.target.elements.role.value;
 
-    console.log(
-      name,
-      email,
-      password,
-      idNumber,
-      phone,
-      birthday,
-      salaryPerHour
-    );
-
     if (!email || !email.includes("@")) {
       emailError.style.display = "block";
       return;
@@ -321,9 +304,6 @@ function handleCreateManager(evt: any) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        console.log(data.adminDB.employees);
-        console.log(data.adminDB.managers);
         renderEmployeeList(data.adminDB.employees);
         renderManagersList(data.adminDB.managers);
       })
@@ -349,7 +329,6 @@ function handleCreateManager(evt: any) {
 const handleGetWorkers = () => {
   try {
     const _id = user._id;
-    console.log(_id);
 
     if (userType === UserType.Admin) {
       fetch("/api/employees-page/get-admin-workers", {
@@ -364,9 +343,6 @@ const handleGetWorkers = () => {
         .then(({ allWorkers }) => {
           try {
             if (!allWorkers) throw new Error("No workers data found");
-            console.log(allWorkers);
-            console.log(allWorkers.employees);
-            console.log(allWorkers.managers);
 
             renderEmployeeList(allWorkers.employees);
             renderManagersList(allWorkers.managers);
@@ -406,7 +382,6 @@ const handleGetWorkers = () => {
         .then(({ myTeamEmployees }) => {
           try {
             if (!myTeamEmployees) throw new Error("No employees data found");
-            console.log(myTeamEmployees);
 
             renderEmployeeList(myTeamEmployees);
           } catch (error) {
@@ -421,8 +396,6 @@ const handleGetWorkers = () => {
 
 const renderEmployeeList = (employees: any) => {
   try {
-    console.log(employees);
-
     if (!employees) {
       console.log("No employees data available.");
       return;
@@ -488,8 +461,6 @@ const renderManagersList = (managers: any) => {
 // Delete employee -
 const handleDeleteEmployee = (_id: any) => {
   try {
-    console.log("employee id is:", _id);
-
     fetch("/api/employees-page/delete-employee", {
       method: "DELETE",
       headers: {

@@ -86,10 +86,8 @@ async function main() {
 
     const startTimeString = localStorage.getItem("startTime");
     startTime1 = parseInt(startTimeString!);
-    console.log(startTime1);
 
     const currentTime = Date.now();
-    console.log(currentTime);
 
     updateClock();
   }
@@ -111,10 +109,8 @@ main();
 
 function continueUpdateElapsedTime() {
   const currentTime = Date.now();
-  console.log(currentTime);
 
   const elapsedTime = currentTime - startTime1;
-  console.log(elapsedTime);
 
   const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
   const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
@@ -125,7 +121,6 @@ function continueUpdateElapsedTime() {
   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   runningClock.innerHTML = formattedTime;
   totalTimeShift = formattedTime;
-  console.log(totalTimeShift);
   localStorage.setItem("totalTimeShift", formattedTime);
 }
 
@@ -219,7 +214,6 @@ function HandleSalaryUp(ev) {
     const salaryUp = ev.target.elements.salaryUp.value;
     if (!salaryUp) throw new Error("no salary entered");
 
-    console.log(salaryUp);
     if (userType === UserType.Admin) {
       const _id = user._id;
 
@@ -233,8 +227,6 @@ function HandleSalaryUp(ev) {
       })
         .then((res) => res.json())
         .then(({ employees }) => {
-          console.log(employees.managers);
-          console.log(employees.employees);
 
           renderReportResultManager(employees.managers);
           renderReportResultEmployees(employees.employees);
@@ -267,7 +259,6 @@ function HandleSalaryDown(ev) {
 
     resetPage();
 
-    console.log(salaryDown);
     if (userType === UserType.Admin) {
       const _id = user._id;
 
@@ -281,7 +272,6 @@ function HandleSalaryDown(ev) {
       })
         .then((res) => res.json())
         .then(({ employees }) => {
-          console.log(employees.managers);
 
           renderReportResultManager(employees.managers);
           renderReportResultEmployees(employees.employees);
@@ -299,7 +289,6 @@ function HandleSalaryDown(ev) {
       })
         .then((res) => res.json())
         .then(({ employees }) => {
-          console.log(employees.employees);
 
           renderReportResultEmployees(employees.employees);
         });
@@ -319,7 +308,6 @@ function HandleSalaryBetween(ev) {
 
     resetPage();
 
-    console.log(minSalary, maxSalary);
     if (userType === UserType.Admin) {
       const _id = user._id;
       fetch("/api/admin/get-selected-salaryBetween", {
@@ -332,8 +320,6 @@ function HandleSalaryBetween(ev) {
       })
         .then((res) => res.json())
         .then(({ employees }) => {
-          console.log(employees.employees);
-          console.log(employees.managers);
 
           renderReportResultManager(employees.managers);
           renderReportResultEmployees(employees.employees);
@@ -371,10 +357,8 @@ employeeButton.addEventListener("click", (e) => {
       .then((employees) => {
         try {
           if (!employees) throw new Error("didn't get any data");
-          console.log(employees);
 
           const employeesToShow = employees.employees.employees;
-          console.log(employeesToShow);
 
           const html1: string = employeesToShow
             .map((employee) => {
@@ -400,13 +384,11 @@ employeeButton.addEventListener("click", (e) => {
     })
       .then((res) => res.json())
       .then(({ employees }) => {
-        console.log(employees);
 
         try {
           if (!employees) throw new Error("didn't get any data");
 
           const employeesToShow = employees.employees;
-          console.log(employeesToShow);
 
           const html1: string = employeesToShow
             .map((employee) => {
@@ -435,8 +417,6 @@ function HandleEmployeeReport(ev) {
       .slice(1);
 
     if (!employeeDetails) throw new Error("no employee selected");
-    console.log(name);
-    console.log(idNumber);
 
     fetch("/api/employee/get-selected-employee", {
       method: "PATCH",
@@ -448,7 +428,6 @@ function HandleEmployeeReport(ev) {
     })
       .then((res) => res.json())
       .then(({ employeeDB }) => {
-        console.log(employeeDB[0]);
 
         renderReportResultEmployees(employeeDB);
         renderShiftResult(employeeDB[0]);
@@ -468,10 +447,8 @@ managerButton.addEventListener("click", (e) => {
     .then((data) => {
       try {
         if (!data) throw new Error("didn't get any data");
-        console.log(data);
 
         const managers = data.managers.managers;
-        console.log(managers);
 
         const html1: string = managers
           .map((manager) => {
@@ -493,8 +470,6 @@ function HandleManagerReport(ev) {
     const managerDetails = ev.target.elements.managers.value;
     const [name, idNumber] = managerDetails.match(/^(.*?)\s-\s(\d+)$/).slice(1);
     if (!managerDetails) throw new Error("no employee selected");
-    console.log(name);
-    console.log(idNumber);
 
     fetch("/api/manager/get-selected-manager", {
       method: "PATCH",
@@ -506,8 +481,6 @@ function HandleManagerReport(ev) {
     })
       .then((res) => res.json())
       .then(({ managerDB }) => {
-        console.log(managerDB[0].employees);
-        console.log(managerDB);
 
         renderReportResultManager(managerDB);
         renderReportResultEmployees(managerDB[0].employees);
@@ -531,7 +504,6 @@ function employeeUsingReport() {
     })
       .then((res) => res.json())
       .then(({ employeeDB }) => {
-        console.log(employeeDB);
 
         renderReportResultEmployees(employeeDB);
         renderShiftResult(employeeDB[0]);

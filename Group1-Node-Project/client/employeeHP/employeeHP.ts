@@ -11,8 +11,6 @@ async function main() {
   const data = await loadActiveUser();
   user = data.user;
   userType = data.userType;
-  console.log(user);
-  console.log(userType);
 
   dateToday.innerHTML = new Date().toLocaleString();
   const userName: HTMLDivElement | null = document.querySelector("#userName");
@@ -26,10 +24,8 @@ async function main() {
 
     const startTimeString = localStorage.getItem("startTime");
     startTime = parseInt(startTimeString!);
-    console.log(startTime);
 
     const currentTime = Date.now();
-    console.log(currentTime);
 
     startEndButtonS.style.display = "none";
     startEndButtonE.style.display = "block";
@@ -83,10 +79,8 @@ startEndButtonS.addEventListener("click", (e) => {
   clearInterval(intervalId);
   startEndClock.innerHTML = `00:00:00`;
   startTime = Date.now();
-  console.log(startTime);
 
   currentTime = null;
-  console.log(formattedTime);
   intervalId = null;
   startEndButtonS.style.display = "none";
   startEndButtonE.style.display = "block";
@@ -115,13 +109,11 @@ function updateElapsedTime() {
 
 function startClock() {
   intervalId = setInterval(updateElapsedTime, 1000);
-  console.log(intervalId);
 }
 
 startEndButtonE.addEventListener("click", (e) => {
   startEndButtonS.style.display = "block";
   startEndButtonE.style.display = "none";
-  console.log(intervalId);
 
   stopClock();
 
@@ -131,7 +123,6 @@ startEndButtonE.addEventListener("click", (e) => {
 
 function stopClock() {
   if (intervalId) {
-    console.log(totalTimeShift);
     clearInterval(intervalId);
     intervalId = null;
     startTime = Date.now();

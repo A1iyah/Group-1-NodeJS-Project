@@ -45,7 +45,6 @@ exports.getRoleIdByName = function (req, res) { return __awaiter(void 0, void 0,
             case 0:
                 _a.trys.push([0, 5, , 6]);
                 targetName = req.body.targetName;
-                console.log("server target: ", targetName);
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);

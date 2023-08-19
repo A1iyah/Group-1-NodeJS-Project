@@ -57,9 +57,7 @@ function main() {
                         runningClock.innerHTML = totalTimeShift;
                         startTimeString = localStorage.getItem("startTime");
                         startTime1 = parseInt(startTimeString);
-                        console.log(startTime1);
                         currentTime = Date.now();
-                        console.log(currentTime);
                     }
                     handleShiftsDisplay();
                     return [2 /*return*/];
@@ -70,23 +68,19 @@ function main() {
 main();
 function continueUpdateElapsedTime() {
     var currentTime = Date.now();
-    console.log(currentTime);
     var elapsedTime = currentTime - startTime1;
-    console.log(elapsedTime);
     var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
     var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
     var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
     runningClock.innerHTML = formattedTime;
     totalTimeShift = formattedTime;
-    console.log(totalTimeShift);
     localStorage.setItem("totalTimeShift", formattedTime);
 }
 function updateClock() {
     intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
 var handleShiftsDisplay = function () {
-    console.log("handling shift dis");
     try {
         fetch("/api/schedule/get-next-week-schedule", {
             method: "GET",
@@ -97,7 +91,6 @@ var handleShiftsDisplay = function () {
         })
             .then(function (res) { return res.json(); })
             .then(function (data) {
-            console.log("data: ", data.nextWeekSchedule[0]);
             renderShiftsTable(data.nextWeekSchedule[0]);
         });
     }
@@ -188,7 +181,6 @@ var singleRoleColumnHtml = function (roleType, roleCount, nextWeekSchedule) {
     for (var dayIndex = 0; dayIndex < 7; dayIndex++) {
         //console.log(convertWeekdayIndexToWeekdayName(String(dayIndex)));
         //console.log("test: ", nextWeekSchedule[convertWeekdayIndexToWeekdayName(dayIndex)]);
-        console.log(nextWeekSchedule);
         //console.log(nextWeekSchedule[${convertWeekdayIndexToWeekdayName(String(dayIndex))}`]);
         var html = nextWeekSchedule["" + convertWeekdayIndexToWeekdayName(String(dayIndex))].map(function (dayScheduleEmployees) {
             //console.log("dayScheduleEmployees: ", dayScheduleEmployees);
