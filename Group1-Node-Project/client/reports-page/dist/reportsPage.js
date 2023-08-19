@@ -112,9 +112,11 @@ function renderReportResultManager(managers) {
     try {
         if (!managers)
             throw new Error("employees didn't found");
-        var html = managers.map(function (manager) {
-            return "\n            <div class=\"employees-page__employeeCard\">\n            <div class=\"employee-details\">\n              <div class=\"employee-name\">" + manager.name + "</div>\n              <div class=\"employee-birthday\">" + manager.birthday + "</div>\n              <div class=\"employee-email\">" + manager.email + "</div>\n              <div class=\"employee-phone\">" + manager.phone + "</div>\n              <div class=\"employee-salary\">" + manager.salaryPerHour + "</div>\n              <div class=\"employee-role\">" + manager.role.name + "</div>\n            </div>\n          </div>\n      ";
-        });
+        var html = managers
+            .map(function (manager) {
+            return "\n            <div class=\"reportCard\">\n            <div class=\"reportCard__report-details\">\n            <div class=\"reportCard__report-details__name\">" + manager.name + "</div>\n            <div class=\"reportCard__report-details__birthday\">" + manager.birthday + "</div>\n            <div class=\"reportCard__report-details__email\">" + manager.email + "</div>\n            <div class=\"reportCard__report-details__phone\">" + manager.phone + "</div>\n            <div class=\"reportCard__report-details__salary\">" + manager.salaryPerHour + "$</div>\n            <div class=\"reportCard__report-details__role\">" + manager.role.name + "</div>\n            </div>\n          </div>\n      ";
+        })
+            .join(" ");
         managerDetails.innerHTML = html;
     }
     catch (error) {
@@ -125,9 +127,11 @@ function renderReportResultEmployees(employees) {
     try {
         if (!employees)
             throw new Error("employees didn't found");
-        var html = employees.map(function (employee) {
-            return "\n            <div class=\"reportCard\">\n              <div class=\"reportCard__report-details\">\n                <div class=\"reportCard__report-details__name\">" + employee.name + "</div>\n                <div class=\"reportCard__report-details__birthday\">" + employee.birthday + "</div>\n                <div class=\"reportCard__report-details__email\">" + employee.email + "</div>\n                <div class=\"reportCard__report-details__phone\">" + employee.phone + "</div>\n                <div class=\"reportCard__report-details__salary\">" + employee.salaryPerHour + "</div>\n                <div class=\"reportCard__report-details__role\">" + employee.role.name + "</div>\n              </div>\n            </div>\n      ";
-        });
+        var html = employees
+            .map(function (employee) {
+            return "\n            <div class=\"reportCard\">\n              <div class=\"reportCard__report-details\">\n                <div class=\"reportCard__report-details__name\">" + employee.name + "</div>\n                <div class=\"reportCard__report-details__birthday\">" + employee.birthday + "</div>\n                <div class=\"reportCard__report-details__email\">" + employee.email + "</div>\n                <div class=\"reportCard__report-details__phone\">" + employee.phone + "</div>\n                <div class=\"reportCard__report-details__salary\">" + employee.salaryPerHour + "$</div>\n                <div class=\"reportCard__report-details__role\">" + employee.role.name + "</div>\n              </div>\n            </div>\n      ";
+        })
+            .join(" ");
         employeeDetails.innerHTML = html;
     }
     catch (error) {
@@ -140,9 +144,11 @@ function renderShiftResult(employees) {
             throw new Error("employee not found");
         attendanceReportTable.style.display = "block";
         var attendanceArr = employees.attendance;
-        var html = attendanceArr.map(function (attendance) {
-            return "\n            <div class=\"employees-page__employeeCard\">\n              <div class=\"employee-details\">\n                <div class=\"employee-name\">" + attendance.date + "</div>\n                <div class=\"employee-birthday\">" + attendance.clock + "</div>\n              </div>\n            </div>\n      ";
-        });
+        var html = attendanceArr
+            .map(function (attendance) {
+            return "\n            <div class=\"reportsPageDates\">\n              <div class=\"reportsPageDates__details\">\n                <div class=\"reportsPageDates__details__date\">" + attendance.date + "</div>\n                <div class=\"reportsPageDates__details__clock\">" + attendance.clock + "</div>\n              </div>\n            </div>\n      ";
+        })
+            .join(" ");
         employeeAttendance.innerHTML = html;
     }
     catch (error) {
