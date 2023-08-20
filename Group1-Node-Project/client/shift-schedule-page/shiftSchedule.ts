@@ -513,6 +513,8 @@ const convertWeekIndexToDayString = (weekdayIndex: string): string => {
 
     targetShift!.innerHTML = `<p class="shifts-panel__role-row__allocation-name">${employeeName}</p>`;
 
+    const scheduleTable = (document.querySelector(".shifts-panel") as HTMLDivElement).innerHTML;
+
     try {
       fetch("/api/schedule/add-employee-to-schedule", {
         method: "PATCH",
@@ -524,6 +526,7 @@ const convertWeekIndexToDayString = (weekdayIndex: string): string => {
           thisScheduleId,
           employeeId,
           weekdayIndex,
+          scheduleTable
         }),
       });
     } catch (error) {

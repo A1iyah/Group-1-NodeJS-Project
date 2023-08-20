@@ -359,6 +359,7 @@ var processEmployeeAllocation = function (employeeId, employeeName, weekdayIndex
         return;
     }
     targetShift.innerHTML = "<p class=\"shifts-panel__role-row__allocation-name\">" + employeeName + "</p>";
+    var scheduleTable = document.querySelector(".shifts-panel").innerHTML;
     try {
         fetch("/api/schedule/add-employee-to-schedule", {
             method: "PATCH",
@@ -369,7 +370,8 @@ var processEmployeeAllocation = function (employeeId, employeeName, weekdayIndex
             body: JSON.stringify({
                 thisScheduleId: thisScheduleId,
                 employeeId: employeeId,
-                weekdayIndex: weekdayIndex
+                weekdayIndex: weekdayIndex,
+                scheduleTable: scheduleTable
             })
         });
     }

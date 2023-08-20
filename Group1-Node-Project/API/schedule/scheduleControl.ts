@@ -73,9 +73,9 @@ const getNextSunday = ():Date =>
 export const addEmployeeToSchedule = async (req: any, res: any) =>
 {
     try {
-        const { thisScheduleId, employeeId, weekdayIndex } = req.body;
+        const { thisScheduleId, employeeId, weekdayIndex, scheduleTable } = req.body;
         
-        if (!thisScheduleId || !employeeId || !weekdayIndex) throw new Error("did not receive all data from client");
+        if (!thisScheduleId || !employeeId || !weekdayIndex || !scheduleTable) throw new Error("did not receive all data from client");
 
         const weekdayName = convertWeekdayIndexToWeekdayName(weekdayIndex);
         const employeeIdObj = await EmployeeModel.findById(employeeId);
@@ -90,6 +90,8 @@ export const addEmployeeToSchedule = async (req: any, res: any) =>
             thisScheduleId,
             updateObject,
             {new: true});
+
+        const updatedScheduleTable = await WeekScheduleModel.findByIdAndUpdate(thisScheduleId, {table: scheduleTable});
 
         res.status(200).send({ok: true});
     } catch (error) {

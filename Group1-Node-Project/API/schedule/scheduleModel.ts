@@ -16,7 +16,8 @@ const weekScheduleSchema = new Schema(
         wednesday: [{type: Schema.Types.ObjectId, ref: EmployeeModel}],
         thursday: [{type: Schema.Types.ObjectId, ref: EmployeeModel}],
         friday: [{type: Schema.Types.ObjectId, ref: EmployeeModel}],
-        saturday:[{type: Schema.Types.ObjectId, ref: EmployeeModel}]
+        saturday:[{type: Schema.Types.ObjectId, ref: EmployeeModel}],
+        table: String,
     }
 )
 

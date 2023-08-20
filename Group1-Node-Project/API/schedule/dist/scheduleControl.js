@@ -123,14 +123,14 @@ var getNextSunday = function () {
     return date;
 };
 exports.addEmployeeToSchedule = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, thisScheduleId, employeeId, weekdayIndex, weekdayName, employeeIdObj, updateObject, targetSchedule, error_4;
+    var _a, thisScheduleId, employeeId, weekdayIndex, scheduleTable, weekdayName, employeeIdObj, updateObject, targetSchedule, updatedScheduleTable, error_4;
     var _b;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
-                _c.trys.push([0, 3, , 4]);
-                _a = req.body, thisScheduleId = _a.thisScheduleId, employeeId = _a.employeeId, weekdayIndex = _a.weekdayIndex;
-                if (!thisScheduleId || !employeeId || !weekdayIndex)
+                _c.trys.push([0, 4, , 5]);
+                _a = req.body, thisScheduleId = _a.thisScheduleId, employeeId = _a.employeeId, weekdayIndex = _a.weekdayIndex, scheduleTable = _a.scheduleTable;
+                if (!thisScheduleId || !employeeId || !weekdayIndex || !scheduleTable)
                     throw new Error("did not receive all data from client");
                 weekdayName = convertWeekdayIndexToWeekdayName(weekdayIndex);
                 return [4 /*yield*/, employeeModel_1["default"].findById(employeeId)];
@@ -144,14 +144,17 @@ exports.addEmployeeToSchedule = function (req, res) { return __awaiter(void 0, v
                 return [4 /*yield*/, scheduleModel_1["default"].findByIdAndUpdate(thisScheduleId, updateObject, { "new": true })];
             case 2:
                 targetSchedule = _c.sent();
-                res.status(200).send({ ok: true });
-                return [3 /*break*/, 4];
+                return [4 /*yield*/, scheduleModel_1["default"].findByIdAndUpdate(thisScheduleId, { table: scheduleTable })];
             case 3:
+                updatedScheduleTable = _c.sent();
+                res.status(200).send({ ok: true });
+                return [3 /*break*/, 5];
+            case 4:
                 error_4 = _c.sent();
                 console.log(error_4);
                 res.status(500).send("Did not get data");
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); };
