@@ -101,6 +101,14 @@ const emailError = document.querySelector(
   ".email-error-message"
 ) as HTMLDivElement;
 
+const closeEmployeeForm = document.querySelector(
+  ".close-employee-form"
+) as HTMLDivElement;
+
+const closeManagerForm = document.querySelector(
+  ".close-manager-form"
+) as HTMLDivElement;
+
 let openDiv: HTMLDivElement | null = null;
 let isFormsOpen = false;
 
@@ -158,6 +166,34 @@ addManagerBtn.addEventListener("click", () => {
     openDiv = addNewManagersForm;
     isFormsOpen = true;
   }
+});
+
+closeEmployeeForm.addEventListener("click", () => {
+  if (openDiv) {
+    openDiv.style.display = "none";
+    openDiv = null;
+    isFormsOpen = false;
+  }
+
+  addButtonsContainer.style.display = "none";
+  addManagersBtnContainer.style.display = "none";
+  addNewEmployeesForm.style.display = "none";
+
+  addEmployeeBtn.style.display = "block";
+});
+
+closeManagerForm.addEventListener("click", () => {
+  if (openDiv) {
+    openDiv.style.display = "none";
+    openDiv = null;
+    isFormsOpen = false;
+  }
+
+  addButtonsContainer.style.display = "none";
+  addManagersBtnContainer.style.display = "none";
+  addNewManagersForm.style.display = "none";
+
+  addManagerBtn.style.display = "block";
 });
 
 // Add new employee -
@@ -414,7 +450,7 @@ const renderEmployeeList = (employees: any) => {
 
         return `<div class="employees-page__employeeCard">
         <div class="employee-details">
-        ${deleteButton}
+        <div class="employee-delete">${deleteButton}</div>
         <div class="employee-name">${employee.name}</div>
         <div class="employee-birthday">${employee.birthday}</div>
         <div class="employee-email">${employee.email}</div>
@@ -451,7 +487,7 @@ const renderManagersList = (managers: any) => {
 
         return `<div class="employees-page__managerCard" ">
       <div class="manager-details">
-      ${deleteButton}
+      <div class="manager-delete">${deleteButton}</div>
       <div class="manager-name">${manager.name}</div>
       <div class="manager-birthday">${manager.birthday}</div>
       <div class="manager-email">${manager.email}</div>

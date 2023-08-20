@@ -155,9 +155,19 @@ function renderShiftResult(employees) {
         console.log(error);
     }
 }
+var isSalaryReportsOpen = false;
+var isEmployeeReportsOpen = false;
+var isManagerReportsOpen = false;
 salaryButton.addEventListener("click", function (e) {
     resetPage();
-    reportsBySalary.style.display = "flex";
+    if (!isSalaryReportsOpen) {
+        reportsBySalary.style.display = "flex";
+        isSalaryReportsOpen = true;
+    }
+    else {
+        reportsBySalary.style.display = "none";
+        isSalaryReportsOpen = false;
+    }
     reportsByEmployee.style.display = "none";
     reportsByManager.style.display = "none";
 });
@@ -300,10 +310,17 @@ function HandleSalaryBetween(ev) {
     }
 }
 employeeButton.addEventListener("click", function (e) {
-    reportsBySalary.style.display = "none";
-    reportsByEmployee.style.display = "flex";
-    reportsByManager.style.display = "none";
     resetPage();
+    if (!isEmployeeReportsOpen) {
+        reportsByEmployee.style.display = "flex";
+        isEmployeeReportsOpen = true;
+    }
+    else {
+        reportsByEmployee.style.display = "none";
+        isEmployeeReportsOpen = false;
+    }
+    reportsBySalary.style.display = "none";
+    reportsByManager.style.display = "none";
     if (userType === UserType.Admin) {
         fetch("/api/admin/get-employees-list")
             .then(function (res) { return res.json(); })
@@ -384,10 +401,17 @@ function HandleEmployeeReport(ev) {
     }
 }
 managerButton.addEventListener("click", function (e) {
+    resetPage();
+    if (!isManagerReportsOpen) {
+        reportsByManager.style.display = "flex";
+        isManagerReportsOpen = true;
+    }
+    else {
+        reportsByManager.style.display = "none";
+        isManagerReportsOpen = false;
+    }
     reportsBySalary.style.display = "none";
     reportsByEmployee.style.display = "none";
-    reportsByManager.style.display = "flex";
-    resetPage();
     fetch("/api/admin/get-managers-list")
         .then(function (res) { return res.json(); })
         .then(function (data) {

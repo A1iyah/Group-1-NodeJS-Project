@@ -69,12 +69,16 @@
   cursor: default;
 }
 .employees-page__employees-section__employees-chart, .employees-page__employees-section__managers-chart, .employees-page__managers-section__employees-chart, .employees-page__managers-section__managers-chart {
-  width: 95%;
+  width: 97%;
   position: relative;
-  margin: 0 auto;
 }
 .employees-page__employees-section__employees-chart th, .employees-page__employees-section__managers-chart th, .employees-page__managers-section__employees-chart th, .employees-page__managers-section__managers-chart th {
-  width: 100px;
+  width: 280px;
+  text-align: center;
+}
+.employees-page__employees-section__employees-chart th:first-child, .employees-page__employees-section__managers-chart th:first-child, .employees-page__managers-section__employees-chart th:first-child, .employees-page__managers-section__managers-chart th:first-child {
+  width: 50px;
+  padding-left: 15px;
 }
 .employees-page__employees-section__get-all-employees, .employees-page__employees-section__get-all-managers, .employees-page__managers-section__get-all-employees, .employees-page__managers-section__get-all-managers {
   position: relative;
@@ -82,11 +86,11 @@
   margin-top: 30px;
   margin-bottom: 50px;
   width: 95%;
-  height: 50%;
+  height: 55%;
   overflow-y: scroll;
 }
 .employees-page__employees-section__get-all-employees::-webkit-scrollbar, .employees-page__employees-section__get-all-managers::-webkit-scrollbar, .employees-page__managers-section__get-all-employees::-webkit-scrollbar, .employees-page__managers-section__get-all-managers::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
 }
 .employees-page__employees-section__get-all-employees::-webkit-scrollbar-track, .employees-page__employees-section__get-all-managers::-webkit-scrollbar-track, .employees-page__managers-section__get-all-employees::-webkit-scrollbar-track, .employees-page__managers-section__get-all-managers::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px #cacaca;
@@ -233,6 +237,22 @@
 .employees-page__add-new-employees fieldset legend, .employees-page__add-new-managers fieldset legend {
   text-align: center;
   font-size: 30px;
+}
+.employees-page__add-new-employees fieldset .close-employee-form,
+.employees-page__add-new-employees fieldset .close-manager-form, .employees-page__add-new-managers fieldset .close-employee-form,
+.employees-page__add-new-managers fieldset .close-manager-form {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  font-size: 30px;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+}
+.employees-page__add-new-employees fieldset .close-employee-form:hover,
+.employees-page__add-new-employees fieldset .close-manager-form:hover, .employees-page__add-new-managers fieldset .close-employee-form:hover,
+.employees-page__add-new-managers fieldset .close-manager-form:hover {
+  transform: scale(120%);
+  color: red;
 }
 .employees-page__add-new-employees fieldset input,
 .employees-page__add-new-employees fieldset select, .employees-page__add-new-managers fieldset input,
