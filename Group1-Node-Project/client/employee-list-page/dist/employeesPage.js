@@ -106,6 +106,13 @@ var managerSection = document.querySelector(".employees-page__managers-section")
 var emailError = document.querySelector(".email-error-message");
 var closeEmployeeForm = document.querySelector(".close-employee-form");
 var closeManagerForm = document.querySelector(".close-manager-form");
+var deleteWorkerHeader = document.querySelector(".deleteWorker");
+if (userType === UserType.Admin || userType === UserType.Manager) {
+    deleteWorkerHeader.style.visibility = "visible";
+}
+else {
+    deleteWorkerHeader.style.visibility = "hidden";
+}
 var openDiv = null;
 var isFormsOpen = false;
 openAddButton.addEventListener("click", function () {

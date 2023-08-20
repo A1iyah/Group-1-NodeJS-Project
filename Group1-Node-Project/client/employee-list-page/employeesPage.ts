@@ -4,7 +4,7 @@ const runningClock2 = document.querySelector(
 ) as HTMLDivElement;
 
 let user: any;
-let userType: number;
+let userType: any;
 
 async function main() {
   const data = await loadActiveUser();
@@ -108,6 +108,16 @@ const closeEmployeeForm = document.querySelector(
 const closeManagerForm = document.querySelector(
   ".close-manager-form"
 ) as HTMLDivElement;
+
+const deleteWorkerHeader = document.querySelector(
+  ".deleteWorker"
+) as HTMLTableCellElement;
+
+if (userType === UserType.Admin || userType === UserType.Manager) {
+  deleteWorkerHeader.style.visibility = "visible";
+} else {
+  deleteWorkerHeader.style.visibility = "hidden";
+}
 
 let openDiv: HTMLDivElement | null = null;
 let isFormsOpen = false;
