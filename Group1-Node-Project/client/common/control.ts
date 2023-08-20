@@ -39,7 +39,11 @@ const renderNavBar = (
                 <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Schedule</p>
                 </div>
                 <div class="nav-bar__links-group">
-                <img src="../commom/turnOff.png" class="nav-bar__link nav-bar__link__logOut" onclick="gotoPage('../index.html')"/>
+                <button onclick="gotoPage('../index.html')" class="nav-bar__link nav-bar__link__logOut">
+                <span class="material-symbols-outlined">
+                mode_off_on
+                </span>
+                </button>                
                 <p class="nav-bar__user-name">${user.name}</p>
                 </div>`;
       navBarElem.innerHTML = navBarHtml;
@@ -54,7 +58,11 @@ const renderNavBar = (
                 <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Schedule</p>
                 </div>
                 <div class="nav-bar__links-group">
-                <img src="turnOff.png" class="nav-bar__link nav-bar__link__logOut" onclick="gotoPage('../index.html')"/>
+                <button onclick="gotoPage('../index.html')" class="nav-bar__link nav-bar__link__logOut">
+                <span class="material-symbols-outlined">
+                mode_off_on
+                </span>
+                </button>                
                 <p class="nav-bar__user-name">${user.name}</p>
                 </div>`;
       navBarElem.innerHTML = navBarHtml;
@@ -69,7 +77,11 @@ const renderNavBar = (
                 <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
                 </div>
                 <div class="nav-bar__links-group">
-                <img src="turnOff.png" class="nav-bar__link nav-bar__link__logOut" onclick="gotoPage('../index.html')"/>
+                <button onclick="gotoPage('../index.html')" class="nav-bar__link nav-bar__link__logOut">
+                <span class="material-symbols-outlined">
+                mode_off_on
+                </span>
+                </button>
                 <p class="nav-bar__user-name">${user.name}</p>
                 </div>`;
       navBarElem.innerHTML = navBarHtml;
