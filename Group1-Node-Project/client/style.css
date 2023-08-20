@@ -96,6 +96,28 @@
     font-size: 15px;
   }
 }
+.wizard-logo {
+  width: 300px;
+  height: 150px;
+}
+
+.hat-icon {
+  position: absolute;
+  top: -10px;
+  left: 32px;
+  width: 45px;
+  height: 45px;
+}
+
+.running-clock {
+  position: absolute;
+  right: 30px;
+  font-size: 20px;
+  color: #67d7e3;
+  text-shadow: 2px 2px 20px rgba(128, 128, 128, 0.492);
+  font-weight: bolder;
+}
+
 .login {
   position: absolute;
   top: 50%;

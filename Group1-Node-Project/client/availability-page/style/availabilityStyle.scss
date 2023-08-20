@@ -27,6 +27,14 @@
     border-bottom: 2px solid $mainBlue;
   }
 
+  .success-message {
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: -25px;
+    text-align: center;
+    color: green;
+  }
+
   #comment {
     @include flexibleCenter(absolute, 80%, 50%, -50%, -80%);
     @include boxShadow;
@@ -53,7 +61,7 @@
     position: relative;
     width: 905px;
     margin: 0 auto;
-    margin-top: 80px;
+    margin-top: 60px;
     @include chartShadow;
 
     thead {
@@ -85,7 +93,7 @@
       }
 
       td {
-        width: 110px;SSSSSSGGGG
+        width: 110px;
         padding: 10px 0;
         text-align: center;
 
@@ -96,17 +104,15 @@
           height: 35px;
           border-radius: 50%;
           border: none;
-          box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-            rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
-            rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-          transition: all 0.5s ease-in-out;
           background-image: url("../can.png");
           background-size: cover;
+          background-color: transparent;
+          transition: all 0.5s ease-in-out;
           cursor: pointer;
         }
 
         button:hover {
-          @include buttonHover;
+          transform: scale(110%);
         }
       }
     }

@@ -49,9 +49,9 @@
     z-index: 900;
   }
 
-  &__add-managers-btn {
-    margin-top: 10px;
-  }
+  // &__add-managers-btn {
+  //   margin-top: 10px;
+  // }
 
   &__add-employees-btn:hover,
   &__add-managers-btn:hover {
@@ -62,7 +62,6 @@
 // Page
 .employees-page {
   position: relative;
-  // height: 800px;
 
   &__employees-section,
   &__managers-section {
@@ -129,6 +128,20 @@
       display: flex;
       justify-content: space-evenly;
       padding: 10px 0;
+
+      .delete-btn {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        line-height: 100%;
+        transition: all 0.5s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+          color: red;
+          transform: scale(110%);
+        }
+      }
 
       .employee-name,
       .employee-birthday,
