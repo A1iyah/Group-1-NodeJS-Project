@@ -44,7 +44,7 @@
 
 @media screen and (max-width: 768px) {
   .nav-bar {
-    width: 100%;
+    width: 99%;
     height: 100px;
     padding: 10px;
     font-size: 17px;
@@ -65,24 +65,30 @@
     grid-column-end: 2;
   }
   .nav-bar__link__shift-schedule {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+  .nav-bar__link__employees {
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 2;
     grid-row-end: 3;
   }
-  .nav-bar__link__availability {
+  .nav-bar__link__reports {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 2;
     grid-row-end: 3;
   }
-  .nav-bar__link__employees {
+  .nav-bar__link__availability {
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 2;
     grid-row-end: 3;
   }
-  .nav-bar__link__reports {
+  .nav-bar__link__my-shifts {
     grid-column-start: 4;
     grid-column-end: 5;
     grid-row-start: 2;
@@ -96,19 +102,6 @@
     font-size: 15px;
   }
 }
-.wizard-logo {
-  width: 300px;
-  height: 150px;
-}
-
-.hat-icon {
-  position: absolute;
-  top: -10px;
-  left: 32px;
-  width: 45px;
-  height: 45px;
-}
-
 .running-clock {
   position: absolute;
   right: 30px;
@@ -127,7 +120,9 @@
   height: 400px;
   border: none;
   border-radius: 10px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 .login__title {
   text-align: center;
@@ -145,7 +140,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.login__email, .login__password {
+.login__email,
+.login__password {
   text-align: center;
   margin-bottom: 30px;
   width: 250px;
@@ -196,7 +192,8 @@
     width: 90%;
     height: 400px;
   }
-  .login__email, .login__password {
+  .login__email,
+  .login__password {
     width: 230px;
   }
 }
@@ -250,7 +247,8 @@
   cursor: default;
   font-size: 30px;
 }
-.shift__startEndShift__start, .shift__startEndShift__end {
+.shift__startEndShift__start,
+.shift__startEndShift__end {
   position: absolute;
   top: 80%;
   left: 50%;
@@ -264,7 +262,8 @@
   transition: all 0.5s ease-in-out;
   cursor: pointer;
 }
-.shift__startEndShift__start:hover, .shift__startEndShift__end:hover {
+.shift__startEndShift__start:hover,
+.shift__startEndShift__end:hover {
   background-color: transparent;
   border: none;
   color: black;
@@ -316,7 +315,8 @@
     cursor: default;
     font-size: 25px;
   }
-  .shift__startEndShift__start, .shift__startEndShift__end {
+  .shift__startEndShift__start,
+  .shift__startEndShift__end {
     background-color: black;
     color: white;
     padding: 5px 20px;
@@ -328,17 +328,80 @@
     font-size: 20px;
     padding: 5px 10px;
   }
-  .shift__startEndShift__start:hover, .shift__startEndShift__end:hover {
+  .shift__startEndShift__start:hover,
+  .shift__startEndShift__end:hover {
     font-size: 20px;
     background-color: #67d7e3;
   }
 }
-.main-sections-container {
+.new-schedule-page-header {
+  font-size: 50px;
+  margin: 50px;
+  cursor: default;
+}
+
+.new-schedule-form {
+  margin: 50px;
+  font-size: 40px;
+  color: #5c5c5c;
+  font-weight: 400;
+}
+.new-schedule-form__date {
+  max-width: 100%;
+  background-color: #c5ebef;
+  border: none;
+  border-radius: 13px 13px 13px 0;
+  text-align: center;
+  height: 35px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  margin-right: 20px;
+  color: #5c5c5c;
+  cursor: auto;
+}
+.new-schedule-form__input {
+  width: 100px;
+  background-color: #c5ebef;
+  border: none;
+  border-radius: 13px 13px 13px 0;
+  text-align: center;
+  width: 50px;
+  height: 35px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  margin-right: 20px;
+  color: #5c5c5c;
+  margin-bottom: 40px;
+}
+.new-schedule-form__header {
+  font-weight: 600;
+  margin-top: 20px;
+}
+.new-schedule-form__submit-btn {
+  display: block;
+  background-color: #c5ebef;
+  border: none;
+  border-radius: 13px 13px 13px 0;
+  text-align: center;
+  text-overflow: none;
+  height: 35px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  color: #5c5c5c;
+  padding-right: 35px;
+  padding-left: 35px;
+  cursor: pointer;
+  background-color: #679ca1;
+  color: white;
+}
+
+.new-schedule-creation-container {
   display: grid;
   grid-template-columns: 25% 75%;
   grid-template-rows: auto;
   padding: 0 10px;
   margin-top: 15px;
+  margin: 50px;
 }
 
 .employees-panel {
@@ -383,7 +446,8 @@
   width: 20px;
 }
 .employees-panel__employee-box:hover {
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 .shifts-panel {
@@ -420,6 +484,16 @@
   align-items: center;
 }
 
+.comments-panel {
+  margin: 50px;
+  max-width: 790px;
+  height: 58px;
+  border: 3px solid #c5ebef;
+  border-radius: 13px;
+  vertical-align: middle;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
 .my-shift-page {
   border: none;
   border-radius: 10px;
@@ -436,4 +510,4 @@
 
 .shift-table {
   width: 100%;
-}/*# sourceMappingURL=style.css.map */
+} /*# sourceMappingURL=style.css.map */

@@ -15,7 +15,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  // box-shadow: 1px 1px 10px 1px #cccccc92;
   @include inputShadowBlue;
 
   &__links-group {
@@ -52,7 +51,7 @@
 // Media query -
 @media screen and (max-width: 768px) {
   .nav-bar {
-    width: 100%;
+    width: 99%;
     height: 100px;
     padding: 10px;
     font-size: 17px;
@@ -76,6 +75,14 @@
     }
 
     &__link__shift-schedule {
+      grid-column-start: 2;
+      grid-column-end: 3;
+
+      grid-row-start: 1;
+      grid-row-end: 2;
+    }
+
+    &__link__employees {
       grid-column-start: 1;
       grid-column-end: 2;
 
@@ -83,7 +90,7 @@
       grid-row-end: 3;
     }
 
-    &__link__availability {
+    &__link__reports {
       grid-column-start: 2;
       grid-column-end: 3;
 
@@ -91,7 +98,7 @@
       grid-row-end: 3;
     }
 
-    &__link__employees {
+    &__link__availability {
       grid-column-start: 3;
       grid-column-end: 4;
 
@@ -99,7 +106,7 @@
       grid-row-end: 3;
     }
 
-    &__link__reports {
+    &__link__my-shifts {
       grid-column-start: 4;
       grid-column-end: 5;
 
@@ -115,21 +122,6 @@
       font-size: 15px;
     }
   }
-}
-//
-
-// Logo -
-.wizard-logo {
-  width: 300px;
-  height: 150px;
-}
-
-.hat-icon {
-  position: absolute;
-  top: -10px;
-  left: 32px;
-  width: 45px;
-  height: 45px;
 }
 //
 
@@ -336,12 +328,80 @@
 //
 
 // Shifts scheduling page
-.main-sections-container {
+.new-schedule-page-header {
+  @include headerCenter;
+}
+
+.new-schedule-form {
+  margin: 50px;
+  font-size: 40px;
+  color: #5c5c5c;
+  font-weight: 400;
+
+  &__label {
+  }
+
+  &__date {
+    max-width: 100%;
+    background-color: #c5ebef;
+    border: none;
+    border-radius: 13px 13px 13px 0;
+    text-align: center;
+    //width: 50px;
+    height: 35px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+      rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    margin-right: 20px;
+    color: #5c5c5c;
+    cursor: auto;
+  }
+
+  &__input {
+    width: 100px;
+    background-color: #c5ebef;
+    border: none;
+    border-radius: 13px 13px 13px 0;
+    text-align: center;
+    width: 50px;
+    height: 35px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+      rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    margin-right: 20px;
+    color: #5c5c5c;
+    margin-bottom: 40px;
+  }
+
+  &__header {
+    font-weight: 600;
+    margin-top: 20px;
+  }
+
+  &__submit-btn {
+    display: block;
+    background-color: #c5ebef;
+    border: none;
+    border-radius: 13px 13px 13px 0;
+    text-align: center;
+    text-overflow: none;
+    height: 35px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+      rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    color: #5c5c5c;
+    padding-right: 35px;
+    padding-left: 35px;
+    cursor: pointer;
+    background-color: #679ca1;
+    color: white;
+  }
+}
+
+.new-schedule-creation-container {
   display: grid;
   grid-template-columns: 25% 75%;
   grid-template-rows: auto;
   padding: 0 10px;
   margin-top: 15px;
+  margin: 50px;
 }
 
 .employees-panel {
@@ -440,6 +500,16 @@
     justify-content: space-between;
     align-items: center;
   }
+}
+
+.comments-panel {
+  margin: 50px;
+  max-width: 790px;
+  height: 58px;
+  border: 3px solid #c5ebef;
+  border-radius: 13px;
+  vertical-align: middle;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 // My shift page

@@ -31,6 +31,7 @@ async function main() {
 
     updateClock();
   }
+  displayWeekScheduleConfig();
   renderAllAvailableEmployees();
 }
 
@@ -68,18 +69,18 @@ const displayWeekScheduleConfig = () => {
 
   newScheduleFormElem.innerHTML = `
       <form onsubmit="createNewWeekSchedule(event)">
-        <label for="startDate">New schedule starts at:</label>
+        <label for="startDate" class="new-schedule-form__label">Schedule start date:</label>
         <input type="text" class="new-schedule-form__date" name="startDate" value='${nextSunday.toDateString()}' readonly>
-        <label for="endDate">New schedule end's at:</label>
+        <label for="endDate" class="new-schedule-form__label">Schedule end date:</label>
         <input type="text" class="new-schedule-form__date" name="endDate" value='${nextSaturday.toDateString()}' readonly>
         <p class="new-schedule-form__header">Roles:</p>
-        <label for="roleManager">Shift Managers:</label>
-        <input type="number" class="new-schedule-form__role-count" name="roleManager" value="1" readonly>
-        <label for="roleCashier">Cashier:</label>
-        <input type="number" class="new-schedule-form__role-count" name="roleCashier" value="1" min="0">
-        <label for="roleSales">Sales person:</label>
-        <input type="number" class="new-schedule-form__role-count" name="roleSales" value="1" min="0">
-        <input type="submit">
+        <label for="roleManager" class="new-schedule-form__label">Shift Managers:</label>
+        <input type="number" class="new-schedule-form__input" name="roleManager" value="1" readonly>
+        <label for="roleCashier" class="new-schedule-form__label">Cashier:</label>
+        <input type="number" class="new-schedule-form__input" name="roleCashier" value="1" min="0">
+        <label for="roleSales" class="new-schedule-form__label">Sales person:</label>
+        <input type="number" class="new-schedule-form__input" name="roleSales" value="1" min="0">
+        <input type="submit" value="Create new week schedule" class="new-schedule-form__submit-btn">
       </form>
   `;
 };
@@ -140,20 +141,12 @@ const renderEmployeesPanel = (weekDaysArr: Array<Date>) => {
 
         <div class="employees-panel__search-box">
           
-          <!-- <div class="employees-panel__search-box__search-box"> -->
-            <form onsubmit="testt(event)">
-              <input type="image" src="./images/magnifying-glass.png" alt="magnifying-glass" class="employees-panel__search-box__image">
-              <label for="name"></label>
-              <input type="text" name="name" class="employees-panel__search-box__text" value="Search employee">
-            </form>
-          <!-- </div> -->
         </div>
 
         <div class="employees-panel__employees-list-container">
-          
         </div>
 
-        <div class="comments-panel"></div>
+        
   `;
 };
 
@@ -165,12 +158,27 @@ const renderAllocationsPanel = (
     ".shifts-panel"
   ) as HTMLDivElement;
 
+  // shiftsPanelElem.innerHTML = `
+  // <div class="shifts-panel__days-header-container">${renderWeekHeaders(
+  //   weekDaysArr
+  // )}</div>
+  // ${renderRoleAllocationsPlaces(weekDaysArr, scheduleRequirements)}
+  // `;
+
   shiftsPanelElem.innerHTML = `
-  <div class="shifts-panel__days-header-container">${renderWeekHeaders(
+  <table border="1" cellpadding="17"width="400" height="100" class="shift-table">
+  <thead class="shift-table__header-container">
+  <tr class="shift-table__header-container">
+      <th></th>
+  ${renderWeekHeaders(
     weekDaysArr
-  )}</div>
+  )}
+  </tr>
+  </thead>
+  <tbody class="shift-table__body-container">
   ${renderRoleAllocationsPlaces(weekDaysArr, scheduleRequirements)}
-  `;
+  </tbody>
+  </table>`;
 };
 
 const renderWeekHeaders = (weekDaysArr: Array<Date>): string => {
@@ -188,12 +196,11 @@ const renderWeekHeaders = (weekDaysArr: Array<Date>): string => {
   const daysHeadersHtml = weekDaysArr
     .map((dayHeader) => {
       daysCounter++;
-      return `<div class="shifts-panel__day-box">
-      <p class="shifts-panel__day-box__day">${daysNames[daysCounter]}</p>
+      return `<th><p>${daysNames[daysCounter]}</p>
       <p class="shifts-panel__day-box__date">${weekDaysArr[
         daysCounter
       ].getDate()} / ${weekDaysArr[daysCounter].getMonth()}</p>
-      </div>`;
+      </th>`;
     })
     .join("");
 
@@ -218,14 +225,16 @@ const renderRoleAllocationsPlaces = (
     let oneStringRoleTypeName = (scheduleRequirements[i]["roleType"] === "Shift Manager") ? "ShiftManager" : (scheduleRequirements[i]["roleType"]);
 
     for (let j = 0; j < numEmployeesRequiredForRole; j++) {
-      rolesHtml += `<div class="shifts-panel__role-row"><p class="shifts-panel__role-row__title">${scheduleRequirements[i]["roleType"]}</p>`;
+      rolesHtml += `<tr class="shift-table__roles-row">
+      <td class="shift-table__role-row__role">
+      ${scheduleRequirements[i]["roleType"]}</td>`;
 
 
       for (let weekdayIndex = 0; weekdayIndex < 7; weekdayIndex++) {
-        rolesHtml += `<div class="shifts-panel__role-row__${oneStringRoleTypeName}-num${j}-weekday${weekdayIndex}">
-        <img src="./images/add-employee-to-shift.png" alt="add-employee-to-shift" class="shifts-panel__role-row__icon" onclick="onShiftSelect('${scheduleRequirements[i]["roleType"]}', '${weekdayIndex}', '${j}')"></div>`;
+        rolesHtml += `<td class="shifts-panel__role-row__${oneStringRoleTypeName}-num${j}-weekday${weekdayIndex}">
+        <img src="./images/add-employee-to-shift.png" alt="add-employee-to-shift" class="shifts-panel__role-row__icon" onclick="onShiftSelect('${scheduleRequirements[i]["roleType"]}', '${weekdayIndex}', '${j}')">`;
       }
-      rolesHtml += "</div>";
+      rolesHtml += "</ td>";
     }
   }
 

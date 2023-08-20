@@ -183,3 +183,247 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .reports-page__header {
+    @include responsiveHeader;
+  }
+
+  // Employee reports -
+  .employeesSalaryReportSection {
+    position: relative;
+    width: 100%;
+    margin-top: 50px;
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 5px rgb(202, 202, 202);
+      border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $mainBlue;
+      border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgb(7, 196, 196);
+    }
+    // border: 1px solid pink;
+
+    .salaryReportTable {
+      position: relative;
+      width: 900px;
+      margin: 0 auto;
+      overflow: scroll;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      th {
+        width: 100px;
+        font-size: 15px;
+      }
+    }
+
+    .employeeDetails,
+    .managerDetails {
+      position: relative;
+      margin: 0 auto;
+      margin-top: 20px;
+      width: 900px;
+    }
+
+    .reportCard {
+      display: flex;
+      justify-content: space-evenly;
+      padding: 10px 0;
+      border-bottom: 1px solid $mainBlue;
+
+      &__report-details {
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+
+        &__name,
+        &__birthday,
+        &__email,
+        &__phone,
+        &__salary,
+        &__role {
+          text-align: center;
+          width: 100%;
+          padding: 5px;
+          font-size: 15px;
+          letter-spacing: 0.5px;
+          overflow: scroll;
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  // Attendance section -
+  .attendanceReport {
+    position: relative;
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid $mainBlue;
+
+    th {
+      letter-spacing: 5px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    &__date {
+      width: 190px;
+    }
+
+    &__duration {
+      width: 100px;
+    }
+  }
+
+  .employeeAttendance {
+    margin-bottom: 50px;
+  }
+
+  .reportsPageDates {
+    position: relative;
+    width: 300px;
+    margin: 0 auto;
+    font-size: 13px;
+
+    &__details {
+      position: relative;
+      width: 100%;
+      display: flex;
+      border-bottom: 1px solid $mainBlue;
+      font-size: 13px;
+    }
+
+    &__details__date,
+    &__details__clock {
+      width: 190px;
+      padding: 5px 0;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    &__details__clock {
+      width: 100px;
+    }
+  }
+
+  // buttons -
+  .reportButtons {
+    position: relative;
+    top: 0;
+    right: 0;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+
+    // justify-content: space-evenly;
+
+    &__salary,
+    &__manager,
+    &__employee {
+      @include buttonDesign;
+      font-size: 15px;
+      margin: 5px 0;
+    }
+
+    &__salary:hover,
+    &__manager:hover,
+    &__employee:hover {
+      @include buttonHover;
+    }
+  }
+
+  .salaryReports,
+  .employeeReports,
+  .managerReports {
+    display: flex;
+    flex-direction: column;
+    // justify-content: space-evenly;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 10px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-align: center;
+
+    // border: 1px solid pink;
+
+    input {
+      @include inputShadowBlue;
+      padding: 5px;
+      width: 150px;
+      font-size: 15px;
+      margin: 2px 0 20px 0;
+    }
+
+    button {
+      @include buttonDesign;
+      font-size: 15px;
+
+      &:hover {
+        @include buttonHover;
+      }
+    }
+
+    &__upLabel,
+    &__downLabel,
+    &__betweenLabel {
+      font-size: 15px;
+    }
+  }
+
+  .employeeReports,
+  .managerReports {
+    &__byEmployee {
+      font-size: 15px;
+
+      &__List {
+        margin: 0 auto;
+        margin-top: 5px;
+        width: 250px;
+        @include inputShadowBlue;
+      }
+
+      &__submit {
+        margin-top: 10px;
+      }
+    }
+
+    &__byManager {
+      font-size: 15px;
+
+      &__List {
+        margin: 0 auto;
+        margin-top: 5px;
+        width: 250px;
+        @include inputShadowBlue;
+      }
+
+      &__submit {
+        margin-top: 10px;
+      }
+    }
+  }
+}

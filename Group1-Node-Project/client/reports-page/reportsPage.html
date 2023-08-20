@@ -35,7 +35,9 @@
 
     <div class="salaryReports" style="display: none">
       <form class="salaryReports__salaryUp" onsubmit="HandleSalaryUp(event)">
-        <label for="salaryUp">Find Salary More Than:</label>
+        <label for="salaryUp" class="salaryReports__upLabel"
+          >Find Salary More Than:</label
+        >
         <br />
         <input
           class="salaryReports__salaryUp__input"
@@ -49,7 +51,7 @@
           type="submit"
           value="SalaryUp"
         >
-          Enter
+          Search
         </button>
       </form>
 
@@ -57,7 +59,9 @@
         class="salaryReports__salaryDown"
         onsubmit="HandleSalaryDown(event)"
       >
-        <label for="salaryDown">Find Salary Less Than:</label>
+        <label for="salaryDown" class="salaryReports__downLabel"
+          >Find Salary Less Than:</label
+        >
         <br />
         <input
           class="salaryReports__salaryDown__input"
@@ -71,7 +75,7 @@
           type="submit"
           value="salaryDown"
         >
-          Enter
+          Search
         </button>
       </form>
 
@@ -79,7 +83,9 @@
         class="salaryReports__between"
         onsubmit="HandleSalaryBetween(event)"
       >
-        <label for="minSalary">Find Salary Between / Equal To: </label>
+        <label for="minSalary" class="salaryReports__betweenLabel"
+          >Find Salary Between / Equal To:
+        </label>
         <br />
         <input
           class="salaryReports__between__input"
@@ -102,7 +108,7 @@
           type="submit"
           value="SalaryBetween"
         >
-          Enter
+          Search
         </button>
       </form>
     </div>
@@ -119,7 +125,7 @@
           type="submit"
           value="Enter"
         >
-          Enter
+          Search
         </button>
       </form>
     </div>
@@ -136,7 +142,7 @@
           type="submit"
           value="Enter"
         >
-          Enter
+          Search
         </button>
       </form>
     </div>

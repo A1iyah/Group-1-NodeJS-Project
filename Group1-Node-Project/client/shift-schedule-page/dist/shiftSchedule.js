@@ -67,6 +67,7 @@ function main() {
                         currentTime = Date.now();
                         updateClock();
                     }
+                    displayWeekScheduleConfig();
                     renderAllAvailableEmployees();
                     return [2 /*return*/];
             }
@@ -93,7 +94,7 @@ var displayWeekScheduleConfig = function () {
     var newScheduleFormElem = document.querySelector(".new-schedule-form");
     nextSunday = getNextSundayDate(new Date());
     nextSaturday = getNextSaturdayDate(new Date());
-    newScheduleFormElem.innerHTML = "\n      <form onsubmit=\"createNewWeekSchedule(event)\">\n        <label for=\"startDate\">New schedule starts at:</label>\n        <input type=\"text\" class=\"new-schedule-form__date\" name=\"startDate\" value='" + nextSunday.toDateString() + "' readonly>\n        <label for=\"endDate\">New schedule end's at:</label>\n        <input type=\"text\" class=\"new-schedule-form__date\" name=\"endDate\" value='" + nextSaturday.toDateString() + "' readonly>\n        <p class=\"new-schedule-form__header\">Roles:</p>\n        <label for=\"roleManager\">Shift Managers:</label>\n        <input type=\"number\" class=\"new-schedule-form__role-count\" name=\"roleManager\" value=\"1\" readonly>\n        <label for=\"roleCashier\">Cashier:</label>\n        <input type=\"number\" class=\"new-schedule-form__role-count\" name=\"roleCashier\" value=\"1\" min=\"0\">\n        <label for=\"roleSales\">Sales person:</label>\n        <input type=\"number\" class=\"new-schedule-form__role-count\" name=\"roleSales\" value=\"1\" min=\"0\">\n        <input type=\"submit\">\n      </form>\n  ";
+    newScheduleFormElem.innerHTML = "\n      <form onsubmit=\"createNewWeekSchedule(event)\">\n        <label for=\"startDate\" class=\"new-schedule-form__label\">Schedule start date:</label>\n        <input type=\"text\" class=\"new-schedule-form__date\" name=\"startDate\" value='" + nextSunday.toDateString() + "' readonly>\n        <label for=\"endDate\" class=\"new-schedule-form__label\">Schedule end date:</label>\n        <input type=\"text\" class=\"new-schedule-form__date\" name=\"endDate\" value='" + nextSaturday.toDateString() + "' readonly>\n        <p class=\"new-schedule-form__header\">Roles:</p>\n        <label for=\"roleManager\" class=\"new-schedule-form__label\">Shift Managers:</label>\n        <input type=\"number\" class=\"new-schedule-form__input\" name=\"roleManager\" value=\"1\" readonly>\n        <label for=\"roleCashier\" class=\"new-schedule-form__label\">Cashier:</label>\n        <input type=\"number\" class=\"new-schedule-form__input\" name=\"roleCashier\" value=\"1\" min=\"0\">\n        <label for=\"roleSales\" class=\"new-schedule-form__label\">Sales person:</label>\n        <input type=\"number\" class=\"new-schedule-form__input\" name=\"roleSales\" value=\"1\" min=\"0\">\n        <input type=\"submit\" value=\"Create new week schedule\" class=\"new-schedule-form__submit-btn\">\n      </form>\n  ";
 };
 /** creates a new week schedule on form submitted */
 var createNewWeekSchedule = function (eve) {
@@ -132,11 +133,17 @@ var renderEmployeesPanel = function (weekDaysArr) {
     var employeesPanelElem = document.querySelector(".employees-panel");
     // const weekStartElem = document.querySelector(".employees-panel__week-displayer__week-start") as HTMLDivElement;
     // const weekEndElem = document.querySelector(".employees-panel__week-displayer__week-end") as HTMLDivElement;
-    employeesPanelElem.innerHTML = "\n        <div class=\"employees-panel__week-displayer\">\n          <p class=\"employees-panel__week-displayer__text\"><span class=\"employees-panel__week-displayer__week-start\">" + weekDaysArr[0].toDateString() + "</span> - <br><span class=\"employees-panel__week-displayer__week-end\">" + weekDaysArr[6].toDateString() + "</span></p>\n        </div>\n\n        <div class=\"employees-panel__search-box\">\n          \n          <!-- <div class=\"employees-panel__search-box__search-box\"> -->\n            <form onsubmit=\"testt(event)\">\n              <input type=\"image\" src=\"./images/magnifying-glass.png\" alt=\"magnifying-glass\" class=\"employees-panel__search-box__image\">\n              <label for=\"name\"></label>\n              <input type=\"text\" name=\"name\" class=\"employees-panel__search-box__text\" value=\"Search employee\">\n            </form>\n          <!-- </div> -->\n        </div>\n\n        <div class=\"employees-panel__employees-list-container\">\n          \n        </div>\n\n        <div class=\"comments-panel\"></div>\n  ";
+    employeesPanelElem.innerHTML = "\n        <div class=\"employees-panel__week-displayer\">\n          <p class=\"employees-panel__week-displayer__text\"><span class=\"employees-panel__week-displayer__week-start\">" + weekDaysArr[0].toDateString() + "</span> - <br><span class=\"employees-panel__week-displayer__week-end\">" + weekDaysArr[6].toDateString() + "</span></p>\n        </div>\n\n        <div class=\"employees-panel__search-box\">\n          \n        </div>\n\n        <div class=\"employees-panel__employees-list-container\">\n        </div>\n\n        \n  ";
 };
 var renderAllocationsPanel = function (weekDaysArr, scheduleRequirements) {
     var shiftsPanelElem = document.querySelector(".shifts-panel");
-    shiftsPanelElem.innerHTML = "\n  <div class=\"shifts-panel__days-header-container\">" + renderWeekHeaders(weekDaysArr) + "</div>\n  " + renderRoleAllocationsPlaces(weekDaysArr, scheduleRequirements) + "\n  ";
+    // shiftsPanelElem.innerHTML = `
+    // <div class="shifts-panel__days-header-container">${renderWeekHeaders(
+    //   weekDaysArr
+    // )}</div>
+    // ${renderRoleAllocationsPlaces(weekDaysArr, scheduleRequirements)}
+    // `;
+    shiftsPanelElem.innerHTML = "\n  <table border=\"1\" cellpadding=\"17\"width=\"400\" height=\"100\" class=\"shift-table\">\n  <thead class=\"shift-table__header-container\">\n  <tr class=\"shift-table__header-container\">\n      <th></th>\n  " + renderWeekHeaders(weekDaysArr) + "\n  </tr>\n  </thead>\n  <tbody class=\"shift-table__body-container\">\n  " + renderRoleAllocationsPlaces(weekDaysArr, scheduleRequirements) + "\n  </tbody>\n  </table>";
 };
 var renderWeekHeaders = function (weekDaysArr) {
     var daysNames = [
@@ -152,7 +159,7 @@ var renderWeekHeaders = function (weekDaysArr) {
     var daysHeadersHtml = weekDaysArr
         .map(function (dayHeader) {
         daysCounter++;
-        return "<div class=\"shifts-panel__day-box\">\n      <p class=\"shifts-panel__day-box__day\">" + daysNames[daysCounter] + "</p>\n      <p class=\"shifts-panel__day-box__date\">" + weekDaysArr[daysCounter].getDate() + " / " + weekDaysArr[daysCounter].getMonth() + "</p>\n      </div>";
+        return "<th><p>" + daysNames[daysCounter] + "</p>\n      <p class=\"shifts-panel__day-box__date\">" + weekDaysArr[daysCounter].getDate() + " / " + weekDaysArr[daysCounter].getMonth() + "</p>\n      </th>";
     })
         .join("");
     return daysHeadersHtml;
@@ -168,11 +175,11 @@ var renderRoleAllocationsPlaces = function (weekDaysArr, scheduleRequirements) {
             continue;
         var oneStringRoleTypeName = (scheduleRequirements[i]["roleType"] === "Shift Manager") ? "ShiftManager" : (scheduleRequirements[i]["roleType"]);
         for (var j = 0; j < numEmployeesRequiredForRole; j++) {
-            rolesHtml += "<div class=\"shifts-panel__role-row\"><p class=\"shifts-panel__role-row__title\">" + scheduleRequirements[i]["roleType"] + "</p>";
+            rolesHtml += "<tr class=\"shift-table__roles-row\">\n      <td class=\"shift-table__role-row__role\">\n      " + scheduleRequirements[i]["roleType"] + "</td>";
             for (var weekdayIndex = 0; weekdayIndex < 7; weekdayIndex++) {
-                rolesHtml += "<div class=\"shifts-panel__role-row__" + oneStringRoleTypeName + "-num" + j + "-weekday" + weekdayIndex + "\">\n        <img src=\"./images/add-employee-to-shift.png\" alt=\"add-employee-to-shift\" class=\"shifts-panel__role-row__icon\" onclick=\"onShiftSelect('" + scheduleRequirements[i]["roleType"] + "', '" + weekdayIndex + "', '" + j + "')\"></div>";
+                rolesHtml += "<td class=\"shifts-panel__role-row__" + oneStringRoleTypeName + "-num" + j + "-weekday" + weekdayIndex + "\">\n        <img src=\"./images/add-employee-to-shift.png\" alt=\"add-employee-to-shift\" class=\"shifts-panel__role-row__icon\" onclick=\"onShiftSelect('" + scheduleRequirements[i]["roleType"] + "', '" + weekdayIndex + "', '" + j + "')\">";
             }
-            rolesHtml += "</div>";
+            rolesHtml += "</ td>";
         }
     }
     return rolesHtml;
