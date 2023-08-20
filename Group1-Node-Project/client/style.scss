@@ -413,22 +413,21 @@
 }
 
 .employees-panel {
-  background-color: lightgray;
-  margin-right: 10px;
+    width: 20vw;
+    margin-right: 10px;
+    border-radius: 13px;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+    font-size: 42px;
+    line-height: 1.8rem;
+    font-weight: 400;
+    padding-left: 35px;
+    
+    &__week-display {
+    margin-bottom: 50px;
 
-  &__week-displayer {
-    background-color: rgb(185, 170, 170);
-  }
-
-  &__search-box {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    &__image {
-      margin-top: 5px;
-      width: 28px;
-      padding: 2px;
+    &__text{
+      font-size: 24px;
+      line-height: 3rem;
     }
   }
 
