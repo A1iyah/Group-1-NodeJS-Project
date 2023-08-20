@@ -101,7 +101,10 @@ const renderNavBar = (
                 <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employee-list-page/employeesPage.html')">Employees</p>
                 <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
                 </div>
-                <p class="nav-bar__user-name">${user.name}</p>`;
+                <div>
+                <p class="nav-bar__user-name">${user.name}</p>
+                <p class="nav-bar__link nav-bar__link__logOut" onclick="gotoPage('../index.html')">Log Out</p>
+                </div>`;
       navBarElem.innerHTML = navBarHtml;
       break;
     case UserType.Manager:
@@ -113,7 +116,10 @@ const renderNavBar = (
                 <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employee-list-page/employeesPage.html')">Employees</p>
                 <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
                 </div>
-                <p class="nav-bar__user-name">${user.name}</p>`;
+                <div>
+                <p class="nav-bar__user-name">${user.name}</p>
+                <p class="nav-bar__link nav-bar__link__logOut" onclick="gotoPage('../index.html')">Log Out</p>
+                </div>`;
       navBarElem.innerHTML = navBarHtml;
       break;
 
@@ -126,7 +132,10 @@ const renderNavBar = (
                 <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage('../employee-list-page/employeesPage.html')">Employees</p>
                 <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
                 </div>
-                <p class="nav-bar__user-name">${user.name}</p>`;
+                <div>
+                <p class="nav-bar__user-name">${user.name}</p>
+                <p class="nav-bar__link nav-bar__link__logOut" onclick="gotoPage('../index.html')">Log Out</p>
+                </div>`;
       navBarElem.innerHTML = navBarHtml;
   }
 
