@@ -133,7 +133,14 @@ var renderEmployeesPanel = function (weekDaysArr) {
     var employeesPanelElem = document.querySelector(".employees-panel");
     // const weekStartElem = document.querySelector(".employees-panel__week-displayer__week-start") as HTMLDivElement;
     // const weekEndElem = document.querySelector(".employees-panel__week-displayer__week-end") as HTMLDivElement;
-    employeesPanelElem.innerHTML = "\n        <div class=\"employees-panel__week-displayer\">\n          <p class=\"employees-panel__week-displayer__text\"><span class=\"employees-panel__week-displayer__week-start\">" + weekDaysArr[0].toDateString() + "</span> - <br><span class=\"employees-panel__week-displayer__week-end\">" + weekDaysArr[6].toDateString() + "</span></p>\n        </div>\n\n        <div class=\"employees-panel__search-box\">\n          \n        </div>\n\n        <div class=\"employees-panel__employees-list-container\">\n        </div>\n\n        \n  ";
+    employeesPanelElem.innerHTML = "\n        <div class=\"employees-panel__week-display\">\n          <p class=\"employees-panel__week-display__text\">" + weekDaysArr[0].toDateString() + " - </p>\n          <p class=\"employees-panel__week-display__text\">" + weekDaysArr[6].toDateString() + "</p>\n        </div>\n\n        <div class=\"employees-panel__employees-list-container\">\n        </div>\n  ";
+    // employeesPanelElem.innerHTML = `
+    //       <div class="employees-panel__week-display">
+    //         <p class="employees-panel__week-display__text"><span class="employees-panel__week-display__week-start">${weekDaysArr[0].toDateString()}</span> - <br><span class="employees-panel__week-display__week-end">${weekDaysArr[6].toDateString()}</span></p>
+    //       </div>
+    //       <div class="employees-panel__employees-list-container">
+    //       </div>
+    // `;
 };
 var renderAllocationsPanel = function (weekDaysArr, scheduleRequirements) {
     var shiftsPanelElem = document.querySelector(".shifts-panel");

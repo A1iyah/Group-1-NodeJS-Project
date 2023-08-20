@@ -135,19 +135,23 @@ const renderEmployeesPanel = (weekDaysArr: Array<Date>) => {
   // const weekEndElem = document.querySelector(".employees-panel__week-displayer__week-end") as HTMLDivElement;
 
   employeesPanelElem.innerHTML = `
-        <div class="employees-panel__week-displayer">
-          <p class="employees-panel__week-displayer__text"><span class="employees-panel__week-displayer__week-start">${weekDaysArr[0].toDateString()}</span> - <br><span class="employees-panel__week-displayer__week-end">${weekDaysArr[6].toDateString()}</span></p>
-        </div>
-
-        <div class="employees-panel__search-box">
-          
+        <div class="employees-panel__week-display">
+          <p class="employees-panel__week-display__text">${weekDaysArr[0].toDateString()} - </p>
+          <p class="employees-panel__week-display__text">${weekDaysArr[6].toDateString()}</p>
         </div>
 
         <div class="employees-panel__employees-list-container">
         </div>
-
-        
   `;
+
+  // employeesPanelElem.innerHTML = `
+  //       <div class="employees-panel__week-display">
+  //         <p class="employees-panel__week-display__text"><span class="employees-panel__week-display__week-start">${weekDaysArr[0].toDateString()}</span> - <br><span class="employees-panel__week-display__week-end">${weekDaysArr[6].toDateString()}</span></p>
+  //       </div>
+
+  //       <div class="employees-panel__employees-list-container">
+  //       </div>
+  // `;
 };
 
 const renderAllocationsPanel = (
