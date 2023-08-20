@@ -5,7 +5,6 @@ const errorMessage = document.querySelector(
 function openHP(check: string, string: string) {
   if (check) {
     const url = new URL(string, window.location.href);
-    console.log("new URL:", url.href);
     window.location.href = url.href;
   } else {
     errorMessage.style.display = "block";
@@ -46,7 +45,6 @@ function handleLogin(ev) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.ok);
         let check = data.ok;
         openHP(check, pageToOpen);
       });

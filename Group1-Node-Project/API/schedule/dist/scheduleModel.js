@@ -15,7 +15,8 @@ var weekScheduleSchema = new mongoose_1.Schema({
     wednesday: [{ type: mongoose_1.Schema.Types.ObjectId, ref: employeeModel_1["default"] }],
     thursday: [{ type: mongoose_1.Schema.Types.ObjectId, ref: employeeModel_1["default"] }],
     friday: [{ type: mongoose_1.Schema.Types.ObjectId, ref: employeeModel_1["default"] }],
-    saturday: [{ type: mongoose_1.Schema.Types.ObjectId, ref: employeeModel_1["default"] }]
+    saturday: [{ type: mongoose_1.Schema.Types.ObjectId, ref: employeeModel_1["default"] }],
+    table: String
 });
 var WeekScheduleModel = mongoose_1["default"].model("WeekSchedule", weekScheduleSchema);
 exports["default"] = WeekScheduleModel;

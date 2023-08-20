@@ -21,10 +21,8 @@ enum UserType {
 export const login = async (req: any, res: any) => {
   try {
     const { email, password, systemRole } = req.body;
-    console.log(email, password, systemRole);
 
     const userDB = await CompanyModel.findOne({ email, password, systemRole });
-    console.log(userDB);
 
     if (!userDB) throw new Error("email or password are incorrect");
     if (!secret) throw new Error("no token");

@@ -35,12 +35,13 @@
 
     <div class="salaryReports" style="display: none">
       <form class="salaryReports__salaryUp" onsubmit="HandleSalaryUp(event)">
-        <!-- <label for="salaryUp">Find salary More Than:</label> -->
+        <label for="salaryUp">Find Salary More Than:</label>
+        <br />
         <input
           class="salaryReports__salaryUp__input"
           type="number"
           name="salaryUp"
-          placeholder="Find salary More Than"
+          placeholder="More Than"
           required
         />
         <button
@@ -56,12 +57,13 @@
         class="salaryReports__salaryDown"
         onsubmit="HandleSalaryDown(event)"
       >
-        <!-- <label for="salaryDown">Find salary less Than:</label> -->
+        <label for="salaryDown">Find Salary Less Than:</label>
+        <br />
         <input
           class="salaryReports__salaryDown__input"
           type="number"
           name="salaryDown"
-          placeholder="Find salary less Than"
+          placeholder="Less Than"
           required
         />
         <button
@@ -77,20 +79,22 @@
         class="salaryReports__between"
         onsubmit="HandleSalaryBetween(event)"
       >
-        <!-- <label for="minSalary">Find salary between (and equal): </label> -->
+        <label for="minSalary">Find Salary Between / Equal To: </label>
+        <br />
         <input
           class="salaryReports__between__input"
           type="number"
           name="minSalary"
-          placeholder="Find salary between (and equal):"
+          placeholder="Between "
           required
         />
+        <span>/</span>
         <!-- <label for="maxSalary">To:</label> -->
         <input
           class="salaryReports__between__input2"
           type="number"
           name="maxSalary"
-          placeholder="To"
+          placeholder="Equal To:"
           required
         />
         <button
@@ -154,7 +158,7 @@
 
     <table class="attendanceReport" id="attendanceReport" style="display: none">
       <tr>
-        <th class="attendanceReport__date">Date & hour</th>
+        <th class="attendanceReport__date">Date&Hour</th>
         <th class="attendanceReport__duration">Duration</th>
       </tr>
     </table>

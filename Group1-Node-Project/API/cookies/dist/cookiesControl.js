@@ -60,11 +60,9 @@ exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, f
             case 0:
                 _b.trys.push([0, 2, , 3]);
                 _a = req.body, email = _a.email, password = _a.password, systemRole = _a.systemRole;
-                console.log(email, password, systemRole);
                 return [4 /*yield*/, companyModel_1["default"].findOne({ email: email, password: password, systemRole: systemRole })];
             case 1:
                 userDB = _b.sent();
-                console.log(userDB);
                 if (!userDB)
                     throw new Error("email or password are incorrect");
                 if (!secret)

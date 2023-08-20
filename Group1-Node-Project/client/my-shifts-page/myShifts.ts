@@ -20,23 +20,21 @@ async function main() {
 
     const startTimeString = localStorage.getItem("startTime");
     startTime1 = parseInt(startTimeString!);
-    console.log(startTime1);
 
     const currentTime = Date.now();
-    console.log(currentTime);
-
   }
   
-  handleShiftsDisplay();
+  // call the func. to start shift rendering process
+  //handleGetScheduleData();
+
+  renderTable();
 }
 main();
 
 function continueUpdateElapsedTime() {
   const currentTime = Date.now();
-  console.log(currentTime);
 
   const elapsedTime = currentTime - startTime1;
-  console.log(elapsedTime);
 
   const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
   const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
@@ -47,7 +45,6 @@ function continueUpdateElapsedTime() {
   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   runningClock.innerHTML = formattedTime;
   totalTimeShift = formattedTime;
-  console.log(totalTimeShift);
   localStorage.setItem("totalTimeShift", formattedTime);
 }
 
@@ -55,11 +52,8 @@ function updateClock() {
   intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
 
-const handleShiftsDisplay = () =>
+const renderTable = () =>
 {
-  console.log("handling shift dis");
-  
-
   try {
     fetch("/api/schedule/get-next-week-schedule", {
       method: "GET",
@@ -70,20 +64,44 @@ const handleShiftsDisplay = () =>
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("data: ", data.nextWeekSchedule[0]);
-        renderShiftsTable(data.nextWeekSchedule[0]);
-        
+        //renderShiftsTable(data.nextWeekSchedule[0]);
 
-        
+        const shiftsTableElem = document.querySelector(".shift-table") as HTMLDivElement;
+
+        shiftsTableElem.innerHTML = data.nextWeekSchedule[0]["table"];
       });
   } catch (error) {
     console.error(error);
   }
 }
 
-const renderShiftsTable = (nextWeekSchedule: Object) =>
+/** Main function to receive the schedule data of next week, and calls the main rendering func. */
+const handleGetScheduleData = () =>
+{
+  try {
+    fetch("/api/schedule/get-next-week-schedule", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        renderShiftsTable(data.nextWeekSchedule[0]);
+      });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+/** Main function to handle rendering of the entire schedule table */
+const renderShiftsTable = async (nextWeekSchedule: Object) =>
 {
   const shiftsTable = document.querySelector(".shift-table") as HTMLDivElement;
+
+  let htmlArr: string[] = [];
+  let htmlResult:string = "";
 
   shiftsTable.innerHTML = `<thead class="shift-table__header-container">
   <tr class="shift-table__header-container">
@@ -92,10 +110,10 @@ const renderShiftsTable = (nextWeekSchedule: Object) =>
   </tr>
   </thead>
   <tbody class="shift-table__body-container">
-  ${rolesAndAllocationHtml(nextWeekSchedule)}
   </tbody>
-  `
+  `;
   
+  rolesRowsHtml(nextWeekSchedule);
 }
 
 /** Returns the html for the table weekdays headers */
@@ -111,114 +129,97 @@ const weekHeadersHtml = (startDate: Date):string => {
   return html;
 }
 
-/** Returns an array of dates of the a whole week.
- * @receives a date
- * @returns an array of Date of a week, starting from the date received
- */ 
-const getScheduleDates = (startDate: Date): Date[] =>
-{
-  let weekDatesArr: Date[] = [];
-  const nextSunday = new Date(startDate);
-  let today = new Date();
-
-  for (let i = 0 ; i < 7 ; i++)
-  {
-    let newDate = new Date(today.setDate(nextSunday.getDate() + i));
-    weekDatesArr.push(newDate)
-  }
-
-  return weekDatesArr;
-}
-
-/** Returns the html of the roles and allocation of employees during the week */
-const rolesAndAllocationHtml = (nextWeekSchedule: Object):string =>
+/** Returns the html of the roles rows and allocation of employees during the week */
+const rolesRowsHtml = (nextWeekSchedule: Object) =>
 {
   const scheduleRequirementsArrLenght: number = nextWeekSchedule["scheduleRequirements"].length;
-  let htmlArr: string[] = []; 
-  let resultHtml: string = "";
+  const tableBodyContainer = document.querySelector(".shift-table__body-container") as HTMLDivElement;
   
   // Loops on each role type requirement to render it
   for (let i = 0 ; i < scheduleRequirementsArrLenght ; i++)
   {
-    const tableRowStartHtml = `<tr class="shift-table__roles-row">
-    <td class="shift-table__role-row__role">Shift Manager</td>`;
-
-    const tableRowCloseHtml = `</tbody>`;
-
-    htmlArr.push(tableRowStartHtml);
-    
     const roleCountRequirement = nextWeekSchedule["scheduleRequirements"][i]["numEmployeesRequired"];
 
+    if (roleCountRequirement === 0) continue;
+    
     // Performs rendering of the role row if employees of that role are required in the schedule
-    if (roleCountRequirement > 0)
-    {
-      try {
-        fetch("/api/employee/get-employees-by-role-type", {
-          method: "SEARCH",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            roleType: nextWeekSchedule["scheduleRequirements"][i].roleType
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            //let allCompanyEmployeesInRole = data["employees"];
-            allCompanyEmployeesInRole = data["employees"];
+    try {
+      fetch("/api/employee/get-employees-by-role-type", {
+        method: "SEARCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          roleType: nextWeekSchedule["scheduleRequirements"][i].roleType
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          const html:string = singleRoleColumnHtml(nextWeekSchedule["scheduleRequirements"][i].roleType, roleCountRequirement, nextWeekSchedule, data["employees"]);
 
-            for (let roleCount = 0 ; roleCount < roleCountRequirement ; roleCount++)
-            {
-              const html:string = singleRoleColumnHtml(nextWeekSchedule["scheduleRequirements"][i].roleType, roleCount, nextWeekSchedule);
-              htmlArr.push(html);
-            }
-
-            htmlArr.push(tableRowCloseHtml);
-          });
-        } catch (error) {
-          console.error(error);
-        }
-    }
-    else{
-      htmlArr.push(tableRowCloseHtml);
-    }
+          tableBodyContainer.innerHTML += html;
+        });
+      } catch (error) {
+        console.error(error);
+      }
   }
-  
-  return resultHtml.concat(...htmlArr);
 }
 
-const singleRoleColumnHtml = (roleType: string, roleCount: number, nextWeekSchedule: Object):string =>
+/** renders a single row for role */
+const singleRoleColumnHtml = (roleType: string, roleCountRequirement: number, nextWeekSchedule: Object, allCompanyEmployeesInRole:object[]):string =>
 {
   let rowHtmlArr: string[] = [];
-  let resultHtml: string = "";
-
-  rowHtmlArr.push(`<td class="shift-table__role-row__role">${roleType}</td>`);
-
-  //console.log("allCompanyEmployeesInRole: ", allCompanyEmployeesInRole);
-
-  //console.log("nextWeekSchedule: ", nextWeekSchedule);
+  let weekday: string;
+  console.log("nextWeekSchedule: ", nextWeekSchedule);
   
-  for (let dayIndex = 0 ; dayIndex < 7 ; dayIndex++)
+
+  // loops through the employees in a schedule according to the role and number of times that role is required (rows)
+  for (let roleCount = 0 ; roleCount < roleCountRequirement ; roleCount++)
   {
-    //console.log(convertWeekdayIndexToWeekdayName(String(dayIndex)));
-    
-    //console.log("test: ", nextWeekSchedule[convertWeekdayIndexToWeekdayName(dayIndex)]);
+    let startHtml:string = `<tr class="shift-table__roles-row"><td class="shift-table__role-row__role">${roleType}</td>`;
+    rowHtmlArr.push(startHtml);
 
-    console.log(nextWeekSchedule);
-    
-    //console.log(nextWeekSchedule[${convertWeekdayIndexToWeekdayName(String(dayIndex))}`]);
-    
-    
-      const html = (nextWeekSchedule[`${convertWeekdayIndexToWeekdayName(String(dayIndex))}`] as Array<object>).map( (dayScheduleEmployees) => {
-        //console.log("dayScheduleEmployees: ", dayScheduleEmployees);
-      })
+    // fills the html for the 7 days of the week
+    for (let dayIndex = 0 ; dayIndex < 7 ; dayIndex++)
+    {
+      weekday = convertWeekdayIndexToWeekdayName(String(dayIndex));
+
+      let employeeNameInSchedule = (nextWeekSchedule[weekday] as Array<String>).map( (employeeIdInSchedule) => {
+        if (!employeeIdInSchedule) return "";
+
+        let companyEmployeeObj = allCompanyEmployeesInRole.find( (obj) => obj["_id"] === employeeIdInSchedule);
+        //console.log("nextWeekSchedule[weekday]: ", nextWeekSchedule[weekday]);
+        
+        //console.log("employeeIdInSchedule: ", employeeIdInSchedule);
+        //console.log("companyEmployeeObj: ", companyEmployeeObj);
+        
+        
+        
+        if (companyEmployeeObj !== undefined)
+        {
+          let htmlText:string = `<td class="shift-table__role-row__employee">${companyEmployeeObj["name"]}</td>`;
+          rowHtmlArr.push(htmlText);
+
+          const index = (nextWeekSchedule[weekday] as Array<String>).indexOf(employeeIdInSchedule);
+          nextWeekSchedule[weekday].splice(index, 1);
+        }
+
+        // else
+        // {
+          //   rowHtmlArr.push(`<td class="shift-table__role-row__employee">Unassigned</td>`);
+          // }
+        })
+        
+        //console.log(employeeNameInSchedule);
+      }
+
+    rowHtmlArr.push(`</tr>`);
   }
-  
-  rowHtmlArr.push(`</tr>`);
-  
 
-  return resultHtml.concat(...rowHtmlArr);
+  //rowHtmlArr.push(`</tr>`);
+
+  return rowHtmlArr.join("")
 }
 
 /** Receives an index number from 0 to 6 and returns the name of the week day as string */
@@ -256,4 +257,42 @@ const convertWeekdayIndexToWeekdayName = (weekdayIndex: string): string =>
         default:
             return "";
     }
+}
+
+/** A helper function.
+ * @receives a date
+ * @returns an array of Date of a week, starting from the date received
+ */ 
+const getScheduleDates = (startDate: Date): Date[] =>
+{
+  let weekDatesArr: Date[] = [];
+  const nextSunday = new Date(startDate);
+  let today = new Date();
+
+  for (let i = 0 ; i < 7 ; i++)
+  {
+    let newDate = new Date(today.setDate(nextSunday.getDate() + i));
+    //console.log(newDate);
+    
+    // if (weekDatesArr[i-1])
+    // {
+    //   if (weekDatesArr[i-1].getDate() > newDate.getDate())
+    //   {
+    //     newDate = new Date(today.setDate(nextSunday.getDate() + i));
+    //   }
+    // }
+    
+    
+    // if (newDate.getDate() < weekDatesArr[i-1].getDate())
+    // {
+    //   console.log("yes");
+      
+    //   //newDate = new Date(today.setDate(nextSunday.getDate() + (i - 1)));
+    // }
+    
+    weekDatesArr.push(newDate)
+    //i++;
+  }
+
+  return weekDatesArr;
 }

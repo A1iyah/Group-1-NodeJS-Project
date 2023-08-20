@@ -42,7 +42,6 @@ var roleModel_1 = require("../role/roleModel");
 var dotenv = require("dotenv");
 dotenv.config();
 var secret = process.env.JWT_SECRET;
-console.log("secret:", secret);
 // const secret: string = "secret";
 exports.addAttendance = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, user, totalTimeShift, updateUser, error_1;
@@ -65,7 +64,6 @@ exports.addAttendance = function (req, res) { return __awaiter(void 0, void 0, v
                     }, { "new": true })];
             case 1:
                 updateUser = _b.sent();
-                console.log(user);
                 res.send({ ok: true });
                 return [3 /*break*/, 3];
             case 2:
@@ -120,7 +118,6 @@ exports.getEmployeesByRoleType = function (req, res) { return __awaiter(void 0, 
                 return [4 /*yield*/, employeeModel_1["default"].find({ role: roleTypeId })];
             case 2:
                 employees = _a.sent();
-                console.log(employees);
                 res.status(200).send({ ok: true, employees: employees });
                 return [3 /*break*/, 4];
             case 3:

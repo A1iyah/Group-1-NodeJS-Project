@@ -54,9 +54,7 @@ function main() {
                         runningClock2.innerHTML = totalTimeShift;
                         startTimeString = localStorage.getItem("startTime");
                         startTime1 = parseInt(startTimeString);
-                        console.log(startTime1);
                         currentTime = Date.now();
-                        console.log(currentTime);
                         // const elapsedTime = currentTime - startTime1;
                         updateClock();
                     }
@@ -84,16 +82,13 @@ function main() {
 main();
 function continueUpdateElapsedTime() {
     var currentTime = Date.now();
-    console.log(currentTime);
     var elapsedTime = currentTime - startTime1;
-    console.log(elapsedTime);
     var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
     var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
     var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
     runningClock2.innerHTML = formattedTime;
     totalTimeShift = formattedTime;
-    console.log(totalTimeShift);
     localStorage.setItem("totalTimeShift", formattedTime);
 }
 function updateClock() {
@@ -173,7 +168,6 @@ addManagerBtn.addEventListener("click", function () {
 function handleCreateEmployee(evt) {
     try {
         evt.preventDefault();
-        console.log(user._id);
         var managerID_1 = user._id;
         var name_1 = evt.target.elements.name.value;
         var email_1 = evt.target.elements.email.value;
@@ -244,7 +238,6 @@ function handleCreateEmployee(evt) {
             })
                 .then(function (res) { return res.json(); })
                 .then(function (data) {
-                console.log(data);
                 renderEmployeeList(data.managerDB.employees);
             })["catch"](function (error) {
                 console.error(error);
@@ -278,7 +271,6 @@ function handleCreateManager(evt) {
         var salaryPerHour = evt.target.elements.salaryPerHour.value;
         var birthday = evt.target.elements.birthday.value;
         // const role = e.target.elements.role.value;
-        console.log(name, email, password, idNumber, phone, birthday, salaryPerHour);
         if (!email || !email.includes("@")) {
             emailError.style.display = "block";
             return;
@@ -318,9 +310,6 @@ function handleCreateManager(evt) {
         })
             .then(function (res) { return res.json(); })
             .then(function (data) {
-            console.log(data);
-            console.log(data.adminDB.employees);
-            console.log(data.adminDB.managers);
             renderEmployeeList(data.adminDB.employees);
             renderManagersList(data.adminDB.managers);
         })["catch"](function (error) {
@@ -343,7 +332,6 @@ function handleCreateManager(evt) {
 var handleGetWorkers = function () {
     try {
         var _id = user._id;
-        console.log(_id);
         if (userType === UserType.Admin) {
             fetch("/api/employees-page/get-admin-workers", {
                 method: "PATCH",
@@ -359,9 +347,6 @@ var handleGetWorkers = function () {
                 try {
                     if (!allWorkers)
                         throw new Error("No workers data found");
-                    console.log(allWorkers);
-                    console.log(allWorkers.employees);
-                    console.log(allWorkers.managers);
                     renderEmployeeList(allWorkers.employees);
                     renderManagersList(allWorkers.managers);
                 }
@@ -407,7 +392,6 @@ var handleGetWorkers = function () {
                 try {
                     if (!myTeamEmployees)
                         throw new Error("No employees data found");
-                    console.log(myTeamEmployees);
                     renderEmployeeList(myTeamEmployees);
                 }
                 catch (error) {
@@ -422,14 +406,16 @@ var handleGetWorkers = function () {
 };
 var renderEmployeeList = function (employees) {
     try {
-        console.log(employees);
         if (!employees) {
             console.log("No employees data available.");
             return;
         }
         var htmlStr = employees
             .map(function (employee) {
-            return "<div class=\"employees-page__employeeCard\">\n        <div class=\"employee-details\">\n        <button class=\"delete-btn\" onclick=\"handleDeleteEmployee('" + employee._id + "')\">\n        <span class=\"material-symbols-outlined\">\n        backspace\n        </span>\n        </button>\n        <div class=\"employee-name\">" + employee.name + "</div>\n        <div class=\"employee-birthday\">" + employee.birthday + "</div>\n        <div class=\"employee-email\">" + employee.email + "</div>\n        <div class=\"employee-phone\">" + employee.phone + "</div>\n        <div class=\"employee-role\">" + employee.role.name + "</div>\n        </div>\n        </div>";
+            var deleteButton = userType === UserType.Admin || userType === UserType.Manager
+                ? "<button class=\"delete-btn\" onclick=\"handleDeleteEmployee('" + employee._id + "')\">\n             <span class=\"material-symbols-outlined\">\n               backspace\n             </span>\n           </button>"
+                : "";
+            return "<div class=\"employees-page__employeeCard\">\n        <div class=\"employee-details\">\n        " + deleteButton + "\n        <div class=\"employee-name\">" + employee.name + "</div>\n        <div class=\"employee-birthday\">" + employee.birthday + "</div>\n        <div class=\"employee-email\">" + employee.email + "</div>\n        <div class=\"employee-phone\">" + employee.phone + "</div>\n        <div class=\"employee-role\">" + employee.role.name + "</div>\n        </div>\n        </div>";
         })
             .join(" ");
         var getAllEmployees = document.querySelector(".employees-page__employees-section__get-all-employees");
@@ -445,7 +431,10 @@ var renderManagersList = function (managers) {
     try {
         var htmlStr = managers
             .map(function (manager) {
-            return "<div class=\"employees-page__managerCard\" \">\n        <div class=\"manager-details\">\n        <div class=\"manager-name\">" + manager.name + "</div>\n        <div class=\"manager-birthday\">" + manager.birthday + "</div>\n        <div class=\"manager-email\">" + manager.email + "</div>\n        <div class=\"manager-phone\">" + manager.phone + "</div>\n        <div class=\"manager-role\">" + manager.role.name + "</div>\n        </div>\n        </div>";
+            var deleteButton = userType === UserType.Admin || userType === UserType.Manager
+                ? "<button class=\"delete-btn\" onclick=\"handleDeleteManager('" + manager._id + "')\">\n           <span class=\"material-symbols-outlined\">\n             backspace\n           </span>\n         </button>"
+                : "";
+            return "<div class=\"employees-page__managerCard\" \">\n      <div class=\"manager-details\">\n      " + deleteButton + "\n      <div class=\"manager-name\">" + manager.name + "</div>\n      <div class=\"manager-birthday\">" + manager.birthday + "</div>\n      <div class=\"manager-email\">" + manager.email + "</div>\n      <div class=\"manager-phone\">" + manager.phone + "</div>\n      <div class=\"manager-role\">" + manager.role.name + "</div>\n      </div>\n      </div>";
         })
             .join(" ");
         var getAllManagers = document.querySelector(".employees-page__managers-section__get-all-managers");
@@ -460,7 +449,6 @@ var renderManagersList = function (managers) {
 // Delete employee -
 var handleDeleteEmployee = function (_id) {
     try {
-        console.log("employee id is:", _id);
         fetch("/api/employees-page/delete-employee", {
             method: "DELETE",
             headers: {
@@ -481,53 +469,27 @@ var handleDeleteEmployee = function (_id) {
         console.log(error);
     }
 };
-// const create_Employee_tab = document.querySelector(
-//   ".create_Employee_Role"
-// ) as HTMLDivElement;
-// const create_Manager_tab = document.querySelector(
-//   ".create_Manager_Role"
-// ) as HTMLDivElement;
-// function getRole() {
-//   try {
-//     fetch("/api/get-roles")
-//       .then((res) => res.json())
-//       .then((data) => {
-//         console.log(data);
-//         if (!data) throw new Error("didn't get any data");
-//         const role = data.roles;
-//         const html: string = role
-//           .map((role) => {
-//             return `<option> ${role.name}</option>`;
-//           })
-//           .join(" ");
-//         console.log(create_Manager_tab);
-//         console.log(create_Employee_tab);
-//         create_Employee_tab.innerHTML = `<select class="create_Employee_Role_Select" name="role">${html} </select><br><br>`;
-//         create_Manager_tab.innerHTML = `<select class="create_Employee_Role_Select" name="role">${html} </select><br><br>`;
-//       });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-// const create_Employee_Manager = document.querySelector(
-//   ".create_Employee_Manager"
-// ) as HTMLElement;
-// function getManager() {
-//   try {
-//     fetch("/api/manager/get-managers")
-//       .then((res) => res.json())
-//       .then((data) => {
-//         console.log(data);
-//         if (!data) throw new Error("didn't get any data");
-//         const manager = data.managers;
-//         const html: string = manager
-//           .map((manager) => {
-//             return `<option>${manager.name}</option>`;
-//           })
-//           .join(" ");
-//         create_Employee_Manager.innerHTML = `<select class="create_Employee_Manager_Select" name="manager">${html} </select><br><br>`;
-//       });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+// Delete manager -
+var handleDeleteManager = function (_id) {
+    try {
+        console.log("employee id is:", _id);
+        fetch("/api/employees-page/delete-manager", {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ _id: _id })
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+            renderManagersList(data.managers);
+            handleGetWorkers();
+        })["catch"](function (error) {
+            console.log(error);
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
