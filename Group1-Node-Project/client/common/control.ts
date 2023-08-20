@@ -116,7 +116,7 @@ const renderNavBar = (
                 <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
                 <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage('../shift-schedule-page/shiftSchedule.html')">Schedule</p>
                 </div>
-                <div>
+                <div class="nav-bar__links-group">
                 <img src="turnOff.png" class="nav-bar__link nav-bar__link__logOut" onclick="gotoPage('../index.html')"/>
                 <p class="nav-bar__user-name">${user.name}</p>
                 </div>`;
@@ -131,7 +131,7 @@ const renderNavBar = (
                 <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage('../reports-page/reportsPage.html')">Reports</p>
                 <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage('../availability-page/availabilityPage.html')">Availability</p>
                 </div>
-                <div>
+                <div class="nav-bar__links-group">
                 <img src="turnOff.png" class="nav-bar__link nav-bar__link__logOut" onclick="gotoPage('../index.html')"/>
                 <p class="nav-bar__user-name">${user.name}</p>
                 </div>`;
