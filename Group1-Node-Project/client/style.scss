@@ -336,6 +336,17 @@
 //
 
 // Shifts scheduling page
+.new-schedule-page-header{
+  @include headerCenter;
+}
+
+.new-schedule-form{
+  margin: 50px;
+  font-size: 40px;
+  color: #5C5C5C;
+  font-weight: 700;
+}
+
 .main-sections-container {
   display: grid;
   grid-template-columns: 25% 75%;

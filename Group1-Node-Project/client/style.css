@@ -333,6 +333,19 @@
     background-color: #67d7e3;
   }
 }
+.new-schedule-page-header {
+  font-size: 50px;
+  margin: 50px;
+  cursor: default;
+}
+
+.new-schedule-form {
+  margin: 50px;
+  font-size: 40px;
+  color: #5C5C5C;
+  font-weight: 700;
+}
+
 .main-sections-container {
   display: grid;
   grid-template-columns: 25% 75%;
