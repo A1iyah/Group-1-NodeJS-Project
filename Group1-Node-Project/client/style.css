@@ -479,6 +479,16 @@
   align-items: center;
 }
 
+.comments-panel {
+  margin: 50px;
+  max-width: 790px;
+  height: 58px;
+  border: 3px solid #C5EBEF;
+  border-radius: 13px;
+  vertical-align: middle;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
 .my-shift-page {
   border: none;
   border-radius: 10px;

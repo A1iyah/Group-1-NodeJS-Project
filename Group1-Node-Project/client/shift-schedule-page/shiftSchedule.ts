@@ -141,20 +141,12 @@ const renderEmployeesPanel = (weekDaysArr: Array<Date>) => {
 
         <div class="employees-panel__search-box">
           
-          <!-- <div class="employees-panel__search-box__search-box"> -->
-            <form onsubmit="testt(event)">
-              <input type="image" src="./images/magnifying-glass.png" alt="magnifying-glass" class="employees-panel__search-box__image">
-              <label for="name"></label>
-              <input type="text" name="name" class="employees-panel__search-box__text" value="Search employee">
-            </form>
-          <!-- </div> -->
         </div>
 
         <div class="employees-panel__employees-list-container">
-          
         </div>
 
-        <div class="comments-panel"></div>
+        
   `;
 };
 
