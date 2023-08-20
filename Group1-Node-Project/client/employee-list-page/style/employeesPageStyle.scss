@@ -49,10 +49,6 @@
     z-index: 900;
   }
 
-  // &__add-managers-btn {
-  //   margin-top: 10px;
-  // }
-
   &__add-employees-btn:hover,
   &__add-managers-btn:hover {
     @include buttonHover;
