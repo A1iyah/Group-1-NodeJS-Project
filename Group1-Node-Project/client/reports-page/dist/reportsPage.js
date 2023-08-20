@@ -300,6 +300,7 @@ function HandleSalaryBetween(ev) {
     }
 }
 employeeButton.addEventListener("click", function (e) {
+    var _id = user._id;
     reportsBySalary.style.display = "none";
     reportsByEmployee.style.display = "flex";
     reportsByManager.style.display = "none";
@@ -325,14 +326,14 @@ employeeButton.addEventListener("click", function (e) {
         });
     }
     else if (userType === UserType.Manager) {
-        var _id = user._id;
+        var _id_1 = user._id;
         fetch("/api/manager/get-employees-list", {
             method: "PATCH",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ _id: _id })
+            body: JSON.stringify({ _id: _id_1 })
         })
             .then(function (res) { return res.json(); })
             .then(function (_a) {
