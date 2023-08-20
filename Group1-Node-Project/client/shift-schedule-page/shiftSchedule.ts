@@ -69,18 +69,18 @@ const displayWeekScheduleConfig = () => {
 
   newScheduleFormElem.innerHTML = `
       <form onsubmit="createNewWeekSchedule(event)">
-        <label for="startDate">Schedule start date:</label>
+        <label for="startDate" class="new-schedule-form__label">Schedule start date:</label>
         <input type="text" class="new-schedule-form__date" name="startDate" value='${nextSunday.toDateString()}' readonly>
-        <label for="endDate">Schedule end date:</label>
+        <label for="endDate" class="new-schedule-form__label">Schedule end date:</label>
         <input type="text" class="new-schedule-form__date" name="endDate" value='${nextSaturday.toDateString()}' readonly>
         <p class="new-schedule-form__header">Roles:</p>
-        <label for="roleManager">Shift Managers:</label>
-        <input type="number" class="new-schedule-form__role-count" name="roleManager" value="1" readonly>
-        <label for="roleCashier">Cashier:</label>
-        <input type="number" class="new-schedule-form__role-count" name="roleCashier" value="1" min="0">
-        <label for="roleSales">Sales person:</label>
-        <input type="number" class="new-schedule-form__role-count" name="roleSales" value="1" min="0">
-        <input type="submit">
+        <label for="roleManager" class="new-schedule-form__label">Shift Managers:</label>
+        <input type="number" class="new-schedule-form__input" name="roleManager" value="1" readonly>
+        <label for="roleCashier" class="new-schedule-form__label">Cashier:</label>
+        <input type="number" class="new-schedule-form__input" name="roleCashier" value="1" min="0">
+        <label for="roleSales" class="new-schedule-form__label">Sales person:</label>
+        <input type="number" class="new-schedule-form__input" name="roleSales" value="1" min="0">
+        <input type="submit" value="Create new week schedule" class="new-schedule-form__submit-btn">
       </form>
   `;
 };

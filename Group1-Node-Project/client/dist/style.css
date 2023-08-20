@@ -343,15 +343,61 @@
   margin: 50px;
   font-size: 40px;
   color: #5C5C5C;
-  font-weight: 700;
+  font-weight: 400;
+}
+.new-schedule-form__date {
+  max-width: 100%;
+  background-color: #C5EBEF;
+  border: none;
+  border-radius: 13px 13px 13px 0;
+  text-align: center;
+  height: 35px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  margin-right: 20px;
+  color: #5C5C5C;
+  cursor: auto;
+}
+.new-schedule-form__input {
+  width: 100px;
+  background-color: #C5EBEF;
+  border: none;
+  border-radius: 13px 13px 13px 0;
+  text-align: center;
+  width: 50px;
+  height: 35px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  margin-right: 20px;
+  color: #5C5C5C;
+  margin-bottom: 40px;
+}
+.new-schedule-form__header {
+  font-weight: 600;
+  margin-top: 20px;
+}
+.new-schedule-form__submit-btn {
+  display: block;
+  background-color: #C5EBEF;
+  border: none;
+  border-radius: 13px 13px 13px 0;
+  text-align: center;
+  text-overflow: none;
+  height: 35px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  color: #5C5C5C;
+  padding-right: 35px;
+  padding-left: 35px;
+  cursor: pointer;
+  background-color: #679CA1;
+  color: white;
 }
 
-.main-sections-container {
+.new-schedule-creation-container {
   display: grid;
   grid-template-columns: 25% 75%;
   grid-template-rows: auto;
   padding: 0 10px;
   margin-top: 15px;
+  margin: 50px;
 }
 
 .employees-panel {
