@@ -44,7 +44,7 @@
 
 @media screen and (max-width: 768px) {
   .nav-bar {
-    width: 100%;
+    width: 99%;
     height: 100px;
     padding: 10px;
     font-size: 17px;
@@ -65,24 +65,30 @@
     grid-column-end: 2;
   }
   .nav-bar__link__shift-schedule {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+  .nav-bar__link__employees {
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 2;
     grid-row-end: 3;
   }
-  .nav-bar__link__availability {
+  .nav-bar__link__reports {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 2;
     grid-row-end: 3;
   }
-  .nav-bar__link__employees {
+  .nav-bar__link__availability {
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 2;
     grid-row-end: 3;
   }
-  .nav-bar__link__reports {
+  .nav-bar__link__my-shifts {
     grid-column-start: 4;
     grid-column-end: 5;
     grid-row-start: 2;
@@ -96,19 +102,6 @@
     font-size: 15px;
   }
 }
-.wizard-logo {
-  width: 300px;
-  height: 150px;
-}
-
-.hat-icon {
-  position: absolute;
-  top: -10px;
-  left: 32px;
-  width: 45px;
-  height: 45px;
-}
-
 .running-clock {
   position: absolute;
   right: 30px;
@@ -342,7 +335,7 @@
 .new-schedule-form {
   margin: 50px;
   font-size: 40px;
-  color: #5C5C5C;
+  color: #5c5c5c;
   font-weight: 700;
 }
 
