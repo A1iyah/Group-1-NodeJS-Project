@@ -152,7 +152,7 @@ export const getSelectedSalaryBetween = async (req: any, res: any) => {
 
 export const getEmployeesList = async (req: any, res: any) => {
   try {
-    const employees = await AdminModel.findById("64d50e911e5749a59f1f4a6f")
+    const employees = await AdminModel.findById("64de1def9cd3eed4fd4903e0")
       .populate("employees")
       .exec();
 
@@ -165,7 +165,7 @@ export const getEmployeesList = async (req: any, res: any) => {
 
 export const getManagersList = async (req: any, res: any) => {
   try {
-    const managers = await AdminModel.findById("64d50e911e5749a59f1f4a6f")
+    const managers = await AdminModel.findById("64de1def9cd3eed4fd4903e0")
       .populate("managers")
       .exec();
 

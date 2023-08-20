@@ -151,11 +151,17 @@ var UserType;
   UserType[UserType["Admin"] = 0] = "Admin";
   UserType[UserType["Manager"] = 1] = "Manager";
   UserType[UserType["Employee"] = 2] = "Employee";
-})(UserType || (UserType = {}));
+})(UserType || (UserType = {})); // const navBarElem = document.querySelector(".nav-bar") as HTMLDivElement;
+// async function main() {
+//   await getActiveUser();
+//   renderNavBar(navBarElement);
+// }
+// main();
 
-function getActiveUser() {
+
+function loadActiveUser() {
   return __awaiter(this, void 0, void 0, function () {
-    var responseManager, dataManager, manager, error_1, responseAdmin, dataAdmin, admin, error_2, responseEmployee, dataEmployee, employee, error_3;
+    var response, data, user_1, userType_1, error_1;
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
@@ -163,32 +169,22 @@ function getActiveUser() {
 
           return [4
           /*yield*/
-          , fetch("/api/manager/get-manager")];
+          , fetch("/api/cookies/get-user")];
 
         case 1:
-          responseManager = _a.sent();
+          response = _a.sent();
           return [4
           /*yield*/
-          , responseManager.json()];
+          , response.json()];
 
         case 2:
-          dataManager = _a.sent();
-          manager = dataManager.manager;
-          console.log("dataManager: ", dataManager);
-          console.log("user: ", manager);
-
-          if (dataManager.ok === true && manager._id !== null) {
-            userType = UserType.Manager;
-            user = manager;
-            console.log("userType: ", userType);
-            return [2
-            /*return*/
-            ];
-          }
-
-          return [3
-          /*break*/
-          , 4];
+          data = _a.sent();
+          user_1 = data.user;
+          userType_1 = data.userType;
+          if (!user_1) throw new Error("didn't get from DB");
+          return [2
+          /*return*/
+          , data];
 
         case 3:
           error_1 = _a.sent();
@@ -198,113 +194,95 @@ function getActiveUser() {
           , 4];
 
         case 4:
-          _a.trys.push([4, 7,, 8]);
-
-          return [4
-          /*yield*/
-          , fetch("/api/admin/get-admin")];
-
-        case 5:
-          responseAdmin = _a.sent();
-          return [4
-          /*yield*/
-          , responseAdmin.json()];
-
-        case 6:
-          dataAdmin = _a.sent();
-          admin = dataAdmin.admin;
-          console.log("user: ", admin);
-
-          if (dataAdmin.ok === true && admin._id !== null) {
-            userType = UserType.Admin;
-            user = admin;
-            console.log("userType: ", userType);
-            return [2
-            /*return*/
-            ];
-          }
-
-          return [3
-          /*break*/
-          , 8];
-
-        case 7:
-          error_2 = _a.sent();
-          console.error(error_2);
-          return [3
-          /*break*/
-          , 8];
-
-        case 8:
-          _a.trys.push([8, 11,, 12]);
-
-          return [4
-          /*yield*/
-          , fetch("/api/employee/get-employee")];
-
-        case 9:
-          responseEmployee = _a.sent();
-          return [4
-          /*yield*/
-          , responseEmployee.json()];
-
-        case 10:
-          dataEmployee = _a.sent();
-          employee = dataEmployee.employee;
-          console.log("user: ", employee);
-
-          if (dataEmployee.ok === true && employee._id !== null) {
-            userType = UserType.Employee;
-            user = employee;
-            console.log("userType: ", userType);
-            return [2
-            /*return*/
-            ];
-          }
-
-          return [3
-          /*break*/
-          , 12];
-
-        case 11:
-          error_3 = _a.sent();
-          console.error(error_3);
-          return [3
-          /*break*/
-          , 12];
-
-        case 12:
           return [2
           /*return*/
           ];
       }
     });
   });
-}
+} // async function getActiveUser() {
+//   try {
+//     const responseManager = await fetch("/api/manager/get-manager");
+//     const dataManager = await responseManager.json();
+//     console.log("dataManager", dataManager);
+//     const { manager } = dataManager;
+//     if (dataManager.ok === true && manager._id !== null) {
+//       userType = UserType.Manager;
+//       user = manager;
+//       return;
+//     }
+//   } catch (error) {
+//     console.error("test");
+//   }
+//   try {
+//     const responseAdmin = await fetch("/api/admin/get-admin");
+//     const dataAdmin = await responseAdmin.json();
+//     const { admin } = dataAdmin;
+//     console.log("user: ", admin);
+// if (dataAdmin.ok === true && admin._id !== null) {
+//   userType = UserType.Admin;
+//   user = admin;
+//   console.log("userType: ", userType);
+//       return;
+//     }
+//   } catch (error) {
+//     console.error(error);
+//   }
+//   try {
+//     const responseEmployee = await fetch("/api/employee/get-employee");
+//     const dataEmployee = await responseEmployee.json();
+//     const { employee } = dataEmployee;
+//     console.log("user: ", employee);
+//     if (dataEmployee.ok === true && employee._id !== null) {
+//       userType = UserType.Employee;
+//       user = employee;
+//       console.log("userType: ", userType);
+//       return;
+//     }
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
 
-var renderNavBar = function renderNavBar(navBarElem) {
+
+var renderNavBar = function renderNavBar(navBarElem, userType, user) {
   var targetDivEle;
   if (!navBarElem) console.error("no nav bar HTMLDivElement received");
 
   switch (userType) {
     case UserType.Admin:
-      var navBarHtml = '<div class="nav-bar__links-group">\n                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage(\'../shift-schedule-page/shiftSchedule.html\')">Shift Schedule</p>\n                <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage(\'../availability-page/availabilityPage.html\')">Availability</p>\n                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage(\'../employee-list-page/employeePage.html\')">Employees</p>\n                <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage(\'../reports-page/reportsPage.html\')">Reports</p>\n                </div>';
+      var navBarHtml = '<div class="nav-bar__links-group">\n                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage(\'../shift-schedule-page/shiftSchedule.html\')">Schedule</p>\n                <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage(\'../availability-page/availabilityPage.html\')">Availability</p>\n                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage(\'../employee-list-page/employeesPage.html\')">Employees</p>\n                <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage(\'../reports-page/reportsPage.html\')">Reports</p>\n                </div>\n                <div class="nav-bar__links-group">\n                <img src="./turnOff.png" class="nav-bar__link nav-bar__link__logOut" onclick="gotoPage(\'../index.html\')"/>\n                <p class="nav-bar__user-name">' + user.name + "</p>\n                </div>";
       navBarElem.innerHTML = navBarHtml;
       break;
 
     case UserType.Manager:
-      navBarHtml = '<div class="nav-bar__links-group">\n                <p class="nav-bar__link nav-bar__link__employee-manager" onclick="gotoPage(\'../managerHP/managerHP.html\')">Start / End Shift</p>\n                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage(\'../shift-schedule-page/shiftSchedule.html\')">Shift Schedule</p>\n                <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage(\'../availability-page/availabilityPage.html\')">Availability</p>\n                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage(\'../employee-list-page/employeePage.html\')">Employees</p>\n                <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage(\'../reports-page/reportsPage.html\')">Reports</p>\n                </div>';
+      navBarHtml = '<div class="nav-bar__links-group">\n                <p class="nav-bar__link nav-bar__link__employee-manager" onclick="gotoPage(\'../managerHP/managerHP.html\')">Start/End Shift</p>\n                <p class="nav-bar__link nav-bar__link__my-shifts" onclick="gotoPage(\'../my-shifts-page/myShifts.html\')">My Shifts</p>\n                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage(\'../shift-schedule-page/shiftSchedule.html\')">Schedule</p>\n                <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage(\'../availability-page/availabilityPage.html\')">Availability</p>\n                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage(\'../employee-list-page/employeesPage.html\')">Employees</p>\n                <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage(\'../reports-page/reportsPage.html\')">Reports</p>\n                </div>\n                <div>\n                <img src="turnOff.png" class="nav-bar__link nav-bar__link__logOut" onclick="gotoPage(\'../index.html\')"/>\n                <p class="nav-bar__user-name">' + user.name + "</p>\n                </div>";
       navBarElem.innerHTML = navBarHtml;
       break;
 
     case UserType.Employee:
-      navBarHtml = '<div class="nav-bar__links-group">\n                <p class="nav-bar__link nav-bar__link__employee-manager" onclick="gotoPage(\'../employeeHP/employeeHP.html\')">Start / End Shift</p>\n                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage(\'../shift-schedule-page/shiftSchedule.html\')">Shift Schedule</p>\n                <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage(\'../availability-page/availabilityPage.html\')">Availability</p>\n                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage(\'../employee-list-page/employeePage.html\')">Employees</p>\n                <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage(\'../reports-page/reportsPage.html\')">Reports</p>\n                </div>';
+      navBarHtml = '<div class="nav-bar__links-group">\n                <p class="nav-bar__link nav-bar__link__employee-manager" onclick="gotoPage(\'../employeeHP/employeeHP.html\')">Start/End Shift</p>\n                <p class="nav-bar__link nav-bar__link__my-shifts" onclick="gotoPage(\'../my-shifts-page/myShifts.html\')">My Shifts</p>\n                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage(\'../shift-schedule-page/shiftSchedule.html\')">Schedule</p>\n                <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage(\'../availability-page/availabilityPage.html\')">Availability</p>\n                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage(\'../employee-list-page/employeesPage.html\')">Employees</p>\n                <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage(\'../reports-page/reportsPage.html\')">Reports</p>\n                </div>\n                <div>\n                <img src="turnOff.png" class="nav-bar__link nav-bar__link__logOut" onclick="gotoPage(\'../index.html\')"/>\n                <p class="nav-bar__user-name">' + user.name + "</p>\n                </div>";
+      var navBarHtml = '<div class="nav-bar__links-group">\n      <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage(\'../employee-list-page/employeesPage.html\')">Employees</p>\n      <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage(\'../reports-page/reportsPage.html\')">Reports</p>\n      <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage(\'../shift-schedule-page/shiftSchedule.html\')">Schedule</p>\n\n                </div>\n                <p class="nav-bar__user-name">' + user.name + "</p>";
+      navBarElem.innerHTML = navBarHtml;
+      break;
+
+    case UserType.Manager:
+      navBarHtml = '<div class="nav-bar__links-group">\n                <p class="nav-bar__link nav-bar__link__employee-manager" onclick="gotoPage(\'../managerHP/managerHP.html\')">Start/End Shift</p>\n                <p class="nav-bar__link nav-bar__link__my-shifts" onclick="gotoPage(\'../my-shifts-page/myShifts.html\')">My Shifts</p>\n                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage(\'../employee-list-page/employeesPage.html\')">Employees</p>\n                <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage(\'../reports-page/reportsPage.html\')">Reports</p>\n                <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage(\'../availability-page/availabilityPage.html\')">Availability</p>\n                <p class="nav-bar__link nav-bar__link__shift-schedule" onclick="gotoPage(\'../shift-schedule-page/shiftSchedule.html\')">Schedule</p>\n                </div>\n                <p class="nav-bar__user-name">' + user.name + "</p>";
+      navBarElem.innerHTML = navBarHtml;
+      break;
+
+    case UserType.Employee:
+      navBarHtml = '<div class="nav-bar__links-group">\n                <p class="nav-bar__link nav-bar__link__employee-manager" onclick="gotoPage(\'../employeeHP/employeeHP.html\')">Start/End Shift</p>\n                <p class="nav-bar__link nav-bar__link__my-shifts" onclick="gotoPage(\'../my-shifts-page/myShifts.html\')">My Shifts</p>\n                <p class="nav-bar__link nav-bar__link__employees" onclick="gotoPage(\'../employee-list-page/employeesPage.html\')">Employees</p>\n                <p class="nav-bar__link nav-bar__link__reports" onclick="gotoPage(\'../reports-page/reportsPage.html\')">Reports</p>\n                <p class="nav-bar__link nav-bar__link__availability" onclick="gotoPage(\'../availability-page/availabilityPage.html\')">Availability</p>\n                </div>\n                <p class="nav-bar__user-name">' + user.name + "</p>";
       navBarElem.innerHTML = navBarHtml;
   }
 
   switch (window.location.pathname) {
     case "/start-end-shift/employeeManager-HP.html":
       targetDivEle = document.querySelector(".nav-bar__link__employee-manager");
+      break;
+
+    case "/my-shifts-page/myShifts.html":
+      targetDivEle = document.querySelector(".nav-bar__link__my-shifts");
       break;
 
     case "/shift-schedule-page/shiftSchedule.html":
@@ -322,10 +300,9 @@ var renderNavBar = function renderNavBar(navBarElem) {
     case "/reports-page/reportsPage.html":
       targetDivEle = document.querySelector(".nav-bar__link__reports");
       break;
-
-    default:
-      console.error("No location.pathname found.");
-      break;
+    // default:
+    //   console.error("No location.pathname found.");
+    //   break;
   }
 
   if (targetDivEle) {
@@ -335,4 +312,38 @@ var renderNavBar = function renderNavBar(navBarElem) {
 
 var gotoPage = function gotoPage(targetPage) {
   window.location.href = targetPage;
-};
+}; // function runningClockPage(runningClock) {
+//   let startTime1: number;
+//   const totalTimeShift = localStorage.getItem("totalTimeShift");
+//   if (totalTimeShift) {
+//     runningClock.innerHTML = totalTimeShift;
+//     let intervalId = localStorage.getItem("intervalId");
+//     const startTimeString = localStorage.getItem("startTime");
+//     startTime1 = parseInt(startTimeString!);
+//     console.log(startTime1);
+//     const currentTime = Date.now();
+//     console.log(currentTime);
+//     // const elapsedTime = currentTime - startTime1;
+//     updateClockPages();
+//   }
+// }
+// function continueUpdateElapsedTimePages(totalTimeShift) {
+//   const currentTime = Date.now();
+//   console.log(currentTime);
+//   const elapsedTime = currentTime - startTime1;
+//   console.log(elapsedTime);
+//   const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+//   const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+//   const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+//   const formattedTime = `${String(hours).padStart(2, "0")}:${String(
+//     minutes
+//   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+//   runningClock.innerHTML = formattedTime;
+//   totalTimeShift = formattedTime;
+//   console.log(totalTimeShift);
+//   localStorage.setItem("totalTimeShift", formattedTime);
+//   localStorage.setItem("intervalId", intervalId);
+// }
+// function updateClockPages() {
+//   intervalId = setInterval(continueUpdateElapsedTimePages, 1000);
+// }
