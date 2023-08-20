@@ -59,6 +59,7 @@ function main() {
                         startTimeString = localStorage.getItem("startTime");
                         startTime1 = parseInt(startTimeString);
                         currentTime = Date.now();
+                        updateClock();
                     }
                     // call the func. to start shift rendering process
                     //handleGetScheduleData();
@@ -137,9 +138,13 @@ var renderShiftsTable = function (nextWeekSchedule) { return __awaiter(_this, vo
 /** Returns the html for the table weekdays headers */
 var weekHeadersHtml = function (startDate) {
     var weekDatesArr = getScheduleDates(startDate);
-    var html = weekDatesArr.map(function (day) {
-        return "<th><p>" + day.toLocaleDateString('en-Us', { weekday: 'short' }) + ".</p>\n            <p>" + day.getDate() + "." + day.getMonth() + "</p>\n            </th>";
-    }).join("");
+    var html = weekDatesArr
+        .map(function (day) {
+        return "<th><p>" + day.toLocaleDateString("en-Us", {
+            weekday: "short"
+        }) + ".</p>\n            <p>" + day.getDate() + "." + day.getMonth() + "</p>\n            </th>";
+    })
+        .join("");
     return html;
 };
 /** Returns the html of the roles rows and allocation of employees during the week */

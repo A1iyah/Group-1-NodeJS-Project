@@ -359,6 +359,11 @@ function HandleSalaryBetween(ev) {
 }
 
 employeeButton.addEventListener("click", (e) => {
+  const _id = user._id;
+  reportsBySalary.style.display = "none";
+  reportsByEmployee.style.display = "flex";
+  reportsByManager.style.display = "none";
+
   resetPage();
 
   if (!isEmployeeReportsOpen) {

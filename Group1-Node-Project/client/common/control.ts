@@ -6,15 +6,6 @@ enum UserType {
   Employee,
 }
 
-// const navBarElem = document.querySelector(".nav-bar") as HTMLDivElement;
-
-// async function main() {
-//   await getActiveUser();
-
-//   renderNavBar(navBarElement);
-// }
-// main();
-
 async function loadActiveUser() {
   try {
     const response = await fetch("/api/cookies/get-user");
@@ -30,59 +21,6 @@ async function loadActiveUser() {
     console.error(error);
   }
 }
-
-// async function getActiveUser() {
-//   try {
-//     const responseManager = await fetch("/api/manager/get-manager");
-
-//     const dataManager = await responseManager.json();
-//     console.log("dataManager", dataManager);
-
-//     const { manager } = dataManager;
-
-//     if (dataManager.ok === true && manager._id !== null) {
-//       userType = UserType.Manager;
-//       user = manager;
-//       return;
-//     }
-//   } catch (error) {
-//     console.error("test");
-//   }
-
-//   try {
-//     const responseAdmin = await fetch("/api/admin/get-admin");
-//     const dataAdmin = await responseAdmin.json();
-//     const { admin } = dataAdmin;
-//     console.log("user: ", admin);
-
-// if (dataAdmin.ok === true && admin._id !== null) {
-//   userType = UserType.Admin;
-//   user = admin;
-//   console.log("userType: ", userType);
-
-//       return;
-//     }
-//   } catch (error) {
-//     console.error(error);
-//   }
-
-//   try {
-//     const responseEmployee = await fetch("/api/employee/get-employee");
-//     const dataEmployee = await responseEmployee.json();
-//     const { employee } = dataEmployee;
-//     console.log("user: ", employee);
-
-//     if (dataEmployee.ok === true && employee._id !== null) {
-//       userType = UserType.Employee;
-//       user = employee;
-//       console.log("userType: ", userType);
-
-//       return;
-//     }
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
 
 const renderNavBar = (
   navBarElem: HTMLDivElement,
@@ -150,7 +88,11 @@ const renderNavBar = (
   }
 
   switch (window.location.pathname) {
-    case "/start-end-shift/employeeManager-HP.html":
+    case "/employeeHP/employeeHP.html":
+      targetDivEle = document.querySelector(".nav-bar__link__employee-manager");
+      break;
+
+    case "/managerHP/managerHP.html":
       targetDivEle = document.querySelector(".nav-bar__link__employee-manager");
       break;
 
@@ -166,18 +108,13 @@ const renderNavBar = (
       targetDivEle = document.querySelector(".nav-bar__link__availability");
       break;
 
-    case "/employees-page/employeesPage.html":
+    case "/employee-list-page/employeesPage.html":
       targetDivEle = document.querySelector(".nav-bar__link__employees");
       break;
 
     case "/reports-page/reportsPage.html":
       targetDivEle = document.querySelector(".nav-bar__link__reports");
       break;
-
-    // default:
-    //   console.error("No location.pathname found.");
-
-    //   break;
   }
 
   if (targetDivEle) {
@@ -188,48 +125,3 @@ const renderNavBar = (
 const gotoPage = (targetPage: string) => {
   window.location.href = targetPage;
 };
-
-// function runningClockPage(runningClock) {
-//   let startTime1: number;
-
-//   const totalTimeShift = localStorage.getItem("totalTimeShift");
-//   if (totalTimeShift) {
-//     runningClock.innerHTML = totalTimeShift;
-
-//     let intervalId = localStorage.getItem("intervalId");
-//     const startTimeString = localStorage.getItem("startTime");
-//     startTime1 = parseInt(startTimeString!);
-//     console.log(startTime1);
-
-//     const currentTime = Date.now();
-//     console.log(currentTime);
-
-//     // const elapsedTime = currentTime - startTime1;
-//     updateClockPages();
-//   }
-// }
-
-// function continueUpdateElapsedTimePages(totalTimeShift) {
-//   const currentTime = Date.now();
-//   console.log(currentTime);
-
-//   const elapsedTime = currentTime - startTime1;
-//   console.log(elapsedTime);
-
-//   const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
-//   const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
-//   const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
-
-//   const formattedTime = `${String(hours).padStart(2, "0")}:${String(
-//     minutes
-//   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-//   runningClock.innerHTML = formattedTime;
-//   totalTimeShift = formattedTime;
-//   console.log(totalTimeShift);
-//   localStorage.setItem("totalTimeShift", formattedTime);
-//   localStorage.setItem("intervalId", intervalId);
-// }
-
-// function updateClockPages() {
-//   intervalId = setInterval(continueUpdateElapsedTimePages, 1000);
-// }
