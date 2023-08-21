@@ -62,16 +62,19 @@ function main() {
                     if (userType === UserType.Employee) {
                         openAddButton.style.display = "none";
                         managerSection.style.display = "none";
+                        // deleteWorkerHeader.style.visibility = "hidden";
                     }
                     else if (userType === UserType.Manager) {
                         openAddButton.style.display = "block";
                         addManagerBtn.style.display = "none";
                         managerSection.style.display = "none";
+                        // deleteWorkerHeader.style.visibility = "visible";
                     }
                     else {
                         openAddButton.style.display = "block";
                         addEmployeeBtn.style.display = "none";
                         managerSection.style.display = "block";
+                        // deleteWorkerHeader.style.visibility = "visible";
                     }
                     handleGetWorkers();
                     return [2 /*return*/];
@@ -107,12 +110,6 @@ var emailError = document.querySelector(".email-error-message");
 var closeEmployeeForm = document.querySelector(".close-employee-form");
 var closeManagerForm = document.querySelector(".close-manager-form");
 var deleteWorkerHeader = document.querySelector(".deleteWorker");
-if (userType === UserType.Admin || userType === UserType.Manager) {
-    deleteWorkerHeader.style.visibility = "visible";
-}
-else {
-    deleteWorkerHeader.style.visibility = "hidden";
-}
 var openDiv = null;
 var isFormsOpen = false;
 openAddButton.addEventListener("click", function () {
@@ -301,7 +298,6 @@ function handleCreateManager(evt) {
         var phone = evt.target.elements.phone.value;
         var salaryPerHour = evt.target.elements.salaryPerHour.value;
         var birthday = evt.target.elements.birthday.value;
-        // const role = e.target.elements.role.value;
         if (!email || !email.includes("@")) {
             emailError.style.display = "block";
             return;
@@ -321,7 +317,6 @@ function handleCreateManager(evt) {
             throw new Error("No birthday");
         if (!salaryPerHour)
             throw new Error("No salary");
-        // if (!role) throw new Error("No role");
         var newManager = {
             name: name,
             email: email,
@@ -444,7 +439,7 @@ var renderEmployeeList = function (employees) {
         var htmlStr = employees
             .map(function (employee) {
             var deleteButton = userType === UserType.Admin || userType === UserType.Manager
-                ? "<button class=\"delete-btn\" onclick=\"handleDeleteEmployee('" + employee._id + "')\">\n             <span class=\"material-symbols-outlined\">\n               backspace\n             </span>\n           </button>"
+                ? "<button class=\"delete-btn\" onclick=\"handleDeleteEmployee('" + employee._id + "')\">\n            <span class=\"material-symbols-outlined\">\n            delete\n            </span>\n           </button>"
                 : "";
             return "<div class=\"employees-page__employeeCard\">\n        <div class=\"employee-details\">\n        <div class=\"employee-delete\">" + deleteButton + "</div>\n        <div class=\"employee-name\">" + employee.name + "</div>\n        <div class=\"employee-birthday\">" + employee.birthday + "</div>\n        <div class=\"employee-email\">" + employee.email + "</div>\n        <div class=\"employee-phone\">" + employee.phone + "</div>\n        <div class=\"employee-role\">" + employee.role.name + "</div>\n        </div>\n        </div>";
         })
@@ -463,7 +458,7 @@ var renderManagersList = function (managers) {
         var htmlStr = managers
             .map(function (manager) {
             var deleteButton = userType === UserType.Admin || userType === UserType.Manager
-                ? "<button class=\"delete-btn\" onclick=\"handleDeleteManager('" + manager._id + "')\">\n           <span class=\"material-symbols-outlined\">\n             backspace\n           </span>\n         </button>"
+                ? "<button class=\"delete-btn\" onclick=\"handleDeleteManager('" + manager._id + "')\">\n            <span class=\"material-symbols-outlined\">\n            delete\n            </span>\n         </button>"
                 : "";
             return "<div class=\"employees-page__managerCard\" \">\n      <div class=\"manager-details\">\n      <div class=\"manager-delete\">" + deleteButton + "</div>\n      <div class=\"manager-name\">" + manager.name + "</div>\n      <div class=\"manager-birthday\">" + manager.birthday + "</div>\n      <div class=\"manager-email\">" + manager.email + "</div>\n      <div class=\"manager-phone\">" + manager.phone + "</div>\n      <div class=\"manager-role\">" + manager.role.name + "</div>\n      </div>\n      </div>";
         })

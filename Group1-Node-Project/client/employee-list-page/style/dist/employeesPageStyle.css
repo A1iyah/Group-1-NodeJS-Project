@@ -121,7 +121,7 @@
 .employees-page__managerCard .manager-details .delete-btn {
   background-color: transparent;
   border: none;
-  padding: 0;
+  padding: 5px 0;
   line-height: 100%;
   transition: all 0.5s ease-in-out;
   cursor: pointer;
@@ -284,11 +284,11 @@
 
 @media screen and (max-width: 768px) {
   .addButtons__open-add-btn {
-    top: 20px;
-    right: 20px;
+    top: 60px;
+    right: 10px;
   }
   .addButtons__add-buttons-container {
-    top: 40px;
+    top: 60px;
     right: 60px;
   }
 
@@ -299,7 +299,7 @@
   .employees-page__employees-section__employees-header, .employees-page__employees-section__managers-header, .employees-page__managers-section__employees-header, .employees-page__managers-section__managers-header {
     font-size: 40px;
     margin: 0 auto;
-    margin-top: 20px;
+    margin-top: 35px;
     margin-bottom: 20px;
     text-align: center;
     cursor: default;
@@ -333,10 +333,11 @@
   }
   .employees-page__add-new-employees, .employees-page__add-new-managers {
     position: absolute;
-    top: 25%;
+    top: 70%;
     left: 50%;
-    transform: translate(-50%, -25%);
+    transform: translate(-50%, -70%);
     cursor: default;
+    margin: 50px 0;
     width: 95%;
   }
   .employees-page__add-new-employees fieldset, .employees-page__add-new-managers fieldset {

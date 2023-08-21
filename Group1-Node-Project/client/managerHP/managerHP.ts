@@ -26,10 +26,8 @@ async function main() {
 
     const startTimeString = localStorage.getItem("startTime");
     startTime = parseInt(startTimeString!);
-    console.log(startTime);
 
     const currentTime = Date.now();
-    console.log(currentTime);
 
     startEndButtonS.style.display = "none";
     startEndButtonE.style.display = "block";
@@ -64,7 +62,7 @@ startEndButtonS.addEventListener("click", (e) => {
   startEndClock.innerHTML = `00:00:00`;
   startTime = Date.now();
   currentTime = null;
-  console.log(formattedTime);
+
   intervalId = null;
   startEndButtonS.style.display = "none";
   startEndButtonE.style.display = "block";

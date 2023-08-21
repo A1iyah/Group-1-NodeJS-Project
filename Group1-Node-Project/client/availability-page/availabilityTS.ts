@@ -17,10 +17,8 @@ async function main() {
 
     const startTimeString = localStorage.getItem("startTime");
     startTime1 = parseInt(startTimeString!);
-    console.log(startTime1);
 
     const currentTime = Date.now();
-    console.log(currentTime);
 
     updateClock();
   }
@@ -29,7 +27,6 @@ main();
 
 function continueUpdateElapsedTime() {
   const currentTime = Date.now();
-  console.log(currentTime);
 
   const elapsedTime = currentTime - startTime1;
 
@@ -48,7 +45,6 @@ function continueUpdateElapsedTime() {
 function updateClock() {
   intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
-
 
 const buttons: NodeListOf<HTMLDivElement> = document.querySelectorAll(
   ".availability-button"

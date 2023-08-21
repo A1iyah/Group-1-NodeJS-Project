@@ -54,9 +54,7 @@ function main() {
                         runningClock.innerHTML = totalTimeShift;
                         startTimeString = localStorage.getItem("startTime");
                         startTime1 = parseInt(startTimeString);
-                        console.log(startTime1);
                         currentTime = Date.now();
-                        console.log(currentTime);
                         updateClock();
                     }
                     return [2 /*return*/];
@@ -67,7 +65,6 @@ function main() {
 main();
 function continueUpdateElapsedTime() {
     var currentTime = Date.now();
-    console.log(currentTime);
     var elapsedTime = currentTime - startTime1;
     var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
     var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));

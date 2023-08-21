@@ -29,16 +29,25 @@ async function main() {
   if (userType === UserType.Employee) {
     openAddButton.style.display = "none";
     managerSection.style.display = "none";
+    // deleteWorkerHeader.style.visibility = "hidden";
   } else if (userType === UserType.Manager) {
     openAddButton.style.display = "block";
     addManagerBtn.style.display = "none";
     managerSection.style.display = "none";
+    // deleteWorkerHeader.style.visibility = "visible";
   } else {
     openAddButton.style.display = "block";
     addEmployeeBtn.style.display = "none";
     managerSection.style.display = "block";
+    // deleteWorkerHeader.style.visibility = "visible";
   }
   handleGetWorkers();
+
+  // if (userType === UserType.Admin || userType === UserType.Manager) {
+  //   deleteWorkerHeader.style.visibility = "visible";
+  // } else {
+  //   deleteWorkerHeader.style.visibility = "hidden";
+  // }
 }
 
 main();
@@ -112,12 +121,6 @@ const closeManagerForm = document.querySelector(
 const deleteWorkerHeader = document.querySelector(
   ".deleteWorker"
 ) as HTMLTableCellElement;
-
-if (userType === UserType.Admin || userType === UserType.Manager) {
-  deleteWorkerHeader.style.visibility = "visible";
-} else {
-  deleteWorkerHeader.style.visibility = "hidden";
-}
 
 let openDiv: HTMLDivElement | null = null;
 let isFormsOpen = false;
@@ -312,7 +315,6 @@ function handleCreateManager(evt: any) {
     const phone = evt.target.elements.phone.value;
     const salaryPerHour = evt.target.elements.salaryPerHour.value;
     const birthday = evt.target.elements.birthday.value;
-    // const role = e.target.elements.role.value;
 
     if (!email || !email.includes("@")) {
       emailError.style.display = "block";
@@ -327,7 +329,6 @@ function handleCreateManager(evt: any) {
     if (!phone) throw new Error("No phone");
     if (!birthday) throw new Error("No birthday");
     if (!salaryPerHour) throw new Error("No salary");
-    // if (!role) throw new Error("No role");
 
     const newManager: any = {
       name,
@@ -337,7 +338,6 @@ function handleCreateManager(evt: any) {
       phone,
       birthday,
       salaryPerHour,
-      //   role,
     };
 
     fetch("/api/employees-page/add-manager", {
@@ -452,9 +452,9 @@ const renderEmployeeList = (employees: any) => {
         const deleteButton =
           userType === UserType.Admin || userType === UserType.Manager
             ? `<button class="delete-btn" onclick="handleDeleteEmployee('${employee._id}')">
-             <span class="material-symbols-outlined">
-               backspace
-             </span>
+            <span class="material-symbols-outlined">
+            delete
+            </span>
            </button>`
             : "";
 
@@ -489,9 +489,9 @@ const renderManagersList = (managers: any) => {
         const deleteButton =
           userType === UserType.Admin || userType === UserType.Manager
             ? `<button class="delete-btn" onclick="handleDeleteManager('${manager._id}')">
-           <span class="material-symbols-outlined">
-             backspace
-           </span>
+            <span class="material-symbols-outlined">
+            delete
+            </span>
          </button>`
             : "";
 

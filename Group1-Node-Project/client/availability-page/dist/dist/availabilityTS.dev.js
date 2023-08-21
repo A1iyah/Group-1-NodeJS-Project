@@ -143,24 +143,26 @@ var __generator = void 0 && (void 0).__generator || function (thisArg, body) {
   }
 };
 
-var _this = void 0;
-
 var userDB;
+var runningClock = document.querySelector(".running-clock");
+var user;
+var userType;
 
 function main() {
   return __awaiter(this, void 0, void 0, function () {
-    var totalTimeShift, startTimeString, currentTime;
+    var data, totalTimeShift, startTimeString, currentTime;
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
           return [4
           /*yield*/
-          , getActiveUser()];
+          , loadActiveUser()];
 
         case 1:
-          _a.sent();
-
-          renderNavBar(navBarElement);
+          data = _a.sent();
+          user = data.user;
+          userType = data.userType;
+          renderNavBar(navBarElem, userType, user);
           totalTimeShift = localStorage.getItem("totalTimeShift");
 
           if (totalTimeShift) {
@@ -168,8 +170,7 @@ function main() {
             startTimeString = localStorage.getItem("startTime");
             startTime1 = parseInt(startTimeString);
             console.log(startTime1);
-            currentTime = Date.now();
-            console.log(currentTime); // const elapsedTime = currentTime - startTime1;
+            currentTime = Date.now(); // console.log(currentTime);
 
             updateClock();
           }
@@ -188,14 +189,12 @@ function continueUpdateElapsedTime() {
   var currentTime = Date.now();
   console.log(currentTime);
   var elapsedTime = currentTime - startTime1;
-  console.log(elapsedTime);
   var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
   var minutes = Math.floor(elapsedTime % (1000 * 60 * 60) / (1000 * 60));
   var seconds = Math.floor(elapsedTime % (1000 * 60) / 1000);
   var formattedTime = String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
   runningClock.innerHTML = formattedTime;
   totalTimeShift = formattedTime;
-  console.log(totalTimeShift);
   localStorage.setItem("totalTimeShift", formattedTime);
 }
 
@@ -203,111 +202,14 @@ function updateClock() {
   intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
 
-var getActiveEmployee = function getActiveEmployee() {
-  return __awaiter(_this, void 0, void 0, function () {
-    var response, data, employee, error_1;
-    return __generator(this, function (_a) {
-      switch (_a.label) {
-        case 0:
-          _a.trys.push([0, 3,, 4]);
-
-          return [4
-          /*yield*/
-          , fetch("/api/employee/get-employee")];
-
-        case 1:
-          response = _a.sent();
-          return [4
-          /*yield*/
-          , response.json()];
-
-        case 2:
-          data = _a.sent();
-          console.log("data", data);
-          employee = data.employee; //if(!data) throw new Error("no data received from DB");
-
-          if (employee) {
-            userDB = employee;
-            console.log("userDB: ", userDB);
-            return [2
-            /*return*/
-            ];
-          }
-
-          getActiveManager();
-          return [3
-          /*break*/
-          , 4];
-
-        case 3:
-          error_1 = _a.sent();
-          console.log(error_1);
-          return [3
-          /*break*/
-          , 4];
-
-        case 4:
-          return [2
-          /*return*/
-          ];
-      }
-    });
-  });
-};
-
-var getActiveManager = function getActiveManager() {
-  return __awaiter(_this, void 0, void 0, function () {
-    var response, data, manager, error_2;
-    return __generator(this, function (_a) {
-      switch (_a.label) {
-        case 0:
-          _a.trys.push([0, 3,, 4]);
-
-          return [4
-          /*yield*/
-          , fetch("/api/manager/get-manager")];
-
-        case 1:
-          response = _a.sent();
-          return [4
-          /*yield*/
-          , response.json()];
-
-        case 2:
-          data = _a.sent();
-          console.log("data", data);
-          manager = data.manager;
-          if (!manager) throw new Error("didn't get employee or manager from DB");
-          userDB = manager;
-          console.log("userDB: ", userDB);
-          return [3
-          /*break*/
-          , 4];
-
-        case 3:
-          error_2 = _a.sent();
-          console.error(error_2);
-          return [3
-          /*break*/
-          , 4];
-
-        case 4:
-          return [2
-          /*return*/
-          ];
-      }
-    });
-  });
-};
-
-getActiveEmployee(); //
-
 var buttons = document.querySelectorAll(".availability-button");
+var clickButton = document.querySelector(".availability-button");
 var comment = document.getElementById("comment");
 var form = document.querySelector(".availabilityForm");
 var submitBtn = document.querySelector(".submit-btn");
 var availabilityDate = document.querySelector(".availabilityForm__date");
-var chartDates = document.querySelector(".availabilityForm__chartDates"); // DATES -
+var chartDates = document.querySelector(".availabilityForm__chartDates");
+var successMessage = document.querySelector(".success-message"); // DATES -
 // Set up week dates -
 
 function updateWeekDates() {
@@ -351,21 +253,19 @@ updateChartDates(); // End of dates functions //
 
 function toggleButton(event) {
   var clickedButton = event.target;
-  var day = clickedButton.getAttribute("data-day");
   var currentImage = window.getComputedStyle(clickedButton).backgroundImage;
 
   if (currentImage.includes("can.png")) {
-    // clickedButton.style.backgroundImage = "none";
-    clickedButton.style.backgroundImage = 'url("../cant.png")';
+    clickedButton.style.backgroundImage = "url(./cant.png)";
   } else {
-    clickedButton.style.backgroundImage = 'url("../can.png")';
+    clickedButton.style.backgroundImage = "url(./can.png)";
   }
 } // Handle form submit -
 
 
 function handleFormSubmit(event) {
   return __awaiter(this, void 0, void 0, function () {
-    var commentValue, availabilityData, userRole, response, error_3;
+    var commentValue, availabilityData, userRole, response, error_1;
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
@@ -374,14 +274,15 @@ function handleFormSubmit(event) {
           availabilityData = {};
           buttons.forEach(function (button) {
             var day = button.getAttribute("data-day");
-            var isAvailable = button.textContent === "can";
+            var currentImage = window.getComputedStyle(button).backgroundImage;
+            var isAvailable = currentImage.includes("can.png"); // const day = button.getAttribute("data-day");
+            // const isAvailable = button.textContent === "can";
 
             if (day) {
               availabilityData[day] = isAvailable;
             }
           });
-          userRole = userDB.role === (null || undefined) ? "Manager" : userDB.role;
-          console.log("userRole: ", userRole);
+          userRole = user.role === (null || undefined) ? "Manager" : user.role;
           _a.label = 1;
 
         case 1:
@@ -397,11 +298,11 @@ function handleFormSubmit(event) {
             body: JSON.stringify({
               availabilityData: availabilityData,
               commentValue: commentValue,
-              userId: userDB._id,
+              userId: user._id,
               role: {
                 userRole: userRole
               },
-              name: userDB.name
+              name: user.name
             })
           })];
 
@@ -410,6 +311,7 @@ function handleFormSubmit(event) {
 
           if (response.ok) {
             console.log("Availability updated successfully");
+            successMessage.style.display = "block";
           } else {
             console.error("Error updating availability");
           }
@@ -419,8 +321,8 @@ function handleFormSubmit(event) {
           , 4];
 
         case 3:
-          error_3 = _a.sent();
-          console.error("Error:", error_3);
+          error_1 = _a.sent();
+          console.error("Error:", error_1);
           return [3
           /*break*/
           , 4];

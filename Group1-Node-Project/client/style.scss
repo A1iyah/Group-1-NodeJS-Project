@@ -146,6 +146,7 @@
 .running-clock {
   position: absolute;
   right: 30px;
+  padding: 10px 0;
   font-size: 20px;
   color: $mainBlue;
   text-shadow: 2px 2px 20px rgba(128, 128, 128, 0.492);
@@ -419,16 +420,17 @@
 }
 
 .employees-panel {
-    width: 20vw;
-    margin-right: 10px;
-    border-radius: 13px;
-    box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
-    font-size: 42px;
-    line-height: 1.8rem;
-    font-weight: 400;
-    padding-left: 35px;
-    
-    &__week-display {
+  width: 20vw;
+  margin-right: 10px;
+  border-radius: 13px;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 0px 8px;
+  font-size: 42px;
+  line-height: 1.8rem;
+  font-weight: 400;
+  padding-left: 35px;
+
+  &__week-display {
     margin-bottom: 40px;
 
     &__text {
@@ -452,9 +454,9 @@
     align-items: center;
     padding: 5px;
     width: 90%;
-    color: #679CA1;
+    color: #679ca1;
 
-    &__employee-name{
+    &__employee-name {
       font-size: 20px;
       font-weight: bold;
       display: inline-flex;
@@ -466,27 +468,26 @@
       box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
         rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
         rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-        border-radius: 13px;
-        background-color: #679CA1;
-        color: #fff;
+      border-radius: 13px;
+      background-color: #679ca1;
+      color: #fff;
     }
   }
 }
 
 .shifts-panel {
   width: 100%;
-  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 0px 8px;
   table-layout: fixed;
   width: 100%;
   height: auto;
   border-collapse: separate;
-  border-spacing:8px 15px;
-  
-  
-  td{
+  border-spacing: 8px 15px;
+
+  td {
     text-align: center;
     min-height: 35px;
-    
   }
 
   &__day-box {
@@ -513,32 +514,32 @@
     height: 35px;
     margin: 5px;
 
-    &__role{
-      color: #679CA1;
+    &__role {
+      color: #679ca1;
       font-size: 20px;
       font-weight: bold;
     }
 
-    &__employee-box{
-      height:45px;
-      border: 3px solid #C5EBEF;
+    &__employee-box {
+      height: 45px;
+      border: 3px solid #c5ebef;
       border-radius: 13px 13px 13px 0;
       padding: 5px;
       margin-bottom: 30px;
 
-      &--marked{
-        background-color: #C5EBEF;
+      &--marked {
+        background-color: #c5ebef;
         color: white;
       }
     }
 
-    &__plus{
+    &__plus {
       font-size: 24px;
       font-weight: bold;
       color: black;
     }
 
-    &__allocation-name{
+    &__allocation-name {
       font-size: 20px;
       font-weight: bold;
       color: black;
@@ -553,7 +554,7 @@
   //border: 3px solid #c5ebef;
   border-radius: 13px;
   vertical-align: middle;
-  
+
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -562,24 +563,24 @@
   //opacity: 0;
   //transition: visibility 0s linear 300ms, opacity 300ms;
 
-  &__visible{
+  &__visible {
     border: 3px solid #c5ebef;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     // box-shadow: none;
     // border: none;
     //visibility: visible;
-  //opacity: 1;
-  //transition: visibility 0s linear 0s, opacity 300ms;
+    //opacity: 1;
+    //transition: visibility 0s linear 0s, opacity 300ms;
   }
 
-  &__name{
-     margin: 0 30px 0 40px;
-     color: #679CA1;
-     font-size: 20px;
-     font-weight: bolder;
+  &__name {
+    margin: 0 30px 0 40px;
+    color: #679ca1;
+    font-size: 20px;
+    font-weight: bolder;
   }
 
-  &__comment{
+  &__comment {
     color: black;
     font-size: 20px;
     font-weight: bold;
@@ -587,7 +588,7 @@
 }
 
 // My shift page
-.my-shift-page-header{
+.my-shift-page-header {
   @include headerCenter;
 }
 
@@ -614,18 +615,17 @@
 
 .shifts-panel {
   width: 100%;
-  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 0px 8px;
   table-layout: fixed;
   width: 100%;
   height: auto;
   border-collapse: separate;
-  border-spacing:8px 15px;
-  
-  
-  td{
+  border-spacing: 8px 15px;
+
+  td {
     text-align: center;
     min-height: 35px;
-    
   }
 
   &__day-box {
@@ -652,44 +652,39 @@
     height: 35px;
     margin: 5px;
 
-    &__role{
-      color: #679CA1;
+    &__role {
+      color: #679ca1;
       font-size: 20px;
       font-weight: bold;
     }
 
-    &__employee-box{
-      height:45px;
-      border: 3px solid #C5EBEF;
+    &__employee-box {
+      height: 45px;
+      border: 3px solid #c5ebef;
       border-radius: 13px 13px 13px 0;
       padding: 5px;
       margin-bottom: 30px;
 
-      &--marked{
-        background-color: #C5EBEF;
+      &--marked {
+        background-color: #c5ebef;
         color: white;
       }
     }
 
-    &__plus{
+    &__plus {
       font-size: 24px;
       font-weight: bold;
       color: black;
     }
 
-    &__allocation-name{
+    &__allocation-name {
       font-size: 20px;
       font-weight: bold;
       color: black;
     }
 
-    &__unassigned-cell{
-      color: #5C5C5C;
+    &__unassigned-cell {
+      color: #5c5c5c;
     }
   }
 }
-
-
-
-
-
