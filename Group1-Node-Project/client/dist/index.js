@@ -28,7 +28,7 @@ function handleLogin(ev) {
             pageToOpen_1 = "./managerHP/managerHP.html";
         }
         else if (role === "Admin") {
-            pageToOpen_1 = "./shift-schedule-page/shiftSchedule.html";
+            pageToOpen_1 = "./employee-list-page/employeesPage.html";
         }
         fetch("/api/cookies/login", {
             method: "POST",

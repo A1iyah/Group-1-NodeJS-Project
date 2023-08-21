@@ -541,12 +541,18 @@
   font-weight: bold;
 }
 
+.my-shift-page-header {
+  font-size: 50px;
+  margin: 50px;
+  cursor: default;
+}
+
 .my-shift-page {
   border: none;
   border-radius: 10px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 70%;
@@ -557,4 +563,63 @@
 
 .shift-table {
   width: 100%;
+}
+.shifts-panel {
+  width: 100%;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+  table-layout: fixed;
+  width: 100%;
+  height: auto;
+  border-collapse: separate;
+  border-spacing: 8px 15px;
+}
+.shifts-panel td {
+  text-align: center;
+  min-height: 35px;
+}
+.shifts-panel__day-box {
+  padding-bottom: 10px;
+  text-align: center;
+}
+.shifts-panel__day-box__day {
+  font-size: 24px;
+  font-weight: bold;
+}
+.shifts-panel__day-box__date {
+  font-size: 20px;
+}
+.shifts-panel__manager-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.shifts-panel__role-row {
+  height: 35px;
+  margin: 5px;
+}
+.shifts-panel__role-row__role {
+  color: #679CA1;
+  font-size: 20px;
+  font-weight: bold;
+}
+.shifts-panel__role-row__employee-box {
+  height: 45px;
+  border: 3px solid #C5EBEF;
+  border-radius: 13px 13px 13px 0;
+  padding: 5px;
+  margin-bottom: 30px;
+}
+.shifts-panel__role-row__employee-box--marked {
+  background-color: #C5EBEF;
+  color: white;
+}
+.shifts-panel__role-row__plus {
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+}
+.shifts-panel__role-row__allocation-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
 }/*# sourceMappingURL=style.css.map */
