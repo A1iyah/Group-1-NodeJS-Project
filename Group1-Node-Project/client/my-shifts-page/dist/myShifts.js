@@ -95,6 +95,7 @@ var renderTable = function () {
             //renderShiftsTable(data.nextWeekSchedule[0]);
             var shiftsTableElem = document.querySelector(".shift-panel");
             shiftsTableElem.innerHTML = data.nextWeekSchedule[0]["table"];
+            console.log(data.nextWeekSchedule[0]);
             markUserInTable(data.nextWeekSchedule[0]["table"]);
             removePluses(data.nextWeekSchedule[0]["table"]);
         });
