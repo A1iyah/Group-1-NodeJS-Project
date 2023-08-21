@@ -129,28 +129,3 @@ exports.getEmployeesByRoleType = function (req, res) { return __awaiter(void 0, 
         }
     });
 }); };
-// export const addEmployee = async (req: any, res: any) => {
-//   try {
-//     let { name, email, password, idNumber, phone, birthday, salary, role } =
-//       req.body;
-//     if (role) {
-//       const roleID = await RoleModel.find({ name: role }).select({ _id: 1 });
-//       role = roleID[0]._id.toString();
-//     }
-//     const employeeDB = await EmployeeModel.create({
-//       name,
-//       email,
-//       password,
-//       idNumber,
-//       phone,
-//       birthday,
-//       salary,
-//       role,
-//     });
-//     console.log(employeeDB);
-//     res.status(200).send({ ok: true });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send("did not get data");
-//   }
-// };

@@ -81,6 +81,7 @@ exports.getSelectedManager = function (req, res) { return __awaiter(void 0, void
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 idNumber = req.body.idNumber;
+                console.log(idNumber);
                 if (!idNumber)
                     throw new Error("no id");
                 return [4 /*yield*/, managerModel_1["default"].find({
@@ -93,10 +94,11 @@ exports.getSelectedManager = function (req, res) { return __awaiter(void 0, void
                             path: "role",
                             model: "Role"
                         }
-                    })
-                        .exec()];
+                    })];
             case 1:
                 managerDB = _a.sent();
+                // .exec();
+                console.log(managerDB);
                 res.send({ managerDB: managerDB });
                 return [3 /*break*/, 3];
             case 2:

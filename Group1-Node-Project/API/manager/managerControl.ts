@@ -40,6 +40,8 @@ export const addAttendance = async (req: any, res: any) => {
 export const getSelectedManager = async (req: any, res: any) => {
   try {
     const { idNumber } = req.body;
+    console.log(idNumber);
+
     if (!idNumber) throw new Error("no id");
 
     const managerDB: any = await ManagerModel.find({
@@ -53,10 +55,9 @@ export const getSelectedManager = async (req: any, res: any) => {
           path: "role",
           model: "Role",
         },
-      })
-
-      .exec();
-
+      });
+    // .exec();
+    console.log(managerDB);
     res.send({ managerDB });
   } catch (error: any) {
     console.error(error);

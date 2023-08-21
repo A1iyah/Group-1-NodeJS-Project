@@ -453,6 +453,8 @@ function HandleEmployeeReport(ev) {
     })
       .then((res) => res.json())
       .then(({ employeeDB }) => {
+        console.log(employeeDB);
+
         renderReportResultEmployees(employeeDB);
         renderShiftResult(employeeDB[0]);
       });
@@ -502,6 +504,8 @@ function HandleManagerReport(ev) {
     ev.preventDefault();
     const managerDetails = ev.target.elements.managers.value;
     const [name, idNumber] = managerDetails.match(/^(.*?)\s-\s(\d+)$/).slice(1);
+    console.log(name, idNumber);
+
     if (!managerDetails) throw new Error("no employee selected");
 
     fetch("/api/manager/get-selected-manager", {
@@ -514,6 +518,8 @@ function HandleManagerReport(ev) {
     })
       .then((res) => res.json())
       .then(({ managerDB }) => {
+        console.log(managerDB);
+
         renderReportResultManager(managerDB);
         renderReportResultEmployees(managerDB[0].employees);
         renderShiftResult(managerDB[0]);

@@ -60,44 +60,16 @@ export const getSelectedEmployee = async (req: any, res: any) => {
 /** Receives a string of role type from client and returns data of the employees in that role. */
 export const getEmployeesByRoleType = async (req: any, res: any) => {
   try {
-    const {roleType} = req.body;
+    const { roleType } = req.body;
     if (!roleType) throw new Error("no role type received from client.");
 
-    const roleTypeId = await RoleModel.find({name: roleType}).select("_id");
+    const roleTypeId = await RoleModel.find({ name: roleType }).select("_id");
 
-    const employees = await EmployeeModel.find({ role: roleTypeId});
+    const employees = await EmployeeModel.find({ role: roleTypeId });
 
-    res.status(200).send({ok: true, employees})
+    res.status(200).send({ ok: true, employees });
   } catch (error) {
     console.log(error);
     res.status(500).send("did not receive data from DB.");
-    
   }
-
-}
-
-// export const addEmployee = async (req: any, res: any) => {
-//   try {
-//     let { name, email, password, idNumber, phone, birthday, salary, role } =
-//       req.body;
-//     if (role) {
-//       const roleID = await RoleModel.find({ name: role }).select({ _id: 1 });
-//       role = roleID[0]._id.toString();
-//     }
-//     const employeeDB = await EmployeeModel.create({
-//       name,
-//       email,
-//       password,
-//       idNumber,
-//       phone,
-//       birthday,
-//       salary,
-//       role,
-//     });
-//     console.log(employeeDB);
-//     res.status(200).send({ ok: true });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send("did not get data");
-//   }
-// };
+};
