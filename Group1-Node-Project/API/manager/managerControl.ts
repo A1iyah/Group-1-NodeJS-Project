@@ -56,7 +56,6 @@ export const getSelectedManager = async (req: any, res: any) => {
         },
       });
     // .exec();
-    console.log(managerDB);
     res.send({ managerDB });
   } catch (error: any) {
     console.error(error);
