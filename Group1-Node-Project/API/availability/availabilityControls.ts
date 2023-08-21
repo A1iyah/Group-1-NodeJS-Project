@@ -11,18 +11,6 @@ export const updateAvailability = async (req: any, res: any) => {
 
     const { availabilityData, commentValue, userId, role, name } = req.body;
 
-    // switch (role) {
-    //   case 0:
-    //     roleString = "Admin";
-    //   break;
-    //   case 1:
-    //     roleString = "Manager";
-    //   break;
-    //   case 2:
-    //     roleString = "Employee";
-    //   break;
-    // }
-
     const updateObject: any = {};
 
     //Loop through each day in availabilityData

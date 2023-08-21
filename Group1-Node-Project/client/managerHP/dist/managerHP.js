@@ -132,11 +132,3 @@ function stopClock() {
         });
     }
 }
-// moveToShiftSchedule.addEventListener("click", (e) => {
-//   const url = new URL(
-//     "../shift-schedule-page/shiftSchedule.html",
-//     window.location.href
-//   );
-//   console.log("new URL:", url.href);
-//   window.location.href = url.href;
-// });

@@ -11,8 +11,6 @@ dotenv.config();
 import jwt from "jwt-simple";
 const secret: string | undefined = process.env.JWT_SECRET;
 
-// const secret: string = "secret";
-
 export const addAttendance = async (req: any, res: any) => {
   try {
     const { user, totalTimeShift } = req.body;

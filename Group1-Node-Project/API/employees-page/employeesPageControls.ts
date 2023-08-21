@@ -256,9 +256,6 @@ export const getMyTeam = async (req: any, res: any) => {
     const { _id } = req.body;
 
     const stringID = _id.toString();
-    // const manager = await ManagerModel.findOne({
-    //   employees: { $eq: stringID },
-    // });
 
     const manager = await ManagerModel.findOne({
       employees: _id,

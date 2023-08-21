@@ -42,7 +42,6 @@ var roleModel_1 = require("../role/roleModel");
 var dotenv = require("dotenv");
 dotenv.config();
 var secret = process.env.JWT_SECRET;
-// const secret: string = "secret";
 exports.addAttendance = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, user, totalTimeShift, updateUser, error_1;
     return __generator(this, function (_b) {

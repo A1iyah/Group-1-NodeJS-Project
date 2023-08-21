@@ -61,8 +61,6 @@ function main() {
                         currentTime = Date.now();
                         updateClock();
                     }
-                    // call the func. to start shift rendering process
-                    //handleGetScheduleData();
                     renderTable();
                     return [2 /*return*/];
             }

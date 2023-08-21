@@ -25,9 +25,6 @@ async function main() {
     updateClock();
   }
 
-  // call the func. to start shift rendering process
-  //handleGetScheduleData();
-
   renderTable();
 }
 main();
