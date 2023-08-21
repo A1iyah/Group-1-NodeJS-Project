@@ -41,45 +41,66 @@ var moment_1 = require("moment");
 var availabilityModel_1 = require("./availabilityModel");
 var roleString;
 exports.updateAvailability = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var weekData, _a, availabilityData, commentValue, userId, role, name, updateObject, _b, _c, _i, day, update, _d, sunday, saturday, error_1;
-    var _e;
-    return __generator(this, function (_f) {
-        switch (_f.label) {
+    var weekData, weekdayName, _a, availabilityData, commentValue, userId, role, name, updateObject, weekdayIndex, modelDocWithDeletedPreviousAvailability, _b, _c, _i, day, update, _d, sunday, saturday, error_1;
+    var _e, _f;
+    return __generator(this, function (_g) {
+        switch (_g.label) {
             case 0:
-                _f.trys.push([0, 6, , 7]);
+                _g.trys.push([0, 10, , 11]);
                 return [4 /*yield*/, availabilityModel_1.WeekModel.find({})];
             case 1:
-                weekData = _f.sent();
+                weekData = _g.sent();
                 if (!weekData)
                     throw new Error("no week found in DB");
+                weekdayName = void 0;
                 _a = req.body, availabilityData = _a.availabilityData, commentValue = _a.commentValue, userId = _a.userId, role = _a.role, name = _a.name;
                 updateObject = {};
+                weekdayIndex = 0;
+                _g.label = 2;
+            case 2:
+                if (!(weekdayIndex < 7)) return [3 /*break*/, 5];
+                weekdayName = translateWeekdayIndexToDayName(String(weekdayIndex));
+                return [4 /*yield*/, availabilityModel_1.WeekModel.findOneAndUpdate({}, {
+                        $pull: (_e = {},
+                            _e[weekdayName] = {
+                                employeeId: userId
+                            },
+                            _e)
+                    })];
+            case 3:
+                modelDocWithDeletedPreviousAvailability = _g.sent();
+                _g.label = 4;
+            case 4:
+                weekdayIndex++;
+                return [3 /*break*/, 2];
+            case 5:
+                ;
                 _b = [];
                 for (_c in availabilityData)
                     _b.push(_c);
                 _i = 0;
-                _f.label = 2;
-            case 2:
-                if (!(_i < _b.length)) return [3 /*break*/, 5];
+                _g.label = 6;
+            case 6:
+                if (!(_i < _b.length)) return [3 /*break*/, 9];
                 day = _b[_i];
-                if (!availabilityData[day]) return [3 /*break*/, 4];
-                return [4 /*yield*/, availabilityModel_1.WeekModel.findByIdAndUpdate("64dfb738d323ba64e4bd030e", {
-                        $push: (_e = {},
-                            _e[day] = {
+                if (!availabilityData[day]) return [3 /*break*/, 8];
+                return [4 /*yield*/, availabilityModel_1.WeekModel.findOneAndUpdate({}, {
+                        $push: (_f = {},
+                            _f[day] = {
                                 employeeId: userId,
                                 name: name,
                                 role: role.userRole,
                                 comment: commentValue
                             },
-                            _e)
+                            _f)
                     })];
-            case 3:
-                update = _f.sent();
-                _f.label = 4;
-            case 4:
+            case 7:
+                update = _g.sent();
+                _g.label = 8;
+            case 8:
                 _i++;
-                return [3 /*break*/, 2];
-            case 5:
+                return [3 /*break*/, 6];
+            case 9:
                 _d = getCurrentWeekDates(), sunday = _d.sunday, saturday = _d.saturday;
                 res.status(200).json({
                     message: "Availability updated successfully",
@@ -88,13 +109,13 @@ exports.updateAvailability = function (req, res) { return __awaiter(void 0, void
                         saturday: saturday.format("D.M")
                     }
                 });
-                return [3 /*break*/, 7];
-            case 6:
-                error_1 = _f.sent();
+                return [3 /*break*/, 11];
+            case 10:
+                error_1 = _g.sent();
                 console.error(error_1);
                 res.status(500).send("Error updating availability");
-                return [3 /*break*/, 7];
-            case 7: return [2 /*return*/];
+                return [3 /*break*/, 11];
+            case 11: return [2 /*return*/];
         }
     });
 }); };
@@ -228,3 +249,21 @@ exports.getCommentByEmployeeIdAndWeekday = function (req, res) { return __awaite
         }
     });
 }); };
+var translateWeekdayIndexToDayName = function (weekdayIndex) {
+    var day = "";
+    if (weekdayIndex === "0")
+        day = "sundayMorning";
+    if (weekdayIndex === "1")
+        day = "mondayMorning";
+    if (weekdayIndex === "2")
+        day = "tuesdayMorning";
+    if (weekdayIndex === "3")
+        day = "wednesdayMorning";
+    if (weekdayIndex === "4")
+        day = "thursdayMorning";
+    if (weekdayIndex === "5")
+        day = "fridayMorning";
+    if (weekdayIndex === "6")
+        day = "saturdayMorning";
+    return day;
+};

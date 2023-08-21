@@ -8,16 +8,27 @@ export const updateAvailability = async (req: any, res: any) => {
   try {
     let weekData = await WeekModel.find({});
     if (!weekData) throw new Error("no week found in DB");
+    let weekdayName: string;
 
     const { availabilityData, commentValue, userId, role, name } = req.body;
 
     const updateObject: any = {};
 
+    for (let weekdayIndex = 0; weekdayIndex < 7 ; weekdayIndex++){
+      weekdayName = translateWeekdayIndexToDayName(String(weekdayIndex));
+      
+      const modelDocWithDeletedPreviousAvailability = await WeekModel.findOneAndUpdate({}, {
+        $pull: {
+          [weekdayName] : {
+            employeeId:userId
+          }
+        }})
+    };
+
     //Loop through each day in availabilityData
     for (const day in availabilityData) {
       if (availabilityData[day]) {
-        const update = await WeekModel.findByIdAndUpdate(
-          "64dfb738d323ba64e4bd030e",
+        const update = await WeekModel.findOneAndUpdate({},
           {
             $push: {
               [day]: {
@@ -134,3 +145,18 @@ export const getCommentByEmployeeIdAndWeekday = async (req: any, res: any) => {
     res.status(500).send("Did not find data");
   }
 };
+
+const translateWeekdayIndexToDayName = (weekdayIndex:string):string =>
+{
+  let day:string = "";
+
+  if (weekdayIndex === "0") day = "sundayMorning";
+  if (weekdayIndex === "1") day = "mondayMorning";
+  if (weekdayIndex === "2") day = "tuesdayMorning";
+  if (weekdayIndex === "3") day = "wednesdayMorning";
+  if (weekdayIndex === "4") day = "thursdayMorning";
+  if (weekdayIndex === "5") day = "fridayMorning";
+  if (weekdayIndex === "6") day = "saturdayMorning";
+
+  return day;
+}
