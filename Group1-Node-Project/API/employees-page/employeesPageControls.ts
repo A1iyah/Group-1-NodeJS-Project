@@ -83,21 +83,8 @@ export const addEmployee = async (req: any, res: any) => {
 
 export const addManager = async (req: any, res: any) => {
   try {
-    let {
-      name,
-      email,
-      password,
-      idNumber,
-      phone,
-      birthday,
-      salaryPerHour,
-      // role,
-    } = req.body;
-
-    // if (role) {
-    //   const roleID = await RoleModel.find({ name: role }).select({ _id: 1 });
-    //   role = roleID[0]._id.toString();
-    // }
+    let { name, email, password, idNumber, phone, birthday, salaryPerHour } =
+      req.body;
 
     const managerRole = await RoleModel.findOne({ name: "Manager" }).select(
       "_id"

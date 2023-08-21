@@ -145,8 +145,6 @@ function handleFormSubmit(event) {
                         var day = button.getAttribute("data-day");
                         var currentImage = window.getComputedStyle(button).backgroundImage;
                         var isAvailable = currentImage.includes("can.png");
-                        // const day = button.getAttribute("data-day");
-                        // const isAvailable = button.textContent === "can";
                         if (day) {
                             availabilityData[day] = isAvailable;
                         }

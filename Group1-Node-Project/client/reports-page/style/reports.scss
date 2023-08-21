@@ -180,6 +180,7 @@
   }
 }
 
+// Media query -
 @media screen and (max-width: 768px) {
   .reports-page__header {
     @include responsiveHeader;

@@ -55,26 +55,22 @@ function main() {
                         startTimeString = localStorage.getItem("startTime");
                         startTime1 = parseInt(startTimeString);
                         currentTime = Date.now();
-                        // const elapsedTime = currentTime - startTime1;
                         updateClock();
                     }
                     // Add employees buttons -
                     if (userType === UserType.Employee) {
                         openAddButton.style.display = "none";
                         managerSection.style.display = "none";
-                        // deleteWorkerHeader.style.visibility = "hidden";
                     }
                     else if (userType === UserType.Manager) {
                         openAddButton.style.display = "block";
                         addManagerBtn.style.display = "none";
                         managerSection.style.display = "none";
-                        // deleteWorkerHeader.style.visibility = "visible";
                     }
                     else {
                         openAddButton.style.display = "block";
                         addEmployeeBtn.style.display = "none";
                         managerSection.style.display = "block";
-                        // deleteWorkerHeader.style.visibility = "visible";
                     }
                     handleGetWorkers();
                     return [2 /*return*/];
@@ -109,7 +105,6 @@ var managerSection = document.querySelector(".employees-page__managers-section")
 var emailError = document.querySelector(".email-error-message");
 var closeEmployeeForm = document.querySelector(".close-employee-form");
 var closeManagerForm = document.querySelector(".close-manager-form");
-var deleteWorkerHeader = document.querySelector(".deleteWorker");
 var openDiv = null;
 var isFormsOpen = false;
 openAddButton.addEventListener("click", function () {

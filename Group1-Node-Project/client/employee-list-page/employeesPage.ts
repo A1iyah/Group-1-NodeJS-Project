@@ -21,7 +21,6 @@ async function main() {
 
     const currentTime = Date.now();
 
-    // const elapsedTime = currentTime - startTime1;
     updateClock();
   }
 
@@ -29,25 +28,16 @@ async function main() {
   if (userType === UserType.Employee) {
     openAddButton.style.display = "none";
     managerSection.style.display = "none";
-    // deleteWorkerHeader.style.visibility = "hidden";
   } else if (userType === UserType.Manager) {
     openAddButton.style.display = "block";
     addManagerBtn.style.display = "none";
     managerSection.style.display = "none";
-    // deleteWorkerHeader.style.visibility = "visible";
   } else {
     openAddButton.style.display = "block";
     addEmployeeBtn.style.display = "none";
     managerSection.style.display = "block";
-    // deleteWorkerHeader.style.visibility = "visible";
   }
   handleGetWorkers();
-
-  // if (userType === UserType.Admin || userType === UserType.Manager) {
-  //   deleteWorkerHeader.style.visibility = "visible";
-  // } else {
-  //   deleteWorkerHeader.style.visibility = "hidden";
-  // }
 }
 
 main();
@@ -117,10 +107,6 @@ const closeEmployeeForm = document.querySelector(
 const closeManagerForm = document.querySelector(
   ".close-manager-form"
 ) as HTMLDivElement;
-
-const deleteWorkerHeader = document.querySelector(
-  ".deleteWorker"
-) as HTMLTableCellElement;
 
 let openDiv: HTMLDivElement | null = null;
 let isFormsOpen = false;
