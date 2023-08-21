@@ -34,7 +34,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
 var navBarElem = document.querySelector(".nav-bar");
 var runningClock = document.querySelector(".running-clock");
 var weekDays;
@@ -143,15 +142,16 @@ var renderEmployeesPanel = function (weekDaysArr) {
     // `;
 };
 var renderAllocationsPanel = function (weekDaysArr, scheduleRequirements) {
-    var shiftsPanelElem = document.querySelector(".shifts-panel");
+    var shiftsPanelElem = document.querySelector(".shifts-panel-wrapper");
     // shiftsPanelElem.innerHTML = `
     // <div class="shifts-panel__days-header-container">${renderWeekHeaders(
     //   weekDaysArr
     // )}</div>
     // ${renderRoleAllocationsPlaces(weekDaysArr, scheduleRequirements)}
     // `;
-    shiftsPanelElem.innerHTML = "\n  <table border=\"1\" cellpadding=\"17\"width=\"400\" height=\"100\" class=\"shift-table\">\n  <thead class=\"shift-table__header-container\">\n  <tr class=\"shift-table__header-container\">\n      <th></th>\n  " + renderWeekHeaders(weekDaysArr) + "\n  </tr>\n  </thead>\n  <tbody class=\"shift-table__body-container\">\n  " + renderRoleAllocationsPlaces(weekDaysArr, scheduleRequirements) + "\n  </tbody>\n  </table>";
+    shiftsPanelElem.innerHTML = "\n  <table class=\"shifts-panel\">\n  <thead class=\"shifts-panel__header-container\">\n  <tr class=\"shifts-panel__header-container\">\n      <th></th>\n  " + renderWeekHeaders(weekDaysArr) + "\n  </tr>\n  </thead>\n  <tbody class=\"shifts-panel__body-container\">\n  " + renderRoleAllocationsPlaces(weekDaysArr, scheduleRequirements) + "\n  </tbody>\n  </table>";
 };
+//border="0" cellpadding="17" width="400" height="100"
 var renderWeekHeaders = function (weekDaysArr) {
     var daysNames = [
         "Sunday",
@@ -166,7 +166,7 @@ var renderWeekHeaders = function (weekDaysArr) {
     var daysHeadersHtml = weekDaysArr
         .map(function (dayHeader) {
         daysCounter++;
-        return "<th><p>" + daysNames[daysCounter] + "</p>\n      <p class=\"shifts-panel__day-box__date\">" + weekDaysArr[daysCounter].getDate() + " / " + weekDaysArr[daysCounter].getMonth() + "</p>\n      </th>";
+        return "<th class=\"shifts-panel__day-box\"><p class=\"shifts-panel__day-box__day\">" + daysNames[daysCounter] + "</p>\n      <p class=\"shifts-panel__day-box__date\">" + weekDaysArr[daysCounter].getDate() + " / " + weekDaysArr[daysCounter].getMonth() + "</p>\n      </th>";
     })
         .join("");
     return daysHeadersHtml;
@@ -182,15 +182,16 @@ var renderRoleAllocationsPlaces = function (weekDaysArr, scheduleRequirements) {
             continue;
         var oneStringRoleTypeName = (scheduleRequirements[i]["roleType"] === "Shift Manager") ? "ShiftManager" : (scheduleRequirements[i]["roleType"]);
         for (var j = 0; j < numEmployeesRequiredForRole; j++) {
-            rolesHtml += "<tr class=\"shift-table__roles-row\">\n      <td class=\"shift-table__role-row__role\">\n      " + scheduleRequirements[i]["roleType"] + "</td>";
+            rolesHtml += "<tr class=\"shifts-panel__role-row\">\n      <td class=\"shifts-panel__role-row__role\">\n      " + scheduleRequirements[i]["roleType"] + "</td>";
             for (var weekdayIndex = 0; weekdayIndex < 7; weekdayIndex++) {
-                rolesHtml += "<td class=\"shifts-panel__role-row__" + oneStringRoleTypeName + "-num" + j + "-weekday" + weekdayIndex + "\">\n        <img src=\"./images/add-employee-to-shift.png\" alt=\"add-employee-to-shift\" class=\"shifts-panel__role-row__icon\" onclick=\"onShiftSelect('" + scheduleRequirements[i]["roleType"] + "', '" + weekdayIndex + "', '" + j + "')\">";
+                rolesHtml += "<td class=\"shifts-panel__role-row__employee-box shifts-panel__role-row__" + oneStringRoleTypeName + "-num" + j + "-weekday" + weekdayIndex + "\">\n        <p class=\"shifts-panel__role-row__plus\" onclick=\"onShiftSelect('" + scheduleRequirements[i]["roleType"] + "', '" + weekdayIndex + "', '" + j + "')\">+</p>\n        ";
             }
             rolesHtml += "</ td>";
         }
     }
     return rolesHtml;
 };
+//<img src="./images/add-employee-to-shift.png" alt="add-employee-to-shift" class="shifts-panel__role-row__icon" onclick="onShiftSelect('${scheduleRequirements[i]["roleType"]}', '${weekdayIndex}', '${j}')">
 var getNextSundayDate = function (todayDate) {
     var date = new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() - todayDate.getDay() + 7);
     return date;
@@ -206,15 +207,11 @@ var getWeekDaysDatesArr = function (startDate) {
     }
     return weekDaysArr;
 };
-var renderAllAvailableEmployees = function () { return __awaiter(_this, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        return [2 /*return*/];
-    });
-}); };
 var onShiftSelect = function (roleType, weekdayIndex, roleCount) {
     targetedDayIndex = weekdayIndex;
     targetedRoleType = roleType;
     targetedRoleCount = roleCount;
+    handleRollCellMarking(roleType, weekdayIndex, roleCount);
     try {
         fetch("/api/availability/get-employees-by-role-and-weekday", {
             method: "SEARCH",
@@ -295,8 +292,17 @@ var renderEmployeesPanelByRole = function (roleId, employees, weekdayIndex) {
         if (employees[i]["role"] !== roleId)
             continue;
         var comment = employees[i]["comment"];
-        employeesNamesList.innerHTML += "<div class=\"employees-panel__employee-box\" onmouseover=\"renderEmployeeComment('" + employees[i]["employeeId"] + "', '" + weekdayIndex + "')\" onclick=\"processEmployeeAllocation('" + employees[i]["employeeId"] + "', '" + employees[i]["name"] + "', '" + weekdayIndex + "')\">\n            <p class=\"employees-panel__employee-name\">" + employees[i]["name"] + "</p>\n            <div class=\"employees-panel__employee-box__markings-container\">\n            </div>\n          </div>";
+        employeesNamesList.innerHTML += "<div class=\"employees-panel__employee-box\" onmouseover=\"renderEmployeeComment('" + employees[i]["employeeId"] + "', '" + weekdayIndex + "')\" onclick=\"processEmployeeAllocation('" + employees[i]["employeeId"] + "', '" + employees[i]["name"] + "', '" + weekdayIndex + "')\">\n            <p class=\"employees-panel__employee-box__employee-name\">" + employees[i]["name"] + "</p>\n          </div>";
     }
+};
+var unRenderEmployeeComment = function () {
+    var commentsPanel = document.querySelector(".comments-panel");
+    commentsPanel.innerHTML = "";
+    commentsPanel.classList.toggle("comments-panel__visible");
+};
+var renderCommentBox = function () {
+    var commentsPanel = document.querySelector(".comments-panel");
+    commentsPanel.classList.toggle("comments-panel__visible");
 };
 var renderEmployeeComment = function (targetEmployeeId, weekdayIndex) {
     var commentsPanel = document.querySelector(".comments-panel");
@@ -317,7 +323,7 @@ var renderEmployeeComment = function (targetEmployeeId, weekdayIndex) {
             var dayDBLenght = data.dayDB[weekDayString].length;
             for (var i = 0; i < dayDBLenght; i++) {
                 if (data.dayDB[weekDayString][i]["employeeId"] === targetEmployeeId) {
-                    commentsPanel.innerHTML = "<p>" + data.dayDB[weekDayString][i]["comment"] + "</p> \n          ";
+                    commentsPanel.innerHTML = "<p class=\"comments-panel__name\">" + data.dayDB[weekDayString][i]["name"] + "</p>\n            <p class=\"comments-panel__comment\">" + data.dayDB[weekDayString][i]["comment"] + "</p> \n          ";
                     break;
                 }
             }
@@ -356,15 +362,25 @@ var convertWeekIndexToDayString = function (weekdayIndex) {
             break;
     }
 };
-// const processEmployeeAllocation = (
-//   employeeId: string,
-//   employeeName: string
-// ) => {
-//   targetedRoleType = (targetedRoleType === "Shift Manager") ? "ShiftManager" : targetedRoleType;
-//   const targetShift = document.querySelector(
-//     `.shifts-panel__role-row__${targetedRoleType}-num${targetedRoleCount}-weekday${targetedDayIndex}`
-//   );
-//   console.log(targetShift);
+var handleRollCellMarking = function (roleType, weekdayIndex, roleCount) {
+    var flaggedAtt = "shifts-panel__role-row__employee-box--marked";
+    var allFlaggedPos = document.querySelectorAll(".shifts-panel__role-row__employee-box--marked");
+    if (allFlaggedPos) {
+        allFlaggedPos.forEach(function (element) {
+            element.classList.remove(flaggedAtt);
+        });
+    }
+    var targetPos;
+    if (roleType === "Shift Manager") {
+        targetPos = document.querySelector(".shifts-panel__role-row__ShiftManager-num" + roleCount + "-weekday" + weekdayIndex);
+    }
+    else {
+        targetPos = document.querySelector(".shifts-panel__role-row__" + roleType + "-num" + roleCount + "-weekday" + weekdayIndex);
+    }
+    if (targetPos) {
+        targetPos.classList.add(flaggedAtt);
+    }
+};
 var processEmployeeAllocation = function (employeeId, employeeName, weekdayIndex) {
     targetedRoleType = (targetedRoleType === "Shift Manager") ? "ShiftManager" : targetedRoleType;
     var targetShift = document.querySelector(".shifts-panel__role-row__" + targetedRoleType + "-num" + targetedRoleCount + "-weekday" + targetedDayIndex);

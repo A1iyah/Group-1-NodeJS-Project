@@ -159,7 +159,7 @@ const renderAllocationsPanel = (
   scheduleRequirements: Array<string>
 ) => {
   const shiftsPanelElem = document.querySelector(
-    ".shifts-panel"
+    ".shifts-panel-wrapper"
   ) as HTMLDivElement;
 
   // shiftsPanelElem.innerHTML = `
@@ -170,20 +170,22 @@ const renderAllocationsPanel = (
   // `;
 
   shiftsPanelElem.innerHTML = `
-  <table border="1" cellpadding="17"width="400" height="100" class="shift-table">
-  <thead class="shift-table__header-container">
-  <tr class="shift-table__header-container">
+  <table class="shifts-panel">
+  <thead class="shifts-panel__header-container">
+  <tr class="shifts-panel__header-container">
       <th></th>
   ${renderWeekHeaders(
     weekDaysArr
   )}
   </tr>
   </thead>
-  <tbody class="shift-table__body-container">
+  <tbody class="shifts-panel__body-container">
   ${renderRoleAllocationsPlaces(weekDaysArr, scheduleRequirements)}
   </tbody>
   </table>`;
 };
+
+//border="0" cellpadding="17" width="400" height="100"
 
 const renderWeekHeaders = (weekDaysArr: Array<Date>): string => {
   const daysNames = [
@@ -200,7 +202,7 @@ const renderWeekHeaders = (weekDaysArr: Array<Date>): string => {
   const daysHeadersHtml = weekDaysArr
     .map((dayHeader) => {
       daysCounter++;
-      return `<th><p>${daysNames[daysCounter]}</p>
+      return `<th class="shifts-panel__day-box"><p class="shifts-panel__day-box__day">${daysNames[daysCounter]}</p>
       <p class="shifts-panel__day-box__date">${weekDaysArr[
         daysCounter
       ].getDate()} / ${weekDaysArr[daysCounter].getMonth()}</p>
@@ -229,21 +231,25 @@ const renderRoleAllocationsPlaces = (
     let oneStringRoleTypeName = (scheduleRequirements[i]["roleType"] === "Shift Manager") ? "ShiftManager" : (scheduleRequirements[i]["roleType"]);
 
     for (let j = 0; j < numEmployeesRequiredForRole; j++) {
-      rolesHtml += `<tr class="shift-table__roles-row">
-      <td class="shift-table__role-row__role">
+      rolesHtml += `<tr class="shifts-panel__role-row">
+      <td class="shifts-panel__role-row__role">
       ${scheduleRequirements[i]["roleType"]}</td>`;
 
 
       for (let weekdayIndex = 0; weekdayIndex < 7; weekdayIndex++) {
-        rolesHtml += `<td class="shifts-panel__role-row__${oneStringRoleTypeName}-num${j}-weekday${weekdayIndex}">
-        <img src="./images/add-employee-to-shift.png" alt="add-employee-to-shift" class="shifts-panel__role-row__icon" onclick="onShiftSelect('${scheduleRequirements[i]["roleType"]}', '${weekdayIndex}', '${j}')">`;
+        rolesHtml += `<td class="shifts-panel__role-row__employee-box shifts-panel__role-row__${oneStringRoleTypeName}-num${j}-weekday${weekdayIndex}">
+        <p class="shifts-panel__role-row__plus" onclick="onShiftSelect('${scheduleRequirements[i]["roleType"]}', '${weekdayIndex}', '${j}')">+</p>
+        `;
       }
       rolesHtml += "</ td>";
     }
   }
 
+
   return rolesHtml;
 };
+
+//<img src="./images/add-employee-to-shift.png" alt="add-employee-to-shift" class="shifts-panel__role-row__icon" onclick="onShiftSelect('${scheduleRequirements[i]["roleType"]}', '${weekdayIndex}', '${j}')">
 
 const getNextSundayDate = (todayDate: Date): Date => {
   const date = new Date(
@@ -281,25 +287,6 @@ const getWeekDaysDatesArr = (startDate: Date): Array<Date> => {
   return weekDaysArr;
 };
 
-const renderAllAvailableEmployees = async () => {
-  // console.log("renderAllAvailableEmployees called");
-  // fetch('/api/availability/get-all-available-employees')
-  // .then( (res) => res.json())
-  // .then( (data) =>
-  // {
-  //   try {
-  //     if (!data) throw new Error("did not get available employees from DB");
-  //     //console.log("weeks data: ", data.weekDays[0]);
-  //     weekDays = data.weekDays[0];
-  //     console.log(weekDays);
-  //     console.log(weekDays["Sunday"]);
-  //     //console.log("try: ", weekDays[1]);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // })
-};
-
 const onShiftSelect = (
   roleType: string,
   weekdayIndex: number,
@@ -309,6 +296,8 @@ const onShiftSelect = (
   targetedRoleType = roleType;
   targetedRoleCount = roleCount;
 
+  handleRollCellMarking(roleType, weekdayIndex, roleCount);
+  
   try {
     fetch("/api/availability/get-employees-by-role-and-weekday", {
       method: "SEARCH",
@@ -420,12 +409,25 @@ const renderEmployeesPanelByRole = (
     const comment: string = employees[i]["comment"];
 
     employeesNamesList.innerHTML += `<div class="employees-panel__employee-box" onmouseover="renderEmployeeComment('${employees[i]["employeeId"]}', '${weekdayIndex}')" onclick="processEmployeeAllocation('${employees[i]["employeeId"]}', '${employees[i]["name"]}', '${weekdayIndex}')">
-            <p class="employees-panel__employee-name">${employees[i]["name"]}</p>
-            <div class="employees-panel__employee-box__markings-container">
-            </div>
+            <p class="employees-panel__employee-box__employee-name">${employees[i]["name"]}</p>
           </div>`;
   }
 };
+
+const unRenderEmployeeComment = () =>
+{
+  const commentsPanel = document.querySelector(".comments-panel") as HTMLDivElement;
+  
+  commentsPanel.innerHTML = "";
+
+  commentsPanel.classList.toggle("comments-panel__visible");
+}
+
+const renderCommentBox = () =>
+{
+  const commentsPanel = document.querySelector(".comments-panel") as HTMLDivElement;
+  commentsPanel.classList.toggle("comments-panel__visible");
+}
 
 const renderEmployeeComment = (
   targetEmployeeId: string,
@@ -451,7 +453,8 @@ const renderEmployeeComment = (
 
         for (let i = 0; i < dayDBLenght; i++) {
           if (data.dayDB[weekDayString][i]["employeeId"] === targetEmployeeId) {
-            commentsPanel!.innerHTML = `<p>${data.dayDB[weekDayString][i]["comment"]}</p> 
+            commentsPanel!.innerHTML = `<p class="comments-panel__name">${data.dayDB[weekDayString][i]["name"]}</p>
+            <p class="comments-panel__comment">${data.dayDB[weekDayString][i]["comment"]}</p> 
           `;
             break;
           }
@@ -461,6 +464,7 @@ const renderEmployeeComment = (
     console.error(error);
   }
 };
+
 
 const convertWeekIndexToDayString = (weekdayIndex: string): string => {
   switch (weekdayIndex) {
@@ -494,19 +498,34 @@ const convertWeekIndexToDayString = (weekdayIndex: string): string => {
   }
 };
 
-// const processEmployeeAllocation = (
-//   employeeId: string,
-//   employeeName: string
-// ) => {
+const handleRollCellMarking = (roleType: string,
+  weekdayIndex: number,
+  roleCount: number) =>
+{
+  const flaggedAtt = "shifts-panel__role-row__employee-box--marked";
 
-//   targetedRoleType = (targetedRoleType === "Shift Manager") ? "ShiftManager" : targetedRoleType;
+  const allFlaggedPos: NodeListOf<HTMLDivElement> = document.querySelectorAll(".shifts-panel__role-row__employee-box--marked");
+  
+  if (allFlaggedPos)
+  {
+    allFlaggedPos.forEach(element => {
+      element.classList.remove(flaggedAtt);
+    });
+  }
 
-//   const targetShift = document.querySelector(
-//     `.shifts-panel__role-row__${targetedRoleType}-num${targetedRoleCount}-weekday${targetedDayIndex}`
-//   );
+  let targetPos: HTMLDivElement;
+  
+  if (roleType==="Shift Manager"){
+    targetPos = document.querySelector(`.shifts-panel__role-row__ShiftManager-num${roleCount}-weekday${weekdayIndex}`) as HTMLDivElement;
+  }
+  else{
+    targetPos = document.querySelector(`.shifts-panel__role-row__${roleType}-num${roleCount}-weekday${weekdayIndex}`) as HTMLDivElement;
+  }
 
-//   console.log(targetShift);
-
+  if (targetPos){
+    targetPos.classList.add(flaggedAtt);
+  }
+}
 
   const processEmployeeAllocation = (
     employeeId: string,

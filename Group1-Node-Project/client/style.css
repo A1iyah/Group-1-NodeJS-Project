@@ -404,11 +404,13 @@
   padding-left: 35px;
 }
 .employees-panel__week-display {
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 .employees-panel__week-display__text {
   font-size: 24px;
   line-height: 3rem;
+  font-weight: bold;
+  padding-bottom: 5px;
 }
 .employees-panel__employees-list-container {
   display: flex;
@@ -418,48 +420,48 @@
 }
 .employees-panel__employee-box {
   display: flex;
-  width: 100%;
   justify-content: space-between;
   align-items: center;
   padding: 5px;
+  width: 90%;
+  color: #679CA1;
 }
-.employees-panel__employee-box__markings-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.employees-panel__employee-box__allocations-count {
-  padding-right: 15px;
-}
-.employees-panel__employee-box__availability-img {
-  width: 20px;
+.employees-panel__employee-box__employee-name {
+  font-size: 20px;
+  font-weight: bold;
+  display: inline-flex;
 }
 .employees-panel__employee-box:hover {
+  padding-right: 15px;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  border-radius: 13px;
+  background-color: #679CA1;
+  color: #fff;
 }
 
 .shifts-panel {
-  background-color: lightgray;
   width: 100%;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+  table-layout: fixed;
+  width: 100%;
+  height: auto;
+  border-collapse: separate;
+  border-spacing: 8px 15px;
 }
-.shifts-panel__days-header-container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: auto;
-  gap: 110px;
+.shifts-panel td {
+  text-align: center;
+  min-height: 35px;
 }
 .shifts-panel__day-box {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  justify-content: center;
+  padding-bottom: 10px;
+  text-align: center;
 }
 .shifts-panel__day-box__day {
-  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
 }
 .shifts-panel__day-box__date {
-  text-align: center;
+  font-size: 20px;
 }
 .shifts-panel__manager-row {
   display: flex;
@@ -467,19 +469,60 @@
   align-items: center;
 }
 .shifts-panel__role-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  height: 35px;
+  margin: 5px;
+}
+.shifts-panel__role-row__role {
+  color: #679CA1;
+  font-size: 20px;
+  font-weight: bold;
+}
+.shifts-panel__role-row__employee-box {
+  height: 45px;
+  border: 3px solid #C5EBEF;
+  border-radius: 13px 13px 13px 0;
+  padding: 5px;
+  margin-bottom: 30px;
+}
+.shifts-panel__role-row__employee-box--marked {
+  background-color: #C5EBEF;
+  color: white;
+}
+.shifts-panel__role-row__plus {
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+}
+.shifts-panel__role-row__allocation-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
 }
 
 .comments-panel {
   margin: 50px;
   max-width: 790px;
   height: 58px;
-  border: 3px solid #c5ebef;
   border-radius: 13px;
   vertical-align: middle;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.comments-panel__visible {
+  border: 3px solid #c5ebef;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.comments-panel__name {
+  margin: 0 30px 0 40px;
+  color: #679CA1;
+  font-size: 20px;
+  font-weight: bolder;
+}
+.comments-panel__comment {
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .my-shift-page {
