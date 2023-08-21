@@ -96,6 +96,7 @@ var renderTable = function () {
             var shiftsTableElem = document.querySelector(".shift-panel");
             shiftsTableElem.innerHTML = data.nextWeekSchedule[0]["table"];
             markUserInTable(data.nextWeekSchedule[0]["table"]);
+            removePluses(data.nextWeekSchedule[0]["table"]);
         });
     }
     catch (error) {
@@ -116,5 +117,11 @@ var markUserInTable = function (tableHtml) {
         if (allocatedNameElem.innerHTML === user["name"]) {
             (_a = allocatedNameElem.parentElement) === null || _a === void 0 ? void 0 : _a.classList.add(markString);
         }
+    });
+};
+var removePluses = function (tableHtml) {
+    var allPlusElem = document.querySelectorAll(".shifts-panel__role-row__plus");
+    allPlusElem.forEach(function (plusParagraph) {
+        plusParagraph.parentElement.innerHTML = "<p class=\"shifts-panel__role-row__unassigned-cell\">Unassigned</p>";
     });
 };

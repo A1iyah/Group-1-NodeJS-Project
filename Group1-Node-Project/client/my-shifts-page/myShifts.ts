@@ -70,6 +70,7 @@ const renderTable = () => {
         shiftsTableElem.innerHTML = data.nextWeekSchedule[0]["table"];
 
         markUserInTable(data.nextWeekSchedule[0]["table"]);
+        removePluses(data.nextWeekSchedule[0]["table"]);
       });
   } catch (error) {
     console.error(error);
@@ -95,5 +96,14 @@ const markUserInTable = (tableHtml: string) =>
     {
       allocatedNameElem.parentElement?.classList.add(markString);
     }
+  });
+}
+
+const removePluses = (tableHtml: string) =>
+{
+  const allPlusElem: NodeListOf<HTMLParagraphElement> = document.querySelectorAll(".shifts-panel__role-row__plus");
+
+  allPlusElem.forEach( plusParagraph => {
+    plusParagraph.parentElement!.innerHTML = `<p class="shifts-panel__role-row__unassigned-cell">Unassigned</p>`
   });
 }

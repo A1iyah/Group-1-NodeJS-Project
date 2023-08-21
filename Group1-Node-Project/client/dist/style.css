@@ -623,3 +623,6 @@
   font-weight: bold;
   color: black;
 }
+.shifts-panel__role-row__unassigned-cell {
+  color: #5C5C5C;
+}
