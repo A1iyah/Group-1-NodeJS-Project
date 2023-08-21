@@ -97,7 +97,6 @@ exports.getSelectedManager = function (req, res) { return __awaiter(void 0, void
             case 1:
                 managerDB = _a.sent();
                 // .exec();
-                console.log(managerDB);
                 res.send({ managerDB: managerDB });
                 return [3 /*break*/, 3];
             case 2:
