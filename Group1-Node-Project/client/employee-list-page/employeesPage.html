@@ -19,6 +19,7 @@
     <script src="./dist/employeesView.js" defer></script>
     <script src="./dist/employeesPage.js" defer></script>
     <title>Employees</title>
+    <link rel="icon" href="../styles/w.png" />
   </head>
 
   <body>
@@ -49,6 +50,7 @@
 
         <table class="employees-page__employees-section__employees-chart">
           <tr>
+            <th class="deleteWorker" style="visibility: hidden">DELETE</th>
             <th>NAME</th>
             <th>BIRTHDAY</th>
             <th>EMAIL</th>
@@ -67,6 +69,7 @@
 
         <table class="employees-page__managers-section__managers-chart">
           <tr>
+            <th class="deleteWorker" style="visibility: hidden">DELETE</th>
             <th>NAME</th>
             <th>BIRTHDAY</th>
             <th>EMAIL</th>
@@ -82,6 +85,9 @@
       <div class="employees-page__add-new-employees" style="display: none">
         <fieldset>
           <legend>Add Employee</legend>
+
+          <div class="close-employee-form">X</div>
+
           <form
             class="employees-page__create-employee-form"
             onsubmit="handleCreateEmployee(event)"
@@ -156,7 +162,6 @@
             <br />
 
             <select name="role" id="employee-roles">
-              <option value="role">Select Role</option>
               <option value="Cashier">Cashier</option>
               <option value="Sales">Sales</option>
               <option value="Shift Manager">Shift Manager</option>
@@ -176,6 +181,9 @@
       <div class="employees-page__add-new-managers" style="display: none">
         <fieldset>
           <legend>Add Manager</legend>
+
+          <div class="close-manager-form">X</div>
+
           <form
             class="employees-page__create-manager-form"
             onsubmit="handleCreateManager(event)"

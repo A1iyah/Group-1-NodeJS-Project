@@ -155,9 +155,19 @@ function renderShiftResult(employees) {
         console.log(error);
     }
 }
+var isSalaryReportsOpen = false;
+var isEmployeeReportsOpen = false;
+var isManagerReportsOpen = false;
 salaryButton.addEventListener("click", function (e) {
     resetPage();
-    reportsBySalary.style.display = "flex";
+    if (!isSalaryReportsOpen) {
+        reportsBySalary.style.display = "flex";
+        isSalaryReportsOpen = true;
+    }
+    else {
+        reportsBySalary.style.display = "none";
+        isSalaryReportsOpen = false;
+    }
     reportsByEmployee.style.display = "none";
     reportsByManager.style.display = "none";
 });
@@ -300,10 +310,21 @@ function HandleSalaryBetween(ev) {
     }
 }
 employeeButton.addEventListener("click", function (e) {
+    var _id = user._id;
     reportsBySalary.style.display = "none";
     reportsByEmployee.style.display = "flex";
     reportsByManager.style.display = "none";
     resetPage();
+    if (!isEmployeeReportsOpen) {
+        reportsByEmployee.style.display = "flex";
+        isEmployeeReportsOpen = true;
+    }
+    else {
+        reportsByEmployee.style.display = "none";
+        isEmployeeReportsOpen = false;
+    }
+    reportsBySalary.style.display = "none";
+    reportsByManager.style.display = "none";
     if (userType === UserType.Admin) {
         fetch("/api/admin/get-employees-list")
             .then(function (res) { return res.json(); })
@@ -325,14 +346,14 @@ employeeButton.addEventListener("click", function (e) {
         });
     }
     else if (userType === UserType.Manager) {
-        var _id = user._id;
+        var _id_1 = user._id;
         fetch("/api/manager/get-employees-list", {
             method: "PATCH",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ _id: _id })
+            body: JSON.stringify({ _id: _id_1 })
         })
             .then(function (res) { return res.json(); })
             .then(function (_a) {
@@ -375,6 +396,7 @@ function HandleEmployeeReport(ev) {
             .then(function (res) { return res.json(); })
             .then(function (_a) {
             var employeeDB = _a.employeeDB;
+            console.log(employeeDB);
             renderReportResultEmployees(employeeDB);
             renderShiftResult(employeeDB[0]);
         });
@@ -384,10 +406,17 @@ function HandleEmployeeReport(ev) {
     }
 }
 managerButton.addEventListener("click", function (e) {
+    resetPage();
+    if (!isManagerReportsOpen) {
+        reportsByManager.style.display = "flex";
+        isManagerReportsOpen = true;
+    }
+    else {
+        reportsByManager.style.display = "none";
+        isManagerReportsOpen = false;
+    }
     reportsBySalary.style.display = "none";
     reportsByEmployee.style.display = "none";
-    reportsByManager.style.display = "flex";
-    resetPage();
     fetch("/api/admin/get-managers-list")
         .then(function (res) { return res.json(); })
         .then(function (data) {
@@ -413,6 +442,7 @@ function HandleManagerReport(ev) {
         ev.preventDefault();
         var managerDetails_1 = ev.target.elements.managers.value;
         var _a = managerDetails_1.match(/^(.*?)\s-\s(\d+)$/).slice(1), name = _a[0], idNumber = _a[1];
+        console.log(name, idNumber);
         if (!managerDetails_1)
             throw new Error("no employee selected");
         fetch("/api/manager/get-selected-manager", {
@@ -426,6 +456,7 @@ function HandleManagerReport(ev) {
             .then(function (res) { return res.json(); })
             .then(function (_a) {
             var managerDB = _a.managerDB;
+            console.log(managerDB);
             renderReportResultManager(managerDB);
             renderReportResultEmployees(managerDB[0].employees);
             renderShiftResult(managerDB[0]);

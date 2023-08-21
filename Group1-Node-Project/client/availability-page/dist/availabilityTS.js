@@ -80,38 +80,6 @@ function continueUpdateElapsedTime() {
 function updateClock() {
     intervalId = setInterval(continueUpdateElapsedTime, 1000);
 }
-// const getActiveEmployee = async () => {
-//   try {
-//     const response = await fetch("/api/employee/get-employee");
-//     const data = await response.json();
-//     console.log("data", data);
-//     const { employee } = data;
-//     //if(!data) throw new Error("no data received from DB");
-//     if (employee) {
-//       userDB = employee;
-//       console.log("userDB: ", userDB);
-//       return;
-//     }
-//     getActiveManager();
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-// const getActiveManager = async () => {
-//   try {
-//     const response = await fetch("/api/manager/get-manager");
-//     const data = await response.json();
-//     console.log("data", data);
-//     const { manager } = data;
-//     if (!manager) throw new Error("didn't get employee or manager from DB");
-//     userDB = manager;
-//     console.log("userDB: ", userDB);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-// getActiveEmployee();
-//
 var buttons = document.querySelectorAll(".availability-button");
 var clickButton = document.querySelector(".availability-button");
 var comment = document.getElementById("comment");

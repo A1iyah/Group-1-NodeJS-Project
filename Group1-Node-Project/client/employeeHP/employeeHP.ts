@@ -57,24 +57,6 @@ const moveToShiftSchedule = document.querySelector(
   ".moveToShiftSchedule"
 ) as HTMLButtonElement;
 
-// async function handleLoadEmployee() {
-//   try {
-//     const response = await fetch("/api/employee/get-employee");
-//     const data = await response.json();
-//     console.log("data", data);
-//     const { employee } = data;
-//     const userName: HTMLDivElement | null = document.querySelector("#userName");
-
-//     if (!employee) throw new Error("didn't get admin from DB");
-//     userDB = employee;
-//     if (!userName) throw new Error("No user element on DOM");
-//     userName.innerText = employee.name;
-//   } catch (error) {
-//     console.error(error);
-//   }
-
-// }
-
 startEndButtonS.addEventListener("click", (e) => {
   clearInterval(intervalId);
   startEndClock.innerHTML = `00:00:00`;
@@ -136,12 +118,3 @@ function stopClock() {
     });
   }
 }
-
-// moveToShiftSchedule.addEventListener("click", (e) => {
-//   const url = new URL(
-//     "../shift-schedule-page/shiftSchedule.html",
-//     window.location.href
-//   );
-//   console.log("new URL:", url.href);
-//   window.location.href = url.href;
-// });

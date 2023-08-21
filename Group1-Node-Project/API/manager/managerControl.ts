@@ -9,7 +9,6 @@ dotenv.config();
 
 import jwt from "jwt-simple";
 const secret = process.env.JWT_SECRET as string;
-// const secret: string = "secret";
 
 export const addAttendance = async (req: any, res: any) => {
   try {
@@ -40,6 +39,8 @@ export const addAttendance = async (req: any, res: any) => {
 export const getSelectedManager = async (req: any, res: any) => {
   try {
     const { idNumber } = req.body;
+    console.log(idNumber);
+
     if (!idNumber) throw new Error("no id");
 
     const managerDB: any = await ManagerModel.find({
@@ -53,10 +54,8 @@ export const getSelectedManager = async (req: any, res: any) => {
           path: "role",
           model: "Role",
         },
-      })
-
-      .exec();
-
+      });
+    // .exec();
     res.send({ managerDB });
   } catch (error: any) {
     console.error(error);
@@ -154,30 +153,3 @@ export const getEmployeesList = async (req: any, res: any) => {
     res.status(500).send({ error: error.message });
   }
 };
-
-// export const addManager = async (req: any, res: any) => {
-//   try {
-//     let { name, email, password, idNumber, phone, birthday, salary, role } =
-//       req.body;
-//     if (role) {
-//       const roleID = await RoleModel.find({ name: role }).select({ _id: 1 });
-//       role = roleID[0]._id.toString();
-//     }
-//     const managerDB = await ManagerModel.create({
-//       name,
-//       email,
-//       password,
-//       idNumber,
-//       phone,
-//       birthday,
-//       salary,
-//       role,
-//     });
-//     console.log(managerDB);
-
-//     res.status(200).send({ ok: true });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send("did not get data");
-//   }
-// };

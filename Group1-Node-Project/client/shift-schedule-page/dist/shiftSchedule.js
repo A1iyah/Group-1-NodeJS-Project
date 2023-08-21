@@ -180,7 +180,9 @@ var renderRoleAllocationsPlaces = function (weekDaysArr, scheduleRequirements) {
         var numEmployeesRequiredForRole = scheduleRequirements[i]["numEmployeesRequired"];
         if (numEmployeesRequiredForRole === 0)
             continue;
-        var oneStringRoleTypeName = (scheduleRequirements[i]["roleType"] === "Shift Manager") ? "ShiftManager" : (scheduleRequirements[i]["roleType"]);
+        var oneStringRoleTypeName = scheduleRequirements[i]["roleType"] === "Shift Manager"
+            ? "ShiftManager"
+            : scheduleRequirements[i]["roleType"];
         for (var j = 0; j < numEmployeesRequiredForRole; j++) {
             rolesHtml += "<tr class=\"shifts-panel__role-row\">\n      <td class=\"shifts-panel__role-row__role\">\n      " + scheduleRequirements[i]["roleType"] + "</td>";
             for (var weekdayIndex = 0; weekdayIndex < 7; weekdayIndex++) {
@@ -382,7 +384,8 @@ var handleRollCellMarking = function (roleType, weekdayIndex, roleCount) {
     }
 };
 var processEmployeeAllocation = function (employeeId, employeeName, weekdayIndex) {
-    targetedRoleType = (targetedRoleType === "Shift Manager") ? "ShiftManager" : targetedRoleType;
+    targetedRoleType =
+        targetedRoleType === "Shift Manager" ? "ShiftManager" : targetedRoleType;
     var targetShift = document.querySelector(".shifts-panel__role-row__" + targetedRoleType + "-num" + targetedRoleCount + "-weekday" + targetedDayIndex);
     if (!targetShift) {
         console.log("target shift allocation slot not found in DOM");

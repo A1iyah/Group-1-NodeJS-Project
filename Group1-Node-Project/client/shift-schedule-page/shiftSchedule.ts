@@ -174,9 +174,7 @@ const renderAllocationsPanel = (
   <thead class="shifts-panel__header-container">
   <tr class="shifts-panel__header-container">
       <th></th>
-  ${renderWeekHeaders(
-    weekDaysArr
-  )}
+  ${renderWeekHeaders(weekDaysArr)}
   </tr>
   </thead>
   <tbody class="shifts-panel__body-container">
@@ -227,14 +225,16 @@ const renderRoleAllocationsPlaces = (
     const numEmployeesRequiredForRole =
       scheduleRequirements[i]["numEmployeesRequired"];
     if (numEmployeesRequiredForRole === 0) continue;
-    
-    let oneStringRoleTypeName = (scheduleRequirements[i]["roleType"] === "Shift Manager") ? "ShiftManager" : (scheduleRequirements[i]["roleType"]);
+
+    let oneStringRoleTypeName =
+      scheduleRequirements[i]["roleType"] === "Shift Manager"
+        ? "ShiftManager"
+        : scheduleRequirements[i]["roleType"];
 
     for (let j = 0; j < numEmployeesRequiredForRole; j++) {
       rolesHtml += `<tr class="shifts-panel__role-row">
       <td class="shifts-panel__role-row__role">
       ${scheduleRequirements[i]["roleType"]}</td>`;
-
 
       for (let weekdayIndex = 0; weekdayIndex < 7; weekdayIndex++) {
         rolesHtml += `<td class="shifts-panel__role-row__employee-box shifts-panel__role-row__${oneStringRoleTypeName}-num${j}-weekday${weekdayIndex}">
@@ -527,42 +527,44 @@ const handleRollCellMarking = (roleType: string,
   }
 }
 
-  const processEmployeeAllocation = (
-    employeeId: string,
-    employeeName: string,
-    weekdayIndex: string
-  ) => {
-    targetedRoleType = (targetedRoleType === "Shift Manager") ? "ShiftManager" : targetedRoleType;
+const processEmployeeAllocation = (
+  employeeId: string,
+  employeeName: string,
+  weekdayIndex: string
+) => {
+  targetedRoleType =
+    targetedRoleType === "Shift Manager" ? "ShiftManager" : targetedRoleType;
 
-    const targetShift = document.querySelector(
-      `.shifts-panel__role-row__${targetedRoleType}-num${targetedRoleCount}-weekday${targetedDayIndex}`
-    );
+  const targetShift = document.querySelector(
+    `.shifts-panel__role-row__${targetedRoleType}-num${targetedRoleCount}-weekday${targetedDayIndex}`
+  );
 
-    if (!targetShift) {
-      console.log("target shift allocation slot not found in DOM");
-      return;
-    }
+  if (!targetShift) {
+    console.log("target shift allocation slot not found in DOM");
+    return;
+  }
 
-    targetShift!.innerHTML = `<p class="shifts-panel__role-row__allocation-name">${employeeName}</p>`;
+  targetShift!.innerHTML = `<p class="shifts-panel__role-row__allocation-name">${employeeName}</p>`;
 
-    const scheduleTable = (document.querySelector(".shifts-panel") as HTMLDivElement).innerHTML;
+  const scheduleTable = (
+    document.querySelector(".shifts-panel") as HTMLDivElement
+  ).innerHTML;
 
-    try {
-      fetch("/api/schedule/add-employee-to-schedule", {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          thisScheduleId,
-          employeeId,
-          weekdayIndex,
-          scheduleTable
-        }),
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  try {
+    fetch("/api/schedule/add-employee-to-schedule", {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        thisScheduleId,
+        employeeId,
+        weekdayIndex,
+        scheduleTable,
+      }),
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -1,10 +1,7 @@
 import express from "express";
 const router = express.Router();
 import {
-  // login,
-  // getManager,
   addAttendance,
-  // addManager,
   getSelectedManager,
   getEmployeesList,
   getSelectedSalaryUp,
@@ -13,13 +10,10 @@ import {
 } from "./managerControl";
 
 router
-  // .get("/get-manager", getManager)
   .patch("/get-selected-manager", getSelectedManager)
   .patch("/get-employees-list", getEmployeesList)
   .patch("/get-selected-salaryUp", getSelectedSalaryUp)
   .patch("/get-selected-salaryDown", getSelectedSalaryDown)
   .patch("/get-selected-salaryBetween", getSelectedSalaryBetween)
-  // .post("/login", login)
   .post("/add-attendance", addAttendance);
-// .post("/add-manager", addManager);
 export default router;

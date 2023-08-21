@@ -41,37 +41,6 @@ var adminModel_1 = require("./adminModel");
 var dotenv = require("dotenv");
 dotenv.config();
 var secret = process.env.JWT_SECRET;
-// const secret: string = "secret";
-// export const login = async (req: any, res: any) => {
-//   try {
-//     const { email, password } = req.body;
-//     console.log(email, password);
-//     const adminDB = await AdminModel.findOne({ email, password });
-//     if (!adminDB) throw new Error("Username or password are incorrect");
-//     if (!secret) throw new Error("no token");
-//     const token = jwt.encode({ adminId: adminDB._id, role: "admin" }, secret);
-//     console.log(token);
-//     res.cookie("admin", token, { maxAge: 500000000, httpOnly: true });
-//     res.status(201).send({ ok: true });
-//   } catch (error: any) {
-//     console.error(error);
-//     res.status(500).send({ error: error.message });
-//   }
-// };
-// export const getAdmin = async (req: any, res: any) => {
-//   try {
-//     const { admin } = req.cookies;
-//     if (!secret) throw new Error("no token");
-//     const decoded = jwt.decode(admin, secret);
-//     console.log(decoded);
-//     const { adminId, role } = decoded;
-//     const adminDB: any = await AdminModel.findById(adminId);
-//     res.send({ ok: true, admin: adminDB });
-//   } catch (error: any) {
-//     console.error(error);
-//     res.status(500).send({ error: error.message });
-//   }
-// };
 exports.getSelectedSalaryUp = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, salaryUp, _id, employees, error_1;
     return __generator(this, function (_b) {

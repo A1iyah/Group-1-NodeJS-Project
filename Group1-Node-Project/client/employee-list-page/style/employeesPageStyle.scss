@@ -8,7 +8,6 @@
   font-size: 18px;
 }
 
-// Employees page:
 // Buttons -
 .addButtons {
   position: relative;
@@ -72,12 +71,17 @@
 
     &__employees-chart,
     &__managers-chart {
-      width: 95%;
+      width: 97%;
       position: relative;
-      margin: 0 auto;
 
       th {
-        width: 100px;
+        width: 280px;
+        text-align: center;
+      }
+
+      th:first-child {
+        width: 50px;
+        padding-left: 15px;
       }
     }
 
@@ -88,11 +92,11 @@
       margin-top: 30px;
       margin-bottom: 50px;
       width: 95%;
-      height: 50%;
+      height: 55%;
       overflow-y: scroll;
 
       &::-webkit-scrollbar {
-        width: 5px;
+        width: 6px;
       }
 
       &::-webkit-scrollbar-track {
@@ -177,6 +181,21 @@
       legend {
         text-align: center;
         font-size: 30px;
+      }
+
+      .close-employee-form,
+      .close-manager-form {
+        position: absolute;
+        top: 20px;
+        right: 10px;
+        font-size: 30px;
+        transition: all 0.5s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+          transform: scale(120%);
+          color: red;
+        }
       }
 
       input,

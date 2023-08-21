@@ -41,7 +41,6 @@ var managerModel_1 = require("./managerModel");
 var dotenv = require("dotenv");
 dotenv.config();
 var secret = process.env.JWT_SECRET;
-// const secret: string = "secret";
 exports.addAttendance = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, user, totalTimeShift, updateUser, error_1;
     return __generator(this, function (_b) {
@@ -81,6 +80,7 @@ exports.getSelectedManager = function (req, res) { return __awaiter(void 0, void
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 idNumber = req.body.idNumber;
+                console.log(idNumber);
                 if (!idNumber)
                     throw new Error("no id");
                 return [4 /*yield*/, managerModel_1["default"].find({
@@ -93,10 +93,11 @@ exports.getSelectedManager = function (req, res) { return __awaiter(void 0, void
                             path: "role",
                             model: "Role"
                         }
-                    })
-                        .exec()];
+                    })];
             case 1:
                 managerDB = _a.sent();
+                // .exec();
+                console.log(managerDB);
                 res.send({ managerDB: managerDB });
                 return [3 /*break*/, 3];
             case 2:
@@ -230,28 +231,3 @@ exports.getEmployeesList = function (req, res) { return __awaiter(void 0, void 0
         }
     });
 }); };
-// export const addManager = async (req: any, res: any) => {
-//   try {
-//     let { name, email, password, idNumber, phone, birthday, salary, role } =
-//       req.body;
-//     if (role) {
-//       const roleID = await RoleModel.find({ name: role }).select({ _id: 1 });
-//       role = roleID[0]._id.toString();
-//     }
-//     const managerDB = await ManagerModel.create({
-//       name,
-//       email,
-//       password,
-//       idNumber,
-//       phone,
-//       birthday,
-//       salary,
-//       role,
-//     });
-//     console.log(managerDB);
-//     res.status(200).send({ ok: true });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send("did not get data");
-//   }
-// };

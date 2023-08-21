@@ -104,6 +104,15 @@ var addNewEmployeesForm = document.querySelector(".employees-page__add-new-emplo
 var addNewManagersForm = document.querySelector(".employees-page__add-new-managers");
 var managerSection = document.querySelector(".employees-page__managers-section");
 var emailError = document.querySelector(".email-error-message");
+var closeEmployeeForm = document.querySelector(".close-employee-form");
+var closeManagerForm = document.querySelector(".close-manager-form");
+var deleteWorkerHeader = document.querySelector(".deleteWorker");
+if (userType === UserType.Admin || userType === UserType.Manager) {
+    deleteWorkerHeader.style.visibility = "visible";
+}
+else {
+    deleteWorkerHeader.style.visibility = "hidden";
+}
 var openDiv = null;
 var isFormsOpen = false;
 openAddButton.addEventListener("click", function () {
@@ -163,6 +172,28 @@ addManagerBtn.addEventListener("click", function () {
         openDiv = addNewManagersForm;
         isFormsOpen = true;
     }
+});
+closeEmployeeForm.addEventListener("click", function () {
+    if (openDiv) {
+        openDiv.style.display = "none";
+        openDiv = null;
+        isFormsOpen = false;
+    }
+    addButtonsContainer.style.display = "none";
+    addManagersBtnContainer.style.display = "none";
+    addNewEmployeesForm.style.display = "none";
+    addEmployeeBtn.style.display = "block";
+});
+closeManagerForm.addEventListener("click", function () {
+    if (openDiv) {
+        openDiv.style.display = "none";
+        openDiv = null;
+        isFormsOpen = false;
+    }
+    addButtonsContainer.style.display = "none";
+    addManagersBtnContainer.style.display = "none";
+    addNewManagersForm.style.display = "none";
+    addManagerBtn.style.display = "block";
 });
 // Add new employee -
 function handleCreateEmployee(evt) {
@@ -415,7 +446,7 @@ var renderEmployeeList = function (employees) {
             var deleteButton = userType === UserType.Admin || userType === UserType.Manager
                 ? "<button class=\"delete-btn\" onclick=\"handleDeleteEmployee('" + employee._id + "')\">\n             <span class=\"material-symbols-outlined\">\n               backspace\n             </span>\n           </button>"
                 : "";
-            return "<div class=\"employees-page__employeeCard\">\n        <div class=\"employee-details\">\n        " + deleteButton + "\n        <div class=\"employee-name\">" + employee.name + "</div>\n        <div class=\"employee-birthday\">" + employee.birthday + "</div>\n        <div class=\"employee-email\">" + employee.email + "</div>\n        <div class=\"employee-phone\">" + employee.phone + "</div>\n        <div class=\"employee-role\">" + employee.role.name + "</div>\n        </div>\n        </div>";
+            return "<div class=\"employees-page__employeeCard\">\n        <div class=\"employee-details\">\n        <div class=\"employee-delete\">" + deleteButton + "</div>\n        <div class=\"employee-name\">" + employee.name + "</div>\n        <div class=\"employee-birthday\">" + employee.birthday + "</div>\n        <div class=\"employee-email\">" + employee.email + "</div>\n        <div class=\"employee-phone\">" + employee.phone + "</div>\n        <div class=\"employee-role\">" + employee.role.name + "</div>\n        </div>\n        </div>";
         })
             .join(" ");
         var getAllEmployees = document.querySelector(".employees-page__employees-section__get-all-employees");
@@ -434,7 +465,7 @@ var renderManagersList = function (managers) {
             var deleteButton = userType === UserType.Admin || userType === UserType.Manager
                 ? "<button class=\"delete-btn\" onclick=\"handleDeleteManager('" + manager._id + "')\">\n           <span class=\"material-symbols-outlined\">\n             backspace\n           </span>\n         </button>"
                 : "";
-            return "<div class=\"employees-page__managerCard\" \">\n      <div class=\"manager-details\">\n      " + deleteButton + "\n      <div class=\"manager-name\">" + manager.name + "</div>\n      <div class=\"manager-birthday\">" + manager.birthday + "</div>\n      <div class=\"manager-email\">" + manager.email + "</div>\n      <div class=\"manager-phone\">" + manager.phone + "</div>\n      <div class=\"manager-role\">" + manager.role.name + "</div>\n      </div>\n      </div>";
+            return "<div class=\"employees-page__managerCard\" \">\n      <div class=\"manager-details\">\n      <div class=\"manager-delete\">" + deleteButton + "</div>\n      <div class=\"manager-name\">" + manager.name + "</div>\n      <div class=\"manager-birthday\">" + manager.birthday + "</div>\n      <div class=\"manager-email\">" + manager.email + "</div>\n      <div class=\"manager-phone\">" + manager.phone + "</div>\n      <div class=\"manager-role\">" + manager.role.name + "</div>\n      </div>\n      </div>";
         })
             .join(" ");
         var getAllManagers = document.querySelector(".employees-page__managers-section__get-all-managers");
